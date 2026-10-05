@@ -1,0 +1,39 @@
+# Configuración local y secretos
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Dependencias y compilaciones del frontend
+node_modules/
+dist/
+build/
+.next/
+coverage/
+
+# Datos y archivos generados
+*.sqlite3
+*.sqlite3-journal
+media/
+staticfiles/
+*.log
+
+# Sistema y editor
+.DS_Store
+.idea/
+.vscode/
+
+# Sesiones locales
+.Codex-session.md
+.claude-session.md
