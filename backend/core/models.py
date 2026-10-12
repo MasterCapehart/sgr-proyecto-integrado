@@ -136,5 +136,36 @@ class Atencion(models.Model):
     def codigo_atencion(self):
         return self.folio
 
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        super().clean()
+        if self.sub_atencion_id and self.tipo_atencion_id:
+            if self.sub_atencion.tipo_atencion_id != self.tipo_atencion_id:
+                raise ValidationError({'sub_atencion': 'La subatención no pertenece al tipo de atención indicado.'})
+        if self.caso_social and self.numero_gestion is not None:
+            if self.numero_gestion < 1 or self.numero_gestion > 3:
+                raise ValidationError({'numero_gestion': 'Un caso social solo puede conservar hasta 3 gestiones sucesivas.'})
+
     def __str__(self):
         return f"{self.folio} - {self.solicitante}"
+
+
+class AuditoriaDerivacion(models.Model):
+    """
+    Registro inmutable de auditoría para derivaciones territoriales de atención ciudadana (Tarea T18).
+    Permite auditar el traspaso de responsabilidad entre delegaciones municipales.
+    """
+    atencion = models.ForeignKey(Atencion, on_delete=models.CASCADE, related_name='derivaciones_auditadas')
+    delegacion_origen = models.ForeignKey(Delegacion, on_delete=models.PROTECT, related_name='+')
+    delegacion_destino = models.ForeignKey(Delegacion, on_delete=models.PROTECT, related_name='+')
+    usuario_responsable = models.ForeignKey(Usuario, on_delete=models.PROTECT, related_name='+')
+    motivo = models.CharField(max_length=255, blank=True, default='Derivación institucional autorizada')
+    fecha_derivacion = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Auditoría de Derivación'
+        verbose_name_plural = 'Auditorías de Derivaciones'
+        ordering = ['-fecha_derivacion']
+
+    def __str__(self):
+        return f"Derivación {self.atencion.folio}: {self.delegacion_origen.nombre} -> {self.delegacion_destino.nombre}"

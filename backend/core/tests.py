@@ -1,7 +1,10 @@
 import json
 from django.test import TestCase, Client
 from django.urls import reverse
-from .models import TipoAtencion, Delegacion, SubAtencion, ItemMeta, ConfiguracionMeta, Rol, Usuario, Atencion
+from .models import (
+    TipoAtencion, Delegacion, SubAtencion, ItemMeta,
+    ConfiguracionMeta, Rol, Usuario, Atencion, AuditoriaDerivacion
+)
 
 
 class PatronCRUDAPITestCase(TestCase):
@@ -833,14 +836,13 @@ class AtencionCiudadanaAPITestCase(TestCase):
         self.assertIn("descripcion", error_info["details"])
 
     def test_atencion_server_context_immutable(self):
-        """T17: Autor y delegación fijados por el servidor (ignora manipulación desde cliente)."""
+        """T17: Autor y delegación fijados por el servidor (ignora manipulación de autor desde cliente)."""
         payload = {
             "solicitante": "Vecino Prueba",
             "tipo_atencion": self.tipo_social.pk,
             "sub_atencion": self.sub_social_1.pk,
             "descripcion": "Prueba de contexto del servidor.",
-            "usuario": 9999,
-            "delegacion": 9999
+            "usuario": 9999
         }
         response = self.client.post(
             "/api/atenciones/",
@@ -852,7 +854,6 @@ class AtencionCiudadanaAPITestCase(TestCase):
 
         db_obj = Atencion.objects.get(pk=data["id"])
         self.assertNotEqual(db_obj.usuario_id, 9999)
-        self.assertNotEqual(db_obj.delegacion_id, 9999)
         self.assertEqual(db_obj.delegacion, self.delegacion)
 
     def test_atencion_cancel_does_not_save(self):
@@ -881,6 +882,313 @@ class AtencionCiudadanaAPITestCase(TestCase):
         content = response.content.decode("utf-8-sig")
         self.assertIn("Prueba Export", content)
         self.assertIn("AT-2026-0001", content)
+
+
+class IntegridadIdempotenciaAtencionAPITestCase(TestCase):
+    """
+    Pruebas automatizadas de Integridad e Idempotencia de Atención (Tarea T18).
+    Criterios de Aceptación:
+    - Sin duplicados por envío repetido (clave de idempotencia y prevención de doble clic).
+    - Origen conservado (delegación de captura inmutable).
+    - Rechazo de ámbito territorial manipulado (status 403).
+    - Responsable autorizado (usuario y rol activos).
+    - Cuarta gestión social rechazada si aplica (máximo 3 gestiones por caso social).
+    - Derivación auditada entre delegaciones.
+    - Rechazo de parejas inválidas tipo/subtipo.
+    """
+
+    def setUp(self):
+        self.client = Client()
+
+        # Delegaciones
+        self.delegacion_origen = Delegacion.objects.create(
+            nombre="DEL01 · Las Compañías",
+            direccion="Esmeralda 2451",
+            comuna="La Serena",
+            estado=True
+        )
+        self.delegacion_ajena = Delegacion.objects.create(
+            nombre="DEL02 · La Antena",
+            direccion="18 de Septiembre s/n",
+            comuna="La Serena",
+            estado=True
+        )
+        self.delegacion_inactiva = Delegacion.objects.create(
+            nombre="DEL99 · Delegación Cerrada",
+            direccion="Sin dirección",
+            comuna="La Serena",
+            estado=False
+        )
+
+        # Rol y Usuario responsable
+        self.rol = Rol.objects.create(
+            nombre="Operador Territorial T18",
+            descripcion="Operador de atención ciudadana con integridad",
+            estado=True
+        )
+        self.usuario = Usuario.objects.create_user(
+            username="dflores_t18",
+            first_name="Daniel",
+            last_name="Flores",
+            email="dflores_t18@laserena.cl",
+            rut="11.222.333-4",
+            rol=self.rol,
+            delegacion=self.delegacion_origen
+        )
+
+        # Catálogos
+        self.tipo_social = TipoAtencion.objects.create(
+            codigo="TA01",
+            nombre="Social",
+            descripcion="Atención Social",
+            estado=True
+        )
+        self.tipo_territorial = TipoAtencion.objects.create(
+            codigo="TA02",
+            nombre="Territorial",
+            descripcion="Atención Territorial",
+            estado=True
+        )
+
+        self.sub_social = SubAtencion.objects.create(
+            codigo="SA01",
+            nombre="Asistencia Social Directa",
+            tipo_atencion=self.tipo_social,
+            estado=True
+        )
+        self.sub_territorial = SubAtencion.objects.create(
+            codigo="SA02",
+            nombre="Operativo Vecinal",
+            tipo_atencion=self.tipo_territorial,
+            estado=True
+        )
+
+    def test_idempotencia_previene_duplicados(self):
+        """T18: Segundo envío con la misma clave de idempotencia retorna el original sin duplicar."""
+        payload = {
+            "solicitante": "Esteban Morales (16.789.123-4)",
+            "tipo_atencion": self.tipo_social.pk,
+            "sub_atencion": self.sub_social.pk,
+            "descripcion": "Solicitud inicial con clave de idempotencia.",
+            "clave_idempotencia": "IDEMP-TOKEN-UNIQUE-2026-ABC"
+        }
+
+        # 1er envío: Crea el registro
+        res1 = self.client.post("/api/atenciones/", data=json.dumps(payload), content_type="application/json")
+        self.assertEqual(res1.status_code, 201)
+        data1 = res1.json()["data"]
+        folio1 = data1["folio"]
+
+        # 2do envío: Mismo token de idempotencia
+        res2 = self.client.post("/api/atenciones/", data=json.dumps(payload), content_type="application/json")
+        self.assertEqual(res2.status_code, 200)
+        json2 = res2.json()
+        self.assertTrue(json2.get("is_duplicate_prevented"))
+        self.assertEqual(json2["data"]["folio"], folio1)
+
+        # Verificar que solo existe exactamente 1 registro en la base de datos
+        self.assertEqual(Atencion.objects.filter(clave_idempotencia="IDEMP-TOKEN-UNIQUE-2026-ABC").count(), 1)
+
+    def test_prevencion_doble_envio_rapido_sin_clave(self):
+        """T18: Detecta doble envío consecutivo idéntico sin clave y evita duplicación."""
+        payload = {
+            "solicitante": "Claudia Barraza",
+            "tipo_atencion": self.tipo_social.pk,
+            "sub_atencion": self.sub_social.pk,
+            "descripcion": "Solicitud de asistencia vecinal inmediata."
+        }
+
+        # 1er envío rápido
+        res1 = self.client.post("/api/atenciones/", data=json.dumps(payload), content_type="application/json")
+        self.assertEqual(res1.status_code, 201)
+
+        # 2do envío rápido inmediatamente consecutivo (simula doble clic)
+        res2 = self.client.post("/api/atenciones/", data=json.dumps(payload), content_type="application/json")
+        self.assertEqual(res2.status_code, 200)
+        self.assertTrue(res2.json().get("is_duplicate_prevented"))
+
+        # Solo existe 1 registro
+        self.assertEqual(Atencion.objects.filter(solicitante="Claudia Barraza").count(), 1)
+
+    def test_rechazo_ambito_manipulado_delegacion_ajena(self):
+        """T18: Rechaza con HTTP 403 intento de manipulación territorial (delegación ajena)."""
+        payload = {
+            "solicitante": "Vecino Con Ambito Alterado",
+            "tipo_atencion": self.tipo_social.pk,
+            "sub_atencion": self.sub_social.pk,
+            "descripcion": "Intento de forzar delegación no autorizada.",
+            "delegacion": self.delegacion_ajena.pk  # Manipulación hacia delegación ajena
+        }
+        response = self.client.post("/api/atenciones/", data=json.dumps(payload), content_type="application/json")
+        self.assertEqual(response.status_code, 403)
+        err = response.json()["error"]
+        self.assertEqual(err["code"], "AMBITO_MANIPULADO")
+
+    def test_origen_conservado_delegacion_autorizada(self):
+        """T18: Al guardar normalmente, se conserva la delegación territorial autorizada del usuario."""
+        payload = {
+            "solicitante": "Vecina Legitima",
+            "tipo_atencion": self.tipo_social.pk,
+            "sub_atencion": self.sub_social.pk,
+            "descripcion": "Atención normal con origen institucional."
+        }
+        response = self.client.post("/api/atenciones/", data=json.dumps(payload), content_type="application/json")
+        self.assertEqual(response.status_code, 201)
+        data = response.json()["data"]
+
+        atencion = Atencion.objects.get(pk=data["id"])
+        self.assertEqual(atencion.delegacion, self.delegacion_origen)
+
+    def test_responsable_autorizado_rechaza_usuario_inactivo(self):
+        """T18: Rechaza con HTTP 403 si el usuario responsable está inactivo."""
+        self.usuario.is_active = False
+        self.usuario.save()
+
+        payload = {
+            "solicitante": "Vecino Prueba",
+            "tipo_atencion": self.tipo_social.pk,
+            "sub_atencion": self.sub_social.pk,
+            "descripcion": "Prueba usuario inactivo."
+        }
+        # Sin usuario activo de respaldo
+        response = self.client.post("/api/atenciones/", data=json.dumps(payload), content_type="application/json")
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.json()["error"]["code"], "RESPONSABLE_NO_AUTORIZADO")
+
+        # Restaurar
+        self.usuario.is_active = True
+        self.usuario.save()
+
+    def test_responsable_autorizado_rechaza_rol_inactivo(self):
+        """T18: Rechaza con HTTP 403 si el rol del responsable está inactivo."""
+        self.rol.estado = False
+        self.rol.save()
+
+        payload = {
+            "solicitante": "Vecino Prueba",
+            "tipo_atencion": self.tipo_social.pk,
+            "sub_atencion": self.sub_social.pk,
+            "descripcion": "Prueba rol inactivo."
+        }
+        response = self.client.post("/api/atenciones/", data=json.dumps(payload), content_type="application/json")
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.json()["error"]["code"], "RESPONSABLE_NO_AUTORIZADO")
+
+        # Restaurar
+        self.rol.estado = True
+        self.rol.save()
+
+    def test_caso_social_gestiones_sucesivas_1_2_3(self):
+        """T18: Permite registrar sucesivamente gestiones 1, 2 y 3 para el mismo caso social."""
+        caso_codigo = "CS-2026-VAL"
+
+        for num_esperado in [1, 2, 3]:
+            payload = {
+                "solicitante": f"Solicitante Caso {num_esperado}",
+                "tipo_atencion": self.tipo_social.pk,
+                "sub_atencion": self.sub_social.pk,
+                "descripcion": f"Gestión número {num_esperado} del caso social.",
+                "caso_social": caso_codigo,
+                "clave_idempotencia": f"TOKEN-GESTION-{num_esperado}"
+            }
+            res = self.client.post("/api/atenciones/", data=json.dumps(payload), content_type="application/json")
+            self.assertEqual(res.status_code, 201)
+            self.assertEqual(res.json()["data"]["numero_gestion"], num_esperado)
+
+        self.assertEqual(Atencion.objects.filter(caso_social=caso_codigo).count(), 3)
+
+    def test_rechazo_cuarta_gestion_caso_social(self):
+        """T18 (Criterio Clave): Rechaza la cuarta gestión sucesiva para un mismo caso social."""
+        caso_codigo = "CS-2026-MAXIMO"
+
+        # Registrar las 3 gestiones permitidas
+        for i in range(1, 4):
+            Atencion.objects.create(
+                folio=f"AT-CS-{i}",
+                solicitante="Familia Muñoz",
+                tipo_atencion=self.tipo_social,
+                sub_atencion=self.sub_social,
+                descripcion=f"Gestión {i}",
+                delegacion=self.delegacion_origen,
+                usuario=self.usuario,
+                caso_social=caso_codigo,
+                numero_gestion=i,
+                estado=True
+            )
+
+        self.assertEqual(Atencion.objects.filter(caso_social=caso_codigo).count(), 3)
+
+        # Intentar registrar la 4ta gestión
+        payload_cuarta = {
+            "solicitante": "Familia Muñoz",
+            "tipo_atencion": self.tipo_social.pk,
+            "sub_atencion": self.sub_social.pk,
+            "descripcion": "Intento de cuarta gestión social no permitida.",
+            "caso_social": caso_codigo
+        }
+        res4 = self.client.post("/api/atenciones/", data=json.dumps(payload_cuarta), content_type="application/json")
+        self.assertEqual(res4.status_code, 400)
+        err = res4.json()["error"]
+        self.assertEqual(err["code"], "CUARTA_GESTION_RECHAZADA")
+        self.assertIn("3 gestiones", err["message"])
+
+        # Comprobar que en BD sigue habiendo estrictamente 3
+        self.assertEqual(Atencion.objects.filter(caso_social=caso_codigo).count(), 3)
+
+    def test_rechazo_pareja_invalida_tipo_subtipo(self):
+        """T18: Rechaza con 400 si la subatención no pertenece al tipo de atención indicado."""
+        payload = {
+            "solicitante": "Vecino Incompatible",
+            "tipo_atencion": self.tipo_social.pk,
+            "sub_atencion": self.sub_territorial.pk,  # Subatención es territorial, no social
+            "descripcion": "Prueba de pareja inválida."
+        }
+        response = self.client.post("/api/atenciones/", data=json.dumps(payload), content_type="application/json")
+        self.assertEqual(response.status_code, 400)
+        err = response.json()["error"]
+        self.assertIn("sub_atencion", err["details"])
+        self.assertIn("no pertenece", err["details"]["sub_atencion"][0])
+
+    def test_derivacion_auditada_a_delegacion_responsable(self):
+        """T18: Derivación territorial crea atención y genera registro inmutable en AuditoriaDerivacion."""
+        payload = {
+            "solicitante": "Vecino Derivado Territorial",
+            "tipo_atencion": self.tipo_territorial.pk,
+            "sub_atencion": self.sub_territorial.pk,
+            "descripcion": "Caso derivado para atención presencial en sector La Antena.",
+            "delegacion_responsable": self.delegacion_ajena.pk,
+            "motivo_derivacion": "Derivación por jurisdicción sectorial La Antena"
+        }
+        response = self.client.post("/api/atenciones/", data=json.dumps(payload), content_type="application/json")
+        self.assertEqual(response.status_code, 201)
+        data = response.json()["data"]
+
+        atencion = Atencion.objects.get(pk=data["id"])
+        self.assertEqual(atencion.delegacion, self.delegacion_origen)
+        self.assertEqual(atencion.delegacion_responsable, self.delegacion_ajena)
+
+        # Verificar registro en AuditoriaDerivacion
+        audit = AuditoriaDerivacion.objects.filter(atencion=atencion).first()
+        self.assertIsNotNone(audit)
+        self.assertEqual(audit.delegacion_origen, self.delegacion_origen)
+        self.assertEqual(audit.delegacion_destino, self.delegacion_ajena)
+        self.assertEqual(audit.usuario_responsable, self.usuario)
+        self.assertEqual(audit.motivo, "Derivación por jurisdicción sectorial La Antena")
+
+    def test_derivacion_rechaza_delegacion_responsable_inactiva(self):
+        """T18: Rechaza con 400 intento de derivación hacia delegación inactiva."""
+        payload = {
+            "solicitante": "Vecino Derivado Fallido",
+            "tipo_atencion": self.tipo_territorial.pk,
+            "sub_atencion": self.sub_territorial.pk,
+            "descripcion": "Intento de derivar a delegación inactiva.",
+            "delegacion_responsable": self.delegacion_inactiva.pk
+        }
+        response = self.client.post("/api/atenciones/", data=json.dumps(payload), content_type="application/json")
+        self.assertEqual(response.status_code, 400)
+        err = response.json()["error"]
+        self.assertEqual(err["code"], "DELEGACION_RESPONSABLE_INACTIVA")
+
 
 
 
