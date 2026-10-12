@@ -24,7 +24,7 @@ class Usuario(AbstractUser):
     rol = models.ForeignKey(Rol, on_delete=models.SET_NULL, null=True, blank=True)
     delegacion = models.ForeignKey(Delegacion, on_delete=models.SET_NULL, null=True, blank=True)
     
-def __str__(self):
+    def __str__(self):
         return f"{self.username} - {self.get_full_name()}"
 
 class CatalogoBase(models.Model):
