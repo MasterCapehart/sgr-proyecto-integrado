@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ingreso al sistema · SGR</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body data-page="login" data-base-path="../">
+  <a class="skip-link" href="#login-form">Saltar al formulario</a>
+
+  <header class="header" id="site-header"></header>
+
+  <div class="authwrap">
+    <section class="authintro">
+      <p class="eyebrow">Sistema de Gestión de Resultados</p>
+      <h1>Una gestión municipal más clara y conectada.</h1>
+      <p>Atenciones ciudadanas, compromisos comunitarios y cumplimiento de metas en un mismo espacio de trabajo institucional.</p>
+      <span class="badge">Delegación Municipal Las Compañías</span>
+    </section>
+
+    <section class="authpanel">
+      <div class="authcard">
+        <p class="eyebrow">Acceso institucional</p>
+        <h1>Bienvenido al SGR</h1>
+        <p class="sub">Ingresa con tus credenciales autorizadas para acceder a tu delegación.</p>
+
+        <form id="login-form" novalidate>
+          <div class="field">
+            <label for="username">Usuario o correo institucional <span class="required" aria-hidden="true">*</span></label>
+            <input type="text" id="username" name="username" autocomplete="username" placeholder="ej. dflores o usuario@laserena.cl" required aria-required="true">
+            <p class="help">El rol operativo y la delegación asignada se obtienen de tu cuenta.</p>
+          </div>
+
+          <div class="field">
+            <label for="password">Contraseña <span class="required" aria-hidden="true">*</span></label>
+            <div class="password-field">
+              <input type="password" id="password" name="password" autocomplete="current-password" placeholder="Ingresa tu contraseña" required aria-required="true">
+              <button type="button" class="password-toggle" id="toggle-password" aria-label="Mostrar contraseña">Mostrar</button>
+            </div>
+          </div>
+
+          <div style="text-align: right; margin-bottom: 24px;">
+            <a href="recuperar-clave.html">¿Olvidaste tu contraseña?</a>
+          </div>
+
+          <button type="submit" class="button primary" id="btn-submit">Ingresar al sistema →</button>
+        </form>
+
+        <div class="authback">
+          <a href="../index.html">← Volver al inicio</a> · <a href="guia.html">Guía de componentes</a>
+        </div>
+
+        <p class="authfooter">SGR · Municipalidad de La Serena · Acceso seguro y auditable</p>
+      </div>
+    </section>
+  </div>
+
+  <script defer src="../assets/vendor/sweetalert2.min.js"></script>
+  <script defer src="../assets/js/components/layout.js"></script>
+  <script defer src="../assets/js/modules/login.js"></script>
+  <script defer src="../assets/js/app.js"></script>
+</body>
+</html>
