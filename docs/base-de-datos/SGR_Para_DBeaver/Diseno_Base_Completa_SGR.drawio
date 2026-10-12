@@ -1,0 +1,1306 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" version="26.0.0">
+  <diagram name="00 — Índice del modelo" id="p0">
+    <mxGraphModel page="1" pageWidth="1560" pageHeight="1320" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="SGR • Modelo físico de base de datos • MySQL" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1500" height="55" />
+        </mxCell>
+        <mxCell id="g0" value="Organización y acceso" vertex="1" parent="1" style="rounded=0;html=1;fillColor=#6F1232;fontColor=#FFFFFF;strokeColor=#6F1232;fontStyle=1;fontSize=18;align=center;">
+          <mxGeometry as="geometry" x="30" y="100" width="720" height="45" />
+        </mxCell>
+        <mxCell id="oDelegacion" value="&lt;b&gt;Delegacion&lt;/b&gt;&lt;br&gt;10 campos · PK id_delegacion" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p2">
+          <mxGeometry as="geometry" x="30" y="155" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oCargo" value="&lt;b&gt;Cargo&lt;/b&gt;&lt;br&gt;6 campos · PK id_cargo" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p3">
+          <mxGeometry as="geometry" x="390" y="155" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oFuncionario" value="&lt;b&gt;Funcionario&lt;/b&gt;&lt;br&gt;8 campos · PK id_funcionario" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p4">
+          <mxGeometry as="geometry" x="30" y="219" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oUsuario" value="&lt;b&gt;Usuario&lt;/b&gt;&lt;br&gt;10 campos · PK id_usuario" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p5">
+          <mxGeometry as="geometry" x="390" y="219" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oAsignacionFuncionario" value="&lt;b&gt;AsignacionFuncionario&lt;/b&gt;&lt;br&gt;8 campos · PK id_asignacion" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p6">
+          <mxGeometry as="geometry" x="30" y="283" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oUsuarioRol" value="&lt;b&gt;UsuarioRol&lt;/b&gt;&lt;br&gt;7 campos · PK id_usuario_rol" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p7">
+          <mxGeometry as="geometry" x="390" y="283" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oRol" value="&lt;b&gt;Rol&lt;/b&gt;&lt;br&gt;5 campos · PK id_rol" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p8">
+          <mxGeometry as="geometry" x="30" y="347" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oPermiso" value="&lt;b&gt;Permiso&lt;/b&gt;&lt;br&gt;5 campos · PK id_permiso" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p9">
+          <mxGeometry as="geometry" x="390" y="347" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oRolPermiso" value="&lt;b&gt;RolPermiso&lt;/b&gt;&lt;br&gt;3 campos · PK id_rol_permiso" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p10">
+          <mxGeometry as="geometry" x="30" y="411" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oAreaApoyo" value="&lt;b&gt;AreaApoyo&lt;/b&gt;&lt;br&gt;4 campos · PK id_area_apoyo" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p11">
+          <mxGeometry as="geometry" x="390" y="411" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oTerritorio" value="&lt;b&gt;Territorio&lt;/b&gt;&lt;br&gt;6 campos · PK id_territorio" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p12">
+          <mxGeometry as="geometry" x="30" y="475" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oRecuperacionAcceso" value="&lt;b&gt;RecuperacionAcceso&lt;/b&gt;&lt;br&gt;11 campos · PK id_recuperacion" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p37">
+          <mxGeometry as="geometry" x="390" y="475" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oCargoFuncion" value="&lt;b&gt;CargoFuncion&lt;/b&gt;&lt;br&gt;5 campos · PK id_cargo_funcion" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p43">
+          <mxGeometry as="geometry" x="30" y="539" width="345" height="58" />
+        </mxCell>
+        <mxCell id="g1" value="Catálogos y operación" vertex="1" parent="1" style="rounded=0;html=1;fillColor=#6F1232;fontColor=#FFFFFF;strokeColor=#6F1232;fontStyle=1;fontSize=18;align=center;">
+          <mxGeometry as="geometry" x="790" y="100" width="720" height="45" />
+        </mxCell>
+        <mxCell id="oCatalogo" value="&lt;b&gt;Catalogo&lt;/b&gt;&lt;br&gt;5 campos · PK id_catalogo" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p13">
+          <mxGeometry as="geometry" x="790" y="155" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oValorCatalogo" value="&lt;b&gt;ValorCatalogo&lt;/b&gt;&lt;br&gt;11 campos · PK id_valor_catalogo" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p14">
+          <mxGeometry as="geometry" x="1150" y="155" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oActividad" value="&lt;b&gt;Actividad&lt;/b&gt;&lt;br&gt;12 campos · PK id_actividad" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p22">
+          <mxGeometry as="geometry" x="790" y="219" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oServicio" value="&lt;b&gt;Servicio&lt;/b&gt;&lt;br&gt;7 campos · PK id_servicio" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p23">
+          <mxGeometry as="geometry" x="1150" y="219" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oAtencion" value="&lt;b&gt;Atencion&lt;/b&gt;&lt;br&gt;20 campos · PK id_atencion" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p24">
+          <mxGeometry as="geometry" x="790" y="283" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oPersonaSolicitante" value="&lt;b&gt;PersonaSolicitante&lt;/b&gt;&lt;br&gt;6 campos · PK id_persona" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p25">
+          <mxGeometry as="geometry" x="1150" y="283" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oCasoSocial" value="&lt;b&gt;CasoSocial&lt;/b&gt;&lt;br&gt;4 campos · PK id_caso_social" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p38">
+          <mxGeometry as="geometry" x="790" y="347" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oEvidencia" value="&lt;b&gt;Evidencia&lt;/b&gt;&lt;br&gt;12 campos · PK id_evidencia" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p31">
+          <mxGeometry as="geometry" x="1150" y="347" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oVersionEvidencia" value="&lt;b&gt;VersionEvidencia&lt;/b&gt;&lt;br&gt;10 campos · PK id_version_evidencia" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p44">
+          <mxGeometry as="geometry" x="790" y="411" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oValidacionEvidencia" value="&lt;b&gt;ValidacionEvidencia&lt;/b&gt;&lt;br&gt;8 campos · PK id_validacion" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p32">
+          <mxGeometry as="geometry" x="1150" y="411" width="345" height="58" />
+        </mxCell>
+        <mxCell id="g2" value="Compromisos y colaboración" vertex="1" parent="1" style="rounded=0;html=1;fillColor=#6F1232;fontColor=#FFFFFF;strokeColor=#6F1232;fontStyle=1;fontSize=18;align=center;">
+          <mxGeometry as="geometry" x="30" y="680" width="720" height="45" />
+        </mxCell>
+        <mxCell id="oCompromiso" value="&lt;b&gt;Compromiso&lt;/b&gt;&lt;br&gt;12 campos · PK id_compromiso" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p26">
+          <mxGeometry as="geometry" x="30" y="735" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oAsignacionCompromiso" value="&lt;b&gt;AsignacionCompromiso&lt;/b&gt;&lt;br&gt;8 campos · PK id_asignacion_compromiso" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p27">
+          <mxGeometry as="geometry" x="390" y="735" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oEstadoCompromiso" value="&lt;b&gt;EstadoCompromiso&lt;/b&gt;&lt;br&gt;6 campos · PK id_estado_compromiso" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p28">
+          <mxGeometry as="geometry" x="30" y="799" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oHistorialEstadoCompromiso" value="&lt;b&gt;HistorialEstadoCompromiso&lt;/b&gt;&lt;br&gt;8 campos · PK id_historial_estado" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p29">
+          <mxGeometry as="geometry" x="390" y="799" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oSeguimientoCompromiso" value="&lt;b&gt;SeguimientoCompromiso&lt;/b&gt;&lt;br&gt;8 campos · PK id_seguimiento" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p30">
+          <mxGeometry as="geometry" x="30" y="863" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oValidacionCompromiso" value="&lt;b&gt;ValidacionCompromiso&lt;/b&gt;&lt;br&gt;8 campos · PK id_validacion_compromiso" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p39">
+          <mxGeometry as="geometry" x="390" y="863" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oConversacion" value="&lt;b&gt;Conversacion&lt;/b&gt;&lt;br&gt;7 campos · PK id_conversacion" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p34">
+          <mxGeometry as="geometry" x="30" y="927" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oMensaje" value="&lt;b&gt;Mensaje&lt;/b&gt;&lt;br&gt;8 campos · PK id_mensaje" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p35">
+          <mxGeometry as="geometry" x="390" y="927" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oEventoAuditoria" value="&lt;b&gt;EventoAuditoria&lt;/b&gt;&lt;br&gt;12 campos · PK id_evento_auditoria" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p36">
+          <mxGeometry as="geometry" x="30" y="991" width="345" height="58" />
+        </mxCell>
+        <mxCell id="g3" value="Medición y alertas" vertex="1" parent="1" style="rounded=0;html=1;fillColor=#6F1232;fontColor=#FFFFFF;strokeColor=#6F1232;fontStyle=1;fontSize=18;align=center;">
+          <mxGeometry as="geometry" x="790" y="680" width="720" height="45" />
+        </mxCell>
+        <mxCell id="oPeriodoMedicion" value="&lt;b&gt;PeriodoMedicion&lt;/b&gt;&lt;br&gt;9 campos · PK id_periodo" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p15">
+          <mxGeometry as="geometry" x="790" y="735" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oVersionConfiguracion" value="&lt;b&gt;VersionConfiguracion&lt;/b&gt;&lt;br&gt;10 campos · PK id_version_config" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p16">
+          <mxGeometry as="geometry" x="1150" y="735" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oFuncion" value="&lt;b&gt;Funcion&lt;/b&gt;&lt;br&gt;6 campos · PK id_funcion" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p17">
+          <mxGeometry as="geometry" x="790" y="799" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oIndicador" value="&lt;b&gt;Indicador&lt;/b&gt;&lt;br&gt;11 campos · PK id_indicador" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p18">
+          <mxGeometry as="geometry" x="1150" y="799" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oConfiguracionMeta" value="&lt;b&gt;ConfiguracionMeta&lt;/b&gt;&lt;br&gt;17 campos · PK id_configuracion_meta" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p19">
+          <mxGeometry as="geometry" x="790" y="863" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oAporteIndicador" value="&lt;b&gt;AporteIndicador&lt;/b&gt;&lt;br&gt;9 campos · PK id_aporte" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p20">
+          <mxGeometry as="geometry" x="1150" y="863" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oResultadoIndicador" value="&lt;b&gt;ResultadoIndicador&lt;/b&gt;&lt;br&gt;9 campos · PK id_resultado" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p21">
+          <mxGeometry as="geometry" x="790" y="927" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oReglaAjuste" value="&lt;b&gt;ReglaAjuste&lt;/b&gt;&lt;br&gt;6 campos · PK id_regla_ajuste" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p40">
+          <mxGeometry as="geometry" x="1150" y="927" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oAjusteResultado" value="&lt;b&gt;AjusteResultado&lt;/b&gt;&lt;br&gt;7 campos · PK id_ajuste_resultado" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p41">
+          <mxGeometry as="geometry" x="790" y="991" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oReglaAlerta" value="&lt;b&gt;ReglaAlerta&lt;/b&gt;&lt;br&gt;8 campos · PK id_regla_alerta" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p42">
+          <mxGeometry as="geometry" x="1150" y="991" width="345" height="58" />
+        </mxCell>
+        <mxCell id="oAlerta" value="&lt;b&gt;Alerta&lt;/b&gt;&lt;br&gt;13 campos · PK id_alerta" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;" link="data:page/id,p33">
+          <mxGeometry as="geometry" x="790" y="1055" width="345" height="58" />
+        </mxCell>
+        <mxCell id="guide" value="&lt;b&gt;Lectura:&lt;/b&gt; cada tabla tiene una página editable con sus campos, claves y todas sus referencias. Las flechas muestran relaciones de integridad, no flujo de ejecución. 1: obligatorio; 0..1: opcional; 0..*: varios. El índice organiza las 43 tablas; las 91 claves foráneas están detalladas en las páginas siguientes." vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="30" y="1250" width="1500" height="60" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Delegacion" id="p1">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="440" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Delegacion • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;Delegacion&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_delegacion&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;UQ&lt;/td&gt;&lt;td&gt;codigo&lt;/td&gt;&lt;td&gt;VARCHAR(64)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;nombre&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;direccion&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;telefono&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;estado&lt;/td&gt;&lt;td&gt;VARCHAR(32)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;creado_en&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;actualizado_en&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;comuna&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;version_fila&lt;/td&gt;&lt;td&gt;INT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="375" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Cargo" id="p2">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="420" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Cargo • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;Cargo&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_cargo&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;UQ&lt;/td&gt;&lt;td&gt;nombre&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;descripcion&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;estado&lt;/td&gt;&lt;td&gt;VARCHAR(32)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;creado_en&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;actualizado_en&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="255" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Funcionario" id="p3">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="420" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Funcionario • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;Funcionario&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_funcionario&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;UQ&lt;/td&gt;&lt;td&gt;identificador_interno&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;nombre_completo&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;correo_institucional&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;telefono_protegido&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;estado&lt;/td&gt;&lt;td&gt;VARCHAR(32)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;creado_en&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;actualizado_en&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="315" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Usuario" id="p4">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="440" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Usuario • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;Usuario&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_usuario&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_funcionario&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;UQ&lt;/td&gt;&lt;td&gt;nombre_usuario&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;UQ&lt;/td&gt;&lt;td&gt;correo&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;password_hash&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;activo&lt;/td&gt;&lt;td&gt;BOOLEAN&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;ultimo_acceso&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;creado_en&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;actualizado_en&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;version_fila&lt;/td&gt;&lt;td&gt;INT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="375" />
+        </mxCell>
+        <mxCell id="parent0" value="&lt;b&gt;Funcionario&lt;/b&gt;&lt;br&gt;Referencia: id_funcionario&lt;br&gt;0..1 registros de Usuario por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="110" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk0" value="id_funcionario&lt;br&gt;0..1 → 1" edge="1" parent="1" source="source" target="parent0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToOne;exitX=1;exitY=0.13066666666666665;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="AsignacionFuncionario" id="p5">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="515" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="AsignacionFuncionario • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;AsignacionFuncionario&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_asignacion&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_funcionario&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_delegacion&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_cargo&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;fecha_desde&lt;/td&gt;&lt;td&gt;DATE&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;fecha_hasta&lt;/td&gt;&lt;td&gt;DATE&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;activo&lt;/td&gt;&lt;td&gt;BOOLEAN&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;motivo_cambio&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="395" />
+        </mxCell>
+        <mxCell id="parent0" value="&lt;b&gt;Funcionario&lt;/b&gt;&lt;br&gt;Referencia: id_funcionario&lt;br&gt;0..* registros de AsignacionFuncionario por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="110" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk0" value="id_funcionario&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.1240506329113924;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent1" value="&lt;b&gt;Delegacion&lt;/b&gt;&lt;br&gt;Referencia: id_delegacion&lt;br&gt;0..* registros de AsignacionFuncionario por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="225" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk1" value="id_delegacion&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.4151898734177215;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent2" value="&lt;b&gt;Cargo&lt;/b&gt;&lt;br&gt;Referencia: id_cargo&lt;br&gt;0..* registros de AsignacionFuncionario por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="340" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk2" value="id_cargo&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.7063291139240506;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="UsuarioRol" id="p6">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="515" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="UsuarioRol • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;UsuarioRol&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_usuario_rol&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_usuario&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_rol&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_delegacion&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;fecha_desde&lt;/td&gt;&lt;td&gt;DATE&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;fecha_hasta&lt;/td&gt;&lt;td&gt;DATE&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;activo&lt;/td&gt;&lt;td&gt;BOOLEAN&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="395" />
+        </mxCell>
+        <mxCell id="parent0" value="&lt;b&gt;Usuario&lt;/b&gt;&lt;br&gt;Referencia: id_usuario&lt;br&gt;0..* registros de UsuarioRol por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="110" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk0" value="id_usuario&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.1240506329113924;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent1" value="&lt;b&gt;Rol&lt;/b&gt;&lt;br&gt;Referencia: id_rol&lt;br&gt;0..* registros de UsuarioRol por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="225" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk1" value="id_rol&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.4151898734177215;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent2" value="&lt;b&gt;Delegacion&lt;/b&gt;&lt;br&gt;Referencia: id_delegacion&lt;br&gt;0..* registros de UsuarioRol por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="340" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk2" value="id_delegacion&lt;br&gt;0..* → 0..1" edge="1" parent="1" source="source" target="parent2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERzeroToOne;startArrow=ERzeroToMany;exitX=1;exitY=0.7063291139240506;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Rol" id="p7">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="420" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Rol • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;Rol&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_rol&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;UQ&lt;/td&gt;&lt;td&gt;nombre&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;descripcion&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;estado&lt;/td&gt;&lt;td&gt;VARCHAR(32)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;version_fila&lt;/td&gt;&lt;td&gt;INT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="225" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Permiso" id="p8">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="420" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Permiso • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;Permiso&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_permiso&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;UQ&lt;/td&gt;&lt;td&gt;codigo&lt;/td&gt;&lt;td&gt;VARCHAR(64)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;nombre&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;descripcion&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;estado&lt;/td&gt;&lt;td&gt;VARCHAR(32)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="225" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="RolPermiso" id="p9">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="420" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="RolPermiso • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;RolPermiso&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_rol_permiso&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_rol&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_permiso&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="280" />
+        </mxCell>
+        <mxCell id="parent0" value="&lt;b&gt;Rol&lt;/b&gt;&lt;br&gt;Referencia: id_rol&lt;br&gt;0..* registros de RolPermiso por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="110" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk0" value="id_rol&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.175;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent1" value="&lt;b&gt;Permiso&lt;/b&gt;&lt;br&gt;Referencia: id_permiso&lt;br&gt;0..* registros de RolPermiso por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="225" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk1" value="id_permiso&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.5857142857142857;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="AreaApoyo" id="p10">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="420" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="AreaApoyo • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;AreaApoyo&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_area_apoyo&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;UQ&lt;/td&gt;&lt;td&gt;nombre&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;descripcion&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;estado&lt;/td&gt;&lt;td&gt;VARCHAR(32)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="195" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Territorio" id="p11">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="420" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Territorio • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;Territorio&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_territorio&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_delegacion&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;UQ&lt;/td&gt;&lt;td&gt;codigo&lt;/td&gt;&lt;td&gt;VARCHAR(64)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;nombre&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;tipo&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;estado&lt;/td&gt;&lt;td&gt;VARCHAR(32)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="255" />
+        </mxCell>
+        <mxCell id="parent0" value="&lt;b&gt;Delegacion&lt;/b&gt;&lt;br&gt;Referencia: id_delegacion&lt;br&gt;0..* registros de Territorio por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="110" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk0" value="id_delegacion&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.19215686274509805;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Catalogo" id="p12">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="420" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Catalogo • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;Catalogo&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_catalogo&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;UQ&lt;/td&gt;&lt;td&gt;codigo&lt;/td&gt;&lt;td&gt;VARCHAR(64)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;nombre&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;descripcion&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;estado&lt;/td&gt;&lt;td&gt;VARCHAR(32)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="225" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="ValorCatalogo" id="p13">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="470" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="ValorCatalogo • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;ValorCatalogo&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_valor_catalogo&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_catalogo&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;codigo&lt;/td&gt;&lt;td&gt;VARCHAR(64)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;nombre&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;orden&lt;/td&gt;&lt;td&gt;INT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;estado&lt;/td&gt;&lt;td&gt;VARCHAR(32)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;descripcion&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_valor_padre&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;vigente_desde&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;vigente_hasta&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;version_fila&lt;/td&gt;&lt;td&gt;INT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="405" />
+        </mxCell>
+        <mxCell id="parent0" value="&lt;b&gt;Catalogo&lt;/b&gt;&lt;br&gt;Referencia: id_catalogo&lt;br&gt;0..* registros de ValorCatalogo por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="110" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk0" value="id_catalogo&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.12098765432098765;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent1" value="&lt;b&gt;ValorCatalogo&lt;/b&gt;&lt;br&gt;Referencia: id_valor_catalogo&lt;br&gt;0..* registros de ValorCatalogo por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="225" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk1" value="id_valor_padre&lt;br&gt;0..* → 0..1" edge="1" parent="1" source="source" target="parent1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERzeroToOne;startArrow=ERzeroToMany;exitX=1;exitY=0.4049382716049383;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="PeriodoMedicion" id="p14">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="420" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="PeriodoMedicion • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;PeriodoMedicion&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_periodo&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;UQ&lt;/td&gt;&lt;td&gt;nombre&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;fecha_inicio&lt;/td&gt;&lt;td&gt;DATE&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;fecha_fin&lt;/td&gt;&lt;td&gt;DATE&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;estado&lt;/td&gt;&lt;td&gt;VARCHAR(32)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;cerrado_en&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;reabierto_en&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;calendario_config&lt;/td&gt;&lt;td&gt;JSON&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;zona_horaria&lt;/td&gt;&lt;td&gt;VARCHAR(64)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="345" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="VersionConfiguracion" id="p15">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="440" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="VersionConfiguracion • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;VersionConfiguracion&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_version_config&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_periodo&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;numero_version&lt;/td&gt;&lt;td&gt;INT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;estado&lt;/td&gt;&lt;td&gt;VARCHAR(32)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;vigente_desde&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;vigente_hasta&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;creado_por_usuario&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;motivo_cambio&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;umbral_colectivo&lt;/td&gt;&lt;td&gt;DECIMAL(18,6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;parametros_calculo&lt;/td&gt;&lt;td&gt;JSON&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="375" />
+        </mxCell>
+        <mxCell id="parent0" value="&lt;b&gt;PeriodoMedicion&lt;/b&gt;&lt;br&gt;Referencia: id_periodo&lt;br&gt;0..* registros de VersionConfiguracion por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="110" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk0" value="id_periodo&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.13066666666666665;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent1" value="&lt;b&gt;Usuario&lt;/b&gt;&lt;br&gt;Referencia: id_usuario&lt;br&gt;0..* registros de VersionConfiguracion por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="225" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk1" value="creado_por_usuario&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.43733333333333335;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Funcion" id="p16">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="420" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Funcion • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;Funcion&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_funcion&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;UQ&lt;/td&gt;&lt;td&gt;codigo&lt;/td&gt;&lt;td&gt;VARCHAR(64)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;nombre&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;descripcion&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;unidad_medida&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;estado&lt;/td&gt;&lt;td&gt;VARCHAR(32)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="255" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Indicador" id="p17">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="470" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Indicador • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;Indicador&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_indicador&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_funcion&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;UQ&lt;/td&gt;&lt;td&gt;codigo&lt;/td&gt;&lt;td&gt;VARCHAR(64)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;nombre&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;tipo_calculo&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;unidad_medida&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;umbral_verde&lt;/td&gt;&lt;td&gt;DECIMAL(18,6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;umbral_ambar&lt;/td&gt;&lt;td&gt;DECIMAL(18,6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;estado&lt;/td&gt;&lt;td&gt;VARCHAR(32)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;descripcion&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;version_fila&lt;/td&gt;&lt;td&gt;INT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="405" />
+        </mxCell>
+        <mxCell id="parent0" value="&lt;b&gt;Funcion&lt;/b&gt;&lt;br&gt;Referencia: id_funcion&lt;br&gt;0..* registros de Indicador por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="110" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk0" value="id_funcion&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.12098765432098765;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="ConfiguracionMeta" id="p18">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="650" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="ConfiguracionMeta • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;ConfiguracionMeta&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_configuracion_meta&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_version_config&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_indicador&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_asignacion&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;valor_meta&lt;/td&gt;&lt;td&gt;DECIMAL(18,6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;ponderador&lt;/td&gt;&lt;td&gt;DECIMAL(18,6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;meta_diaria&lt;/td&gt;&lt;td&gt;DECIMAL(18,6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;fecha_inicio&lt;/td&gt;&lt;td&gt;DATE&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;fecha_fin&lt;/td&gt;&lt;td&gt;DATE&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;estado&lt;/td&gt;&lt;td&gt;VARCHAR(32)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;maximo_computable&lt;/td&gt;&lt;td&gt;DECIMAL(18,6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;formula_aplicada&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;tipo_calculo_aplicado&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;unidad_medida_aplicada&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;umbral_verde_aplicado&lt;/td&gt;&lt;td&gt;DECIMAL(18,6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;umbral_ambar_aplicado&lt;/td&gt;&lt;td&gt;DECIMAL(18,6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;version_fila&lt;/td&gt;&lt;td&gt;INT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="585" />
+        </mxCell>
+        <mxCell id="parent0" value="&lt;b&gt;VersionConfiguracion&lt;/b&gt;&lt;br&gt;Referencia: id_version_config&lt;br&gt;0..* registros de ConfiguracionMeta por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="110" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk0" value="id_version_config&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.08376068376068375;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent1" value="&lt;b&gt;Indicador&lt;/b&gt;&lt;br&gt;Referencia: id_indicador&lt;br&gt;0..* registros de ConfiguracionMeta por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="225" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk1" value="id_indicador&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.28034188034188035;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent2" value="&lt;b&gt;AsignacionFuncionario&lt;/b&gt;&lt;br&gt;Referencia: id_asignacion&lt;br&gt;0..* registros de ConfiguracionMeta por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="340" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk2" value="id_asignacion&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.47692307692307695;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="AporteIndicador" id="p19">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="745" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="AporteIndicador • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;AporteIndicador&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_aporte&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_configuracion_meta&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_actividad&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_compromiso&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;valor_aporte&lt;/td&gt;&lt;td&gt;DECIMAL(18,6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;fecha_aporte&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;estado_validacion&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_asignacion_historica&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;version_registro&lt;/td&gt;&lt;td&gt;INT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="625" />
+        </mxCell>
+        <mxCell id="parent0" value="&lt;b&gt;ConfiguracionMeta&lt;/b&gt;&lt;br&gt;Referencia: id_configuracion_meta&lt;br&gt;0..* registros de AporteIndicador por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="110" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk0" value="id_configuracion_meta&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.0784;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent1" value="&lt;b&gt;Actividad&lt;/b&gt;&lt;br&gt;Referencia: id_actividad&lt;br&gt;0..* registros de AporteIndicador por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="225" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk1" value="id_actividad&lt;br&gt;0..* → 0..1" edge="1" parent="1" source="source" target="parent1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERzeroToOne;startArrow=ERzeroToMany;exitX=1;exitY=0.2624;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent2" value="&lt;b&gt;Compromiso&lt;/b&gt;&lt;br&gt;Referencia: id_compromiso&lt;br&gt;0..* registros de AporteIndicador por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="340" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk2" value="id_compromiso&lt;br&gt;0..* → 0..1" edge="1" parent="1" source="source" target="parent2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERzeroToOne;startArrow=ERzeroToMany;exitX=1;exitY=0.4464;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent3" value="&lt;b&gt;AsignacionFuncionario&lt;/b&gt;&lt;br&gt;Referencia: id_asignacion&lt;br&gt;0..* registros de AporteIndicador por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="455" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk3" value="id_asignacion_historica&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.6304;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent4" value="&lt;b&gt;ConfiguracionMeta&lt;/b&gt;&lt;br&gt;Referencia: id_configuracion_meta, id_asignacion&lt;br&gt;0..* registros de AporteIndicador por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="570" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk4" value="id_configuracion_meta, id_asignacion_historica&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.8144;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="ResultadoIndicador" id="p20">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="515" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="ResultadoIndicador • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;ResultadoIndicador&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_resultado&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_configuracion_meta&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;fecha_calculo&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;avance_acumulado&lt;/td&gt;&lt;td&gt;DECIMAL(18,6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;cumplimiento_porcentaje&lt;/td&gt;&lt;td&gt;DECIMAL(18,6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;puntaje_ponderado&lt;/td&gt;&lt;td&gt;DECIMAL(18,6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;meta_esperada_dia&lt;/td&gt;&lt;td&gt;DECIMAL(18,6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;color_semaforo&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_asignacion_historica&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="395" />
+        </mxCell>
+        <mxCell id="parent0" value="&lt;b&gt;ConfiguracionMeta&lt;/b&gt;&lt;br&gt;Referencia: id_configuracion_meta&lt;br&gt;0..* registros de ResultadoIndicador por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="110" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk0" value="id_configuracion_meta&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.1240506329113924;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent1" value="&lt;b&gt;AsignacionFuncionario&lt;/b&gt;&lt;br&gt;Referencia: id_asignacion&lt;br&gt;0..* registros de ResultadoIndicador por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="225" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk1" value="id_asignacion_historica&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.4151898734177215;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent2" value="&lt;b&gt;ConfiguracionMeta&lt;/b&gt;&lt;br&gt;Referencia: id_configuracion_meta, id_asignacion&lt;br&gt;0..* registros de ResultadoIndicador por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="340" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk2" value="id_configuracion_meta, id_asignacion_historica&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.7063291139240506;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Actividad" id="p21">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="745" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Actividad • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;Actividad&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_actividad&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;UQ&lt;/td&gt;&lt;td&gt;codigo_actividad&lt;/td&gt;&lt;td&gt;VARCHAR(64)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_funcionario&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_delegacion&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_territorio&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_tipo_actividad&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;fecha_actividad&lt;/td&gt;&lt;td&gt;DATE&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;descripcion_solicitud_problema&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;accion_realizada&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;estado&lt;/td&gt;&lt;td&gt;VARCHAR(32)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;creado_en&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;version_fila&lt;/td&gt;&lt;td&gt;INT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="625" />
+        </mxCell>
+        <mxCell id="parent0" value="&lt;b&gt;Funcionario&lt;/b&gt;&lt;br&gt;Referencia: id_funcionario&lt;br&gt;0..* registros de Actividad por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="110" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk0" value="id_funcionario&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.0784;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent1" value="&lt;b&gt;Delegacion&lt;/b&gt;&lt;br&gt;Referencia: id_delegacion&lt;br&gt;0..* registros de Actividad por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="225" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk1" value="id_delegacion&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.2624;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent2" value="&lt;b&gt;Territorio&lt;/b&gt;&lt;br&gt;Referencia: id_territorio&lt;br&gt;0..* registros de Actividad por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="340" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk2" value="id_territorio&lt;br&gt;0..* → 0..1" edge="1" parent="1" source="source" target="parent2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERzeroToOne;startArrow=ERzeroToMany;exitX=1;exitY=0.4464;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent3" value="&lt;b&gt;ValorCatalogo&lt;/b&gt;&lt;br&gt;Referencia: id_valor_catalogo&lt;br&gt;0..* registros de Actividad por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="455" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk3" value="id_tipo_actividad&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.6304;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent4" value="&lt;b&gt;Territorio&lt;/b&gt;&lt;br&gt;Referencia: id_territorio, id_delegacion&lt;br&gt;0..* registros de Actividad por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="570" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk4" value="id_territorio, id_delegacion&lt;br&gt;0..* → 0..1" edge="1" parent="1" source="source" target="parent4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERzeroToOne;startArrow=ERzeroToMany;exitX=1;exitY=0.8144;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Servicio" id="p22">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="515" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Servicio • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;Servicio&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_servicio&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_tipo_servicio&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;codigo&lt;/td&gt;&lt;td&gt;VARCHAR(64)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;nombre&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;descripcion&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;estado&lt;/td&gt;&lt;td&gt;VARCHAR(32)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_subtipo_servicio&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="395" />
+        </mxCell>
+        <mxCell id="parent0" value="&lt;b&gt;ValorCatalogo&lt;/b&gt;&lt;br&gt;Referencia: id_valor_catalogo&lt;br&gt;0..* registros de Servicio por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="110" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk0" value="id_tipo_servicio&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.1240506329113924;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent1" value="&lt;b&gt;ValorCatalogo&lt;/b&gt;&lt;br&gt;Referencia: id_valor_catalogo&lt;br&gt;0..* registros de Servicio por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="225" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk1" value="id_subtipo_servicio&lt;br&gt;0..* → 0..1" edge="1" parent="1" source="source" target="parent1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERzeroToOne;startArrow=ERzeroToMany;exitX=1;exitY=0.4151898734177215;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent2" value="&lt;b&gt;ValorCatalogo&lt;/b&gt;&lt;br&gt;Referencia: id_valor_catalogo, id_valor_padre&lt;br&gt;0..* registros de Servicio por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="340" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk2" value="id_subtipo_servicio, id_tipo_servicio&lt;br&gt;0..* → 0..1" edge="1" parent="1" source="source" target="parent2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERzeroToOne;startArrow=ERzeroToMany;exitX=1;exitY=0.7063291139240506;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Atencion" id="p23">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="1590.0" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Atencion • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;Atencion&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_atencion&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_actividad&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_servicio&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_persona&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;fecha_atencion&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;tipo_gestion&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;resultado&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;observacion&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;UQ&lt;/td&gt;&lt;td&gt;codigo_atencion&lt;/td&gt;&lt;td&gt;VARCHAR(64)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_tipo_atencion&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_sub_atencion&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_delegacion&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;creado_por_usuario&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;descripcion&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;UQ&lt;/td&gt;&lt;td&gt;clave_idempotencia&lt;/td&gt;&lt;td&gt;VARCHAR(64)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_caso_social&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;numero_gestion&lt;/td&gt;&lt;td&gt;TINYINT&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;nombre_tipo_registrado&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;nombre_sub_atencion_registrado&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;version_fila&lt;/td&gt;&lt;td&gt;INT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_delegacion_responsable&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="1390.0" />
+        </mxCell>
+        <mxCell id="parent0" value="&lt;b&gt;Actividad&lt;/b&gt;&lt;br&gt;Referencia: id_actividad&lt;br&gt;0..* registros de Atencion por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="110" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk0" value="id_actividad&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.037262357414448666;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;exitY=0.03525179856115108;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent1" value="&lt;b&gt;Servicio&lt;/b&gt;&lt;br&gt;Referencia: id_servicio&lt;br&gt;0..* registros de Atencion por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="225" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk1" value="id_servicio&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.1247148288973384;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;exitY=0.11798561151079137;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent2" value="&lt;b&gt;PersonaSolicitante&lt;/b&gt;&lt;br&gt;Referencia: id_persona&lt;br&gt;0..* registros de Atencion por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="340" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk2" value="id_persona&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.21216730038022813;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;exitY=0.20071942446043164;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent3" value="&lt;b&gt;ValorCatalogo&lt;/b&gt;&lt;br&gt;Referencia: id_valor_catalogo&lt;br&gt;0..* registros de Atencion por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="455" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk3" value="id_tipo_atencion&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.2996197718631179;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;exitY=0.28345323741007195;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent4" value="&lt;b&gt;ValorCatalogo&lt;/b&gt;&lt;br&gt;Referencia: id_valor_catalogo&lt;br&gt;0..* registros de Atencion por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="570" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk4" value="id_sub_atencion&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.3870722433460076;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;exitY=0.3661870503597122;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent5" value="&lt;b&gt;Delegacion&lt;/b&gt;&lt;br&gt;Referencia: id_delegacion&lt;br&gt;0..* registros de Atencion por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="685" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk5" value="id_delegacion&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.47452471482889735;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;exitY=0.4489208633093525;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent6" value="&lt;b&gt;Usuario&lt;/b&gt;&lt;br&gt;Referencia: id_usuario&lt;br&gt;0..* registros de Atencion por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="800" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk6" value="creado_por_usuario&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.5619771863117871;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;exitY=0.5316546762589928;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent7" value="&lt;b&gt;CasoSocial&lt;/b&gt;&lt;br&gt;Referencia: id_caso_social&lt;br&gt;0..* registros de Atencion por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="915" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk7" value="id_caso_social&lt;br&gt;0..* → 0..1" edge="1" parent="1" source="source" target="parent7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERzeroToOne;startArrow=ERzeroToMany;exitX=1;exitY=0.6494296577946768;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;exitY=0.6143884892086331;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent8" value="&lt;b&gt;ValorCatalogo&lt;/b&gt;&lt;br&gt;Referencia: id_valor_catalogo, id_valor_padre&lt;br&gt;0..* registros de Atencion por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="1030" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk8" value="id_sub_atencion, id_tipo_atencion&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.7368821292775666;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;exitY=0.6971223021582734;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent9" value="&lt;b&gt;CasoSocial&lt;/b&gt;&lt;br&gt;Referencia: id_caso_social, id_persona&lt;br&gt;0..* registros de Atencion por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="1145" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk9" value="id_caso_social, id_persona&lt;br&gt;0..* → 0..1" edge="1" parent="1" source="source" target="parent9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERzeroToOne;startArrow=ERzeroToMany;exitX=1;exitY=0.8243346007604563;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;exitY=0.7798561151079136;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent10" value="&lt;b&gt;Actividad&lt;/b&gt;&lt;br&gt;Referencia: id_actividad, id_delegacion&lt;br&gt;0..* registros de Atencion por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="1260" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk10" value="id_actividad, id_delegacion&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.911787072243346;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;exitY=0.862589928057554;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      <mxCell id="newparent0" value="&lt;b&gt;Delegacion&lt;/b&gt;&lt;br&gt;id_delegacion_responsable" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;"><mxGeometry as="geometry" x="1130" y="1375.0" width="380" height="78" /></mxCell><mxCell id="newfk0" value="id_delegacion_responsable&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="newparent0" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=ERone;startArrow=ERzeroToMany;entryX=0;entryY=0.5;exitX=1;jumpStyle=none;labelBackgroundColor=#FFFFFF;exitY=0.9453237410071943;"><mxGeometry as="geometry" relative="1" /></mxCell></root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="PersonaSolicitante" id="p24">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="420" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="PersonaSolicitante • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;PersonaSolicitante&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_persona&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;nombre_referencia&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;telefono_protegido&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;correo_protegido&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;base_acceso_datos&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;anonimizado_en&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="255" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Compromiso" id="p25">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="1015.0" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Compromiso • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;Compromiso&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_compromiso&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_actividad_origen&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_persona_solicitante&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_territorio&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_area_apoyo&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_estado_actual&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;descripcion&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;fecha_comprometida&lt;/td&gt;&lt;td&gt;DATE&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;prioridad&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;creado_en&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;cerrado_en&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;version_fila&lt;/td&gt;&lt;td&gt;INT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_delegacion_origen&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_delegacion_responsable&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="815.0" />
+        </mxCell>
+        <mxCell id="parent0" value="&lt;b&gt;Actividad&lt;/b&gt;&lt;br&gt;Referencia: id_actividad&lt;br&gt;0..* registros de Compromiso por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="110" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk0" value="id_actividad_origen&lt;br&gt;0..* → 0..1" edge="1" parent="1" source="source" target="parent0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERzeroToOne;startArrow=ERzeroToMany;exitX=1;exitY=0.0784;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;exitY=0.06012269938650307;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent1" value="&lt;b&gt;PersonaSolicitante&lt;/b&gt;&lt;br&gt;Referencia: id_persona&lt;br&gt;0..* registros de Compromiso por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="225" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk1" value="id_persona_solicitante&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.2624;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;exitY=0.20122699386503068;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent2" value="&lt;b&gt;Territorio&lt;/b&gt;&lt;br&gt;Referencia: id_territorio&lt;br&gt;0..* registros de Compromiso por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="340" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk2" value="id_territorio&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.4464;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;exitY=0.3423312883435583;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent3" value="&lt;b&gt;AreaApoyo&lt;/b&gt;&lt;br&gt;Referencia: id_area_apoyo&lt;br&gt;0..* registros de Compromiso por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="455" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk3" value="id_area_apoyo&lt;br&gt;0..* → 0..1" edge="1" parent="1" source="source" target="parent3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERzeroToOne;startArrow=ERzeroToMany;exitX=1;exitY=0.6304;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;exitY=0.4834355828220859;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent4" value="&lt;b&gt;EstadoCompromiso&lt;/b&gt;&lt;br&gt;Referencia: id_estado_compromiso&lt;br&gt;0..* registros de Compromiso por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="570" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk4" value="id_estado_actual&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.8144;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;exitY=0.6245398773006134;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      <mxCell id="newparent0" value="&lt;b&gt;Delegacion&lt;/b&gt;&lt;br&gt;id_delegacion_origen" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;"><mxGeometry as="geometry" x="1130" y="685.0" width="380" height="78" /></mxCell><mxCell id="newfk0" value="id_delegacion_origen&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="newparent0" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=ERone;startArrow=ERzeroToMany;entryX=0;entryY=0.5;exitX=1;jumpStyle=none;labelBackgroundColor=#FFFFFF;exitY=0.7656441717791411;"><mxGeometry as="geometry" relative="1" /></mxCell><mxCell id="newparent1" value="&lt;b&gt;Delegacion&lt;/b&gt;&lt;br&gt;id_delegacion_responsable" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;"><mxGeometry as="geometry" x="1130" y="800.0" width="380" height="78" /></mxCell><mxCell id="newfk1" value="id_delegacion_responsable&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="newparent1" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=ERone;startArrow=ERzeroToMany;entryX=0;entryY=0.5;exitX=1;jumpStyle=none;labelBackgroundColor=#FFFFFF;exitY=0.9067484662576687;"><mxGeometry as="geometry" relative="1" /></mxCell></root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="AsignacionCompromiso" id="p26">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="515" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="AsignacionCompromiso • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;AsignacionCompromiso&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_asignacion_compromiso&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_compromiso&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_funcionario_responsable&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;asignado_por_usuario&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;fecha_desde&lt;/td&gt;&lt;td&gt;DATE&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;fecha_hasta&lt;/td&gt;&lt;td&gt;DATE&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;motivo_reasignacion&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;activo&lt;/td&gt;&lt;td&gt;BOOLEAN&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="395" />
+        </mxCell>
+        <mxCell id="parent0" value="&lt;b&gt;Compromiso&lt;/b&gt;&lt;br&gt;Referencia: id_compromiso&lt;br&gt;0..* registros de AsignacionCompromiso por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="110" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk0" value="id_compromiso&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.1240506329113924;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent1" value="&lt;b&gt;Funcionario&lt;/b&gt;&lt;br&gt;Referencia: id_funcionario&lt;br&gt;0..* registros de AsignacionCompromiso por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="225" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk1" value="id_funcionario_responsable&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.4151898734177215;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent2" value="&lt;b&gt;Usuario&lt;/b&gt;&lt;br&gt;Referencia: id_usuario&lt;br&gt;0..* registros de AsignacionCompromiso por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="340" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk2" value="asignado_por_usuario&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.7063291139240506;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="EstadoCompromiso" id="p27">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="420" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="EstadoCompromiso • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;EstadoCompromiso&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_estado_compromiso&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;UQ&lt;/td&gt;&lt;td&gt;codigo&lt;/td&gt;&lt;td&gt;VARCHAR(64)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;nombre&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;orden&lt;/td&gt;&lt;td&gt;INT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;es_estado_final&lt;/td&gt;&lt;td&gt;BOOLEAN&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;estado&lt;/td&gt;&lt;td&gt;VARCHAR(32)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="255" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="HistorialEstadoCompromiso" id="p28">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="630" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="HistorialEstadoCompromiso • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;HistorialEstadoCompromiso&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_historial_estado&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_compromiso&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_estado_anterior&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_estado_nuevo&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_usuario_autor&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;fecha_cambio&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;observacion&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;motivo_incumplimiento&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="510" />
+        </mxCell>
+        <mxCell id="parent0" value="&lt;b&gt;Compromiso&lt;/b&gt;&lt;br&gt;Referencia: id_compromiso&lt;br&gt;0..* registros de HistorialEstadoCompromiso por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="110" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk0" value="id_compromiso&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.09607843137254903;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent1" value="&lt;b&gt;EstadoCompromiso&lt;/b&gt;&lt;br&gt;Referencia: id_estado_compromiso&lt;br&gt;0..* registros de HistorialEstadoCompromiso por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="225" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk1" value="id_estado_anterior&lt;br&gt;0..* → 0..1" edge="1" parent="1" source="source" target="parent1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERzeroToOne;startArrow=ERzeroToMany;exitX=1;exitY=0.3215686274509804;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent2" value="&lt;b&gt;EstadoCompromiso&lt;/b&gt;&lt;br&gt;Referencia: id_estado_compromiso&lt;br&gt;0..* registros de HistorialEstadoCompromiso por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="340" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk2" value="id_estado_nuevo&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.5470588235294118;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent3" value="&lt;b&gt;Usuario&lt;/b&gt;&lt;br&gt;Referencia: id_usuario&lt;br&gt;0..* registros de HistorialEstadoCompromiso por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="455" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk3" value="id_usuario_autor&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.7725490196078432;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="SeguimientoCompromiso" id="p29">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="420" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="SeguimientoCompromiso • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;SeguimientoCompromiso&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_seguimiento&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_compromiso&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_usuario_autor&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;fecha_seguimiento&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;observacion_avance&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;porcentaje_avance&lt;/td&gt;&lt;td&gt;DECIMAL(18,6)&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;nueva_fecha&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;comunicado_en&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="315" />
+        </mxCell>
+        <mxCell id="parent0" value="&lt;b&gt;Compromiso&lt;/b&gt;&lt;br&gt;Referencia: id_compromiso&lt;br&gt;0..* registros de SeguimientoCompromiso por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="110" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk0" value="id_compromiso&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.15555555555555556;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent1" value="&lt;b&gt;Usuario&lt;/b&gt;&lt;br&gt;Referencia: id_usuario&lt;br&gt;0..* registros de SeguimientoCompromiso por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="225" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk1" value="id_usuario_autor&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.5206349206349207;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Evidencia" id="p30">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="500" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Evidencia • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;Evidencia&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_evidencia&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_actividad&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;UQ&lt;/td&gt;&lt;td&gt;codigo_evidencia&lt;/td&gt;&lt;td&gt;VARCHAR(64)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;nombre_archivo&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;ruta_controlada&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;tipo_mime&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;tamano_bytes&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;hash_archivo&lt;/td&gt;&lt;td&gt;CHAR(64)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;estado&lt;/td&gt;&lt;td&gt;VARCHAR(32)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;cargado_por_usuario&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;cargado_en&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;version_archivo&lt;/td&gt;&lt;td&gt;INT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="435" />
+        </mxCell>
+        <mxCell id="parent0" value="&lt;b&gt;Actividad&lt;/b&gt;&lt;br&gt;Referencia: id_actividad&lt;br&gt;0..* registros de Evidencia por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="110" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk0" value="id_actividad&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.11264367816091954;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent1" value="&lt;b&gt;Usuario&lt;/b&gt;&lt;br&gt;Referencia: id_usuario&lt;br&gt;0..* registros de Evidencia por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="225" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk1" value="cargado_por_usuario&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.37701149425287356;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="ValidacionEvidencia" id="p31">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="515" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="ValidacionEvidencia • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;ValidacionEvidencia&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_validacion&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_evidencia&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_verificador_usuario&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;resultado&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;observacion&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;fecha_revision&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;version_evidencia&lt;/td&gt;&lt;td&gt;INT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;vigente&lt;/td&gt;&lt;td&gt;BOOLEAN&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="395" />
+        </mxCell>
+        <mxCell id="parent0" value="&lt;b&gt;Evidencia&lt;/b&gt;&lt;br&gt;Referencia: id_evidencia&lt;br&gt;0..* registros de ValidacionEvidencia por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="110" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk0" value="id_evidencia&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.1240506329113924;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent1" value="&lt;b&gt;Usuario&lt;/b&gt;&lt;br&gt;Referencia: id_usuario&lt;br&gt;0..* registros de ValidacionEvidencia por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="225" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk1" value="id_verificador_usuario&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.4151898734177215;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent2" value="&lt;b&gt;VersionEvidencia&lt;/b&gt;&lt;br&gt;Referencia: id_evidencia, numero_version&lt;br&gt;0..* registros de ValidacionEvidencia por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="340" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk2" value="id_evidencia, version_evidencia&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.7063291139240506;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Alerta" id="p32">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="860" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Alerta • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;Alerta&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_alerta&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_compromiso&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_resultado&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_usuario_destino&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;tipo&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;nivel&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;mensaje&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;generada_en&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;leida_en&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;estado&lt;/td&gt;&lt;td&gt;VARCHAR(32)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_regla_alerta&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_evidencia&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_funcionario&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="740" />
+        </mxCell>
+        <mxCell id="parent0" value="&lt;b&gt;Compromiso&lt;/b&gt;&lt;br&gt;Referencia: id_compromiso&lt;br&gt;0..* registros de Alerta por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="110" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk0" value="id_compromiso&lt;br&gt;0..* → 0..1" edge="1" parent="1" source="source" target="parent0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERzeroToOne;startArrow=ERzeroToMany;exitX=1;exitY=0.06621621621621622;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent1" value="&lt;b&gt;ResultadoIndicador&lt;/b&gt;&lt;br&gt;Referencia: id_resultado&lt;br&gt;0..* registros de Alerta por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="225" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk1" value="id_resultado&lt;br&gt;0..* → 0..1" edge="1" parent="1" source="source" target="parent1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERzeroToOne;startArrow=ERzeroToMany;exitX=1;exitY=0.22162162162162163;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent2" value="&lt;b&gt;Usuario&lt;/b&gt;&lt;br&gt;Referencia: id_usuario&lt;br&gt;0..* registros de Alerta por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="340" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk2" value="id_usuario_destino&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.377027027027027;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent3" value="&lt;b&gt;ReglaAlerta&lt;/b&gt;&lt;br&gt;Referencia: id_regla_alerta&lt;br&gt;0..* registros de Alerta por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="455" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk3" value="id_regla_alerta&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.5324324324324324;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent4" value="&lt;b&gt;Evidencia&lt;/b&gt;&lt;br&gt;Referencia: id_evidencia&lt;br&gt;0..* registros de Alerta por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="570" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk4" value="id_evidencia&lt;br&gt;0..* → 0..1" edge="1" parent="1" source="source" target="parent4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERzeroToOne;startArrow=ERzeroToMany;exitX=1;exitY=0.6878378378378378;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent5" value="&lt;b&gt;Funcionario&lt;/b&gt;&lt;br&gt;Referencia: id_funcionario&lt;br&gt;0..* registros de Alerta por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="685" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk5" value="id_funcionario&lt;br&gt;0..* → 0..1" edge="1" parent="1" source="source" target="parent5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERzeroToOne;startArrow=ERzeroToMany;exitX=1;exitY=0.8432432432432433;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Conversacion" id="p33">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="515" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Conversacion • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;Conversacion&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_conversacion&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_actividad&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_compromiso&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_evidencia&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;asunto&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;estado&lt;/td&gt;&lt;td&gt;VARCHAR(32)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;creado_en&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="395" />
+        </mxCell>
+        <mxCell id="parent0" value="&lt;b&gt;Actividad&lt;/b&gt;&lt;br&gt;Referencia: id_actividad&lt;br&gt;0..* registros de Conversacion por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="110" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk0" value="id_actividad&lt;br&gt;0..* → 0..1" edge="1" parent="1" source="source" target="parent0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERzeroToOne;startArrow=ERzeroToMany;exitX=1;exitY=0.1240506329113924;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent1" value="&lt;b&gt;Compromiso&lt;/b&gt;&lt;br&gt;Referencia: id_compromiso&lt;br&gt;0..* registros de Conversacion por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="225" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk1" value="id_compromiso&lt;br&gt;0..* → 0..1" edge="1" parent="1" source="source" target="parent1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERzeroToOne;startArrow=ERzeroToMany;exitX=1;exitY=0.4151898734177215;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent2" value="&lt;b&gt;Evidencia&lt;/b&gt;&lt;br&gt;Referencia: id_evidencia&lt;br&gt;0..* registros de Conversacion por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="340" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk2" value="id_evidencia&lt;br&gt;0..* → 0..1" edge="1" parent="1" source="source" target="parent2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERzeroToOne;startArrow=ERzeroToMany;exitX=1;exitY=0.7063291139240506;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Mensaje" id="p34">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="630" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Mensaje • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;Mensaje&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_mensaje&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_conversacion&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_usuario_autor&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_mensaje_padre&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;contenido&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;creado_en&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;editado_en&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;estado&lt;/td&gt;&lt;td&gt;VARCHAR(32)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="510" />
+        </mxCell>
+        <mxCell id="parent0" value="&lt;b&gt;Conversacion&lt;/b&gt;&lt;br&gt;Referencia: id_conversacion&lt;br&gt;0..* registros de Mensaje por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="110" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk0" value="id_conversacion&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.09607843137254903;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent1" value="&lt;b&gt;Usuario&lt;/b&gt;&lt;br&gt;Referencia: id_usuario&lt;br&gt;0..* registros de Mensaje por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="225" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk1" value="id_usuario_autor&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.3215686274509804;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent2" value="&lt;b&gt;Mensaje&lt;/b&gt;&lt;br&gt;Referencia: id_mensaje&lt;br&gt;0..* registros de Mensaje por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="340" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk2" value="id_mensaje_padre&lt;br&gt;0..* → 0..1" edge="1" parent="1" source="source" target="parent2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERzeroToOne;startArrow=ERzeroToMany;exitX=1;exitY=0.5470588235294118;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent3" value="&lt;b&gt;Mensaje&lt;/b&gt;&lt;br&gt;Referencia: id_mensaje, id_conversacion&lt;br&gt;0..* registros de Mensaje por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="455" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk3" value="id_mensaje_padre, id_conversacion&lt;br&gt;0..* → 0..1" edge="1" parent="1" source="source" target="parent3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERzeroToOne;startArrow=ERzeroToMany;exitX=1;exitY=0.7725490196078432;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="EventoAuditoria" id="p35">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="500" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="EventoAuditoria • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;EventoAuditoria&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_evento_auditoria&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_usuario&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;fecha_evento&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;accion&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;tipo_entidad&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;identificador_entidad&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;valor_anterior_protegido&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;valor_nuevo_protegido&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;direccion_ip&lt;/td&gt;&lt;td&gt;VARCHAR(45)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;resultado&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;motivo&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;hash_integridad&lt;/td&gt;&lt;td&gt;CHAR(64)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="435" />
+        </mxCell>
+        <mxCell id="parent0" value="&lt;b&gt;Usuario&lt;/b&gt;&lt;br&gt;Referencia: id_usuario&lt;br&gt;0..* registros de EventoAuditoria por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="110" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk0" value="id_usuario&lt;br&gt;0..* → 0..1" edge="1" parent="1" source="source" target="parent0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERzeroToOne;startArrow=ERzeroToMany;exitX=1;exitY=0.11264367816091954;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="RecuperacionAcceso" id="p36">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="470" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="RecuperacionAcceso • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;RecuperacionAcceso&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_recuperacion&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_usuario&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;codigo_hash&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;solicitado_en&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;expira_en&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;verificado_en&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;consumido_en&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;invalidado_en&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;intentos_fallidos&lt;/td&gt;&lt;td&gt;INT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;max_intentos&lt;/td&gt;&lt;td&gt;INT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;reenvio_permitido_desde&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="405" />
+        </mxCell>
+        <mxCell id="parent0" value="&lt;b&gt;Usuario&lt;/b&gt;&lt;br&gt;Referencia: id_usuario&lt;br&gt;0..* registros de RecuperacionAcceso por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="110" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk0" value="id_usuario&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.12098765432098765;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="CasoSocial" id="p37">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="420" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="CasoSocial • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;CasoSocial&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_caso_social&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;UQ&lt;/td&gt;&lt;td&gt;codigo&lt;/td&gt;&lt;td&gt;VARCHAR(64)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_persona&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;abierto_en&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="195" />
+        </mxCell>
+        <mxCell id="parent0" value="&lt;b&gt;PersonaSolicitante&lt;/b&gt;&lt;br&gt;Referencia: id_persona&lt;br&gt;0..* registros de CasoSocial por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="110" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk0" value="id_persona&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.2512820512820513;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="ValidacionCompromiso" id="p38">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="420" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="ValidacionCompromiso • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;ValidacionCompromiso&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_validacion_compromiso&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_compromiso&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_verificador_usuario&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;decision&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;motivo&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;fecha_revision&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;version_registro&lt;/td&gt;&lt;td&gt;INT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;vigente&lt;/td&gt;&lt;td&gt;BOOLEAN&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="315" />
+        </mxCell>
+        <mxCell id="parent0" value="&lt;b&gt;Compromiso&lt;/b&gt;&lt;br&gt;Referencia: id_compromiso&lt;br&gt;0..* registros de ValidacionCompromiso por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="110" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk0" value="id_compromiso&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.15555555555555556;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent1" value="&lt;b&gt;Usuario&lt;/b&gt;&lt;br&gt;Referencia: id_usuario&lt;br&gt;0..* registros de ValidacionCompromiso por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="225" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk1" value="id_verificador_usuario&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.5206349206349207;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="ReglaAjuste" id="p39">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="420" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="ReglaAjuste • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;ReglaAjuste&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_regla_ajuste&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_version_config&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;concepto&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;tipo&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;valor&lt;/td&gt;&lt;td&gt;DECIMAL(18,6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;activo&lt;/td&gt;&lt;td&gt;BOOLEAN&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="255" />
+        </mxCell>
+        <mxCell id="parent0" value="&lt;b&gt;VersionConfiguracion&lt;/b&gt;&lt;br&gt;Referencia: id_version_config&lt;br&gt;0..* registros de ReglaAjuste por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="110" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk0" value="id_version_config&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.19215686274509805;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="AjusteResultado" id="p40">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="515" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="AjusteResultado • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;AjusteResultado&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_ajuste_resultado&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_resultado&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_regla_ajuste&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_usuario_responsable&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;valor_aplicado&lt;/td&gt;&lt;td&gt;DECIMAL(18,6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;motivo&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;fecha&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="395" />
+        </mxCell>
+        <mxCell id="parent0" value="&lt;b&gt;ResultadoIndicador&lt;/b&gt;&lt;br&gt;Referencia: id_resultado&lt;br&gt;0..* registros de AjusteResultado por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="110" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk0" value="id_resultado&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.1240506329113924;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent1" value="&lt;b&gt;ReglaAjuste&lt;/b&gt;&lt;br&gt;Referencia: id_regla_ajuste&lt;br&gt;0..* registros de AjusteResultado por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="225" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk1" value="id_regla_ajuste&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.4151898734177215;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent2" value="&lt;b&gt;Usuario&lt;/b&gt;&lt;br&gt;Referencia: id_usuario&lt;br&gt;0..* registros de AjusteResultado por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="340" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk2" value="id_usuario_responsable&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.7063291139240506;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="ReglaAlerta" id="p41">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="420" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="ReglaAlerta • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;ReglaAlerta&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_regla_alerta&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_version_config&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;codigo&lt;/td&gt;&lt;td&gt;VARCHAR(64)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;condicion&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;umbral&lt;/td&gt;&lt;td&gt;DECIMAL(18,6)&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;dias_anticipacion&lt;/td&gt;&lt;td&gt;INT&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;vigente_desde&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;vigente_hasta&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="315" />
+        </mxCell>
+        <mxCell id="parent0" value="&lt;b&gt;VersionConfiguracion&lt;/b&gt;&lt;br&gt;Referencia: id_version_config&lt;br&gt;0..* registros de ReglaAlerta por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="110" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk0" value="id_version_config&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.15555555555555556;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="CargoFuncion" id="p42">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="420" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="CargoFuncion • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;CargoFuncion&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_cargo_funcion&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_cargo&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_funcion&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;fecha_desde&lt;/td&gt;&lt;td&gt;DATE&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;fecha_hasta&lt;/td&gt;&lt;td&gt;DATE&lt;/td&gt;&lt;td&gt;Sí&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="280" />
+        </mxCell>
+        <mxCell id="parent0" value="&lt;b&gt;Cargo&lt;/b&gt;&lt;br&gt;Referencia: id_cargo&lt;br&gt;0..* registros de CargoFuncion por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="110" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk0" value="id_cargo&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.175;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent1" value="&lt;b&gt;Funcion&lt;/b&gt;&lt;br&gt;Referencia: id_funcion&lt;br&gt;0..* registros de CargoFuncion por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="225" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk1" value="id_funcion&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.5857142857142857;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="VersionEvidencia" id="p43">
+    <mxGraphModel page="1" pageWidth="1550" pageHeight="440" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="VersionEvidencia • Tabla del modelo físico SGR" vertex="1" parent="1" style="text;html=1;align=center;fontSize=22;fontStyle=1;fontColor=#6F1232;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="30" y="20" width="1490" height="55" />
+        </mxCell>
+        <mxCell id="source" value="&lt;b&gt;VersionEvidencia&lt;/b&gt;&lt;hr&gt;&lt;table border=&quot;0&quot; cellpadding=&quot;4&quot;&gt;&lt;tr&gt;&lt;th&gt;Clave&lt;/th&gt;&lt;th&gt;Campo&lt;/th&gt;&lt;th&gt;Tipo&lt;/th&gt;&lt;th&gt;NULL&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_version_evidencia&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_evidencia&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;numero_version&lt;/td&gt;&lt;td&gt;INT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;nombre_archivo&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;ruta_controlada&lt;/td&gt;&lt;td&gt;VARCHAR(1024)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;tipo_mime&lt;/td&gt;&lt;td&gt;VARCHAR(127)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;tamano_bytes&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;hash_archivo&lt;/td&gt;&lt;td&gt;CHAR(64)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;cargado_en&lt;/td&gt;&lt;td&gt;DATETIME(6)&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;cargado_por_usuario&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;No&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="40" y="100" width="690" height="375" />
+        </mxCell>
+        <mxCell id="parent0" value="&lt;b&gt;Evidencia&lt;/b&gt;&lt;br&gt;Referencia: id_evidencia&lt;br&gt;0..* registros de VersionEvidencia por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="110" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk0" value="id_evidencia&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.13066666666666665;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="parent1" value="&lt;b&gt;Usuario&lt;/b&gt;&lt;br&gt;Referencia: id_usuario&lt;br&gt;0..* registros de VersionEvidencia por padre" vertex="1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#607080;fontColor=#172333;align=left;verticalAlign=top;spacing=12;fontSize=13;">
+          <mxGeometry as="geometry" x="1130" y="225" width="380" height="78" />
+        </mxCell>
+        <mxCell id="fk1" value="cargado_por_usuario&lt;br&gt;0..* → 1" edge="1" parent="1" source="source" target="parent1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#6F1232;fontColor=#172333;fontSize=12;endArrow=ERone;startArrow=ERzeroToMany;exitX=1;exitY=0.43733333333333335;entryX=0;entryY=0.5;jumpStyle=none;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

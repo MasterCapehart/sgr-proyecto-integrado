@@ -1,0 +1,4007 @@
+{
+  "engine": "MySQL 8.4 (propuesta; versión no fijada por requisitos)",
+  "tables": {
+    "Delegacion": {
+      "cols": [
+        {
+          "name": "id_delegacion",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "codigo",
+          "type": "VARCHAR(64)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "nombre",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "direccion",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "telefono",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "estado",
+          "type": "VARCHAR(32)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "creado_en",
+          "type": "DATETIME(6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "actualizado_en",
+          "type": "DATETIME(6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "comuna",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "version_fila",
+          "type": "INT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [
+        [
+          "codigo"
+        ]
+      ],
+      "checks": [
+        "version_fila > 0"
+      ]
+    },
+    "Cargo": {
+      "cols": [
+        {
+          "name": "id_cargo",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "nombre",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "descripcion",
+          "type": "TEXT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "estado",
+          "type": "VARCHAR(32)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "creado_en",
+          "type": "DATETIME(6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "actualizado_en",
+          "type": "DATETIME(6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [
+        [
+          "nombre"
+        ]
+      ],
+      "checks": []
+    },
+    "Funcionario": {
+      "cols": [
+        {
+          "name": "id_funcionario",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "identificador_interno",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "nombre_completo",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "correo_institucional",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "telefono_protegido",
+          "type": "TEXT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "estado",
+          "type": "VARCHAR(32)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "creado_en",
+          "type": "DATETIME(6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "actualizado_en",
+          "type": "DATETIME(6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [
+        [
+          "identificador_interno"
+        ]
+      ],
+      "checks": []
+    },
+    "Usuario": {
+      "cols": [
+        {
+          "name": "id_usuario",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "id_funcionario",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "nombre_usuario",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "correo",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "password_hash",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "activo",
+          "type": "BOOLEAN",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "ultimo_acceso",
+          "type": "DATETIME(6)",
+          "null": true,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "creado_en",
+          "type": "DATETIME(6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "actualizado_en",
+          "type": "DATETIME(6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "version_fila",
+          "type": "INT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [
+        [
+          "id_funcionario"
+        ],
+        [
+          "nombre_usuario"
+        ],
+        [
+          "correo"
+        ]
+      ],
+      "checks": [
+        "activo IN (0,1)",
+        "version_fila > 0"
+      ]
+    },
+    "AsignacionFuncionario": {
+      "cols": [
+        {
+          "name": "id_asignacion",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "id_funcionario",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_delegacion",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_cargo",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "fecha_desde",
+          "type": "DATE",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "fecha_hasta",
+          "type": "DATE",
+          "null": true,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "activo",
+          "type": "BOOLEAN",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "motivo_cambio",
+          "type": "TEXT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [],
+      "checks": [
+        "fecha_hasta IS NULL OR fecha_hasta >= fecha_desde",
+        "activo IN (0,1)"
+      ]
+    },
+    "UsuarioRol": {
+      "cols": [
+        {
+          "name": "id_usuario_rol",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "id_usuario",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_rol",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_delegacion",
+          "type": "BIGINT",
+          "null": true,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "fecha_desde",
+          "type": "DATE",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "fecha_hasta",
+          "type": "DATE",
+          "null": true,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "activo",
+          "type": "BOOLEAN",
+          "null": false,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [],
+      "checks": [
+        "fecha_hasta IS NULL OR fecha_hasta >= fecha_desde",
+        "activo IN (0,1)"
+      ]
+    },
+    "Rol": {
+      "cols": [
+        {
+          "name": "id_rol",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "nombre",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "descripcion",
+          "type": "TEXT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "estado",
+          "type": "VARCHAR(32)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "version_fila",
+          "type": "INT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [
+        [
+          "nombre"
+        ]
+      ],
+      "checks": [
+        "version_fila > 0"
+      ]
+    },
+    "Permiso": {
+      "cols": [
+        {
+          "name": "id_permiso",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "codigo",
+          "type": "VARCHAR(64)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "nombre",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "descripcion",
+          "type": "TEXT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "estado",
+          "type": "VARCHAR(32)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [
+        [
+          "codigo"
+        ]
+      ],
+      "checks": []
+    },
+    "RolPermiso": {
+      "cols": [
+        {
+          "name": "id_rol_permiso",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "id_rol",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_permiso",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        }
+      ],
+      "unique": [
+        [
+          "id_rol",
+          "id_permiso"
+        ]
+      ],
+      "checks": []
+    },
+    "AreaApoyo": {
+      "cols": [
+        {
+          "name": "id_area_apoyo",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "nombre",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "descripcion",
+          "type": "TEXT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "estado",
+          "type": "VARCHAR(32)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [
+        [
+          "nombre"
+        ]
+      ],
+      "checks": []
+    },
+    "Territorio": {
+      "cols": [
+        {
+          "name": "id_territorio",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "id_delegacion",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "codigo",
+          "type": "VARCHAR(64)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "nombre",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "tipo",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "estado",
+          "type": "VARCHAR(32)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [
+        [
+          "codigo"
+        ],
+        [
+          "id_territorio",
+          "id_delegacion"
+        ]
+      ],
+      "checks": []
+    },
+    "Catalogo": {
+      "cols": [
+        {
+          "name": "id_catalogo",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "codigo",
+          "type": "VARCHAR(64)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "nombre",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "descripcion",
+          "type": "TEXT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "estado",
+          "type": "VARCHAR(32)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [
+        [
+          "codigo"
+        ]
+      ],
+      "checks": []
+    },
+    "ValorCatalogo": {
+      "cols": [
+        {
+          "name": "id_valor_catalogo",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "id_catalogo",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "codigo",
+          "type": "VARCHAR(64)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "nombre",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "orden",
+          "type": "INT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "estado",
+          "type": "VARCHAR(32)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "descripcion",
+          "type": "TEXT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "id_valor_padre",
+          "type": "BIGINT",
+          "null": true,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "vigente_desde",
+          "type": "DATETIME(6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "vigente_hasta",
+          "type": "DATETIME(6)",
+          "null": true,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "version_fila",
+          "type": "INT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [
+        [
+          "id_catalogo",
+          "codigo"
+        ],
+        [
+          "id_valor_catalogo",
+          "id_valor_padre"
+        ]
+      ],
+      "checks": [
+        "version_fila > 0"
+      ]
+    },
+    "PeriodoMedicion": {
+      "cols": [
+        {
+          "name": "id_periodo",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "nombre",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "fecha_inicio",
+          "type": "DATE",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "fecha_fin",
+          "type": "DATE",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "estado",
+          "type": "VARCHAR(32)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "cerrado_en",
+          "type": "DATETIME(6)",
+          "null": true,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "reabierto_en",
+          "type": "DATETIME(6)",
+          "null": true,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "calendario_config",
+          "type": "JSON",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "zona_horaria",
+          "type": "VARCHAR(64)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [
+        [
+          "nombre"
+        ]
+      ],
+      "checks": [
+        "fecha_fin >= fecha_inicio"
+      ]
+    },
+    "VersionConfiguracion": {
+      "cols": [
+        {
+          "name": "id_version_config",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "id_periodo",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "numero_version",
+          "type": "INT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "estado",
+          "type": "VARCHAR(32)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "vigente_desde",
+          "type": "DATETIME(6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "vigente_hasta",
+          "type": "DATETIME(6)",
+          "null": true,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "creado_por_usuario",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "motivo_cambio",
+          "type": "TEXT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "umbral_colectivo",
+          "type": "DECIMAL(18,6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "parametros_calculo",
+          "type": "JSON",
+          "null": false,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [
+        [
+          "id_periodo",
+          "numero_version"
+        ]
+      ],
+      "checks": [
+        "numero_version > 0"
+      ]
+    },
+    "Funcion": {
+      "cols": [
+        {
+          "name": "id_funcion",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "codigo",
+          "type": "VARCHAR(64)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "nombre",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "descripcion",
+          "type": "TEXT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "unidad_medida",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "estado",
+          "type": "VARCHAR(32)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [
+        [
+          "codigo"
+        ]
+      ],
+      "checks": []
+    },
+    "Indicador": {
+      "cols": [
+        {
+          "name": "id_indicador",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "id_funcion",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "codigo",
+          "type": "VARCHAR(64)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "nombre",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "tipo_calculo",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "unidad_medida",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "umbral_verde",
+          "type": "DECIMAL(18,6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "umbral_ambar",
+          "type": "DECIMAL(18,6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "estado",
+          "type": "VARCHAR(32)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "descripcion",
+          "type": "TEXT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "version_fila",
+          "type": "INT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [
+        [
+          "codigo"
+        ]
+      ],
+      "checks": [
+        "version_fila > 0"
+      ]
+    },
+    "ConfiguracionMeta": {
+      "cols": [
+        {
+          "name": "id_configuracion_meta",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "id_version_config",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_indicador",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_asignacion",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "valor_meta",
+          "type": "DECIMAL(18,6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "ponderador",
+          "type": "DECIMAL(18,6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "meta_diaria",
+          "type": "DECIMAL(18,6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "fecha_inicio",
+          "type": "DATE",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "fecha_fin",
+          "type": "DATE",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "estado",
+          "type": "VARCHAR(32)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "maximo_computable",
+          "type": "DECIMAL(18,6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "formula_aplicada",
+          "type": "TEXT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "tipo_calculo_aplicado",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "unidad_medida_aplicada",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "umbral_verde_aplicado",
+          "type": "DECIMAL(18,6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "umbral_ambar_aplicado",
+          "type": "DECIMAL(18,6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "version_fila",
+          "type": "INT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [
+        [
+          "id_configuracion_meta",
+          "id_asignacion"
+        ]
+      ],
+      "checks": [
+        "fecha_fin >= fecha_inicio",
+        "version_fila > 0",
+        "valor_meta > 0",
+        "ponderador BETWEEN 0 AND 100",
+        "maximo_computable > 0",
+        "umbral_ambar_aplicado <= umbral_verde_aplicado"
+      ]
+    },
+    "AporteIndicador": {
+      "cols": [
+        {
+          "name": "id_aporte",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "id_configuracion_meta",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_actividad",
+          "type": "BIGINT",
+          "null": true,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_compromiso",
+          "type": "BIGINT",
+          "null": true,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "valor_aporte",
+          "type": "DECIMAL(18,6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "fecha_aporte",
+          "type": "DATETIME(6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "estado_validacion",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "id_asignacion_historica",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "version_registro",
+          "type": "INT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [
+        [
+          "id_configuracion_meta",
+          "id_actividad"
+        ],
+        [
+          "id_configuracion_meta",
+          "id_compromiso"
+        ]
+      ],
+      "checks": [
+        "version_registro > 0",
+        "(id_actividad IS NOT NULL AND id_compromiso IS NULL) OR (id_actividad IS NULL AND id_compromiso IS NOT NULL)"
+      ]
+    },
+    "ResultadoIndicador": {
+      "cols": [
+        {
+          "name": "id_resultado",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "id_configuracion_meta",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "fecha_calculo",
+          "type": "DATETIME(6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "avance_acumulado",
+          "type": "DECIMAL(18,6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "cumplimiento_porcentaje",
+          "type": "DECIMAL(18,6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "puntaje_ponderado",
+          "type": "DECIMAL(18,6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "meta_esperada_dia",
+          "type": "DECIMAL(18,6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "color_semaforo",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "id_asignacion_historica",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        }
+      ],
+      "unique": [],
+      "checks": []
+    },
+    "Actividad": {
+      "cols": [
+        {
+          "name": "id_actividad",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "codigo_actividad",
+          "type": "VARCHAR(64)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "id_funcionario",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_delegacion",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_territorio",
+          "type": "BIGINT",
+          "null": true,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_tipo_actividad",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "fecha_actividad",
+          "type": "DATE",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "descripcion_solicitud_problema",
+          "type": "TEXT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "accion_realizada",
+          "type": "TEXT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "estado",
+          "type": "VARCHAR(32)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "creado_en",
+          "type": "DATETIME(6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "version_fila",
+          "type": "INT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [
+        [
+          "codigo_actividad"
+        ],
+        [
+          "id_actividad",
+          "id_delegacion"
+        ]
+      ],
+      "checks": [
+        "version_fila > 0"
+      ]
+    },
+    "Servicio": {
+      "cols": [
+        {
+          "name": "id_servicio",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "id_tipo_servicio",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "codigo",
+          "type": "VARCHAR(64)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "nombre",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "descripcion",
+          "type": "TEXT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "estado",
+          "type": "VARCHAR(32)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "id_subtipo_servicio",
+          "type": "BIGINT",
+          "null": true,
+          "pk": false,
+          "fk": true
+        }
+      ],
+      "unique": [],
+      "checks": []
+    },
+    "Atencion": {
+      "cols": [
+        {
+          "name": "id_atencion",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "id_actividad",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_servicio",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_persona",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "fecha_atencion",
+          "type": "DATETIME(6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "tipo_gestion",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "resultado",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "observacion",
+          "type": "TEXT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "codigo_atencion",
+          "type": "VARCHAR(64)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "id_tipo_atencion",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_sub_atencion",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_delegacion",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "creado_por_usuario",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "descripcion",
+          "type": "TEXT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "clave_idempotencia",
+          "type": "VARCHAR(64)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "id_caso_social",
+          "type": "BIGINT",
+          "null": true,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "numero_gestion",
+          "type": "TINYINT",
+          "null": true,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "nombre_tipo_registrado",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "nombre_sub_atencion_registrado",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "version_fila",
+          "type": "INT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "id_delegacion_responsable",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        }
+      ],
+      "unique": [
+        [
+          "codigo_atencion"
+        ],
+        [
+          "clave_idempotencia"
+        ],
+        [
+          "id_caso_social",
+          "numero_gestion"
+        ]
+      ],
+      "checks": [
+        "version_fila > 0",
+        "(id_caso_social IS NULL AND numero_gestion IS NULL) OR (id_caso_social IS NOT NULL AND numero_gestion IS NOT NULL AND numero_gestion BETWEEN 1 AND 3)"
+      ]
+    },
+    "PersonaSolicitante": {
+      "cols": [
+        {
+          "name": "id_persona",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "nombre_referencia",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "telefono_protegido",
+          "type": "TEXT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "correo_protegido",
+          "type": "TEXT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "base_acceso_datos",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "anonimizado_en",
+          "type": "DATETIME(6)",
+          "null": true,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [],
+      "checks": []
+    },
+    "Compromiso": {
+      "cols": [
+        {
+          "name": "id_compromiso",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "id_actividad_origen",
+          "type": "BIGINT",
+          "null": true,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_persona_solicitante",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_territorio",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_area_apoyo",
+          "type": "BIGINT",
+          "null": true,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_estado_actual",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "descripcion",
+          "type": "TEXT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "fecha_comprometida",
+          "type": "DATE",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "prioridad",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "creado_en",
+          "type": "DATETIME(6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "cerrado_en",
+          "type": "DATETIME(6)",
+          "null": true,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "version_fila",
+          "type": "INT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "id_delegacion_origen",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_delegacion_responsable",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        }
+      ],
+      "unique": [],
+      "checks": [
+        "version_fila > 0"
+      ]
+    },
+    "AsignacionCompromiso": {
+      "cols": [
+        {
+          "name": "id_asignacion_compromiso",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "id_compromiso",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_funcionario_responsable",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "asignado_por_usuario",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "fecha_desde",
+          "type": "DATE",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "fecha_hasta",
+          "type": "DATE",
+          "null": true,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "motivo_reasignacion",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "activo",
+          "type": "BOOLEAN",
+          "null": false,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [],
+      "checks": [
+        "fecha_hasta IS NULL OR fecha_hasta >= fecha_desde",
+        "activo IN (0,1)"
+      ]
+    },
+    "EstadoCompromiso": {
+      "cols": [
+        {
+          "name": "id_estado_compromiso",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "codigo",
+          "type": "VARCHAR(64)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "nombre",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "orden",
+          "type": "INT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "es_estado_final",
+          "type": "BOOLEAN",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "estado",
+          "type": "VARCHAR(32)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [
+        [
+          "codigo"
+        ]
+      ],
+      "checks": [
+        "es_estado_final IN (0,1)"
+      ]
+    },
+    "HistorialEstadoCompromiso": {
+      "cols": [
+        {
+          "name": "id_historial_estado",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "id_compromiso",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_estado_anterior",
+          "type": "BIGINT",
+          "null": true,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_estado_nuevo",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_usuario_autor",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "fecha_cambio",
+          "type": "DATETIME(6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "observacion",
+          "type": "TEXT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "motivo_incumplimiento",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [],
+      "checks": []
+    },
+    "SeguimientoCompromiso": {
+      "cols": [
+        {
+          "name": "id_seguimiento",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "id_compromiso",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_usuario_autor",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "fecha_seguimiento",
+          "type": "DATETIME(6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "observacion_avance",
+          "type": "TEXT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "porcentaje_avance",
+          "type": "DECIMAL(18,6)",
+          "null": true,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "nueva_fecha",
+          "type": "VARCHAR(255)",
+          "null": true,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "comunicado_en",
+          "type": "DATETIME(6)",
+          "null": true,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [],
+      "checks": []
+    },
+    "Evidencia": {
+      "cols": [
+        {
+          "name": "id_evidencia",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "id_actividad",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "codigo_evidencia",
+          "type": "VARCHAR(64)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "nombre_archivo",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "ruta_controlada",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "tipo_mime",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "tamano_bytes",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "hash_archivo",
+          "type": "CHAR(64)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "estado",
+          "type": "VARCHAR(32)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "cargado_por_usuario",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "cargado_en",
+          "type": "DATETIME(6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "version_archivo",
+          "type": "INT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [
+        [
+          "codigo_evidencia"
+        ]
+      ],
+      "checks": [
+        "tamano_bytes >= 0",
+        "version_archivo > 0"
+      ]
+    },
+    "ValidacionEvidencia": {
+      "cols": [
+        {
+          "name": "id_validacion",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "id_evidencia",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_verificador_usuario",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "resultado",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "observacion",
+          "type": "TEXT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "fecha_revision",
+          "type": "DATETIME(6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "version_evidencia",
+          "type": "INT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "vigente",
+          "type": "BOOLEAN",
+          "null": false,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [],
+      "checks": [
+        "version_evidencia > 0",
+        "vigente IN (0,1)"
+      ]
+    },
+    "Alerta": {
+      "cols": [
+        {
+          "name": "id_alerta",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "id_compromiso",
+          "type": "BIGINT",
+          "null": true,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_resultado",
+          "type": "BIGINT",
+          "null": true,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_usuario_destino",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "tipo",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "nivel",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "mensaje",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "generada_en",
+          "type": "DATETIME(6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "leida_en",
+          "type": "DATETIME(6)",
+          "null": true,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "estado",
+          "type": "VARCHAR(32)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "id_regla_alerta",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_evidencia",
+          "type": "BIGINT",
+          "null": true,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_funcionario",
+          "type": "BIGINT",
+          "null": true,
+          "pk": false,
+          "fk": true
+        }
+      ],
+      "unique": [],
+      "checks": []
+    },
+    "Conversacion": {
+      "cols": [
+        {
+          "name": "id_conversacion",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "id_actividad",
+          "type": "BIGINT",
+          "null": true,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_compromiso",
+          "type": "BIGINT",
+          "null": true,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_evidencia",
+          "type": "BIGINT",
+          "null": true,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "asunto",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "estado",
+          "type": "VARCHAR(32)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "creado_en",
+          "type": "DATETIME(6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [],
+      "checks": [
+        "(id_actividad IS NOT NULL) + (id_compromiso IS NOT NULL) + (id_evidencia IS NOT NULL) = 1"
+      ]
+    },
+    "Mensaje": {
+      "cols": [
+        {
+          "name": "id_mensaje",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "id_conversacion",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_usuario_autor",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_mensaje_padre",
+          "type": "BIGINT",
+          "null": true,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "contenido",
+          "type": "TEXT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "creado_en",
+          "type": "DATETIME(6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "editado_en",
+          "type": "DATETIME(6)",
+          "null": true,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "estado",
+          "type": "VARCHAR(32)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [
+        [
+          "id_mensaje",
+          "id_conversacion"
+        ]
+      ],
+      "checks": []
+    },
+    "EventoAuditoria": {
+      "cols": [
+        {
+          "name": "id_evento_auditoria",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "id_usuario",
+          "type": "BIGINT",
+          "null": true,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "fecha_evento",
+          "type": "DATETIME(6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "accion",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "tipo_entidad",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "identificador_entidad",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "valor_anterior_protegido",
+          "type": "TEXT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "valor_nuevo_protegido",
+          "type": "TEXT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "direccion_ip",
+          "type": "VARCHAR(45)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "resultado",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "motivo",
+          "type": "TEXT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "hash_integridad",
+          "type": "CHAR(64)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [],
+      "checks": []
+    },
+    "RecuperacionAcceso": {
+      "cols": [
+        {
+          "name": "id_recuperacion",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "id_usuario",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "codigo_hash",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "solicitado_en",
+          "type": "DATETIME(6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "expira_en",
+          "type": "DATETIME(6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "verificado_en",
+          "type": "DATETIME(6)",
+          "null": true,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "consumido_en",
+          "type": "DATETIME(6)",
+          "null": true,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "invalidado_en",
+          "type": "DATETIME(6)",
+          "null": true,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "intentos_fallidos",
+          "type": "INT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "max_intentos",
+          "type": "INT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "reenvio_permitido_desde",
+          "type": "DATETIME(6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [],
+      "checks": [
+        "intentos_fallidos >= 0",
+        "max_intentos > 0",
+        "expira_en > solicitado_en",
+        "intentos_fallidos <= max_intentos"
+      ]
+    },
+    "CasoSocial": {
+      "cols": [
+        {
+          "name": "id_caso_social",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "codigo",
+          "type": "VARCHAR(64)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "id_persona",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "abierto_en",
+          "type": "DATETIME(6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [
+        [
+          "codigo"
+        ],
+        [
+          "id_caso_social",
+          "id_persona"
+        ]
+      ],
+      "checks": []
+    },
+    "ValidacionCompromiso": {
+      "cols": [
+        {
+          "name": "id_validacion_compromiso",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "id_compromiso",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_verificador_usuario",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "decision",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "motivo",
+          "type": "TEXT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "fecha_revision",
+          "type": "DATETIME(6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "version_registro",
+          "type": "INT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "vigente",
+          "type": "BOOLEAN",
+          "null": false,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [],
+      "checks": [
+        "version_registro > 0",
+        "vigente IN (0,1)"
+      ]
+    },
+    "ReglaAjuste": {
+      "cols": [
+        {
+          "name": "id_regla_ajuste",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "id_version_config",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "concepto",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "tipo",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "valor",
+          "type": "DECIMAL(18,6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "activo",
+          "type": "BOOLEAN",
+          "null": false,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [],
+      "checks": [
+        "activo IN (0,1)"
+      ]
+    },
+    "AjusteResultado": {
+      "cols": [
+        {
+          "name": "id_ajuste_resultado",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "id_resultado",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_regla_ajuste",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_usuario_responsable",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "valor_aplicado",
+          "type": "DECIMAL(18,6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "motivo",
+          "type": "TEXT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "fecha",
+          "type": "DATETIME(6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [],
+      "checks": []
+    },
+    "ReglaAlerta": {
+      "cols": [
+        {
+          "name": "id_regla_alerta",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "id_version_config",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "codigo",
+          "type": "VARCHAR(64)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "condicion",
+          "type": "TEXT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "umbral",
+          "type": "DECIMAL(18,6)",
+          "null": true,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "dias_anticipacion",
+          "type": "INT",
+          "null": true,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "vigente_desde",
+          "type": "DATETIME(6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "vigente_hasta",
+          "type": "DATETIME(6)",
+          "null": true,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [],
+      "checks": []
+    },
+    "CargoFuncion": {
+      "cols": [
+        {
+          "name": "id_cargo_funcion",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "id_cargo",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "id_funcion",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "fecha_desde",
+          "type": "DATE",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "fecha_hasta",
+          "type": "DATE",
+          "null": true,
+          "pk": false,
+          "fk": false
+        }
+      ],
+      "unique": [
+        [
+          "id_cargo",
+          "id_funcion",
+          "fecha_desde"
+        ]
+      ],
+      "checks": [
+        "fecha_hasta IS NULL OR fecha_hasta >= fecha_desde"
+      ]
+    },
+    "VersionEvidencia": {
+      "cols": [
+        {
+          "name": "id_version_evidencia",
+          "type": "BIGINT",
+          "null": false,
+          "pk": true,
+          "fk": false
+        },
+        {
+          "name": "id_evidencia",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        },
+        {
+          "name": "numero_version",
+          "type": "INT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "nombre_archivo",
+          "type": "VARCHAR(255)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "ruta_controlada",
+          "type": "VARCHAR(1024)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "tipo_mime",
+          "type": "VARCHAR(127)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "tamano_bytes",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "hash_archivo",
+          "type": "CHAR(64)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "cargado_en",
+          "type": "DATETIME(6)",
+          "null": false,
+          "pk": false,
+          "fk": false
+        },
+        {
+          "name": "cargado_por_usuario",
+          "type": "BIGINT",
+          "null": false,
+          "pk": false,
+          "fk": true
+        }
+      ],
+      "unique": [
+        [
+          "id_evidencia",
+          "numero_version"
+        ]
+      ],
+      "checks": [
+        "numero_version > 0",
+        "tamano_bytes >= 0"
+      ]
+    }
+  },
+  "foreign_keys": [
+    {
+      "table": "Usuario",
+      "columns": [
+        "id_funcionario"
+      ],
+      "target": "Funcionario",
+      "refs": [
+        "id_funcionario"
+      ]
+    },
+    {
+      "table": "AsignacionFuncionario",
+      "columns": [
+        "id_funcionario"
+      ],
+      "target": "Funcionario",
+      "refs": [
+        "id_funcionario"
+      ]
+    },
+    {
+      "table": "AsignacionFuncionario",
+      "columns": [
+        "id_delegacion"
+      ],
+      "target": "Delegacion",
+      "refs": [
+        "id_delegacion"
+      ]
+    },
+    {
+      "table": "AsignacionFuncionario",
+      "columns": [
+        "id_cargo"
+      ],
+      "target": "Cargo",
+      "refs": [
+        "id_cargo"
+      ]
+    },
+    {
+      "table": "UsuarioRol",
+      "columns": [
+        "id_usuario"
+      ],
+      "target": "Usuario",
+      "refs": [
+        "id_usuario"
+      ]
+    },
+    {
+      "table": "UsuarioRol",
+      "columns": [
+        "id_rol"
+      ],
+      "target": "Rol",
+      "refs": [
+        "id_rol"
+      ]
+    },
+    {
+      "table": "UsuarioRol",
+      "columns": [
+        "id_delegacion"
+      ],
+      "target": "Delegacion",
+      "refs": [
+        "id_delegacion"
+      ]
+    },
+    {
+      "table": "RolPermiso",
+      "columns": [
+        "id_rol"
+      ],
+      "target": "Rol",
+      "refs": [
+        "id_rol"
+      ]
+    },
+    {
+      "table": "RolPermiso",
+      "columns": [
+        "id_permiso"
+      ],
+      "target": "Permiso",
+      "refs": [
+        "id_permiso"
+      ]
+    },
+    {
+      "table": "Territorio",
+      "columns": [
+        "id_delegacion"
+      ],
+      "target": "Delegacion",
+      "refs": [
+        "id_delegacion"
+      ]
+    },
+    {
+      "table": "ValorCatalogo",
+      "columns": [
+        "id_catalogo"
+      ],
+      "target": "Catalogo",
+      "refs": [
+        "id_catalogo"
+      ]
+    },
+    {
+      "table": "ValorCatalogo",
+      "columns": [
+        "id_valor_padre"
+      ],
+      "target": "ValorCatalogo",
+      "refs": [
+        "id_valor_catalogo"
+      ]
+    },
+    {
+      "table": "VersionConfiguracion",
+      "columns": [
+        "id_periodo"
+      ],
+      "target": "PeriodoMedicion",
+      "refs": [
+        "id_periodo"
+      ]
+    },
+    {
+      "table": "VersionConfiguracion",
+      "columns": [
+        "creado_por_usuario"
+      ],
+      "target": "Usuario",
+      "refs": [
+        "id_usuario"
+      ]
+    },
+    {
+      "table": "Indicador",
+      "columns": [
+        "id_funcion"
+      ],
+      "target": "Funcion",
+      "refs": [
+        "id_funcion"
+      ]
+    },
+    {
+      "table": "ConfiguracionMeta",
+      "columns": [
+        "id_version_config"
+      ],
+      "target": "VersionConfiguracion",
+      "refs": [
+        "id_version_config"
+      ]
+    },
+    {
+      "table": "ConfiguracionMeta",
+      "columns": [
+        "id_indicador"
+      ],
+      "target": "Indicador",
+      "refs": [
+        "id_indicador"
+      ]
+    },
+    {
+      "table": "ConfiguracionMeta",
+      "columns": [
+        "id_asignacion"
+      ],
+      "target": "AsignacionFuncionario",
+      "refs": [
+        "id_asignacion"
+      ]
+    },
+    {
+      "table": "AporteIndicador",
+      "columns": [
+        "id_configuracion_meta"
+      ],
+      "target": "ConfiguracionMeta",
+      "refs": [
+        "id_configuracion_meta"
+      ]
+    },
+    {
+      "table": "AporteIndicador",
+      "columns": [
+        "id_actividad"
+      ],
+      "target": "Actividad",
+      "refs": [
+        "id_actividad"
+      ]
+    },
+    {
+      "table": "AporteIndicador",
+      "columns": [
+        "id_compromiso"
+      ],
+      "target": "Compromiso",
+      "refs": [
+        "id_compromiso"
+      ]
+    },
+    {
+      "table": "AporteIndicador",
+      "columns": [
+        "id_asignacion_historica"
+      ],
+      "target": "AsignacionFuncionario",
+      "refs": [
+        "id_asignacion"
+      ]
+    },
+    {
+      "table": "ResultadoIndicador",
+      "columns": [
+        "id_configuracion_meta"
+      ],
+      "target": "ConfiguracionMeta",
+      "refs": [
+        "id_configuracion_meta"
+      ]
+    },
+    {
+      "table": "ResultadoIndicador",
+      "columns": [
+        "id_asignacion_historica"
+      ],
+      "target": "AsignacionFuncionario",
+      "refs": [
+        "id_asignacion"
+      ]
+    },
+    {
+      "table": "Actividad",
+      "columns": [
+        "id_funcionario"
+      ],
+      "target": "Funcionario",
+      "refs": [
+        "id_funcionario"
+      ]
+    },
+    {
+      "table": "Actividad",
+      "columns": [
+        "id_delegacion"
+      ],
+      "target": "Delegacion",
+      "refs": [
+        "id_delegacion"
+      ]
+    },
+    {
+      "table": "Actividad",
+      "columns": [
+        "id_territorio"
+      ],
+      "target": "Territorio",
+      "refs": [
+        "id_territorio"
+      ]
+    },
+    {
+      "table": "Actividad",
+      "columns": [
+        "id_tipo_actividad"
+      ],
+      "target": "ValorCatalogo",
+      "refs": [
+        "id_valor_catalogo"
+      ]
+    },
+    {
+      "table": "Servicio",
+      "columns": [
+        "id_tipo_servicio"
+      ],
+      "target": "ValorCatalogo",
+      "refs": [
+        "id_valor_catalogo"
+      ]
+    },
+    {
+      "table": "Servicio",
+      "columns": [
+        "id_subtipo_servicio"
+      ],
+      "target": "ValorCatalogo",
+      "refs": [
+        "id_valor_catalogo"
+      ]
+    },
+    {
+      "table": "Atencion",
+      "columns": [
+        "id_actividad"
+      ],
+      "target": "Actividad",
+      "refs": [
+        "id_actividad"
+      ]
+    },
+    {
+      "table": "Atencion",
+      "columns": [
+        "id_servicio"
+      ],
+      "target": "Servicio",
+      "refs": [
+        "id_servicio"
+      ]
+    },
+    {
+      "table": "Atencion",
+      "columns": [
+        "id_persona"
+      ],
+      "target": "PersonaSolicitante",
+      "refs": [
+        "id_persona"
+      ]
+    },
+    {
+      "table": "Atencion",
+      "columns": [
+        "id_tipo_atencion"
+      ],
+      "target": "ValorCatalogo",
+      "refs": [
+        "id_valor_catalogo"
+      ]
+    },
+    {
+      "table": "Atencion",
+      "columns": [
+        "id_sub_atencion"
+      ],
+      "target": "ValorCatalogo",
+      "refs": [
+        "id_valor_catalogo"
+      ]
+    },
+    {
+      "table": "Atencion",
+      "columns": [
+        "id_delegacion"
+      ],
+      "target": "Delegacion",
+      "refs": [
+        "id_delegacion"
+      ]
+    },
+    {
+      "table": "Atencion",
+      "columns": [
+        "creado_por_usuario"
+      ],
+      "target": "Usuario",
+      "refs": [
+        "id_usuario"
+      ]
+    },
+    {
+      "table": "Atencion",
+      "columns": [
+        "id_caso_social"
+      ],
+      "target": "CasoSocial",
+      "refs": [
+        "id_caso_social"
+      ]
+    },
+    {
+      "table": "Compromiso",
+      "columns": [
+        "id_actividad_origen"
+      ],
+      "target": "Actividad",
+      "refs": [
+        "id_actividad"
+      ]
+    },
+    {
+      "table": "Compromiso",
+      "columns": [
+        "id_persona_solicitante"
+      ],
+      "target": "PersonaSolicitante",
+      "refs": [
+        "id_persona"
+      ]
+    },
+    {
+      "table": "Compromiso",
+      "columns": [
+        "id_territorio"
+      ],
+      "target": "Territorio",
+      "refs": [
+        "id_territorio"
+      ]
+    },
+    {
+      "table": "Compromiso",
+      "columns": [
+        "id_area_apoyo"
+      ],
+      "target": "AreaApoyo",
+      "refs": [
+        "id_area_apoyo"
+      ]
+    },
+    {
+      "table": "Compromiso",
+      "columns": [
+        "id_estado_actual"
+      ],
+      "target": "EstadoCompromiso",
+      "refs": [
+        "id_estado_compromiso"
+      ]
+    },
+    {
+      "table": "AsignacionCompromiso",
+      "columns": [
+        "id_compromiso"
+      ],
+      "target": "Compromiso",
+      "refs": [
+        "id_compromiso"
+      ]
+    },
+    {
+      "table": "AsignacionCompromiso",
+      "columns": [
+        "id_funcionario_responsable"
+      ],
+      "target": "Funcionario",
+      "refs": [
+        "id_funcionario"
+      ]
+    },
+    {
+      "table": "AsignacionCompromiso",
+      "columns": [
+        "asignado_por_usuario"
+      ],
+      "target": "Usuario",
+      "refs": [
+        "id_usuario"
+      ]
+    },
+    {
+      "table": "HistorialEstadoCompromiso",
+      "columns": [
+        "id_compromiso"
+      ],
+      "target": "Compromiso",
+      "refs": [
+        "id_compromiso"
+      ]
+    },
+    {
+      "table": "HistorialEstadoCompromiso",
+      "columns": [
+        "id_estado_anterior"
+      ],
+      "target": "EstadoCompromiso",
+      "refs": [
+        "id_estado_compromiso"
+      ]
+    },
+    {
+      "table": "HistorialEstadoCompromiso",
+      "columns": [
+        "id_estado_nuevo"
+      ],
+      "target": "EstadoCompromiso",
+      "refs": [
+        "id_estado_compromiso"
+      ]
+    },
+    {
+      "table": "HistorialEstadoCompromiso",
+      "columns": [
+        "id_usuario_autor"
+      ],
+      "target": "Usuario",
+      "refs": [
+        "id_usuario"
+      ]
+    },
+    {
+      "table": "SeguimientoCompromiso",
+      "columns": [
+        "id_compromiso"
+      ],
+      "target": "Compromiso",
+      "refs": [
+        "id_compromiso"
+      ]
+    },
+    {
+      "table": "SeguimientoCompromiso",
+      "columns": [
+        "id_usuario_autor"
+      ],
+      "target": "Usuario",
+      "refs": [
+        "id_usuario"
+      ]
+    },
+    {
+      "table": "Evidencia",
+      "columns": [
+        "id_actividad"
+      ],
+      "target": "Actividad",
+      "refs": [
+        "id_actividad"
+      ]
+    },
+    {
+      "table": "Evidencia",
+      "columns": [
+        "cargado_por_usuario"
+      ],
+      "target": "Usuario",
+      "refs": [
+        "id_usuario"
+      ]
+    },
+    {
+      "table": "ValidacionEvidencia",
+      "columns": [
+        "id_evidencia"
+      ],
+      "target": "Evidencia",
+      "refs": [
+        "id_evidencia"
+      ]
+    },
+    {
+      "table": "ValidacionEvidencia",
+      "columns": [
+        "id_verificador_usuario"
+      ],
+      "target": "Usuario",
+      "refs": [
+        "id_usuario"
+      ]
+    },
+    {
+      "table": "Alerta",
+      "columns": [
+        "id_compromiso"
+      ],
+      "target": "Compromiso",
+      "refs": [
+        "id_compromiso"
+      ]
+    },
+    {
+      "table": "Alerta",
+      "columns": [
+        "id_resultado"
+      ],
+      "target": "ResultadoIndicador",
+      "refs": [
+        "id_resultado"
+      ]
+    },
+    {
+      "table": "Alerta",
+      "columns": [
+        "id_usuario_destino"
+      ],
+      "target": "Usuario",
+      "refs": [
+        "id_usuario"
+      ]
+    },
+    {
+      "table": "Alerta",
+      "columns": [
+        "id_regla_alerta"
+      ],
+      "target": "ReglaAlerta",
+      "refs": [
+        "id_regla_alerta"
+      ]
+    },
+    {
+      "table": "Alerta",
+      "columns": [
+        "id_evidencia"
+      ],
+      "target": "Evidencia",
+      "refs": [
+        "id_evidencia"
+      ]
+    },
+    {
+      "table": "Alerta",
+      "columns": [
+        "id_funcionario"
+      ],
+      "target": "Funcionario",
+      "refs": [
+        "id_funcionario"
+      ]
+    },
+    {
+      "table": "Conversacion",
+      "columns": [
+        "id_actividad"
+      ],
+      "target": "Actividad",
+      "refs": [
+        "id_actividad"
+      ]
+    },
+    {
+      "table": "Conversacion",
+      "columns": [
+        "id_compromiso"
+      ],
+      "target": "Compromiso",
+      "refs": [
+        "id_compromiso"
+      ]
+    },
+    {
+      "table": "Conversacion",
+      "columns": [
+        "id_evidencia"
+      ],
+      "target": "Evidencia",
+      "refs": [
+        "id_evidencia"
+      ]
+    },
+    {
+      "table": "Mensaje",
+      "columns": [
+        "id_conversacion"
+      ],
+      "target": "Conversacion",
+      "refs": [
+        "id_conversacion"
+      ]
+    },
+    {
+      "table": "Mensaje",
+      "columns": [
+        "id_usuario_autor"
+      ],
+      "target": "Usuario",
+      "refs": [
+        "id_usuario"
+      ]
+    },
+    {
+      "table": "Mensaje",
+      "columns": [
+        "id_mensaje_padre"
+      ],
+      "target": "Mensaje",
+      "refs": [
+        "id_mensaje"
+      ]
+    },
+    {
+      "table": "EventoAuditoria",
+      "columns": [
+        "id_usuario"
+      ],
+      "target": "Usuario",
+      "refs": [
+        "id_usuario"
+      ]
+    },
+    {
+      "table": "RecuperacionAcceso",
+      "columns": [
+        "id_usuario"
+      ],
+      "target": "Usuario",
+      "refs": [
+        "id_usuario"
+      ]
+    },
+    {
+      "table": "CasoSocial",
+      "columns": [
+        "id_persona"
+      ],
+      "target": "PersonaSolicitante",
+      "refs": [
+        "id_persona"
+      ]
+    },
+    {
+      "table": "ValidacionCompromiso",
+      "columns": [
+        "id_compromiso"
+      ],
+      "target": "Compromiso",
+      "refs": [
+        "id_compromiso"
+      ]
+    },
+    {
+      "table": "ValidacionCompromiso",
+      "columns": [
+        "id_verificador_usuario"
+      ],
+      "target": "Usuario",
+      "refs": [
+        "id_usuario"
+      ]
+    },
+    {
+      "table": "ReglaAjuste",
+      "columns": [
+        "id_version_config"
+      ],
+      "target": "VersionConfiguracion",
+      "refs": [
+        "id_version_config"
+      ]
+    },
+    {
+      "table": "AjusteResultado",
+      "columns": [
+        "id_resultado"
+      ],
+      "target": "ResultadoIndicador",
+      "refs": [
+        "id_resultado"
+      ]
+    },
+    {
+      "table": "AjusteResultado",
+      "columns": [
+        "id_regla_ajuste"
+      ],
+      "target": "ReglaAjuste",
+      "refs": [
+        "id_regla_ajuste"
+      ]
+    },
+    {
+      "table": "AjusteResultado",
+      "columns": [
+        "id_usuario_responsable"
+      ],
+      "target": "Usuario",
+      "refs": [
+        "id_usuario"
+      ]
+    },
+    {
+      "table": "ReglaAlerta",
+      "columns": [
+        "id_version_config"
+      ],
+      "target": "VersionConfiguracion",
+      "refs": [
+        "id_version_config"
+      ]
+    },
+    {
+      "table": "CargoFuncion",
+      "columns": [
+        "id_cargo"
+      ],
+      "target": "Cargo",
+      "refs": [
+        "id_cargo"
+      ]
+    },
+    {
+      "table": "CargoFuncion",
+      "columns": [
+        "id_funcion"
+      ],
+      "target": "Funcion",
+      "refs": [
+        "id_funcion"
+      ]
+    },
+    {
+      "table": "VersionEvidencia",
+      "columns": [
+        "id_evidencia"
+      ],
+      "target": "Evidencia",
+      "refs": [
+        "id_evidencia"
+      ]
+    },
+    {
+      "table": "VersionEvidencia",
+      "columns": [
+        "cargado_por_usuario"
+      ],
+      "target": "Usuario",
+      "refs": [
+        "id_usuario"
+      ]
+    },
+    {
+      "table": "Atencion",
+      "columns": [
+        "id_sub_atencion",
+        "id_tipo_atencion"
+      ],
+      "target": "ValorCatalogo",
+      "refs": [
+        "id_valor_catalogo",
+        "id_valor_padre"
+      ]
+    },
+    {
+      "table": "Atencion",
+      "columns": [
+        "id_caso_social",
+        "id_persona"
+      ],
+      "target": "CasoSocial",
+      "refs": [
+        "id_caso_social",
+        "id_persona"
+      ]
+    },
+    {
+      "table": "Servicio",
+      "columns": [
+        "id_subtipo_servicio",
+        "id_tipo_servicio"
+      ],
+      "target": "ValorCatalogo",
+      "refs": [
+        "id_valor_catalogo",
+        "id_valor_padre"
+      ]
+    },
+    {
+      "table": "Actividad",
+      "columns": [
+        "id_territorio",
+        "id_delegacion"
+      ],
+      "target": "Territorio",
+      "refs": [
+        "id_territorio",
+        "id_delegacion"
+      ]
+    },
+    {
+      "table": "Atencion",
+      "columns": [
+        "id_actividad",
+        "id_delegacion"
+      ],
+      "target": "Actividad",
+      "refs": [
+        "id_actividad",
+        "id_delegacion"
+      ]
+    },
+    {
+      "table": "AporteIndicador",
+      "columns": [
+        "id_configuracion_meta",
+        "id_asignacion_historica"
+      ],
+      "target": "ConfiguracionMeta",
+      "refs": [
+        "id_configuracion_meta",
+        "id_asignacion"
+      ]
+    },
+    {
+      "table": "ResultadoIndicador",
+      "columns": [
+        "id_configuracion_meta",
+        "id_asignacion_historica"
+      ],
+      "target": "ConfiguracionMeta",
+      "refs": [
+        "id_configuracion_meta",
+        "id_asignacion"
+      ]
+    },
+    {
+      "table": "Mensaje",
+      "columns": [
+        "id_mensaje_padre",
+        "id_conversacion"
+      ],
+      "target": "Mensaje",
+      "refs": [
+        "id_mensaje",
+        "id_conversacion"
+      ]
+    },
+    {
+      "table": "ValidacionEvidencia",
+      "columns": [
+        "id_evidencia",
+        "version_evidencia"
+      ],
+      "target": "VersionEvidencia",
+      "refs": [
+        "id_evidencia",
+        "numero_version"
+      ]
+    },
+    {
+      "table": "Atencion",
+      "columns": [
+        "id_delegacion_responsable"
+      ],
+      "target": "Delegacion",
+      "refs": [
+        "id_delegacion"
+      ]
+    },
+    {
+      "table": "Compromiso",
+      "columns": [
+        "id_delegacion_origen"
+      ],
+      "target": "Delegacion",
+      "refs": [
+        "id_delegacion"
+      ]
+    },
+    {
+      "table": "Compromiso",
+      "columns": [
+        "id_delegacion_responsable"
+      ],
+      "target": "Delegacion",
+      "refs": [
+        "id_delegacion"
+      ]
+    }
+  ]
+}

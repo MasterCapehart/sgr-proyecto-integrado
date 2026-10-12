@@ -1,0 +1,13 @@
+{
+  "fecha": "2026-10-12",
+  "tablas": 43,
+  "claves_foraneas": 94,
+  "controles": [
+    "Cobertura de todas las entidades previas y referencias nuevas",
+    "PK/unique/columnas sin duplicados",
+    "FK existentes con tipos y claves únicas compatibles",
+    "Conteos SQL/JSON/draw.io coincidentes",
+    "Revisión de XOR, caso social e instrucciones de importación sin DROP"
+  ],
+  "ejecucion_mysql": "Pendiente; no se ejecutó el paquete en un servidor MySQL"
+}
