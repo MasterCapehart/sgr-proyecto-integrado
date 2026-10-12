@@ -454,4 +454,165 @@ class PatronCRUDAPITestCase(TestCase):
         content = response.content.decode("utf-8-sig")
         self.assertIn("Tipo de Atención Padre", content)
 
+    # =======================================================
+    # Pruebas Específicas T16: CRUD Ítems y Metas
+    # =======================================================
+
+    def test_item_meta_list_and_search(self):
+        """T16: Verifica listado y búsqueda de ítems medibles."""
+        from .models import ItemMeta
+        ItemMeta.objects.create(
+            codigo="IT-TEST-01",
+            nombre="Operativos en Terreno",
+            descripcion="Medición de terreno",
+            estado=True
+        )
+
+        response = self.client.get("/api/items-metas/?search=Terreno")
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertTrue(data["success"])
+        self.assertTrue(any(it["codigo"] == "IT-TEST-01" for it in data["results"]))
+
+    def test_item_meta_create_success(self):
+        """T16: Verifica creación exitosa de un ítem medible con persistencia."""
+        payload = {
+            "codigo": "IT-NUEVO-01",
+            "nombre": "Atenciones Ciudadanas Registradas",
+            "descripcion": "Total de atenciones en la delegación",
+            "unidad_medida": "Cantidad",
+            "estado": True
+        }
+        response = self.client.post(
+            "/api/items-metas/",
+            data=json.dumps(payload),
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, 201)
+        data = response.json()
+        self.assertTrue(data["success"])
+        self.assertEqual(data["data"]["codigo"], "IT-NUEVO-01")
+
+    def test_item_meta_duplicate_codigo_rejected(self):
+        """T16: Rechaza código de ítem duplicado."""
+        from .models import ItemMeta
+        ItemMeta.objects.create(
+            codigo="IT-DUP-01",
+            nombre="Ítem Original",
+            estado=True
+        )
+
+        payload = {
+            "codigo": "IT-DUP-01",
+            "nombre": "Otro Ítem Distinto",
+            "estado": True
+        }
+        response = self.client.post(
+            "/api/items-metas/",
+            data=json.dumps(payload),
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, 400)
+        data = response.json()
+        self.assertFalse(data["success"])
+        self.assertIn("codigo", data["error"]["details"])
+
+    def test_item_meta_duplicate_nombre_rejected(self):
+        """T16: Rechaza nombre de ítem duplicado."""
+        from .models import ItemMeta
+        ItemMeta.objects.create(
+            codigo="IT-NOM-01",
+            nombre="Compromisos en Plazo",
+            estado=True
+        )
+
+        payload = {
+            "codigo": "IT-NOM-02",
+            "nombre": "Compromisos en Plazo",
+            "estado": True
+        }
+        response = self.client.post(
+            "/api/items-metas/",
+            data=json.dumps(payload),
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, 400)
+        data = response.json()
+        self.assertFalse(data["success"])
+        self.assertIn("nombre", data["error"]["details"])
+
+    def test_item_meta_reject_deactivation_with_active_configuracion_meta(self):
+        """T16: Impide desactivar ítem si posee metas asignadas activas (conserva historia y referencias)."""
+        from .models import ItemMeta, ConfiguracionMeta
+        item = ItemMeta.objects.create(
+            codigo="IT-CON-META",
+            nombre="Ítem con Metas",
+            estado=True
+        )
+        ConfiguracionMeta.objects.create(
+            item=item,
+            periodo="2026-Anual",
+            meta_esperada=150.00,
+            ponderacion=20.00,
+            estado=True
+        )
+
+        # Intento de desactivar mediante DELETE
+        res_del = self.client.delete(f"/api/items-metas/{item.pk}/")
+        self.assertEqual(res_del.status_code, 400)
+        data_del = res_del.json()
+        self.assertFalse(data_del["success"])
+        self.assertEqual(data_del["error"]["code"], "HAS_ACTIVE_DEPENDENCIES")
+
+        # Intento de desactivar mediante toggle-estado
+        res_toggle = self.client.post(f"/api/items-metas/{item.pk}/toggle-estado/")
+        self.assertEqual(res_toggle.status_code, 400)
+        data_toggle = res_toggle.json()
+        self.assertFalse(data_toggle["success"])
+        self.assertEqual(data_toggle["error"]["code"], "HAS_ACTIVE_DEPENDENCIES")
+
+    def test_item_meta_allow_deactivation_when_configuracion_meta_inactive(self):
+        """T16: Permite desactivar ítem cuando todas sus metas configuradas están inactivas."""
+        from .models import ItemMeta, ConfiguracionMeta
+        item = ItemMeta.objects.create(
+            codigo="IT-META-INACTIVA",
+            nombre="Ítem con Metas Inactivas",
+            estado=True
+        )
+        ConfiguracionMeta.objects.create(
+            item=item,
+            periodo="2025-Cerrado",
+            meta_esperada=50.00,
+            ponderacion=10.00,
+            estado=False
+        )
+
+        res_del = self.client.delete(f"/api/items-metas/{item.pk}/")
+        self.assertEqual(res_del.status_code, 200)
+        item.refresh_from_db()
+        self.assertFalse(item.estado)
+
+    def test_item_meta_toggle_estado(self):
+        """T16: Alterna estado de ítem sin dependencias."""
+        from .models import ItemMeta
+        item = ItemMeta.objects.create(
+            codigo="IT-TOGGLE-01",
+            nombre="Ítem Toggle",
+            estado=True
+        )
+
+        response = self.client.post(f"/api/items-metas/{item.pk}/toggle-estado/")
+        self.assertEqual(response.status_code, 200)
+        item.refresh_from_db()
+        self.assertFalse(item.estado)
+
+    def test_item_meta_export_csv(self):
+        """T16: Verifica exportación a CSV de ítems y metas."""
+        response = self.client.get("/api/items-metas/export/")
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("text/csv", response["Content-Type"])
+        self.assertIn("items_metas_export.csv", response["Content-Disposition"])
+        content = response.content.decode("utf-8-sig")
+        self.assertIn("Nombre del Ítem", content)
+
 

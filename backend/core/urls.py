@@ -24,4 +24,10 @@ urlpatterns = [
     path('subatenciones/export/', views.SubAtencionCRUDView.as_view(), {'action': 'export'}, name='subatencion-export'),
     path('subatenciones/<int:pk>/', views.SubAtencionCRUDView.as_view(), name='subatencion-detail'),
     path('subatenciones/<int:pk>/toggle-estado/', views.SubAtencionCRUDView.as_view(), {'action': 'toggle-estado'}, name='subatencion-toggle'),
+
+    # Endpoints Ítems y Metas (T16)
+    path('items-metas/', views.ItemMetaCRUDView.as_view(), name='item-meta-list'),
+    path('items-metas/export/', views.ItemMetaCRUDView.as_view(), {'action': 'export'}, name='item-meta-export'),
+    path('items-metas/<int:pk>/', views.ItemMetaCRUDView.as_view(), name='item-meta-detail'),
+    path('items-metas/<int:pk>/toggle-estado/', views.ItemMetaCRUDView.as_view(), {'action': 'toggle-estado'}, name='item-meta-toggle'),
 ]
