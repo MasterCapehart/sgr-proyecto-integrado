@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Registrar atención · SGR</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body data-page="atencion" data-base-path="../">
+  <a class="skip-link" href="#main-content">Saltar al contenido</a>
+
+  <header class="header" id="site-header"></header>
+
+  <div class="layout">
+    <aside class="sidebar" id="site-sidebar"></aside>
+
+    <main class="content" id="main-content">
+      <div class="crumb">SGR / Operación / Registrar atención</div>
+
+      <div class="head">
+        <div>
+          <p class="eyebrow">Atención ciudadana</p>
+          <h1>Registrar atención</h1>
+          <p class="sub">Registra la solicitud y sus antecedentes en el contexto de tu delegación asignada.</p>
+        </div>
+      </div>
+
+      <div class="notice" style="margin-bottom: 24px;">
+        La delegación de atención, el funcionario responsable y la fecha/hora son asignados por el servidor según tu sesión autorizada para garantizar la inmutabilidad del origen (Sección 12 de la Guía SGR).
+      </div>
+
+      <div class="card" style="padding: 0; margin-bottom: 24px;">
+        <div style="padding: 18px 24px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center;">
+          <h2 style="margin: 0; font-size: 18px;">Datos de la atención ciudadana</h2>
+          <span class="badge" style="background: #fee2e2; color: var(--municipal-red);">Campos obligatorios *</span>
+        </div>
+
+        <form id="form-atencion" style="padding: 24px;" novalidate>
+          <div class="grid">
+            <div class="field">
+              <label for="solicitante">Vecino o Solicitante <span class="required" aria-hidden="true">*</span></label>
+              <input type="text" id="solicitante" name="solicitante" placeholder="Nombre completo o RUT del solicitante" required aria-required="true">
+              <p class="help">Identifica al ciudadano que presenta la solicitud o consulta.</p>
+            </div>
+
+            <div class="field">
+              <label for="delegacion-contexto">Delegación de atención (Origen)</label>
+              <input type="text" id="delegacion-contexto" value="DEL01 · Las Compañías" readonly class="readonly" style="background: #f1f5f9; cursor: not-allowed;">
+              <p class="help">Fijada automáticamente según el contexto de tu sesión.</p>
+            </div>
+
+            <div class="field">
+              <label for="tipo-atencion">Tipo de Atención <span class="required" aria-hidden="true">*</span></label>
+              <select id="tipo-atencion" name="tipo" required aria-required="true">
+                <option value="">-- Seleccionar tipo --</option>
+                <option value="Social">Social</option>
+                <option value="Territorial">Territorial</option>
+                <option value="Orientación Jurídica">Orientación Jurídica</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="subtipo-atencion">Subatención específica <span class="required" aria-hidden="true">*</span></label>
+              <select id="subtipo-atencion" name="subtipo" required disabled aria-required="true">
+                <option value="">-- Selecciona primero el tipo --</option>
+              </select>
+            </div>
+
+            <div class="field full">
+              <label for="descripcion-atencion">Descripción detallada de la atención <span class="required" aria-hidden="true">*</span></label>
+              <textarea id="descripcion-atencion" name="descripcion" placeholder="Detalla el motivo de la consulta, derivación o requerimiento planteado por el vecino..." required aria-required="true" style="min-height: 120px;"></textarea>
+            </div>
+
+            <!-- Sección condicional para Caso Social -->
+            <div class="field full" id="seccion-caso-social" style="display: none; background: #fdf5f5; border: 1px solid #fed7d7; border-radius: 6px; padding: 16px;">
+              <p class="eyebrow" style="margin: 0 0 6px;">Atención de Asistencia Social</p>
+              <p style="font-size: 13px; color: var(--muted); margin: 0 0 12px;">Un caso social puede conservar hasta tres gestiones sucesivas del mismo solicitante.</p>
+              <label for="codigo-caso-social" style="font-size: 13px;">Código de Caso Social (opcional para continuidad):</label>
+              <input type="text" id="codigo-caso-social" name="caso_social" placeholder="ej. CS-2026-089">
+            </div>
+
+            <div class="field">
+              <label for="responsable-nombre">Funcionario responsable</label>
+              <input type="text" id="responsable-nombre" value="Daniel Flores (Operador Territorial)" readonly class="readonly" style="background: #f1f5f9; cursor: not-allowed;">
+            </div>
+
+            <div class="field">
+              <label for="fecha-registro">Fecha y hora de registro</label>
+              <input type="text" id="fecha-registro" value="Asignada automáticamente por el servidor al guardar" readonly class="readonly" style="background: #f1f5f9; cursor: not-allowed; font-size: 13px;">
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--line);">
+            <button type="button" class="button secondary" id="btn-cancelar">Cancelar</button>
+            <button type="submit" class="button primary" id="btn-guardar">Guardar atención ciudadana →</button>
+          </div>
+        </form>
+      </div>
+
+      <footer class="footer">SGR · Municipalidad de La Serena · Registro ciudadano M-20</footer>
+    </main>
+  </div>
+
+  <script defer src="../assets/vendor/sweetalert2.min.js"></script>
+  <script defer src="../assets/js/components/layout.js"></script>
+  <script defer src="../assets/js/modules/ingreso-atencion.js"></script>
+  <script defer src="../assets/js/app.js"></script>
+</body>
+</html>
