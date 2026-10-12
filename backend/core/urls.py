@@ -30,4 +30,11 @@ urlpatterns = [
     path('items-metas/export/', views.ItemMetaCRUDView.as_view(), {'action': 'export'}, name='item-meta-export'),
     path('items-metas/<int:pk>/', views.ItemMetaCRUDView.as_view(), name='item-meta-detail'),
     path('items-metas/<int:pk>/toggle-estado/', views.ItemMetaCRUDView.as_view(), {'action': 'toggle-estado'}, name='item-meta-toggle'),
+
+    # Endpoints Registro de Atención Ciudadana (T17)
+    path('atenciones/contexto/', views.AtencionContextoView.as_view(), name='atencion-contexto'),
+    path('atenciones/', views.AtencionCRUDView.as_view(), name='atencion-list'),
+    path('atenciones/export/', views.AtencionCRUDView.as_view(), {'action': 'export'}, name='atencion-export'),
+    path('atenciones/<int:pk>/', views.AtencionCRUDView.as_view(), name='atencion-detail'),
+    path('atenciones/<int:pk>/toggle-estado/', views.AtencionCRUDView.as_view(), {'action': 'toggle-estado'}, name='atencion-toggle'),
 ]

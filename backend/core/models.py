@@ -83,3 +83,58 @@ class ConfiguracionMeta(models.Model):
 
     def __str__(self):
         return f"Meta {self.item.codigo} ({self.periodo}): {self.meta_esperada}"
+
+
+class Atencion(models.Model):
+    """
+    Registro transaccional de Atención Ciudadana (Tarea T17).
+    Registra la solicitud del ciudadano con autor, fecha y delegación asignados
+    por el servidor para garantizar la inmutabilidad institucional.
+    """
+    folio = models.CharField(max_length=64, unique=True, db_index=True)
+    solicitante = models.CharField(max_length=200)
+    tipo_atencion = models.ForeignKey(
+        TipoAtencion,
+        on_delete=models.PROTECT,
+        related_name='atenciones'
+    )
+    sub_atencion = models.ForeignKey(
+        SubAtencion,
+        on_delete=models.PROTECT,
+        related_name='atenciones'
+    )
+    descripcion = models.TextField()
+    delegacion = models.ForeignKey(
+        Delegacion,
+        on_delete=models.PROTECT,
+        related_name='atenciones_origen'
+    )
+    delegacion_responsable = models.ForeignKey(
+        Delegacion,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        related_name='atenciones_responsable'
+    )
+    usuario = models.ForeignKey(
+        Usuario,
+        on_delete=models.PROTECT,
+        related_name='atenciones_creadas'
+    )
+    fecha_registro = models.DateTimeField(auto_now_add=True)
+    caso_social = models.CharField(max_length=50, null=True, blank=True)
+    numero_gestion = models.PositiveSmallIntegerField(default=1, null=True, blank=True)
+    clave_idempotencia = models.CharField(max_length=64, unique=True, null=True, blank=True)
+    estado = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = 'Atención Ciudadana'
+        verbose_name_plural = 'Atenciones Ciudadanas'
+        ordering = ['-id']
+
+    @property
+    def codigo_atencion(self):
+        return self.folio
+
+    def __str__(self):
+        return f"{self.folio} - {self.solicitante}"

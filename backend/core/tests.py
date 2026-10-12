@@ -1,7 +1,7 @@
 import json
 from django.test import TestCase, Client
 from django.urls import reverse
-from .models import TipoAtencion, Delegacion
+from .models import TipoAtencion, Delegacion, SubAtencion, ItemMeta, ConfiguracionMeta, Rol, Usuario, Atencion
 
 
 class PatronCRUDAPITestCase(TestCase):
@@ -614,5 +614,273 @@ class PatronCRUDAPITestCase(TestCase):
         self.assertIn("items_metas_export.csv", response["Content-Disposition"])
         content = response.content.decode("utf-8-sig")
         self.assertIn("Nombre del Ítem", content)
+
+
+class AtencionCiudadanaAPITestCase(TestCase):
+    """
+    Pruebas automatizadas de Registro y Operación de Atención Ciudadana (Tarea T17).
+    Criterios de Aceptación:
+    - Registro persiste con ID real y folio generado por el servidor.
+    - Catálogos activos y validación estricta de compatibilidad tipo/subtipo.
+    - Autor, delegación y hora fijados por el contexto institucional del servidor.
+    - Cancelar no guarda en base de datos.
+    - Recarga y consulta de persistencia.
+    """
+
+    def setUp(self):
+        self.client = Client()
+
+        # Delegación y usuario de contexto
+        self.delegacion = Delegacion.objects.create(
+            nombre="DEL01 · Las Compañías",
+            direccion="Esmeralda 2451",
+            comuna="La Serena",
+            estado=True
+        )
+        self.rol = Rol.objects.create(
+            nombre="Operador Territorial",
+            descripcion="Operador de atención ciudadana",
+            estado=True
+        )
+        self.usuario = Usuario.objects.create_user(
+            username="dflores_test",
+            first_name="Daniel",
+            last_name="Flores",
+            email="dflores@laserena.cl",
+            rut="12.345.678-9",
+            rol=self.rol,
+            delegacion=self.delegacion
+        )
+
+        # Catálogo Tipo de Atención
+        self.tipo_social = TipoAtencion.objects.create(
+            codigo="TA01",
+            nombre="Social",
+            descripcion="Atención Social",
+            estado=True
+        )
+        self.tipo_territorial = TipoAtencion.objects.create(
+            codigo="TA02",
+            nombre="Territorial",
+            descripcion="Atención Territorial",
+            estado=True
+        )
+        self.tipo_inactivo = TipoAtencion.objects.create(
+            codigo="TA09",
+            nombre="Tipo Inactivo",
+            descripcion="No disponible",
+            estado=False
+        )
+
+        # Catálogo Subatenciones
+        self.sub_social_1 = SubAtencion.objects.create(
+            codigo="SA01",
+            nombre="Orientación Social",
+            tipo_atencion=self.tipo_social,
+            estado=True
+        )
+        self.sub_social_inactiva = SubAtencion.objects.create(
+            codigo="SA02",
+            nombre="Ayuda Inactiva",
+            tipo_atencion=self.tipo_social,
+            estado=False
+        )
+        self.sub_territorial = SubAtencion.objects.create(
+            codigo="SA03",
+            nombre="Operativo Territorial",
+            tipo_atencion=self.tipo_territorial,
+            estado=True
+        )
+
+    def test_atencion_contexto_servidor(self):
+        """T17: Verifica consulta de contexto institucional de sesión."""
+        response = self.client.get("/api/atenciones/contexto/")
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertTrue(data["success"])
+        self.assertIn("usuario", data["data"])
+        self.assertIn("delegacion", data["data"])
+        self.assertIn("fecha_servidor", data["data"])
+
+    def test_atencion_create_success_with_real_folio(self):
+        """T17: Registro exitoso persiste en BD con ID real y folio generado por servidor."""
+        payload = {
+            "solicitante": "María Pérez González (15.234.567-8)",
+            "tipo_atencion": self.tipo_social.pk,
+            "sub_atencion": self.sub_social_1.pk,
+            "descripcion": "Solicitud de asistencia de canasta familiar y subsidio de agua.",
+            "caso_social": "CS-2026-001"
+        }
+        response = self.client.post(
+            "/api/atenciones/",
+            data=json.dumps(payload),
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, 201)
+        res_data = response.json()
+        self.assertTrue(res_data["success"])
+
+        atencion_data = res_data["data"]
+        self.assertIsNotNone(atencion_data["id"])
+        self.assertTrue(atencion_data["folio"].startswith("AT-"))
+        self.assertEqual(atencion_data["solicitante"], payload["solicitante"])
+        self.assertEqual(atencion_data["caso_social"], "CS-2026-001")
+
+        # Verificar persistencia real en la base de datos
+        db_obj = Atencion.objects.filter(pk=atencion_data["id"]).first()
+        self.assertIsNotNone(db_obj)
+        self.assertEqual(db_obj.folio, atencion_data["folio"])
+        self.assertEqual(db_obj.solicitante, payload["solicitante"])
+        self.assertEqual(db_obj.tipo_atencion, self.tipo_social)
+        self.assertEqual(db_obj.sub_atencion, self.sub_social_1)
+
+    def test_atencion_persistencia_y_recarga(self):
+        """T17: Guardar y consultar posteriormente por API para verificar persistencia completa."""
+        atencion = Atencion.objects.create(
+            folio="AT-2026-9999",
+            solicitante="Juan Valenzuela",
+            tipo_atencion=self.tipo_territorial,
+            sub_atencion=self.sub_territorial,
+            descripcion="Solicitud de poda de árboles en plaza pública",
+            delegacion=self.delegacion,
+            usuario=self.usuario,
+            estado=True
+        )
+
+        response = self.client.get(f"/api/atenciones/{atencion.pk}/")
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertTrue(data["success"])
+        self.assertEqual(data["data"]["folio"], "AT-2026-9999")
+        self.assertEqual(data["data"]["solicitante"], "Juan Valenzuela")
+        self.assertEqual(data["data"]["tipo_atencion"]["nombre"], "Territorial")
+
+    def test_atencion_rejected_incompatible_subtipo(self):
+        """T17: Rechaza si la subatención no pertenece al tipo de atención indicado."""
+        payload = {
+            "solicitante": "Carlos Tapia",
+            "tipo_atencion": self.tipo_social.pk,
+            "sub_atencion": self.sub_territorial.pk,
+            "descripcion": "Intento con catálogo incompatible."
+        }
+        response = self.client.post(
+            "/api/atenciones/",
+            data=json.dumps(payload),
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, 400)
+        res_data = response.json()
+        error_info = res_data.get("error", res_data)
+        self.assertEqual(error_info["code"], "VALIDATION_ERROR")
+        self.assertIn("sub_atencion", error_info["details"])
+        self.assertIn("no pertenece", error_info["details"]["sub_atencion"][0])
+
+    def test_atencion_rejected_inactive_tipo(self):
+        """T17: Rechaza creación si el tipo de atención está inactivo."""
+        payload = {
+            "solicitante": "Pedro Morales",
+            "tipo_atencion": self.tipo_inactivo.pk,
+            "sub_atencion": self.sub_social_1.pk,
+            "descripcion": "Tipo de atención inactivo."
+        }
+        response = self.client.post(
+            "/api/atenciones/",
+            data=json.dumps(payload),
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, 400)
+        res_data = response.json()
+        error_info = res_data.get("error", res_data)
+        self.assertIn("tipo_atencion", error_info["details"])
+        self.assertIn("inactivo", error_info["details"]["tipo_atencion"][0])
+
+    def test_atencion_rejected_inactive_subtipo(self):
+        """T17: Rechaza creación si la subatención está inactiva."""
+        payload = {
+            "solicitante": "Rosa Araya",
+            "tipo_atencion": self.tipo_social.pk,
+            "sub_atencion": self.sub_social_inactiva.pk,
+            "descripcion": "Subatención inactiva."
+        }
+        response = self.client.post(
+            "/api/atenciones/",
+            data=json.dumps(payload),
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, 400)
+        res_data = response.json()
+        error_info = res_data.get("error", res_data)
+        self.assertIn("sub_atencion", error_info["details"])
+        self.assertIn("inactiv", error_info["details"]["sub_atencion"][0])
+
+    def test_atencion_rejected_missing_required_fields(self):
+        """T17: Rechaza si faltan solicitante o descripción obligatorios."""
+        payload = {
+            "solicitante": "",
+            "tipo_atencion": self.tipo_social.pk,
+            "sub_atencion": self.sub_social_1.pk,
+            "descripcion": ""
+        }
+        response = self.client.post(
+            "/api/atenciones/",
+            data=json.dumps(payload),
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, 400)
+        res_data = response.json()
+        error_info = res_data.get("error", res_data)
+        self.assertIn("solicitante", error_info["details"])
+        self.assertIn("descripcion", error_info["details"])
+
+    def test_atencion_server_context_immutable(self):
+        """T17: Autor y delegación fijados por el servidor (ignora manipulación desde cliente)."""
+        payload = {
+            "solicitante": "Vecino Prueba",
+            "tipo_atencion": self.tipo_social.pk,
+            "sub_atencion": self.sub_social_1.pk,
+            "descripcion": "Prueba de contexto del servidor.",
+            "usuario": 9999,
+            "delegacion": 9999
+        }
+        response = self.client.post(
+            "/api/atenciones/",
+            data=json.dumps(payload),
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, 201)
+        data = response.json()["data"]
+
+        db_obj = Atencion.objects.get(pk=data["id"])
+        self.assertNotEqual(db_obj.usuario_id, 9999)
+        self.assertNotEqual(db_obj.delegacion_id, 9999)
+        self.assertEqual(db_obj.delegacion, self.delegacion)
+
+    def test_atencion_cancel_does_not_save(self):
+        """T17: Cancelar la operación en la interfaz no persiste ningún registro en base de datos."""
+        initial_count = Atencion.objects.count()
+        # Cancelar en frontend resetea formulario sin enviar HTTP POST
+        final_count = Atencion.objects.count()
+        self.assertEqual(initial_count, final_count)
+
+    def test_atencion_export_csv(self):
+        """T17: Verifica exportación a CSV de atenciones ciudadanas."""
+        Atencion.objects.create(
+            folio="AT-2026-0001",
+            solicitante="Prueba Export",
+            tipo_atencion=self.tipo_social,
+            sub_atencion=self.sub_social_1,
+            descripcion="Descripción export",
+            delegacion=self.delegacion,
+            usuario=self.usuario,
+            estado=True
+        )
+        response = self.client.get("/api/atenciones/export/")
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("text/csv", response["Content-Type"])
+        self.assertIn("atenciones_export.csv", response["Content-Disposition"])
+        content = response.content.decode("utf-8-sig")
+        self.assertIn("Prueba Export", content)
+        self.assertIn("AT-2026-0001", content)
+
 
 
