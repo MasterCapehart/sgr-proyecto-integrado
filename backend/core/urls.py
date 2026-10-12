@@ -2,9 +2,10 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    # Autenticación (T05)
+    # Autenticación y Recuperación (T05, T06)
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
+    path('recuperacion/', views.solicitar_recuperacion, name='recuperacion'),
 
     # Endpoints TipoAtencion (T14)
     path('tipos-atencion/', views.TipoAtencionCRUDView.as_view(), name='tipo-atencion-list'),

@@ -139,3 +139,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Configuración del modelo de usuario personalizado
 AUTH_USER_MODEL = 'core.Usuario'
+
+
+
+# Simular envío de correos en la consola durante el desarrollo
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
