@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nueva contraseña · SGR</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body data-page="new-password" data-base-path="../">
+  <a class="skip-link" href="#newpass-form">Saltar al formulario</a>
+
+  <header class="header" id="site-header"></header>
+
+  <div class="authwrap">
+    <section class="authintro">
+      <p class="eyebrow">Sistema de Gestión de Resultados</p>
+      <h1>Una gestión municipal más clara y conectada.</h1>
+      <p>Atenciones ciudadanas, compromisos comunitarios y cumplimiento de metas en un mismo espacio de trabajo institucional.</p>
+      <span class="badge">Delegación Municipal Las Compañías</span>
+    </section>
+
+    <section class="authpanel">
+      <div class="authcard">
+        <p class="eyebrow">Acceso institucional</p>
+        <h1>Crear nueva contraseña</h1>
+        <p class="sub">Paso 3 de 3: Define tu nueva contraseña segura tras verificar el código.</p>
+
+        <div class="step" aria-label="Progreso: Paso 3 de 3">
+          <span class="active" title="Paso 1: Solicitud"></span>
+          <span class="active" title="Paso 2: Validación"></span>
+          <span class="active" title="Paso 3: Nueva clave"></span>
+        </div>
+
+        <form id="newpass-form" novalidate>
+          <div class="field">
+            <label for="newpass">Nueva contraseña <span class="required" aria-hidden="true">*</span></label>
+            <div class="password-field">
+              <input type="password" id="newpass" name="newpass" autocomplete="new-password" placeholder="Mínimo 8 caracteres" required aria-required="true">
+              <button type="button" class="password-toggle" id="toggle-newpass" aria-label="Mostrar nueva contraseña">Mostrar</button>
+            </div>
+            <p class="help">Debe incluir al menos 8 caracteres, mayúsculas, minúsculas y números.</p>
+          </div>
+
+          <div class="field">
+            <label for="confirmpass">Confirmar nueva contraseña <span class="required" aria-hidden="true">*</span></label>
+            <div class="password-field">
+              <input type="password" id="confirmpass" name="confirmpass" autocomplete="new-password" placeholder="Repite tu nueva contraseña" required aria-required="true">
+              <button type="button" class="password-toggle" id="toggle-confirmpass" aria-label="Mostrar confirmación">Mostrar</button>
+            </div>
+          </div>
+
+          <button type="submit" class="button primary" id="btn-savepass">Guardar nueva contraseña →</button>
+        </form>
+
+        <div class="authback">
+          <a href="login.html">← Volver al inicio de sesión</a>
+        </div>
+
+        <p class="authfooter">SGR · Municipalidad de La Serena · Restablecimiento seguro</p>
+      </div>
+    </section>
+  </div>
+
+  <script defer src="../assets/vendor/sweetalert2.min.js"></script>
+  <script defer src="../assets/js/components/layout.js"></script>
+  <script defer src="../assets/js/modules/recuperacion.js"></script>
+  <script defer src="../assets/js/app.js"></script>
+</body>
+</html>
