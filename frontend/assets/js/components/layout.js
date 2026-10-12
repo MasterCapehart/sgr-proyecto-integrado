@@ -11,7 +11,22 @@ window.SGRLayout = {
       }
     }
     if (sidebar) {
-      sidebar.innerHTML = `<nav aria-label="Navegación principal"><a href="${basePath}index.html" ${currentPage === 'home' ? 'aria-current="page"' : ''}>Inicio</a><a href="${basePath}pages/guia.html" ${currentPage === 'guide' ? 'aria-current="page"' : ''}>Guía de componentes</a><a href="${basePath}pages/login.html" ${currentPage === 'login' ? 'aria-current="page"' : ''}>Iniciar sesión</a><p class="nav-heading">Próximos módulos</p><span class="planned">Acceso y recuperación<small>Pendiente de implementación</small></span><span class="planned">Administración y catálogos<small>Pendiente de implementación</small></span><span class="planned">Atención ciudadana<small>Pendiente de implementación</small></span></nav>`;
+      sidebar.innerHTML = `<nav aria-label="Navegación principal">
+        <a href="${basePath}index.html" ${currentPage === 'home' ? 'aria-current="page"' : ''}>Inicio</a>
+        <a href="${basePath}pages/guia.html" ${currentPage === 'guide' ? 'aria-current="page"' : ''}>Guía de componentes</a>
+        <p class="nav-heading">Operación</p>
+        <a href="${basePath}pages/ingreso-atencion.html" ${currentPage === 'atencion' ? 'aria-current="page"' : ''}>Registrar atención</a>
+        <p class="nav-heading">Administración</p>
+        <a href="${basePath}pages/delegaciones.html" ${currentPage === 'delegaciones' ? 'aria-current="page"' : ''}>Delegaciones</a>
+        <a href="${basePath}pages/roles.html" ${currentPage === 'roles' ? 'aria-current="page"' : ''}>Roles y permisos</a>
+        <a href="${basePath}pages/usuarios.html" ${currentPage === 'usuarios' ? 'aria-current="page"' : ''}>Usuarios</a>
+        <a href="${basePath}pages/items-metas.html" ${currentPage === 'items-metas' ? 'aria-current="page"' : ''}>Ítems y metas</a>
+        <p class="nav-heading">Catálogos</p>
+        <a href="${basePath}pages/tipos-atencion.html" ${currentPage === 'tipos-atencion' ? 'aria-current="page"' : ''}>Tipos de atención</a>
+        <a href="${basePath}pages/subatenciones.html" ${currentPage === 'subatenciones' ? 'aria-current="page"' : ''}>Subatenciones</a>
+        <p class="nav-heading">Acceso</p>
+        <a href="${basePath}pages/login.html" ${currentPage === 'login' ? 'aria-current="page"' : ''}>Cerrar sesión / Login</a>
+      </nav>`;
     }
   }
 };

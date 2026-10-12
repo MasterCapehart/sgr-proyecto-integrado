@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Delegaciones · SGR</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body data-page="delegaciones" data-base-path="../">
+  <a class="skip-link" href="#main-content">Saltar al contenido</a>
+
+  <header class="header" id="site-header"></header>
+
+  <div class="layout">
+    <aside class="sidebar" id="site-sidebar"></aside>
+
+    <main class="content" id="main-content">
+      <div class="crumb">SGR / Administración / Delegaciones</div>
+
+      <div class="head">
+        <div>
+          <p class="eyebrow">Catálogo y administración</p>
+          <h1>Delegaciones</h1>
+          <p class="sub">Consulta, organiza y mantiene las delegaciones territoriales municipales.</p>
+        </div>
+        <button class="button" type="button" id="btn-nuevo">+ Nueva delegación</button>
+      </div>
+
+      <div class="notice" style="margin-bottom: 24px;">
+        Los registros con funcionarios, actividades o territorios vinculados no se eliminan físicamente; se desactivan para preservar la trazabilidad histórica.
+      </div>
+
+      <div class="card" style="padding: 0; margin-bottom: 24px;">
+        <div class="toolbar">
+          <label for="search-input">
+            <span>Buscar delegaciones</span>
+            <input type="search" id="search-input" placeholder="Buscar por código, nombre o comuna...">
+          </label>
+          <label for="status-filter" style="max-width: 180px;">
+            <span>Estado</span>
+            <select id="status-filter">
+              <option value="todos">Todos</option>
+              <option value="activo">Activa</option>
+              <option value="inactivo">Inactiva</option>
+            </select>
+          </label>
+          <button type="button" class="button secondary" id="btn-export">↓ Exportar a Excel</button>
+        </div>
+
+        <div class="tablewrap">
+          <table aria-label="Listado de delegaciones">
+            <thead>
+              <tr>
+                <th scope="col">Código</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Dirección</th>
+                <th scope="col">Comuna</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="table-body">
+              <tr data-status="activo">
+                <td><strong>DEL01</strong></td>
+                <td>Las Compañías</td>
+                <td>Esmeralda 1810</td>
+                <td>La Serena</td>
+                <td><span class="badge green">Activa</span></td>
+                <td>
+                  <button type="button" class="linkbtn" data-action="ver" data-id="DEL01">Ver</button> · 
+                  <button type="button" class="linkbtn" data-action="editar" data-id="DEL01">Editar</button> · 
+                  <button type="button" class="linkbtn" data-action="desactivar" data-id="DEL01">Desactivar</button>
+                </td>
+              </tr>
+              <tr data-status="activo">
+                <td><strong>DEL02</strong></td>
+                <td>La Pampa</td>
+                <td>Juan José Latorre 243</td>
+                <td>La Serena</td>
+                <td><span class="badge green">Activa</span></td>
+                <td>
+                  <button type="button" class="linkbtn" data-action="ver" data-id="DEL02">Ver</button> · 
+                  <button type="button" class="linkbtn" data-action="editar" data-id="DEL02">Editar</button> · 
+                  <button type="button" class="linkbtn" data-action="desactivar" data-id="DEL02">Desactivar</button>
+                </td>
+              </tr>
+              <tr data-status="inactivo">
+                <td><strong>DEL03</strong></td>
+                <td>Sector Rural Cordillera</td>
+                <td>Ruta D-41 Km 15</td>
+                <td>La Serena</td>
+                <td><span class="badge red">Inactiva</span></td>
+                <td>
+                  <button type="button" class="linkbtn" data-action="ver" data-id="DEL03">Ver</button> · 
+                  <button type="button" class="linkbtn" data-action="editar" data-id="DEL03">Editar</button> · 
+                  <button type="button" class="linkbtn" data-action="activar" data-id="DEL03">Activar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pager">
+          <span id="page-info">Mostrando 3 registros</span>
+          <div class="pagebuttons">
+            <button type="button" class="button small secondary" disabled>Anterior</button>
+            <button type="button" class="button small">1</button>
+            <button type="button" class="button small secondary" disabled>Siguiente</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Dialog Editor -->
+      <dialog id="modal-editor">
+        <form id="form-editor" method="dialog" novalidate>
+          <div class="modalhead">
+            <h2 id="modal-title">Nueva Delegación</h2>
+            <button type="button" class="linkbtn" id="modal-close" style="font-size: 16px;">✕</button>
+          </div>
+          <div class="modalbody grid">
+            <div class="field">
+              <label for="campo-codigo">Código <span class="required" aria-hidden="true">*</span></label>
+              <input type="text" id="campo-codigo" name="codigo" placeholder="ej. DEL04" required>
+            </div>
+            <div class="field">
+              <label for="campo-nombre">Nombre de la Delegación <span class="required" aria-hidden="true">*</span></label>
+              <input type="text" id="campo-nombre" name="nombre" placeholder="ej. La Florida" required>
+            </div>
+            <div class="field">
+              <label for="campo-direccion">Dirección <span class="required" aria-hidden="true">*</span></label>
+              <input type="text" id="campo-direccion" name="direccion" placeholder="ej. Av. El Santo 1230" required>
+            </div>
+            <div class="field">
+              <label for="campo-comuna">Comuna <span class="required" aria-hidden="true">*</span></label>
+              <input type="text" id="campo-comuna" name="comuna" value="La Serena" required>
+            </div>
+            <div class="field full">
+              <label for="campo-estado">Estado operativo <span class="required" aria-hidden="true">*</span></label>
+              <select id="campo-estado" name="estado">
+                <option value="Activa">Activa</option>
+                <option value="Inactiva">Inactiva</option>
+              </select>
+            </div>
+          </div>
+          <div class="modalfoot">
+            <button type="button" class="button secondary" id="modal-cancel">Cancelar</button>
+            <button type="submit" class="button primary" id="modal-save">Guardar delegación</button>
+          </div>
+        </form>
+      </dialog>
+
+      <footer class="footer">SGR · Municipalidad de La Serena · Mantenedor M-14</footer>
+    </main>
+  </div>
+
+  <script defer src="../assets/vendor/sweetalert2.min.js"></script>
+  <script defer src="../assets/js/components/layout.js"></script>
+  <script defer src="../assets/js/modules/mantenedor-comun.js"></script>
+  <script defer src="../assets/js/app.js"></script>
+</body>
+</html>
