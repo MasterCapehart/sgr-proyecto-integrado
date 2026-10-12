@@ -207,12 +207,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         btnGuardar.textContent = 'Guardando en servidor...';
       }
 
+      // Clave de idempotencia única para garantizar que reenvíos no dupliquen (T18)
+      const claveIdempotencia = (window.crypto && crypto.randomUUID)
+        ? crypto.randomUUID()
+        : 'IDEMP-' + Date.now() + '-' + Math.random().toString(36).substring(2, 10);
+
       const payload = {
         solicitante: solicitante,
         tipo_atencion: tipoId,
         sub_atencion: subtipoId,
         descripcion: desc,
-        caso_social: casoSocial || null
+        caso_social: casoSocial || null,
+        clave_idempotencia: claveIdempotencia
       };
 
       try {
@@ -220,7 +226,8 @@ document.addEventListener('DOMContentLoaded', async () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'X-Idempotency-Key': claveIdempotencia
           },
           body: JSON.stringify(payload)
         });
@@ -233,13 +240,15 @@ document.addEventListener('DOMContentLoaded', async () => {
           const delegacionNombre = atencion.delegacion ? atencion.delegacion.nombre : 'Delegación Las Compañías';
           const tipoDisplay = atencion.tipo_atencion ? atencion.tipo_atencion.nombre : '';
           const subDisplay = atencion.sub_atencion ? atencion.sub_atencion.nombre : '';
+          const isDupPrevented = !!data.is_duplicate_prevented;
 
           if (window.Swal) {
             await window.Swal.fire({
-              icon: 'success',
-              title: '¡Atención registrada!',
+              icon: isDupPrevented ? 'info' : 'success',
+              title: isDupPrevented ? 'Solicitud ya procesada' : '¡Atención registrada!',
               html: `
                 <div style="text-align: left; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 14px; margin-top: 10px;">
+                  ${isDupPrevented ? '<p style="color: #b45309; font-size: 13px; margin: 0 0 8px;"><strong>Aviso de idempotencia:</strong> Se detectó un envío repetido y se conservó el registro original sin generar duplicados.</p>' : ''}
                   <p style="margin: 0 0 8px; font-size: 15px;">Folio Oficial: <strong style="color: #ad0000; font-size: 16px;">${escapeHtml(folioGenerado)}</strong></p>
                   <p style="margin: 0 0 4px; font-size: 13px; color: #475569;">ID Base de Datos: <strong>#${atencion.id}</strong></p>
                   <p style="margin: 0 0 4px; font-size: 13px; color: #475569;">Solicitante: <strong>${escapeHtml(atencion.solicitante)}</strong></p>

@@ -1,13 +1,18 @@
 import json
 import random
+import datetime
 from django.db import models, transaction
+from django.utils import timezone
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
 
-from .models import Usuario, TipoAtencion, SubAtencion, Delegacion, ItemMeta, ConfiguracionMeta, Atencion
+from .models import (
+    Usuario, TipoAtencion, SubAtencion, Delegacion,
+    ItemMeta, ConfiguracionMeta, Atencion, AuditoriaDerivacion
+)
 from .api import BaseCRUDView
 
 # ==========================================
@@ -461,6 +466,18 @@ class AtencionCRUDView(BaseCRUDView):
         return Atencion.objects.select_related("tipo_atencion", "sub_atencion", "delegacion", "usuario").all()
 
     def serialize_instance(self, instance):
+        derivaciones = [
+            {
+                "id": d.pk,
+                "origen": d.delegacion_origen.nombre,
+                "destino": d.delegacion_destino.nombre,
+                "responsable": d.usuario_responsable.get_full_name() or d.usuario_responsable.username,
+                "motivo": d.motivo,
+                "fecha": d.fecha_derivacion.isoformat()
+            }
+            for d in getattr(instance, 'derivaciones_auditadas', []).all()
+        ] if hasattr(instance, 'derivaciones_auditadas') else []
+
         return {
             "id": instance.pk,
             "folio": instance.folio,
@@ -483,19 +500,24 @@ class AtencionCRUDView(BaseCRUDView):
                 "id": instance.delegacion.pk,
                 "nombre": instance.delegacion.nombre
             },
+            "delegacion_responsable": {
+                "id": instance.delegacion_responsable.pk,
+                "nombre": instance.delegacion_responsable.nombre
+            } if instance.delegacion_responsable else None,
             "usuario": {
                 "id": instance.usuario.pk,
                 "nombre": instance.usuario.get_full_name() or instance.usuario.username
             },
             "caso_social": instance.caso_social or "",
             "numero_gestion": instance.numero_gestion,
+            "clave_idempotencia": instance.clave_idempotencia or "",
+            "derivaciones_auditadas": derivaciones,
             "fecha_registro": instance.fecha_registro.isoformat() if instance.fecha_registro else None,
             "estado": instance.estado
         }
 
     def _generar_folio(self):
         """Genera un folio correlativo único e incremental para el año actual."""
-        from django.utils import timezone
         anio = timezone.now().year
         prefijo = f"AT-{anio}-"
         ultimo = Atencion.objects.filter(folio__startswith=prefijo).order_by("-id").first()
@@ -517,17 +539,39 @@ class AtencionCRUDView(BaseCRUDView):
         data = request.json_data
         errors = {}
 
-        # 1. Validar solicitante
+        # -------------------------------------------------------------
+        # 1. Idempotencia y Prevención de Duplicados (Criterio T18)
+        # -------------------------------------------------------------
+        clave_idempotencia = (
+            data.get("clave_idempotencia") or
+            request.headers.get("X-Idempotency-Key") or
+            request.META.get("HTTP_X_IDEMPOTENCY_KEY")
+        )
+        if clave_idempotencia:
+            clave_idempotencia = str(clave_idempotencia).strip()
+            existente = Atencion.objects.filter(clave_idempotencia=clave_idempotencia).first()
+            if existente:
+                return api_success(
+                    data=self.serialize_instance(existente),
+                    message=f"Atención procesada previamente (folio {existente.folio}). Se evitó el duplicado por reenvío.",
+                    extra={"is_duplicate_prevented": True, "idempotent": True},
+                    status=200
+                )
+
+        # -------------------------------------------------------------
+        # 2. Validación de campos obligatorios
+        # -------------------------------------------------------------
         solicitante = str(data.get("solicitante") or "").strip()
         if not solicitante:
             errors.setdefault("solicitante", []).append("El nombre o RUT del solicitante es obligatorio.")
 
-        # 2. Validar descripción
         descripcion = str(data.get("descripcion") or "").strip()
         if not descripcion:
             errors.setdefault("descripcion", []).append("La descripción de la atención es obligatoria.")
 
-        # 3. Validar TipoAtencion (catálogo padre)
+        # -------------------------------------------------------------
+        # 3. Validación de Tipo y Subatención (Catálogos y Pareja)
+        # -------------------------------------------------------------
         tipo_id = data.get("tipo_atencion") or data.get("tipo")
         tipo_obj = None
         if not tipo_id:
@@ -546,7 +590,6 @@ class AtencionCRUDView(BaseCRUDView):
             elif not tipo_obj.estado:
                 errors.setdefault("tipo_atencion", []).append("El Tipo de Atención seleccionado está inactivo. Debe seleccionar un catálogo activo.")
 
-        # 4. Validar SubAtencion (catálogo hijo)
         sub_id = data.get("sub_atencion") or data.get("subtipo")
         sub_obj = None
         if not sub_id:
@@ -565,7 +608,10 @@ class AtencionCRUDView(BaseCRUDView):
             elif not sub_obj.estado:
                 errors.setdefault("sub_atencion", []).append("La Subatención seleccionada está inactiva. Debe seleccionar una subatención activa.")
             elif tipo_obj and sub_obj.tipo_atencion_id != tipo_obj.pk:
-                errors.setdefault("sub_atencion", []).append(f"La subatención '{sub_obj.nombre}' no pertenece al tipo de atención '{tipo_obj.nombre}'.")
+                # Regla T18: Rechazar pareja inválida
+                errors.setdefault("sub_atencion", []).append(
+                    f"La subatención '{sub_obj.nombre}' no pertenece al tipo de atención '{tipo_obj.nombre}'."
+                )
 
         if errors:
             return api_error(
@@ -575,28 +621,134 @@ class AtencionCRUDView(BaseCRUDView):
                 status=400
             )
 
-        # 5. Resolver autor y delegación institucional desde el servidor (inmutables)
+        # -------------------------------------------------------------
+        # 4. Autor y Responsable Autorizado (Criterio T18)
+        # -------------------------------------------------------------
         usuario = getattr(request, 'user', None)
         if usuario and not getattr(usuario, 'is_authenticated', False):
             usuario = None
         if not usuario:
             usuario = Usuario.objects.filter(is_active=True).first()
 
-        delegacion = getattr(usuario, "delegacion", None) if usuario else None
-        if not delegacion:
-            delegacion = Delegacion.objects.filter(estado=True).first()
+        if not usuario or not usuario.is_active:
+            return api_error(
+                code="RESPONSABLE_NO_AUTORIZADO",
+                message="El usuario responsable no se encuentra activo o autorizado en el sistema.",
+                status=403
+            )
 
-        if not usuario or not delegacion:
+        if usuario.rol and not usuario.rol.estado:
+            return api_error(
+                code="RESPONSABLE_NO_AUTORIZADO",
+                message="El rol asignado al funcionario responsable se encuentra inactivo.",
+                status=403
+            )
+
+        # -------------------------------------------------------------
+        # 5. Origen Conservado y Rechazo de Ámbito Manipulado (Criterio T18)
+        # -------------------------------------------------------------
+        delegacion_origen = getattr(usuario, "delegacion", None)
+        if not delegacion_origen:
+            delegacion_origen = Delegacion.objects.filter(estado=True).first()
+
+        if not delegacion_origen:
             return api_error(
                 code="SERVER_CONTEXT_ERROR",
-                message="No se pudo determinar el contexto de usuario o delegación en el servidor.",
+                message="No se pudo determinar el ámbito territorial de origen en el servidor.",
                 status=500
             )
 
-        # 6. Transacción atómica para asignar folio correlativo y persistir
+        # Detectar si el cliente intentó manipular la delegación de origen
+        del_manipulada = data.get("delegacion") or data.get("delegacion_origen") or data.get("id_delegacion")
+        if del_manipulada:
+            del_manipulada_id = None
+            if str(del_manipulada).isdigit():
+                del_manipulada_id = int(del_manipulada)
+            else:
+                d_found = Delegacion.objects.filter(models.Q(nombre__icontains=str(del_manipulada).strip())).first()
+                if d_found:
+                    del_manipulada_id = d_found.pk
+
+            if del_manipulada_id and del_manipulada_id != delegacion_origen.pk:
+                return api_error(
+                    code="AMBITO_MANIPULADO",
+                    message="Ámbito territorial manipulado: No está autorizado para registrar atenciones fuera de su delegación de origen.",
+                    details={"delegacion": ["La delegación de captura enviada no coincide con su ámbito autorizado."]},
+                    status=403
+                )
+
+        # -------------------------------------------------------------
+        # 6. Delegación Responsable y Derivación Auditada
+        # -------------------------------------------------------------
+        del_resp_val = data.get("delegacion_responsable")
+        delegacion_responsable = delegacion_origen
+        if del_resp_val:
+            if str(del_resp_val).isdigit():
+                delegacion_responsable = Delegacion.objects.filter(pk=int(del_resp_val)).first()
+            else:
+                delegacion_responsable = Delegacion.objects.filter(
+                    models.Q(nombre__icontains=str(del_resp_val).strip())
+                ).first()
+
+            if not delegacion_responsable:
+                return api_error(
+                    code="DELEGACION_RESPONSABLE_INVALIDA",
+                    message="La delegación responsable indicada no existe.",
+                    status=400
+                )
+            if not delegacion_responsable.estado:
+                return api_error(
+                    code="DELEGACION_RESPONSABLE_INACTIVA",
+                    message="La delegación responsable indicada se encuentra inactiva.",
+                    status=400
+                )
+
+        # Detección de doble envío concurrente reciente sin clave explícita
+        if not clave_idempotencia:
+            ventana = timezone.now() - datetime.timedelta(seconds=4)
+            duplicado_reciente = Atencion.objects.filter(
+                solicitante__iexact=solicitante,
+                tipo_atencion=tipo_obj,
+                sub_atencion=sub_obj,
+                descripcion__iexact=descripcion,
+                usuario=usuario,
+                fecha_registro__gte=ventana
+            ).first()
+            if duplicado_reciente:
+                return api_success(
+                    data=self.serialize_instance(duplicado_reciente),
+                    message=f"Envío repetido detectado (folio {duplicado_reciente.folio}). Se evitó el duplicado.",
+                    extra={"is_duplicate_prevented": True, "idempotent": True},
+                    status=200
+                )
+
+        # -------------------------------------------------------------
+        # 7. Transacción Atómica con Control de Concurrencia y Caso Social
+        # -------------------------------------------------------------
+        caso_social_raw = str(data.get("caso_social") or "").strip()
+        caso_social_code = caso_social_raw.upper() if caso_social_raw else None
+
         with transaction.atomic():
+            numero_gestion = None
+            if caso_social_code:
+                # Bloqueo pesimista para evitar concurrencia en la cuenta de gestiones
+                gestiones_anteriores = Atencion.objects.select_for_update().filter(
+                    caso_social__iexact=caso_social_code
+                )
+                conteo_gestiones = gestiones_anteriores.count()
+
+                # Regla institucional T18: cuarta gestión social rechazada
+                if conteo_gestiones >= 3:
+                    return api_error(
+                        code="CUARTA_GESTION_RECHAZADA",
+                        message=f"Rechazo de regla institucional: El caso social '{caso_social_code}' ya cuenta con 3 gestiones registradas. Una atención social no puede exceder 3 gestiones sucesivas.",
+                        details={"caso_social": [f"El caso social {caso_social_code} ha alcanzado el límite máximo de 3 gestiones."]},
+                        status=400
+                    )
+
+                numero_gestion = conteo_gestiones + 1
+
             folio_real = self._generar_folio()
-            caso_social = str(data.get("caso_social") or "").strip() or None
 
             atencion = Atencion.objects.create(
                 folio=folio_real,
@@ -604,11 +756,24 @@ class AtencionCRUDView(BaseCRUDView):
                 tipo_atencion=tipo_obj,
                 sub_atencion=sub_obj,
                 descripcion=descripcion,
-                delegacion=delegacion,
+                delegacion=delegacion_origen,
+                delegacion_responsable=delegacion_responsable,
                 usuario=usuario,
-                caso_social=caso_social,
+                caso_social=caso_social_code,
+                numero_gestion=numero_gestion,
+                clave_idempotencia=clave_idempotencia or None,
                 estado=True
             )
+
+            # Si es una derivación a otra delegación, registrar auditoría
+            if delegacion_responsable and delegacion_responsable.pk != delegacion_origen.pk:
+                AuditoriaDerivacion.objects.create(
+                    atencion=atencion,
+                    delegacion_origen=delegacion_origen,
+                    delegacion_destino=delegacion_responsable,
+                    usuario_responsable=usuario,
+                    motivo=str(data.get("motivo_derivacion") or "Derivación institucional autorizada").strip()
+                )
 
         return api_success(
             data=self.serialize_instance(atencion),
