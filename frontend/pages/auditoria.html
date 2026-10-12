@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Historial de auditoría · SGR</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body data-page="auditoria" data-base-path="../">
+  <a class="skip-link" href="#main-content">Saltar al contenido</a>
+
+  <header class="header" id="site-header"></header>
+
+  <div class="layout">
+    <aside class="sidebar" id="site-sidebar"></aside>
+
+    <main class="content" id="main-content">
+<div class="crumb">SGR / Administración / Historial de auditoría</div><div class="head"><div><div class="eyebrow">Control e historial</div><h1>Historial de auditoría</h1><p class="sub">Consulta quién realizó cada cambio y conserva el contexto de la operación.</p></div></div><div class="notice neutral">Consulta restringida según permisos. Los registros se presentan sin contraseñas, códigos de recuperación ni información sensible.</div><div class="card"><div class="toolbar"><label for="search"><span>Buscar registros</span><input id="search" type="search" placeholder="Buscar acción, registro o usuario…"></label><label for="status" style="max-width:170px"><span>Estado</span><select id="status"><option>Todos</option><option>Activo</option><option>Inactivo</option></select></label><button class="button soft" id="excel">↓ Exportar a Excel</button></div><div id="results"><div class="tablewrap"><table><thead><tr><th>Fecha y hora</th><th>Usuario</th><th>Acción</th><th>Registro</th><th>Resultado</th></tr></thead><tbody><tr><td>05 oct. 2026 · 10:30</td><td>Usuario de ejemplo A</td><td>Actualizar atención</td><td>AT-2026-0042</td><td>Operación registrada</td></tr><tr><td>05 oct. 2026 · 10:15</td><td>Usuario de ejemplo B</td><td>Revisar evidencia</td><td>EV-0042</td><td>Operación registrada</td></tr><tr><td>05 oct. 2026 · 09:40</td><td>Usuario de ejemplo A</td><td>Cambiar contexto</td><td>DEL01</td><td>Contexto autorizado</td></tr></tbody></table></div></div><div class="pager"><span id="count">Datos de ejemplo</span><div class="pagebuttons"><button class="button small" id="prev">Anterior</button><button class="button small primary" id="page">1</button><button class="button small" id="next">Siguiente</button></div></div></div><footer class="footer"><span>Prototipo académico · Datos ficticios · Interacciones simuladas, sin Backend</span><span>M-10 · SGR / Segunda evaluación</span></footer>
+    </main>
+  </div>
+
+  <script defer src="../assets/vendor/sweetalert2.min.js"></script>
+  <script defer src="../assets/js/components/layout.js"></script>
+  <script defer src="../assets/js/modules/mantenedor-comun.js"></script>
+  <script defer src="../assets/js/app.js"></script>
+</body>
+</html>
