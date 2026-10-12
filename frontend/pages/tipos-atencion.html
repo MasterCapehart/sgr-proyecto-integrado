@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tipos de atención · SGR</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body data-page="tipos-atencion" data-base-path="../">
+  <a class="skip-link" href="#main-content">Saltar al contenido</a>
+
+  <header class="header" id="site-header"></header>
+
+  <div class="layout">
+    <aside class="sidebar" id="site-sidebar"></aside>
+
+    <main class="content" id="main-content">
+      <div class="crumb">SGR / Catálogos / Tipos de atención</div>
+
+      <div class="head">
+        <div>
+          <p class="eyebrow">Catálogo y administración</p>
+          <h1>Tipos de atención</h1>
+          <p class="sub">Catálogo padre de categorías principales para la atención ciudadana en delegaciones.</p>
+        </div>
+        <button class="button" type="button" id="btn-nuevo">+ Nuevo tipo</button>
+      </div>
+
+      <div class="notice" style="margin-bottom: 24px;">
+        Catálogo principal (padre): cada tipo de atención agrupa subatenciones específicas. No se desactivan tipos que contengan atenciones ciudadanas vigentes.
+      </div>
+
+      <div class="card" style="padding: 0; margin-bottom: 24px;">
+        <div class="toolbar">
+          <label for="search-input">
+            <span>Buscar tipos</span>
+            <input type="search" id="search-input" placeholder="Buscar por código, nombre o descripción...">
+          </label>
+          <label for="status-filter" style="max-width: 180px;">
+            <span>Estado</span>
+            <select id="status-filter">
+              <option value="todos">Todos</option>
+              <option value="activo">Activo</option>
+              <option value="inactivo">Inactivo</option>
+            </select>
+          </label>
+          <button type="button" class="button secondary" id="btn-export">↓ Exportar a Excel</button>
+        </div>
+
+        <div class="tablewrap">
+          <table aria-label="Listado de tipos de atención">
+            <thead>
+              <tr>
+                <th scope="col">Código</th>
+                <th scope="col">Tipo de Atención</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="table-body">
+              <tr data-status="activo">
+                <td><strong>TA01</strong></td>
+                <td>Social</td>
+                <td>Atención ciudadana y asistencia social comunitaria</td>
+                <td><span class="badge green">Activo</span></td>
+                <td>
+                  <button type="button" class="linkbtn" data-action="ver" data-id="TA01">Ver</button> · 
+                  <button type="button" class="linkbtn" data-action="editar" data-id="TA01">Editar</button> · 
+                  <button type="button" class="linkbtn" data-action="desactivar" data-id="TA01">Desactivar</button>
+                </td>
+              </tr>
+              <tr data-status="activo">
+                <td><strong>TA02</strong></td>
+                <td>Territorial</td>
+                <td>Gestiones territoriales, juntas de vecinos y operativos</td>
+                <td><span class="badge green">Activo</span></td>
+                <td>
+                  <button type="button" class="linkbtn" data-action="ver" data-id="TA02">Ver</button> · 
+                  <button type="button" class="linkbtn" data-action="editar" data-id="TA02">Editar</button> · 
+                  <button type="button" class="linkbtn" data-action="desactivar" data-id="TA02">Desactivar</button>
+                </td>
+              </tr>
+              <tr data-status="activo">
+                <td><strong>TA03</strong></td>
+                <td>Orientación Jurídica</td>
+                <td>Información y asesoría jurídica vecinal</td>
+                <td><span class="badge green">Activo</span></td>
+                <td>
+                  <button type="button" class="linkbtn" data-action="ver" data-id="TA03">Ver</button> · 
+                  <button type="button" class="linkbtn" data-action="editar" data-id="TA03">Editar</button> · 
+                  <button type="button" class="linkbtn" data-action="desactivar" data-id="TA03">Desactivar</button>
+                </td>
+              </tr>
+              <tr data-status="inactivo">
+                <td><strong>TA04</strong></td>
+                <td>Tipo en Revisión</td>
+                <td>Categoría de prueba en proceso de aprobación</td>
+                <td><span class="badge red">Inactivo</span></td>
+                <td>
+                  <button type="button" class="linkbtn" data-action="ver" data-id="TA04">Ver</button> · 
+                  <button type="button" class="linkbtn" data-action="editar" data-id="TA04">Editar</button> · 
+                  <button type="button" class="linkbtn" data-action="activar" data-id="TA04">Activar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pager">
+          <span id="page-info">Mostrando 4 registros</span>
+          <div class="pagebuttons">
+            <button type="button" class="button small secondary" disabled>Anterior</button>
+            <button type="button" class="button small">1</button>
+            <button type="button" class="button small secondary" disabled>Siguiente</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Dialog Editor -->
+      <dialog id="modal-editor">
+        <form id="form-editor" method="dialog" novalidate>
+          <div class="modalhead">
+            <h2 id="modal-title">Nuevo Tipo de Atención</h2>
+            <button type="button" class="linkbtn" id="modal-close" style="font-size: 16px;">✕</button>
+          </div>
+          <div class="modalbody grid">
+            <div class="field">
+              <label for="campo-codigo">Código <span class="required" aria-hidden="true">*</span></label>
+              <input type="text" id="campo-codigo" name="codigo" placeholder="ej. TA05" required>
+            </div>
+            <div class="field">
+              <label for="campo-nombre">Nombre <span class="required" aria-hidden="true">*</span></label>
+              <input type="text" id="campo-nombre" name="nombre" placeholder="ej. Medioambiental" required>
+            </div>
+            <div class="field full">
+              <label for="campo-desc">Descripción <span class="required" aria-hidden="true">*</span></label>
+              <input type="text" id="campo-desc" name="descripcion" placeholder="Descripción del tipo de atención" required>
+            </div>
+            <div class="field full">
+              <label for="campo-estado">Estado del tipo</label>
+              <select id="campo-estado" name="estado">
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
+              </select>
+            </div>
+          </div>
+          <div class="modalfoot">
+            <button type="button" class="button secondary" id="modal-cancel">Cancelar</button>
+            <button type="submit" class="button primary" id="modal-save">Guardar tipo</button>
+          </div>
+        </form>
+      </dialog>
+
+      <footer class="footer">SGR · Municipalidad de La Serena · Catálogo M-18</footer>
+    </main>
+  </div>
+
+  <script defer src="../assets/vendor/sweetalert2.min.js"></script>
+  <script defer src="../assets/js/components/layout.js"></script>
+  <script defer src="../assets/js/modules/mantenedor-comun.js"></script>
+  <script defer src="../assets/js/app.js"></script>
+</body>
+</html>

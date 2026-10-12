@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Subatenciones · SGR</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body data-page="subatenciones" data-base-path="../">
+  <a class="skip-link" href="#main-content">Saltar al contenido</a>
+
+  <header class="header" id="site-header"></header>
+
+  <div class="layout">
+    <aside class="sidebar" id="site-sidebar"></aside>
+
+    <main class="content" id="main-content">
+      <div class="crumb">SGR / Catálogos / Subatenciones</div>
+
+      <div class="head">
+        <div>
+          <p class="eyebrow">Catálogo y administración</p>
+          <h1>Subatenciones</h1>
+          <p class="sub">Catálogo hijo dependiente de Tipos de Atención. Define los motivos específicos de atención ciudadana.</p>
+        </div>
+        <button class="button" type="button" id="btn-nuevo">+ Nueva subatención</button>
+      </div>
+
+      <div class="notice" style="margin-bottom: 24px;">
+        Dependencia esencial (Sección 11 de la Guía): cada subatención debe pertenecer estrictamente a un Tipo de Atención activo. Al desactivar un tipo padre, sus subatenciones quedan restringidas.
+      </div>
+
+      <div class="card" style="padding: 0; margin-bottom: 24px;">
+        <div class="toolbar">
+          <label for="search-input">
+            <span>Buscar subatenciones</span>
+            <input type="search" id="search-input" placeholder="Buscar por código, nombre o tipo padre...">
+          </label>
+          <label for="status-filter" style="max-width: 180px;">
+            <span>Estado</span>
+            <select id="status-filter">
+              <option value="todos">Todos</option>
+              <option value="activo">Activo</option>
+              <option value="inactivo">Inactivo</option>
+            </select>
+          </label>
+          <button type="button" class="button secondary" id="btn-export">↓ Exportar a Excel</button>
+        </div>
+
+        <div class="tablewrap">
+          <table aria-label="Listado de subatenciones">
+            <thead>
+              <tr>
+                <th scope="col">Código</th>
+                <th scope="col">Nombre de la Subatención</th>
+                <th scope="col">Tipo de Atención (Padre)</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="table-body">
+              <tr data-status="activo">
+                <td><strong>SA01</strong></td>
+                <td>Orientación y Asistencia Social Directa</td>
+                <td>TA01 · Social</td>
+                <td><span class="badge green">Activo</span></td>
+                <td>
+                  <button type="button" class="linkbtn" data-action="ver" data-id="SA01">Ver</button> · 
+                  <button type="button" class="linkbtn" data-action="editar" data-id="SA01">Editar</button> · 
+                  <button type="button" class="linkbtn" data-action="desactivar" data-id="SA01">Desactivar</button>
+                </td>
+              </tr>
+              <tr data-status="activo">
+                <td><strong>SA02</strong></td>
+                <td>Subsidios y Beneficios Municipales</td>
+                <td>TA01 · Social</td>
+                <td><span class="badge green">Activo</span></td>
+                <td>
+                  <button type="button" class="linkbtn" data-action="ver" data-id="SA02">Ver</button> · 
+                  <button type="button" class="linkbtn" data-action="editar" data-id="SA02">Editar</button> · 
+                  <button type="button" class="linkbtn" data-action="desactivar" data-id="SA02">Desactivar</button>
+                </td>
+              </tr>
+              <tr data-status="activo">
+                <td><strong>SA03</strong></td>
+                <td>Solicitud de Operativo Territorial</td>
+                <td>TA02 · Territorial</td>
+                <td><span class="badge green">Activo</span></td>
+                <td>
+                  <button type="button" class="linkbtn" data-action="ver" data-id="SA03">Ver</button> · 
+                  <button type="button" class="linkbtn" data-action="editar" data-id="SA03">Editar</button> · 
+                  <button type="button" class="linkbtn" data-action="desactivar" data-id="SA03">Desactivar</button>
+                </td>
+              </tr>
+              <tr data-status="inactivo">
+                <td><strong>SA04</strong></td>
+                <td>Asesoría Especializada en Revisión</td>
+                <td>TA03 · Orientación Jurídica</td>
+                <td><span class="badge red">Inactivo</span></td>
+                <td>
+                  <button type="button" class="linkbtn" data-action="ver" data-id="SA04">Ver</button> · 
+                  <button type="button" class="linkbtn" data-action="editar" data-id="SA04">Editar</button> · 
+                  <button type="button" class="linkbtn" data-action="activar" data-id="SA04">Activar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pager">
+          <span id="page-info">Mostrando 4 registros</span>
+          <div class="pagebuttons">
+            <button type="button" class="button small secondary" disabled>Anterior</button>
+            <button type="button" class="button small">1</button>
+            <button type="button" class="button small secondary" disabled>Siguiente</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Dialog Editor -->
+      <dialog id="modal-editor">
+        <form id="form-editor" method="dialog" novalidate>
+          <div class="modalhead">
+            <h2 id="modal-title">Nueva Subatención</h2>
+            <button type="button" class="linkbtn" id="modal-close" style="font-size: 16px;">✕</button>
+          </div>
+          <div class="modalbody grid">
+            <div class="field">
+              <label for="campo-codigo">Código <span class="required" aria-hidden="true">*</span></label>
+              <input type="text" id="campo-codigo" name="codigo" placeholder="ej. SA05" required>
+            </div>
+            <div class="field">
+              <label for="campo-nombre">Nombre de la Subatención <span class="required" aria-hidden="true">*</span></label>
+              <input type="text" id="campo-nombre" name="nombre" placeholder="ej. Mediación Vecinal" required>
+            </div>
+            <div class="field full">
+              <label for="campo-padre">Tipo de Atención (Catálogo Padre) <span class="required" aria-hidden="true">*</span></label>
+              <select id="campo-padre" name="tipo_padre" required>
+                <option value="TA01 · Social">TA01 · Social</option>
+                <option value="TA02 · Territorial">TA02 · Territorial</option>
+                <option value="TA03 · Orientación Jurídica">TA03 · Orientación Jurídica</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label for="campo-estado">Estado</label>
+              <select id="campo-estado" name="estado">
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
+              </select>
+            </div>
+          </div>
+          <div class="modalfoot">
+            <button type="button" class="button secondary" id="modal-cancel">Cancelar</button>
+            <button type="submit" class="button primary" id="modal-save">Guardar subatención</button>
+          </div>
+        </form>
+      </dialog>
+
+      <footer class="footer">SGR · Municipalidad de La Serena · Catálogo M-19</footer>
+    </main>
+  </div>
+
+  <script defer src="../assets/vendor/sweetalert2.min.js"></script>
+  <script defer src="../assets/js/components/layout.js"></script>
+  <script defer src="../assets/js/modules/mantenedor-comun.js"></script>
+  <script defer src="../assets/js/app.js"></script>
+</body>
+</html>
