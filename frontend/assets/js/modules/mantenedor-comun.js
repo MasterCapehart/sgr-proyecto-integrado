@@ -190,11 +190,14 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnNuevo && modal) {
     btnNuevo.addEventListener('click', async () => {
       currentEditId = null;
+      const isMasculine = (pageId === 'items-metas');
       const singularName = pageId === 'subatenciones' ? 'Subatención' 
         : pageId === 'tipos-atencion' ? 'Tipo de Atención' 
+        : pageId === 'items-metas' ? 'Ítem'
         : 'registro';
 
-      if (modalTitle) modalTitle.textContent = `Nueva ${singularName}`;
+      const prefix = isMasculine ? 'Nuevo' : 'Nueva';
+      if (modalTitle) modalTitle.textContent = `${prefix} ${singularName}`;
       if (formEditor) {
         formEditor.reset();
         const inputEstado = formEditor.elements['estado'];
@@ -407,6 +410,7 @@ document.addEventListener('DOMContentLoaded', () => {
             currentEditId = id;
             const singularName = pageId === 'subatenciones' ? 'Subatención' 
               : pageId === 'tipos-atencion' ? 'Tipo de Atención' 
+              : pageId === 'items-metas' ? 'Ítem'
               : 'registro';
 
             if (modalTitle) modalTitle.textContent = `Editar ${singularName} (${data.data.codigo})`;

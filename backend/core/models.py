@@ -53,3 +53,33 @@ class SubAtencion(CatalogoBase):
 
     def __str__(self):
         return f"{self.codigo} - {self.nombre} ({self.tipo_atencion.codigo})"
+
+
+class ItemMeta(CatalogoBase):
+    """
+    Catálogo de Ítems medibles y criterios de evaluación SGR (Tarea T16).
+    Mapea a los indicadores y conceptos operativos para el cálculo de resultados.
+    """
+    unidad_medida = models.CharField(max_length=50, default='Cantidad', blank=True)
+
+    class Meta:
+        verbose_name = 'Ítem y Meta'
+        verbose_name_plural = 'Ítems y Metas'
+
+    def __str__(self):
+        return f"{self.codigo} - {self.nombre}"
+
+
+class ConfiguracionMeta(models.Model):
+    """
+    Asignación y alcance de metas por período e ítem medible (Tarea T16).
+    Conserva la historia y valida referencias sin fórmulas inventadas.
+    """
+    item = models.ForeignKey(ItemMeta, on_delete=models.PROTECT, related_name='configuraciones_meta')
+    periodo = models.CharField(max_length=50, default='2026-Anual')
+    meta_esperada = models.DecimalField(max_digits=10, decimal_places=2, default=100.00)
+    ponderacion = models.DecimalField(max_digits=5, decimal_places=2, default=10.00)
+    estado = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"Meta {self.item.codigo} ({self.periodo}): {self.meta_esperada}"

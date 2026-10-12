@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
 
-from .models import Usuario, TipoAtencion, SubAtencion, Delegacion
+from .models import Usuario, TipoAtencion, SubAtencion, Delegacion, ItemMeta, ConfiguracionMeta
 from .api import BaseCRUDView
 
 # ==========================================
@@ -273,6 +273,106 @@ class SubAtencionCRUDView(BaseCRUDView):
                 item.codigo,
                 item.nombre,
                 padre_str,
+                "Activo" if item.estado else "Inactivo"
+            ])
+
+        return response
+
+
+class ItemMetaCRUDView(BaseCRUDView):
+    """
+    CRUD completo de Ítems y Metas (Tarea T16).
+    Gestiona los conceptos e indicadores medibles del SGR con:
+    - Validación de campos obligatorios y duplicados (código y nombre).
+    - Conservación de historia y validación de referencias hacia ConfiguracionMeta.
+    - Exportación a Excel/CSV.
+    """
+    model = ItemMeta
+    fields = ["codigo", "nombre", "descripcion", "unidad_medida", "estado"]
+    search_fields = ["codigo", "nombre", "descripcion"]
+    ordering = ["codigo"]
+
+    def validate_payload(self, data, instance=None):
+        errors = super().validate_payload(data, instance=instance)
+
+        # Validación de duplicados en código
+        codigo = data.get("codigo")
+        if codigo:
+            qs_codigo = ItemMeta.objects.filter(codigo__iexact=str(codigo).strip())
+            if instance:
+                qs_codigo = qs_codigo.exclude(pk=instance.pk)
+            if qs_codigo.exists():
+                errors.setdefault("codigo", []).append("Ya existe un ítem con este código.")
+
+        # Validación de duplicados en nombre
+        nombre = data.get("nombre")
+        if nombre:
+            qs_nombre = ItemMeta.objects.filter(nombre__iexact=str(nombre).strip())
+            if instance:
+                qs_nombre = qs_nombre.exclude(pk=instance.pk)
+            if qs_nombre.exists():
+                errors.setdefault("nombre", []).append("Ya existe un ítem con este nombre.")
+
+        return errors
+
+    def delete(self, request, pk=None, *args, **kwargs):
+        """Impide desactivar si posee metas configuradas activas (Criterio T16)."""
+        try:
+            instance = self.get_queryset().get(pk=pk)
+        except self.model.DoesNotExist:
+            from .api import api_error
+            return api_error(code="NOT_FOUND", message=f"El ítem con ID {pk} no existe.", status=404)
+
+        if hasattr(instance, "configuraciones_meta") and instance.configuraciones_meta.filter(estado=True).exists():
+            from .api import api_error
+            return api_error(
+                code="HAS_ACTIVE_DEPENDENCIES",
+                message="No se puede desactivar este ítem porque posee metas activas asignadas. Desactive primero las configuraciones de meta asociadas.",
+                status=400
+            )
+
+        return super().delete(request, pk=pk, *args, **kwargs)
+
+    def toggle_estado(self, request, pk):
+        """Impide alternar a inactivo si posee referencias dependientes activas (Criterio T16)."""
+        try:
+            instance = self.get_queryset().get(pk=pk)
+        except self.model.DoesNotExist:
+            from .api import api_error
+            return api_error(code="NOT_FOUND", message=f"El ítem con ID {pk} no existe.", status=404)
+
+        if instance.estado:
+            if hasattr(instance, "configuraciones_meta") and instance.configuraciones_meta.filter(estado=True).exists():
+                from .api import api_error
+                return api_error(
+                    code="HAS_ACTIVE_DEPENDENCIES",
+                    message="No se puede desactivar este ítem porque posee metas activas asignadas. Desactive primero las configuraciones de meta asociadas.",
+                    status=400
+                )
+
+        return super().toggle_estado(request, pk)
+
+    def export(self, request):
+        """Exporta ítems y metas a CSV compatible con Excel."""
+        import csv
+        from django.http import HttpResponse
+
+        qs = self.filter_queryset(self.get_queryset())
+        filename = "items_metas_export.csv"
+
+        response = HttpResponse(content_type="text/csv; charset=utf-8-sig")
+        response["Content-Disposition"] = f'attachment; filename="{filename}"'
+
+        writer = csv.writer(response)
+        writer.writerow(["ID", "Código", "Nombre del Ítem", "Descripción Operativa", "Unidad de Medida", "Estado"])
+
+        for item in qs:
+            writer.writerow([
+                item.pk,
+                item.codigo,
+                item.nombre,
+                item.descripcion or "",
+                item.unidad_medida,
                 "Activo" if item.estado else "Inactivo"
             ])
 
