@@ -38,4 +38,17 @@ class CatalogoBase(models.Model):
         abstract = True
 
 class TipoAtencion(CatalogoBase):
-    pass
+    def __str__(self):
+        return f"{self.codigo} - {self.nombre}"
+
+
+class SubAtencion(CatalogoBase):
+    """Catálogo hijo vinculado al catálogo padre TipoAtencion (Tarea T14 / T15)."""
+    tipo_atencion = models.ForeignKey(
+        TipoAtencion,
+        on_delete=models.PROTECT,
+        related_name='subatenciones'
+    )
+
+    def __str__(self):
+        return f"{self.codigo} - {self.nombre} ({self.tipo_atencion.codigo})"

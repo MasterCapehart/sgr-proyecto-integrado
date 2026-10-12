@@ -32,6 +32,11 @@ def api_error(code="BAD_REQUEST", message="Ocurrió un error en la solicitud", d
     return JsonResponse(payload, status=status)
 
 
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+
+
+@method_decorator(csrf_exempt, name='dispatch')
 class BaseCRUDView(View):
     """
     Clase base reusable para vistas CRUD según el Patrón Común de API (Tarea T04).
@@ -116,11 +121,47 @@ class BaseCRUDView(View):
 
         return qs
 
-    def get(self, request, pk=None, *args, **kwargs):
-        """Maneja listado paginado o detalle de registro individual."""
+    def get(self, request, pk=None, action=None, *args, **kwargs):
+        """Maneja listado paginado, detalle o exportación a Excel/CSV."""
+        if action == "export":
+            return self.export(request)
         if pk is not None:
             return self.retrieve(request, pk)
         return self.list(request)
+
+    def export(self, request):
+        """Exporta los registros filtrados a formato CSV compatible directamente con Excel."""
+        import csv
+        from django.http import HttpResponse
+
+        qs = self.filter_queryset(self.get_queryset())
+        filename = f"{self.model._meta.model_name}_export.csv"
+
+        response = HttpResponse(content_type="text/csv; charset=utf-8-sig")
+        response["Content-Disposition"] = f'attachment; filename="{filename}"'
+
+        writer = csv.writer(response)
+        field_labels = {
+            "codigo": "Código",
+            "nombre": "Nombre",
+            "descripcion": "Descripción",
+            "estado": "Estado",
+            "direccion": "Dirección",
+            "comuna": "Comuna"
+        }
+        headers = ["ID"] + [field_labels.get(f, f.replace("_", " ").title()) for f in self.fields]
+        writer.writerow(headers)
+
+        for item in qs:
+            row = [item.pk]
+            for f in self.fields:
+                val = getattr(item, f, "")
+                if isinstance(val, bool):
+                    val = "Activo" if val else "Inactivo"
+                row.append(str(val) if val is not None else "")
+            writer.writerow(row)
+
+        return response
 
     def list(self, request):
         """Retorna listado paginado según el contrato común."""
