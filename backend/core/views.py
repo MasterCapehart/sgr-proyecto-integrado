@@ -1,14 +1,15 @@
 import json
+import random
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.core.mail import send_mail
 
-from .models import TipoAtencion, Delegacion
+from .models import Usuario, TipoAtencion, Delegacion
 from .api import BaseCRUDView
 
-
 # ==========================================
-# 1. Autenticación (Login / Logout - T05)
+# 1. Autenticación y Recuperación
 # ==========================================
 
 @csrf_exempt
@@ -40,6 +41,43 @@ def logout_view(request):
     if request.method == 'POST':
         logout(request)
         return JsonResponse({'mensaje': 'Logout exitoso'}, status=200)
+    return JsonResponse({'error': 'Método no permitido. Use POST.'}, status=405)
+
+
+@csrf_exempt
+def solicitar_recuperacion(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            email = data.get('email')
+            
+            if not email:
+                return JsonResponse({'error': 'El correo es obligatorio'}, status=400)
+            
+            # Buscar si el usuario existe
+            usuario = Usuario.objects.filter(email=email).first()
+            
+            if usuario:
+                # Generar código de 6 dígitos
+                codigo = str(random.randint(100000, 999999))
+                usuario.codigo_recuperacion = codigo
+                usuario.save()
+                
+                # Simular el envío del correo en la consola
+                send_mail(
+                    'Código de Recuperación - SGR',
+                    f'Hola {usuario.username},\n\nTu código de recuperación es: {codigo}\n\nSi no solicitaste esto, ignora este correo.',
+                    'soporte@sgr.cl',
+                    [email],
+                    fail_silently=False,
+                )
+            
+            # Siempre devolvemos el mismo mensaje por seguridad (evita enumeración de usuarios)
+            return JsonResponse({'mensaje': 'Si el correo está registrado, recibirás un código pronto.'}, status=200)
+            
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Formato JSON inválido'}, status=400)
+            
     return JsonResponse({'error': 'Método no permitido. Use POST.'}, status=405)
 
 

@@ -23,6 +23,7 @@ class Usuario(AbstractUser):
     rut = models.CharField(max_length=12, unique=True, null=True, blank=True)
     rol = models.ForeignKey(Rol, on_delete=models.SET_NULL, null=True, blank=True)
     delegacion = models.ForeignKey(Delegacion, on_delete=models.SET_NULL, null=True, blank=True)
+    codigo_recuperacion = models.CharField(max_length=6, null=True, blank=True) # <-- Aquí está el campo nuevo
     
     def __str__(self):
         return f"{self.username} - {self.get_full_name()}"
