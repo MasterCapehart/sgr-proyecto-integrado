@@ -1,11 +1,13 @@
 import json
 import random
+from django.db import models, transaction
+from django.views import View
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
 
-from .models import Usuario, TipoAtencion, SubAtencion, Delegacion, ItemMeta, ConfiguracionMeta
+from .models import Usuario, TipoAtencion, SubAtencion, Delegacion, ItemMeta, ConfiguracionMeta, Atencion
 from .api import BaseCRUDView
 
 # ==========================================
@@ -188,6 +190,17 @@ class SubAtencionCRUDView(BaseCRUDView):
 
     def get_queryset(self):
         return SubAtencion.objects.select_related("tipo_atencion").all()
+
+    def filter_queryset(self, qs):
+        qs = super().filter_queryset(qs)
+        tipo_id = self.request.GET.get("tipo_atencion") or self.request.GET.get("tipo_padre")
+        if tipo_id:
+            if str(tipo_id).isdigit():
+                qs = qs.filter(tipo_atencion_id=int(tipo_id))
+            else:
+                cod_candidate = str(tipo_id).split("·")[0].strip()
+                qs = qs.filter(models.Q(tipo_atencion__codigo__iexact=cod_candidate) | models.Q(tipo_atencion__nombre__iexact=str(tipo_id).strip()))
+        return qs
 
     def serialize_instance(self, instance):
         data = super().serialize_instance(instance)
@@ -377,3 +390,259 @@ class ItemMetaCRUDView(BaseCRUDView):
             ])
 
         return response
+
+
+# ==========================================
+# 5. Registro y Operación de Atención Ciudadana (Tarea T17)
+# ==========================================
+
+class AtencionContextoView(View):
+    """
+    Retorna el contexto institucional de sesión del funcionario y la delegación (Tarea T17).
+    Garantiza que la delegación de origen, el responsable y la fecha se resuelvan desde el servidor.
+    """
+    def get(self, request, *args, **kwargs):
+        user = getattr(request, 'user', None)
+        if user and not getattr(user, 'is_authenticated', False):
+            user = None
+        if not user:
+            user = Usuario.objects.filter(is_active=True).first()
+
+        delegacion = getattr(user, 'delegacion', None) if user else None
+        if not delegacion:
+            delegacion = Delegacion.objects.filter(estado=True).first()
+
+        from django.utils import timezone
+        ahora = timezone.now()
+
+        user_display = (
+            f"{user.get_full_name() or user.username} ({user.rol.nombre if user.rol else 'Funcionario Municipal'})"
+            if user else "Funcionario Municipal"
+        )
+        delegacion_display = delegacion.nombre if delegacion else "Delegación Las Compañías"
+
+        return JsonResponse({
+            "success": True,
+            "data": {
+                "usuario": {
+                    "id": user.id if user else None,
+                    "username": user.username if user else "operador",
+                    "nombre_completo": user.get_full_name() if (user and user.get_full_name()) else (user.username if user else "Funcionario"),
+                    "rol": user.rol.nombre if (user and user.rol) else "Operador Territorial",
+                    "display": user_display
+                },
+                "delegacion": {
+                    "id": delegacion.id if delegacion else None,
+                    "nombre": delegacion.nombre if delegacion else "Delegación Las Compañías",
+                    "display": delegacion_display
+                },
+                "fecha_servidor": ahora.isoformat(),
+                "fecha_display": ahora.strftime("%d/%m/%Y %H:%M"),
+                "folio_estimado": "Asignado automáticamente al guardar (AT-YYYY-XXXX)"
+            }
+        }, status=200)
+
+
+class AtencionCRUDView(BaseCRUDView):
+    """
+    CRUD y Registro de Atención Ciudadana (Tarea T17).
+    - Asigna folio real único generado en el servidor (AT-YYYY-XXXX).
+    - Valida existencia y estado activo de TipoAtencion y SubAtencion.
+    - Valida compatibilidad estricta: subatención debe pertenecer al tipo seleccionado.
+    - Asigna automáticamente autor (usuario) y delegación de origen desde el contexto del servidor.
+    - Persiste en MySQL y retorna ID y folio reales.
+    """
+    model = Atencion
+    fields = ["solicitante", "descripcion", "caso_social"]
+    search_fields = ["folio", "solicitante", "descripcion", "tipo_atencion__nombre", "sub_atencion__nombre"]
+    ordering = ["-id"]
+
+    def get_queryset(self):
+        return Atencion.objects.select_related("tipo_atencion", "sub_atencion", "delegacion", "usuario").all()
+
+    def serialize_instance(self, instance):
+        return {
+            "id": instance.pk,
+            "folio": instance.folio,
+            "codigo_atencion": instance.folio,
+            "solicitante": instance.solicitante,
+            "tipo_atencion": {
+                "id": instance.tipo_atencion.pk,
+                "codigo": instance.tipo_atencion.codigo,
+                "nombre": instance.tipo_atencion.nombre,
+                "display": f"{instance.tipo_atencion.codigo} · {instance.tipo_atencion.nombre}"
+            },
+            "sub_atencion": {
+                "id": instance.sub_atencion.pk,
+                "codigo": instance.sub_atencion.codigo,
+                "nombre": instance.sub_atencion.nombre,
+                "display": f"{instance.sub_atencion.codigo} · {instance.sub_atencion.nombre}"
+            },
+            "descripcion": instance.descripcion,
+            "delegacion": {
+                "id": instance.delegacion.pk,
+                "nombre": instance.delegacion.nombre
+            },
+            "usuario": {
+                "id": instance.usuario.pk,
+                "nombre": instance.usuario.get_full_name() or instance.usuario.username
+            },
+            "caso_social": instance.caso_social or "",
+            "numero_gestion": instance.numero_gestion,
+            "fecha_registro": instance.fecha_registro.isoformat() if instance.fecha_registro else None,
+            "estado": instance.estado
+        }
+
+    def _generar_folio(self):
+        """Genera un folio correlativo único e incremental para el año actual."""
+        from django.utils import timezone
+        anio = timezone.now().year
+        prefijo = f"AT-{anio}-"
+        ultimo = Atencion.objects.filter(folio__startswith=prefijo).order_by("-id").first()
+        if ultimo and ultimo.folio:
+            try:
+                num = int(ultimo.folio.split("-")[-1]) + 1
+            except (ValueError, IndexError):
+                num = Atencion.objects.count() + 1
+        else:
+            num = 1
+        return f"{prefijo}{num:04d}"
+
+    def post(self, request, pk=None, action=None, *args, **kwargs):
+        if action == "toggle-estado" and pk is not None:
+            return self.toggle_estado(request, pk)
+
+        from .api import api_error, api_success
+
+        data = request.json_data
+        errors = {}
+
+        # 1. Validar solicitante
+        solicitante = str(data.get("solicitante") or "").strip()
+        if not solicitante:
+            errors.setdefault("solicitante", []).append("El nombre o RUT del solicitante es obligatorio.")
+
+        # 2. Validar descripción
+        descripcion = str(data.get("descripcion") or "").strip()
+        if not descripcion:
+            errors.setdefault("descripcion", []).append("La descripción de la atención es obligatoria.")
+
+        # 3. Validar TipoAtencion (catálogo padre)
+        tipo_id = data.get("tipo_atencion") or data.get("tipo")
+        tipo_obj = None
+        if not tipo_id:
+            errors.setdefault("tipo_atencion", []).append("Debe seleccionar un Tipo de Atención.")
+        else:
+            if str(tipo_id).isdigit():
+                tipo_obj = TipoAtencion.objects.filter(pk=int(tipo_id)).first()
+            else:
+                cod_candidate = str(tipo_id).split("·")[0].strip()
+                tipo_obj = TipoAtencion.objects.filter(
+                    models.Q(codigo__iexact=cod_candidate) | models.Q(nombre__iexact=str(tipo_id).strip())
+                ).first()
+
+            if not tipo_obj:
+                errors.setdefault("tipo_atencion", []).append("El Tipo de Atención indicado no existe.")
+            elif not tipo_obj.estado:
+                errors.setdefault("tipo_atencion", []).append("El Tipo de Atención seleccionado está inactivo. Debe seleccionar un catálogo activo.")
+
+        # 4. Validar SubAtencion (catálogo hijo)
+        sub_id = data.get("sub_atencion") or data.get("subtipo")
+        sub_obj = None
+        if not sub_id:
+            errors.setdefault("sub_atencion", []).append("Debe seleccionar una Subatención específica.")
+        else:
+            if str(sub_id).isdigit():
+                sub_obj = SubAtencion.objects.filter(pk=int(sub_id)).first()
+            else:
+                cod_candidate = str(sub_id).split("·")[0].strip()
+                sub_obj = SubAtencion.objects.filter(
+                    models.Q(codigo__iexact=cod_candidate) | models.Q(nombre__iexact=str(sub_id).strip())
+                ).first()
+
+            if not sub_obj:
+                errors.setdefault("sub_atencion", []).append("La Subatención indicada no existe.")
+            elif not sub_obj.estado:
+                errors.setdefault("sub_atencion", []).append("La Subatención seleccionada está inactiva. Debe seleccionar una subatención activa.")
+            elif tipo_obj and sub_obj.tipo_atencion_id != tipo_obj.pk:
+                errors.setdefault("sub_atencion", []).append(f"La subatención '{sub_obj.nombre}' no pertenece al tipo de atención '{tipo_obj.nombre}'.")
+
+        if errors:
+            return api_error(
+                code="VALIDATION_ERROR",
+                message="Error de validación al registrar atención ciudadana.",
+                details=errors,
+                status=400
+            )
+
+        # 5. Resolver autor y delegación institucional desde el servidor (inmutables)
+        usuario = getattr(request, 'user', None)
+        if usuario and not getattr(usuario, 'is_authenticated', False):
+            usuario = None
+        if not usuario:
+            usuario = Usuario.objects.filter(is_active=True).first()
+
+        delegacion = getattr(usuario, "delegacion", None) if usuario else None
+        if not delegacion:
+            delegacion = Delegacion.objects.filter(estado=True).first()
+
+        if not usuario or not delegacion:
+            return api_error(
+                code="SERVER_CONTEXT_ERROR",
+                message="No se pudo determinar el contexto de usuario o delegación en el servidor.",
+                status=500
+            )
+
+        # 6. Transacción atómica para asignar folio correlativo y persistir
+        with transaction.atomic():
+            folio_real = self._generar_folio()
+            caso_social = str(data.get("caso_social") or "").strip() or None
+
+            atencion = Atencion.objects.create(
+                folio=folio_real,
+                solicitante=solicitante,
+                tipo_atencion=tipo_obj,
+                sub_atencion=sub_obj,
+                descripcion=descripcion,
+                delegacion=delegacion,
+                usuario=usuario,
+                caso_social=caso_social,
+                estado=True
+            )
+
+        return api_success(
+            data=self.serialize_instance(atencion),
+            message=f"Atención ciudadana registrada exitosamente con folio {atencion.folio}.",
+            status=201
+        )
+
+    def export(self, request):
+        """Exporta atenciones ciudadanas a CSV compatible con Excel."""
+        import csv
+        from django.http import HttpResponse
+
+        qs = self.filter_queryset(self.get_queryset())
+        filename = "atenciones_export.csv"
+
+        response = HttpResponse(content_type="text/csv; charset=utf-8-sig")
+        response["Content-Disposition"] = f'attachment; filename="{filename}"'
+
+        writer = csv.writer(response)
+        writer.writerow(["ID", "Folio", "Solicitante", "Tipo de Atención", "Subatención", "Delegación", "Funcionario", "Fecha Registro", "Caso Social", "Estado"])
+
+        for a in qs:
+            writer.writerow([
+                a.pk,
+                a.folio,
+                a.solicitante,
+                a.tipo_atencion.nombre if a.tipo_atencion else "",
+                a.sub_atencion.nombre if a.sub_atencion else "",
+                a.delegacion.nombre if a.delegacion else "",
+                a.usuario.get_full_name() or a.usuario.username if a.usuario else "",
+                a.fecha_registro.strftime("%Y-%m-%d %H:%M:%S") if a.fecha_registro else "",
+                a.caso_social or "",
+                "Activo" if a.estado else "Inactivo"
+            ])
+
+        return response
+
