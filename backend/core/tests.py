@@ -278,3 +278,180 @@ class PatronCRUDAPITestCase(TestCase):
         self.assertIn("Código", content)
         self.assertIn("Nombre", content)
 
+    # =======================================================
+    # Pruebas Específicas T15: Catálogo Hijo SubAtencion
+    # =======================================================
+
+    def test_subatencion_list_with_parent_display(self):
+        """T15: Verifica que el listado de subatenciones incluya la información del tipo padre."""
+        parent = TipoAtencion.objects.filter(estado=True).first()
+        from .models import SubAtencion
+        sub = SubAtencion.objects.create(
+            tipo_atencion=parent,
+            codigo="SA-TEST-01",
+            nombre="Subatención Test",
+            estado=True
+        )
+
+        response = self.client.get("/api/subatenciones/")
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertTrue(data["success"])
+        
+        found = next((item for item in data["results"] if item["codigo"] == "SA-TEST-01"), None)
+        self.assertIsNotNone(found)
+        self.assertEqual(found["tipo_atencion"], parent.pk)
+        self.assertEqual(found["tipo_padre_display"], f"{parent.codigo} · {parent.nombre}")
+
+    def test_subatencion_search_by_parent_name(self):
+        """T15: Verifica la búsqueda de subatenciones filtrando por el nombre del catálogo padre."""
+        parent = TipoAtencion.objects.filter(estado=True).first()
+        from .models import SubAtencion
+        SubAtencion.objects.create(
+            tipo_atencion=parent,
+            codigo="SA-SEARCH-01",
+            nombre="Búsqueda Especializada",
+            estado=True
+        )
+
+        response = self.client.get(f"/api/subatenciones/?search={parent.nombre}")
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertTrue(any(item["codigo"] == "SA-SEARCH-01" for item in data["results"]))
+
+    def test_subatencion_create_success_with_active_parent(self):
+        """T15: Verifica creación exitosa de subatención asociando un catálogo padre activo."""
+        parent = TipoAtencion.objects.filter(estado=True).first()
+        payload = {
+            "codigo": "SA-NUEVA-01",
+            "nombre": "Nueva Subatención Exitosa",
+            "tipo_atencion": parent.pk,
+            "estado": True
+        }
+        response = self.client.post(
+            "/api/subatenciones/",
+            data=json.dumps(payload),
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, 201)
+        data = response.json()
+        self.assertTrue(data["success"])
+        self.assertEqual(data["data"]["codigo"], "SA-NUEVA-01")
+        self.assertEqual(data["data"]["tipo_atencion"], parent.pk)
+
+    def test_subatencion_create_inactive_parent_rejected(self):
+        """T15: Rechaza asociar una subatención a un tipo de atención inactivo (Regla T15)."""
+        inactive_parent = TipoAtencion.objects.filter(estado=False).first()
+        payload = {
+            "codigo": "SA-RECHAZADA",
+            "nombre": "Subatención con Padre Inactivo",
+            "tipo_atencion": inactive_parent.pk,
+            "estado": True
+        }
+        response = self.client.post(
+            "/api/subatenciones/",
+            data=json.dumps(payload),
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, 400)
+        data = response.json()
+        self.assertFalse(data["success"])
+        self.assertIn("tipo_atencion", data["error"]["details"])
+
+    def test_subatencion_create_missing_parent_rejected(self):
+        """T15: Rechaza crear una subatención sin indicar catálogo padre."""
+        payload = {
+            "codigo": "SA-SIN-PADRE",
+            "nombre": "Subatención Huérfana",
+            "estado": True
+        }
+        response = self.client.post(
+            "/api/subatenciones/",
+            data=json.dumps(payload),
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, 400)
+        data = response.json()
+        self.assertFalse(data["success"])
+        self.assertIn("tipo_atencion", data["error"]["details"])
+
+    def test_subatencion_duplicate_codigo_rejected(self):
+        """T15: Rechaza código de subatención duplicado."""
+        parent = TipoAtencion.objects.filter(estado=True).first()
+        from .models import SubAtencion
+        SubAtencion.objects.create(
+            tipo_atencion=parent,
+            codigo="SA-DUP-01",
+            nombre="Nombre Original",
+            estado=True
+        )
+
+        payload = {
+            "codigo": "SA-DUP-01",
+            "nombre": "Otro Nombre",
+            "tipo_atencion": parent.pk,
+            "estado": True
+        }
+        response = self.client.post(
+            "/api/subatenciones/",
+            data=json.dumps(payload),
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, 400)
+        data = response.json()
+        self.assertFalse(data["success"])
+        self.assertIn("codigo", data["error"]["details"])
+
+    def test_subatencion_duplicate_nombre_under_same_parent_rejected(self):
+        """T15: Rechaza nombre duplicado bajo el mismo catálogo padre."""
+        parent = TipoAtencion.objects.filter(estado=True).first()
+        from .models import SubAtencion
+        SubAtencion.objects.create(
+            tipo_atencion=parent,
+            codigo="SA-NOM-01",
+            nombre="Nombre Repetido",
+            estado=True
+        )
+
+        payload = {
+            "codigo": "SA-NOM-02",
+            "nombre": "Nombre Repetido",
+            "tipo_atencion": parent.pk,
+            "estado": True
+        }
+        response = self.client.post(
+            "/api/subatenciones/",
+            data=json.dumps(payload),
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, 400)
+        data = response.json()
+        self.assertFalse(data["success"])
+        self.assertIn("nombre", data["error"]["details"])
+
+    def test_subatencion_toggle_estado(self):
+        """T15: Verifica alternar estado activo/inactivo de una subatención."""
+        parent = TipoAtencion.objects.filter(estado=True).first()
+        from .models import SubAtencion
+        sub = SubAtencion.objects.create(
+            tipo_atencion=parent,
+            codigo="SA-TOGGLE-01",
+            nombre="Sub Toggle",
+            estado=True
+        )
+
+        response = self.client.post(f"/api/subatenciones/{sub.pk}/toggle-estado/")
+        self.assertEqual(response.status_code, 200)
+        sub.refresh_from_db()
+        self.assertFalse(sub.estado)
+
+    def test_subatencion_export_csv(self):
+        """T15: Verifica la exportación común de Subatenciones a CSV."""
+        response = self.client.get("/api/subatenciones/export/")
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("text/csv", response["Content-Type"])
+        self.assertIn("subatenciones_export.csv", response["Content-Disposition"])
+        content = response.content.decode("utf-8-sig")
+        self.assertIn("Tipo de Atención Padre", content)
+
+

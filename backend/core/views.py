@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import TipoAtencion, Delegacion
+from .models import TipoAtencion, SubAtencion, Delegacion
 from .api import BaseCRUDView
 
 
@@ -132,3 +132,110 @@ class DelegacionCRUDView(BaseCRUDView):
     fields = ["nombre", "direccion", "comuna", "estado"]
     search_fields = ["nombre", "direccion", "comuna"]
     ordering = ["nombre"]
+
+
+class SubAtencionCRUDView(BaseCRUDView):
+    """
+    CRUD completo de Subatenciones (catálogo hijo - Tarea T15).
+    Gestiona el catálogo dependiente de TipoAtencion con:
+    - Validación de catálogo padre obligatorio y activo.
+    - Control de duplicados en código y nombre.
+    - Búsqueda por código, nombre y catálogo padre.
+    - Exportación a Excel/CSV con el nombre del tipo padre.
+    """
+    model = SubAtencion
+    fields = ["codigo", "nombre", "descripcion", "tipo_atencion", "estado"]
+    search_fields = ["codigo", "nombre", "descripcion", "tipo_atencion__codigo", "tipo_atencion__nombre"]
+    ordering = ["codigo"]
+
+    def get_queryset(self):
+        return SubAtencion.objects.select_related("tipo_atencion").all()
+
+    def serialize_instance(self, instance):
+        data = super().serialize_instance(instance)
+        if instance.tipo_atencion:
+            data["tipo_atencion"] = instance.tipo_atencion.pk
+            data["tipo_atencion_codigo"] = instance.tipo_atencion.codigo
+            data["tipo_atencion_nombre"] = instance.tipo_atencion.nombre
+            data["tipo_padre_display"] = f"{instance.tipo_atencion.codigo} · {instance.tipo_atencion.nombre}"
+        else:
+            data["tipo_atencion"] = None
+            data["tipo_padre_display"] = "Sin asignar"
+        return data
+
+    def validate_payload(self, data, instance=None):
+        errors = {}
+
+        # 1. Resolver y validar tipo_atencion (catálogo padre)
+        tipo_id = data.get("tipo_atencion") or data.get("tipo_padre")
+        parent_obj = None
+
+        if not tipo_id:
+            errors.setdefault("tipo_atencion", []).append("Debe seleccionar un Tipo de Atención (catálogo padre).")
+        else:
+            if str(tipo_id).isdigit():
+                parent_obj = TipoAtencion.objects.filter(pk=int(tipo_id)).first()
+            else:
+                cod_candidate = str(tipo_id).split("·")[0].strip()
+                parent_obj = TipoAtencion.objects.filter(codigo__iexact=cod_candidate).first()
+
+            if not parent_obj:
+                errors.setdefault("tipo_atencion", []).append("El Tipo de Atención indicado no existe.")
+            elif not parent_obj.estado:
+                # Regla T15: El catálogo padre debe estar activo
+                errors.setdefault("tipo_atencion", []).append("El Tipo de Atención seleccionado está inactivo. Debe estar activo para asociarle subatenciones.")
+
+        if parent_obj:
+            data["tipo_atencion"] = parent_obj
+
+        # 2. Validar campos requeridos y unicidad
+        codigo = data.get("codigo")
+        if not codigo:
+            errors.setdefault("codigo", []).append("El código es obligatorio.")
+        else:
+            qs_cod = SubAtencion.objects.filter(codigo__iexact=str(codigo).strip())
+            if instance:
+                qs_cod = qs_cod.exclude(pk=instance.pk)
+            if qs_cod.exists():
+                errors.setdefault("codigo", []).append("Ya existe una subatención con este código.")
+
+        nombre = data.get("nombre")
+        if not nombre:
+            errors.setdefault("nombre", []).append("El nombre es obligatorio.")
+        elif parent_obj:
+            qs_nom = SubAtencion.objects.filter(
+                tipo_atencion=parent_obj,
+                nombre__iexact=str(nombre).strip()
+            )
+            if instance:
+                qs_nom = qs_nom.exclude(pk=instance.pk)
+            if qs_nom.exists():
+                errors.setdefault("nombre", []).append(f"Ya existe una subatención con este nombre bajo el tipo {parent_obj.codigo}.")
+
+        return errors
+
+    def export(self, request):
+        """Exporta subatenciones a CSV compatible con Excel."""
+        import csv
+        from django.http import HttpResponse
+
+        qs = self.filter_queryset(self.get_queryset())
+        filename = "subatenciones_export.csv"
+
+        response = HttpResponse(content_type="text/csv; charset=utf-8-sig")
+        response["Content-Disposition"] = f'attachment; filename="{filename}"'
+
+        writer = csv.writer(response)
+        writer.writerow(["ID", "Código", "Nombre de la Subatención", "Tipo de Atención Padre", "Estado"])
+
+        for item in qs:
+            padre_str = f"{item.tipo_atencion.codigo} · {item.tipo_atencion.nombre}" if item.tipo_atencion else ""
+            writer.writerow([
+                item.pk,
+                item.codigo,
+                item.nombre,
+                padre_str,
+                "Activo" if item.estado else "Inactivo"
+            ])
+
+        return response
