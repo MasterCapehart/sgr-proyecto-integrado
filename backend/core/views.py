@@ -7,6 +7,7 @@ from django.views import View
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 from django.core.mail import send_mail
 
 from .models import (
@@ -413,8 +414,14 @@ class AtencionContextoView(View):
         if not user:
             user = Usuario.objects.filter(is_active=True).first()
 
-        delegacion = getattr(user, 'delegacion', None) if user else None
+        del_sesion_id = request.session.get('delegacion_activa_id') if hasattr(request, 'session') else None
+        delegacion = None
+        if del_sesion_id:
+            delegacion = Delegacion.objects.filter(pk=del_sesion_id, estado=True).first()
+
         if not delegacion:
+            delegacion = getattr(user, 'delegacion', None) if user else None
+        if not delegacion or not delegacion.estado:
             delegacion = Delegacion.objects.filter(estado=True).first()
 
         from django.utils import timezone
@@ -464,6 +471,18 @@ class AtencionCRUDView(BaseCRUDView):
 
     def get_queryset(self):
         return Atencion.objects.select_related("tipo_atencion", "sub_atencion", "delegacion", "usuario").all()
+
+    def filter_queryset(self, qs):
+        """Filtra por búsqueda, estado y ámbito territorial/delegación activa (T19)."""
+        qs = super().filter_queryset(qs)
+        del_param = self.request.GET.get("delegacion")
+        if del_param:
+            qs = qs.filter(delegacion_id=del_param)
+        elif self.request.GET.get("solo_activa") == "1" or self.request.GET.get("ambito_activo") == "true":
+            activa_id = self.request.session.get("delegacion_activa_id") if hasattr(self.request, "session") else None
+            if activa_id:
+                qs = qs.filter(delegacion_id=activa_id)
+        return qs
 
     def serialize_instance(self, instance):
         derivaciones = [
@@ -647,8 +666,14 @@ class AtencionCRUDView(BaseCRUDView):
         # -------------------------------------------------------------
         # 5. Origen Conservado y Rechazo de Ámbito Manipulado (Criterio T18)
         # -------------------------------------------------------------
-        delegacion_origen = getattr(usuario, "delegacion", None)
+        del_sesion_id = request.session.get('delegacion_activa_id') if hasattr(request, 'session') else None
+        delegacion_origen = None
+        if del_sesion_id:
+            delegacion_origen = Delegacion.objects.filter(pk=del_sesion_id, estado=True).first()
+
         if not delegacion_origen:
+            delegacion_origen = getattr(usuario, "delegacion", None)
+        if not delegacion_origen or not delegacion_origen.estado:
             delegacion_origen = Delegacion.objects.filter(estado=True).first()
 
         if not delegacion_origen:
@@ -810,4 +835,137 @@ class AtencionCRUDView(BaseCRUDView):
             ])
 
         return response
+
+
+# ==========================================
+# 6. Contexto Institucional y Ámbito Territorial (Tarea T19)
+# ==========================================
+
+class ContextoView(View):
+    """
+    Retorna el contexto institucional global de la cabecera y sesión (Tarea T19).
+    Suministra funcionario activo, su rol municipal, su ámbito territorial vigente (delegación activa)
+    y el listado de delegaciones activas autorizadas en el sistema.
+    """
+    def get(self, request, *args, **kwargs):
+        user = getattr(request, 'user', None)
+        if user and not getattr(user, 'is_authenticated', False):
+            user = None
+        if not user:
+            user = Usuario.objects.filter(is_active=True).first()
+
+        del_sesion_id = request.session.get('delegacion_activa_id') if hasattr(request, 'session') else None
+        delegacion = None
+        if del_sesion_id:
+            delegacion = Delegacion.objects.filter(pk=del_sesion_id, estado=True).first()
+
+        if not delegacion:
+            delegacion = getattr(user, 'delegacion', None) if user else None
+        if not delegacion or not delegacion.estado:
+            delegacion = Delegacion.objects.filter(estado=True).first()
+
+        # Guardar en sesión para persistencia permanente
+        if delegacion and hasattr(request, 'session'):
+            request.session['delegacion_activa_id'] = delegacion.pk
+
+        delegaciones_qs = Delegacion.objects.filter(estado=True).order_by('id')
+        delegaciones_autorizadas = [
+            {
+                "id": d.pk,
+                "nombre": d.nombre,
+                "direccion": d.direccion or "",
+                "comuna": d.comuna or "",
+                "activa": (d.pk == delegacion.pk) if delegacion else False
+            }
+            for d in delegaciones_qs
+        ]
+
+        ahora = timezone.now()
+        user_display = (
+            f"{user.get_full_name() or user.username} ({user.rol.nombre if user.rol else 'Funcionario Municipal'})"
+            if user else "Funcionario Municipal"
+        )
+
+        return JsonResponse({
+            "success": True,
+            "data": {
+                "usuario": {
+                    "id": user.pk if user else None,
+                    "username": user.username if user else "operador",
+                    "nombre_completo": user.get_full_name() if (user and user.get_full_name()) else (user.username if user else "Funcionario"),
+                    "rut": getattr(user, 'rut', '') or '12.345.678-9',
+                    "rol": user.rol.nombre if (user and user.rol) else "Operador Territorial",
+                    "display": user_display
+                },
+                "delegacion_activa": {
+                    "id": delegacion.pk if delegacion else None,
+                    "nombre": delegacion.nombre if delegacion else "Delegación Las Compañías",
+                    "display": delegacion.nombre if delegacion else "DEL01 · Las Compañías"
+                },
+                "delegaciones_autorizadas": delegaciones_autorizadas,
+                "fecha_servidor": ahora.isoformat(),
+                "fecha_display": ahora.strftime("%d/%m/%Y %H:%M")
+            }
+        }, status=200)
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class CambiarDelegacionView(View):
+    """
+    Cambia el ámbito territorial activo del funcionario desde el selector de cabecera (Tarea T19).
+    Valida delegación existente y activa, actualizando la sesión del servidor.
+    """
+    def post(self, request, *args, **kwargs):
+        from .api import api_error, api_success
+
+        try:
+            body = request.body.decode('utf-8')
+            data = json.loads(body) if body else {}
+        except Exception:
+            return api_error(code="INVALID_JSON", message="Cuerpo JSON inválido.", status=400)
+
+        del_id = data.get("delegacion_id")
+        if not del_id:
+            return api_error(
+                code="DELEGACION_REQUIRED",
+                message="Debe especificar el ID de la delegación que desea activar.",
+                details={"delegacion_id": ["El campo delegacion_id es obligatorio."]},
+                status=400
+            )
+
+        delegacion = Delegacion.objects.filter(pk=del_id).first()
+        if not delegacion:
+            return api_error(
+                code="DELEGACION_NOT_FOUND",
+                message=f"La delegación con ID {del_id} no existe.",
+                status=404
+            )
+
+        if not delegacion.estado:
+            return api_error(
+                code="DELEGACION_INACTIVA",
+                message="No se puede cambiar a una delegación inactiva.",
+                details={"delegacion_id": ["La delegación seleccionada está inactiva."]},
+                status=400
+            )
+
+        # Actualizar sesión institucional permanente
+        if hasattr(request, 'session'):
+            request.session['delegacion_activa_id'] = delegacion.pk
+
+        user = getattr(request, 'user', None)
+        if user and getattr(user, 'is_authenticated', False):
+            user.delegacion = delegacion
+            user.save(update_fields=['delegacion'])
+
+        return api_success(
+            data={
+                "id": delegacion.pk,
+                "nombre": delegacion.nombre,
+                "display": delegacion.nombre
+            },
+            message=f"Ámbito territorial cambiado exitosamente a {delegacion.nombre}.",
+            status=200
+        )
+
 

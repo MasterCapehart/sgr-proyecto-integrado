@@ -92,3 +92,31 @@ dialog::backdrop { background: rgba(32,42,53,0.5); }
 @media(max-width: 550px) {
   .stats { grid-template-columns: 1fr; }
 }
+
+/* --- Selector de delegación activa en cabecera institucional (T19) --- */
+.identity dd { display: flex; align-items: center; }
+.delegation-select {
+  background: #ffffff;
+  color: var(--ink);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 13px;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  max-width: 280px;
+  outline: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.delegation-select:focus {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.7);
+}
+.delegation-select option {
+  background: #ffffff;
+  color: var(--ink);
+  font-weight: normal;
+}
+

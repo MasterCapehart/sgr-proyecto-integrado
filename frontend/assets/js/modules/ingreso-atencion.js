@@ -51,6 +51,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
+  // Escuchar cambio dinámico de delegación desde la cabecera (Tarea T19)
+  window.addEventListener('sgr:delegacion-cambiada', (e) => {
+    if (delegacionInput) {
+      const d = e.detail;
+      delegacionInput.value = (d && (d.display || d.nombre)) ? (d.display || d.nombre) : 'DEL01 · Las Compañías';
+    }
+  });
+
   // 2. Cargar catálogo activo de Tipos de Atención
   async function loadActiveTipos() {
     if (!tipoSelect) return;

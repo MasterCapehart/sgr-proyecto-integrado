@@ -1,6 +1,7 @@
 import json
 from django.test import TestCase, Client
 from django.urls import reverse
+from django.utils import timezone
 from .models import (
     TipoAtencion, Delegacion, SubAtencion, ItemMeta,
     ConfiguracionMeta, Rol, Usuario, Atencion, AuditoriaDerivacion
@@ -1188,6 +1189,211 @@ class IntegridadIdempotenciaAtencionAPITestCase(TestCase):
         self.assertEqual(response.status_code, 400)
         err = response.json()["error"]
         self.assertEqual(err["code"], "DELEGACION_RESPONSABLE_INACTIVA")
+
+
+class ContextoGlobalAPITestCase(TestCase):
+    """
+    Pruebas automatizadas para la Tarea T19:
+    Integrar cabecera y cambio de delegación activa con persistencia permanente de contexto.
+    """
+    def setUp(self):
+        self.client = Client()
+        self.rol = Rol.objects.create(nombre="Operador Territorial", descripcion="Operador municipal de atención")
+        self.del1 = Delegacion.objects.create(
+            nombre="Delegación Las Compañías",
+            direccion="Esmeralda 1234",
+            comuna="La Serena",
+            estado=True
+        )
+        self.del2 = Delegacion.objects.create(
+            nombre="Delegación La Antena",
+            direccion="18 de Septiembre 567",
+            comuna="La Serena",
+            estado=True
+        )
+        self.del_inactiva = Delegacion.objects.create(
+            nombre="Delegación Rural Inactiva",
+            direccion="Camino Rural s/n",
+            comuna="La Serena",
+            estado=False
+        )
+        self.usuario = Usuario.objects.create_user(
+            username="operador_t19",
+            password="Password123!",
+            first_name="Daniel",
+            last_name="Flores",
+            rut="18.999.888-7",
+            rol=self.rol,
+            delegacion=self.del1,
+            is_active=True
+        )
+        self.client.force_login(self.usuario)
+
+        self.tipo = TipoAtencion.objects.create(codigo="T-SOC", nombre="Social", estado=True)
+        self.sub = SubAtencion.objects.create(codigo="S-AYU", nombre="Ayuda Social", tipo_atencion=self.tipo, estado=True)
+
+    def test_contexto_global_get_exitoso(self):
+        """T19: GET /api/contexto/ retorna usuario, rol, delegación activa y delegaciones autorizadas."""
+        response = self.client.get("/api/contexto/")
+        self.assertEqual(response.status_code, 200)
+        json_data = response.json()
+        self.assertTrue(json_data["success"])
+        data = json_data["data"]
+
+        # 1. Datos de usuario y rol
+        self.assertEqual(data["usuario"]["username"], "operador_t19")
+        self.assertEqual(data["usuario"]["rut"], "18.999.888-7")
+        self.assertEqual(data["usuario"]["rol"], "Operador Territorial")
+
+        # 2. Delegación activa inicial
+        self.assertEqual(data["delegacion_activa"]["id"], self.del1.pk)
+        self.assertEqual(data["delegacion_activa"]["nombre"], "Delegación Las Compañías")
+
+        # 3. Delegaciones autorizadas activas
+        autorizadas = data["delegaciones_autorizadas"]
+        ids = [d["id"] for d in autorizadas]
+        self.assertIn(self.del1.pk, ids)
+        self.assertIn(self.del2.pk, ids)
+        self.assertNotIn(self.del_inactiva.pk, ids)
+
+        # 4. Fecha del servidor presente
+        self.assertIn("fecha_servidor", data)
+        self.assertIn("fecha_display", data)
+
+    def test_cambiar_delegacion_exitoso_y_persistencia_sesion(self):
+        """T19: POST /api/contexto/cambiar-delegacion/ actualiza sesión y persiste entre solicitudes."""
+        payload = {"delegacion_id": self.del2.pk}
+        response = self.client.post(
+            "/api/contexto/cambiar-delegacion/",
+            data=json.dumps(payload),
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, 200)
+        json_data = response.json()
+        self.assertTrue(json_data["success"])
+        self.assertEqual(json_data["data"]["id"], self.del2.pk)
+        self.assertEqual(json_data["data"]["nombre"], "Delegación La Antena")
+
+        # Verificar que la siguiente llamada a GET /api/contexto/ refleja la nueva delegación activa
+        res_contexto = self.client.get("/api/contexto/")
+        self.assertEqual(res_contexto.status_code, 200)
+        ctx_data = res_contexto.json()["data"]
+        self.assertEqual(ctx_data["delegacion_activa"]["id"], self.del2.pk)
+
+    def test_cambiar_delegacion_rechaza_inactiva(self):
+        """T19: Rechaza con 400 intento de cambio a delegación inactiva."""
+        payload = {"delegacion_id": self.del_inactiva.pk}
+        response = self.client.post(
+            "/api/contexto/cambiar-delegacion/",
+            data=json.dumps(payload),
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, 400)
+        err = response.json()["error"]
+        self.assertEqual(err["code"], "DELEGACION_INACTIVA")
+
+    def test_cambiar_delegacion_rechaza_inexistente(self):
+        """T19: Rechaza con 404 intento de cambio a delegación con ID no existente."""
+        payload = {"delegacion_id": 999999}
+        response = self.client.post(
+            "/api/contexto/cambiar-delegacion/",
+            data=json.dumps(payload),
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, 404)
+        err = response.json()["error"]
+        self.assertEqual(err["code"], "DELEGACION_NOT_FOUND")
+
+    def test_cambiar_delegacion_requiere_id(self):
+        """T19: Rechaza con 400 si delegacion_id no se incluye en el cuerpo JSON."""
+        response = self.client.post(
+            "/api/contexto/cambiar-delegacion/",
+            data=json.dumps({}),
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, 400)
+        err = response.json()["error"]
+        self.assertEqual(err["code"], "DELEGACION_REQUIRED")
+
+    def test_cambio_delegacion_afecta_creacion_atencion(self):
+        """T19: Al cambiar de delegación activa, las nuevas atenciones ciudadanas adoptan el nuevo ámbito territorial."""
+        # 1. Cambiar a delegación La Antena
+        self.client.post(
+            "/api/contexto/cambiar-delegacion/",
+            data=json.dumps({"delegacion_id": self.del2.pk}),
+            content_type="application/json"
+        )
+
+        # 2. Verificar que /api/atenciones/contexto/ refleja el nuevo ámbito
+        res_ctx = self.client.get("/api/atenciones/contexto/")
+        self.assertEqual(res_ctx.status_code, 200)
+        self.assertEqual(res_ctx.json()["data"]["delegacion"]["id"], self.del2.pk)
+
+        # 3. Crear atención ciudadana
+        payload_atencion = {
+            "solicitante": "Vecino Sector La Antena",
+            "tipo_atencion": self.tipo.pk,
+            "sub_atencion": self.sub.pk,
+            "descripcion": "Atención realizada bajo el ámbito de Delegación La Antena."
+        }
+        res_crear = self.client.post(
+            "/api/atenciones/",
+            data=json.dumps(payload_atencion),
+            content_type="application/json"
+        )
+        self.assertEqual(res_crear.status_code, 201)
+        atencion_id = res_crear.json()["data"]["id"]
+
+        atencion = Atencion.objects.get(pk=atencion_id)
+        # La atención debe pertenecer a self.del2 (ámbito activo) y no a self.del1
+        self.assertEqual(atencion.delegacion, self.del2)
+
+    def test_filtro_y_export_por_delegacion_activa(self):
+        """T19: El listado y exportación de atenciones pueden filtrarse según el ámbito territorial activo."""
+        # Crear atención en del1
+        Atencion.objects.create(
+            folio="AT-2026-9001",
+            solicitante="Solicitante Del 1",
+            tipo_atencion=self.tipo,
+            sub_atencion=self.sub,
+            delegacion=self.del1,
+            usuario=self.usuario,
+            descripcion="Atención en Del 1",
+            fecha_registro=timezone.now()
+        )
+        # Crear atención en del2
+        Atencion.objects.create(
+            folio="AT-2026-9002",
+            solicitante="Solicitante Del 2",
+            tipo_atencion=self.tipo,
+            sub_atencion=self.sub,
+            delegacion=self.del2,
+            usuario=self.usuario,
+            descripcion="Atención en Del 2",
+            fecha_registro=timezone.now()
+        )
+
+        # Cambiar ámbito activo a del2 en sesión
+        self.client.post(
+            "/api/contexto/cambiar-delegacion/",
+            data=json.dumps({"delegacion_id": self.del2.pk}),
+            content_type="application/json"
+        )
+
+        # Consultar listado con ?solo_activa=1
+        res_list = self.client.get("/api/atenciones/?solo_activa=1")
+        self.assertEqual(res_list.status_code, 200)
+        items = res_list.json()["results"]
+        self.assertEqual(len(items), 1)
+        self.assertEqual(items[0]["folio"], "AT-2026-9002")
+
+        # Consultar exportación con ?solo_activa=1
+        res_export = self.client.get("/api/atenciones/export/?solo_activa=1")
+        self.assertEqual(res_export.status_code, 200)
+        content = res_export.content.decode("utf-8-sig")
+        self.assertIn("AT-2026-9002", content)
+        self.assertNotIn("AT-2026-9001", content)
+
 
 
 
