@@ -497,6 +497,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Recargar datos cuando se cambia el ámbito territorial desde la cabecera (Tarea T19)
+  window.addEventListener('sgr:delegacion-cambiada', () => {
+    loadDataFromApi();
+  });
+
   // Iniciar carga inicial
   loadDataFromApi();
 });
