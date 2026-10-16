@@ -7,6 +7,19 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('recuperacion/', views.solicitar_recuperacion, name='recuperacion'),
 
+    # Endpoints Roles (T09)
+    path('roles/', views.RolCRUDView.as_view(), name='rol-list'),
+    path('roles/export/', views.RolCRUDView.as_view(), {'action': 'export'}, name='rol-export'),
+    path('roles/<int:pk>/', views.RolCRUDView.as_view(), name='rol-detail'),
+    path('roles/<int:pk>/toggle-estado/', views.RolCRUDView.as_view(), {'action': 'toggle-estado'}, name='rol-toggle'),
+
+
+    # Endpoints Usuarios (Añadir este bloque)
+    path('usuarios/', views.UsuarioCRUDView.as_view(), name='usuario-list'),
+    path('usuarios/export/', views.UsuarioCRUDView.as_view(), {'action': 'export'}, name='usuario-export'),
+    path('usuarios/<int:pk>/', views.UsuarioCRUDView.as_view(), name='usuario-detail'),
+    path('usuarios/<int:pk>/toggle-estado/', views.UsuarioCRUDView.as_view(), {'action': 'toggle-estado'}, name='usuario-toggle'),
+
     # Endpoints TipoAtencion (T14)
     path('tipos-atencion/', views.TipoAtencionCRUDView.as_view(), name='tipo-atencion-list'),
     path('tipos-atencion/export/', views.TipoAtencionCRUDView.as_view(), {'action': 'export'}, name='tipo-atencion-export'),
