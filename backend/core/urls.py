@@ -19,6 +19,14 @@ urlpatterns = [
     path('delegaciones/<int:pk>/', views.DelegacionCRUDView.as_view(), name='delegacion-detail'),
     path('delegaciones/<int:pk>/toggle-estado/', views.DelegacionCRUDView.as_view(), {'action': 'toggle-estado'}, name='delegacion-toggle'),
 
+
+
+    # Endpoints Roles (T09)
+    path('roles/', views.RolCRUDView.as_view(), name='rol-list'),
+    path('roles/export/', views.RolCRUDView.as_view(), {'action': 'export'}, name='rol-export'),
+    path('roles/<int:pk>/', views.RolCRUDView.as_view(), name='rol-detail'),
+    path('roles/<int:pk>/toggle-estado/', views.RolCRUDView.as_view(), {'action': 'toggle-estado'}, name='rol-toggle'),
+
     # Endpoints SubAtencion (T15)
     path('subatenciones/', views.SubAtencionCRUDView.as_view(), name='subatencion-list'),
     path('subatenciones/export/', views.SubAtencionCRUDView.as_view(), {'action': 'export'}, name='subatencion-export'),

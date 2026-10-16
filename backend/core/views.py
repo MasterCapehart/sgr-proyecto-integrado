@@ -1,6 +1,7 @@
 import json
 import random
 import datetime
+from .models import Usuario, TipoAtencion, Delegacion, Rol
 from django.db import models, transaction
 from django.utils import timezone
 from django.views import View
@@ -967,5 +968,17 @@ class CambiarDelegacionView(View):
             message=f"Ámbito territorial cambiado exitosamente a {delegacion.nombre}.",
             status=200
         )
+
+
+
+    # ==========================================
+# 3. CRUD de Roles (T09)
+# ==========================================
+
+class RolCRUDView(BaseCRUDView):
+    model = Rol
+    fields = ["nombre", "descripcion", "estado"]
+    search_fields = ["nombre", "descripcion"]
+    ordering = ["nombre"]
 
 
