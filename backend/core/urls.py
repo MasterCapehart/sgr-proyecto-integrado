@@ -6,6 +6,7 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
     path('recuperacion/', views.solicitar_recuperacion, name='recuperacion'),
+    path('validar-recuperacion/', views.validar_y_cambiar_password, name='validar-recuperacion'),
 
     # Endpoints TipoAtencion (T14)
     path('tipos-atencion/', views.TipoAtencionCRUDView.as_view(), name='tipo-atencion-list'),
@@ -42,3 +43,5 @@ urlpatterns = [
     path('contexto/', views.ContextoView.as_view(), name='contexto-global'),
     path('contexto/cambiar-delegacion/', views.CambiarDelegacionView.as_view(), name='cambiar-delegacion'),
 ]
+
+

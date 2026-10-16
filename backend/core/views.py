@@ -89,6 +89,37 @@ def solicitar_recuperacion(request):
     return JsonResponse({'error': 'Método no permitido. Use POST.'}, status=405)
 
 
+
+@csrf_exempt
+def validar_y_cambiar_password(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            email = data.get('email')
+            codigo = data.get('codigo')
+            nueva_password = data.get('nueva_password')
+            
+            # Verificar que vengan los 3 datos
+            if not all([email, codigo, nueva_password]):
+                return JsonResponse({'error': 'Faltan datos obligatorios (email, codigo, nueva_password)'}, status=400)
+            
+            usuario = Usuario.objects.filter(email=email).first()
+            
+            # Validar que el usuario exista y el código coincida
+            if usuario and usuario.codigo_recuperacion == codigo:
+                usuario.set_password(nueva_password) # Encripta y guarda la nueva contraseña
+                usuario.codigo_recuperacion = None # Limpiamos el código para que no se reuse
+                usuario.save()
+                return JsonResponse({'mensaje': 'Contraseña actualizada exitosamente'}, status=200)
+            else:
+                return JsonResponse({'error': 'Código inválido o correo incorrecto'}, status=400)
+                
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Formato JSON inválido'}, status=400)
+            
+    return JsonResponse({'error': 'Método no permitido. Use POST.'}, status=405)
+
+
 # ==========================================
 # 2. Vistas del Patrón Común de CRUD (T04)
 # ==========================================
