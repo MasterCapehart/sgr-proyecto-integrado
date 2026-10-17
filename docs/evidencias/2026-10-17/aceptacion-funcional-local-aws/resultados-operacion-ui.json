@@ -1,0 +1,26 @@
+[
+  {
+    "caso": "Actividad creada desde formulario y detalle real",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Conversación actividad enviada y leída",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Evidencia subida a S3 desde formulario",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Verificador aprueba evidencia desde bandeja",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Compromiso creado desde tubo de trabajo",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Ficha de compromiso y conversación persistida",
+    "resultado": "PASS"
+  }
+]

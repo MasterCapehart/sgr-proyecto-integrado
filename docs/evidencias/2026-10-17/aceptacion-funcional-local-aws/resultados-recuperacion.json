@@ -1,0 +1,29 @@
+[
+  {
+    "caso": "usuarios crear",
+    "ruta": "/api/usuarios/",
+    "esperado": [
+      201
+    ],
+    "obtenido": 201,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "nueva contraseña exige verificación",
+    "ruta": "/api/recuperacion/estado/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "solicitud SMTP real",
+    "ruta": "/api/recuperacion/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  }
+]

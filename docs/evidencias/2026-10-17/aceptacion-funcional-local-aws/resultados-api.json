@@ -1,0 +1,1218 @@
+[
+  {
+    "caso": "contexto completo",
+    "ruta": "/api/contexto/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "usuario rol y delegación identificados",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "delegaciones crear",
+    "ruta": "/api/delegaciones/",
+    "esperado": [
+      201
+    ],
+    "obtenido": 201,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "roles crear",
+    "ruta": "/api/roles/",
+    "esperado": [
+      201
+    ],
+    "obtenido": 201,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "usuarios crear",
+    "ruta": "/api/usuarios/",
+    "esperado": [
+      201
+    ],
+    "obtenido": 201,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "cargos crear",
+    "ruta": "/api/cargos/",
+    "esperado": [
+      201
+    ],
+    "obtenido": 201,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "tipos-atencion crear",
+    "ruta": "/api/tipos-atencion/",
+    "esperado": [
+      201
+    ],
+    "obtenido": 201,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "tipos-atencion crear",
+    "ruta": "/api/tipos-atencion/",
+    "esperado": [
+      201
+    ],
+    "obtenido": 201,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "subatenciones crear",
+    "ruta": "/api/subatenciones/",
+    "esperado": [
+      201
+    ],
+    "obtenido": 201,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "items-metas crear",
+    "ruta": "/api/items-metas/",
+    "esperado": [
+      201
+    ],
+    "obtenido": 201,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "delegaciones consultar",
+    "ruta": "/api/delegaciones/5/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "delegaciones editar",
+    "ruta": "/api/delegaciones/5/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "delegaciones conflicto versión",
+    "ruta": "/api/delegaciones/5/",
+    "esperado": [
+      409
+    ],
+    "obtenido": 409,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "delegaciones versión obligatoria",
+    "ruta": "/api/delegaciones/5/",
+    "esperado": [
+      428
+    ],
+    "obtenido": 428,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "delegaciones buscar paginar contar",
+    "ruta": "/api/delegaciones/?search=Q1558d2b8&page_size=1&estado=todos",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "delegaciones filtro conserva registro",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "delegaciones exportar filtro",
+    "ruta": "/api/delegaciones/export/?search=Q1558d2b8&estado=todos",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "delegaciones Excel válido y sin contraseñas",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "delegaciones rechaza creación vacía",
+    "ruta": "/api/delegaciones/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "delegaciones rechaza exceso longitud",
+    "ruta": "/api/delegaciones/5/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "delegaciones rechaza duplicados",
+    "ruta": "/api/delegaciones/",
+    "esperado": [
+      400,
+      409
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "roles consultar",
+    "ruta": "/api/roles/9/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "roles editar",
+    "ruta": "/api/roles/9/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "roles conflicto versión",
+    "ruta": "/api/roles/9/",
+    "esperado": [
+      409
+    ],
+    "obtenido": 409,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "roles versión obligatoria",
+    "ruta": "/api/roles/9/",
+    "esperado": [
+      428
+    ],
+    "obtenido": 428,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "roles buscar paginar contar",
+    "ruta": "/api/roles/?search=Q1558d2b8&page_size=1&estado=todos",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "roles filtro conserva registro",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "roles exportar filtro",
+    "ruta": "/api/roles/export/?search=Q1558d2b8&estado=todos",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "roles Excel válido y sin contraseñas",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "roles rechaza creación vacía",
+    "ruta": "/api/roles/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "roles rechaza exceso longitud",
+    "ruta": "/api/roles/9/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "roles rechaza duplicados",
+    "ruta": "/api/roles/",
+    "esperado": [
+      400,
+      409
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "usuarios consultar",
+    "ruta": "/api/usuarios/11/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "usuarios editar",
+    "ruta": "/api/usuarios/11/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "usuarios conflicto versión",
+    "ruta": "/api/usuarios/11/",
+    "esperado": [
+      409
+    ],
+    "obtenido": 409,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "usuarios versión obligatoria",
+    "ruta": "/api/usuarios/11/",
+    "esperado": [
+      428
+    ],
+    "obtenido": 428,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "usuarios buscar paginar contar",
+    "ruta": "/api/usuarios/?search=Q1558d2b8&page_size=1&estado=todos",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "usuarios filtro conserva registro",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "usuarios exportar filtro",
+    "ruta": "/api/usuarios/export/?search=Q1558d2b8&estado=todos",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "usuarios Excel válido y sin contraseñas",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "usuarios rechaza creación vacía",
+    "ruta": "/api/usuarios/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "usuarios rechaza exceso longitud",
+    "ruta": "/api/usuarios/11/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "usuarios rechaza duplicados",
+    "ruta": "/api/usuarios/",
+    "esperado": [
+      400,
+      409
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "cargos consultar",
+    "ruta": "/api/cargos/3/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "cargos editar",
+    "ruta": "/api/cargos/3/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "cargos conflicto versión",
+    "ruta": "/api/cargos/3/",
+    "esperado": [
+      409
+    ],
+    "obtenido": 409,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "cargos versión obligatoria",
+    "ruta": "/api/cargos/3/",
+    "esperado": [
+      428
+    ],
+    "obtenido": 428,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "cargos buscar paginar contar",
+    "ruta": "/api/cargos/?search=Q1558d2b8&page_size=1&estado=todos",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "cargos filtro conserva registro",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "cargos exportar filtro",
+    "ruta": "/api/cargos/export/?search=Q1558d2b8&estado=todos",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "cargos Excel válido y sin contraseñas",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "cargos rechaza creación vacía",
+    "ruta": "/api/cargos/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "cargos rechaza exceso longitud",
+    "ruta": "/api/cargos/3/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "cargos rechaza duplicados",
+    "ruta": "/api/cargos/",
+    "esperado": [
+      400,
+      409
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "tipos-atencion consultar",
+    "ruta": "/api/tipos-atencion/5/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "tipos-atencion editar",
+    "ruta": "/api/tipos-atencion/5/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "tipos-atencion conflicto versión",
+    "ruta": "/api/tipos-atencion/5/",
+    "esperado": [
+      409
+    ],
+    "obtenido": 409,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "tipos-atencion versión obligatoria",
+    "ruta": "/api/tipos-atencion/5/",
+    "esperado": [
+      428
+    ],
+    "obtenido": 428,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "tipos-atencion buscar paginar contar",
+    "ruta": "/api/tipos-atencion/?search=Q1558d2b8&page_size=1&estado=todos",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "tipos-atencion filtro conserva registro",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "tipos-atencion exportar filtro",
+    "ruta": "/api/tipos-atencion/export/?search=Q1558d2b8&estado=todos",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "tipos-atencion Excel válido y sin contraseñas",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "tipos-atencion rechaza creación vacía",
+    "ruta": "/api/tipos-atencion/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "tipos-atencion rechaza exceso longitud",
+    "ruta": "/api/tipos-atencion/5/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "tipos-atencion rechaza duplicados",
+    "ruta": "/api/tipos-atencion/",
+    "esperado": [
+      400,
+      409
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "subatenciones consultar",
+    "ruta": "/api/subatenciones/4/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "subatenciones editar",
+    "ruta": "/api/subatenciones/4/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "subatenciones conflicto versión",
+    "ruta": "/api/subatenciones/4/",
+    "esperado": [
+      409
+    ],
+    "obtenido": 409,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "subatenciones versión obligatoria",
+    "ruta": "/api/subatenciones/4/",
+    "esperado": [
+      428
+    ],
+    "obtenido": 428,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "subatenciones buscar paginar contar",
+    "ruta": "/api/subatenciones/?search=Q1558d2b8&page_size=1&estado=todos",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "subatenciones filtro conserva registro",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "subatenciones exportar filtro",
+    "ruta": "/api/subatenciones/export/?search=Q1558d2b8&estado=todos",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "subatenciones Excel válido y sin contraseñas",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "subatenciones rechaza creación vacía",
+    "ruta": "/api/subatenciones/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "subatenciones rechaza exceso longitud",
+    "ruta": "/api/subatenciones/4/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "subatenciones rechaza duplicados",
+    "ruta": "/api/subatenciones/",
+    "esperado": [
+      400,
+      409
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "items-metas consultar",
+    "ruta": "/api/items-metas/4/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "items-metas editar",
+    "ruta": "/api/items-metas/4/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "items-metas conflicto versión",
+    "ruta": "/api/items-metas/4/",
+    "esperado": [
+      409
+    ],
+    "obtenido": 409,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "items-metas versión obligatoria",
+    "ruta": "/api/items-metas/4/",
+    "esperado": [
+      428
+    ],
+    "obtenido": 428,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "items-metas buscar paginar contar",
+    "ruta": "/api/items-metas/?search=Q1558d2b8&page_size=1&estado=todos",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "items-metas filtro conserva registro",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "items-metas exportar filtro",
+    "ruta": "/api/items-metas/export/?search=Q1558d2b8&estado=todos",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "items-metas Excel válido y sin contraseñas",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "items-metas rechaza creación vacía",
+    "ruta": "/api/items-metas/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "items-metas rechaza exceso longitud",
+    "ruta": "/api/items-metas/4/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "items-metas rechaza duplicados",
+    "ruta": "/api/items-metas/",
+    "esperado": [
+      400,
+      409
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "usuario correo inválido",
+    "ruta": "/api/usuarios/11/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "subatención padre inexistente",
+    "ruta": "/api/subatenciones/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "delegación vinculada no desactivar",
+    "ruta": "/api/delegaciones/5/toggle-estado/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "rol vinculado no desactivar",
+    "ruta": "/api/roles/9/toggle-estado/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "tipo vinculado no desactivar",
+    "ruta": "/api/tipos-atencion/5/toggle-estado/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "cambiar contexto autorizado",
+    "ruta": "/api/contexto/cambiar-delegacion/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "atención crear",
+    "ruta": "/api/atenciones/",
+    "esperado": [
+      201
+    ],
+    "obtenido": 201,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "atención doble envío",
+    "ruta": "/api/atenciones/",
+    "esperado": [
+      200,
+      201
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "atención sin duplicado",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "atención subtipo incompatible",
+    "ruta": "/api/atenciones/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "atención sin obligatorios",
+    "ruta": "/api/atenciones/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "atención usuario automático",
+    "ruta": "/api/atenciones/4/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "atención autor y contexto persistidos",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "actividad crear",
+    "ruta": "/api/operacion/actividades/",
+    "esperado": [
+      201
+    ],
+    "obtenido": 201,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "actividad editar",
+    "ruta": "/api/operacion/actividades/3/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "actividad conflicto",
+    "ruta": "/api/operacion/actividades/3/",
+    "esperado": [
+      409
+    ],
+    "obtenido": 409,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "evidencia S3 subir",
+    "ruta": "/api/operacion/evidencias/",
+    "esperado": [
+      201
+    ],
+    "obtenido": 201,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "evidencia descarga autorizada",
+    "ruta": "/api/operacion/evidencias/3/archivo/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "evidencia descarga íntegra",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "evidencia no autoaprobar",
+    "ruta": "/api/operacion/evidencias/3/revisar/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "evidencia ajena a delegación denegada",
+    "ruta": "/api/operacion/evidencias/3/archivo/",
+    "esperado": [
+      404
+    ],
+    "obtenido": 404,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "usuarios crear",
+    "ruta": "/api/usuarios/",
+    "esperado": [
+      201
+    ],
+    "obtenido": 201,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "evidencia revisión por otro usuario",
+    "ruta": "/api/operacion/evidencias/3/revisar/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "actividad validada tras revisión",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "compromiso crear",
+    "ruta": "/api/operacion/compromisos/",
+    "esperado": [
+      201
+    ],
+    "obtenido": 201,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "compromiso conversación",
+    "ruta": "/api/operacion/compromisos/2/mensajes/",
+    "esperado": [
+      201
+    ],
+    "obtenido": 201,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "compromiso cerrar",
+    "ruta": "/api/operacion/compromisos/2/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "compromiso reabrir autorizado",
+    "ruta": "/api/operacion/compromisos/2/reabrir/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "reclamo crear",
+    "ruta": "/api/reclamos/",
+    "esperado": [
+      201
+    ],
+    "obtenido": 201,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "reclamo editar",
+    "ruta": "/api/reclamos/2/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "módulo operacion/actividades/export/",
+    "ruta": "/api/operacion/actividades/export/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "módulo operacion/compromisos/export/",
+    "ruta": "/api/operacion/compromisos/export/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "módulo reclamos/export/",
+    "ruta": "/api/reclamos/export/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "módulo alertas/",
+    "ruta": "/api/alertas/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "módulo auditoria/",
+    "ruta": "/api/auditoria/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "módulo gobierno/",
+    "ruta": "/api/gobierno/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "módulo indicadores/",
+    "ruta": "/api/indicadores/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "módulo planillas/",
+    "ruta": "/api/planillas/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "módulo casos-sociales/",
+    "ruta": "/api/casos-sociales/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "rol consulta no crea atención",
+    "ruta": "/api/atenciones/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "no cambiar delegación ajena",
+    "ruta": "/api/contexto/cambiar-delegacion/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "no administrar usuarios",
+    "ruta": "/api/usuarios/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "consulta no modifica actividad",
+    "ruta": "/api/operacion/actividades/3/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "volver contexto inicial",
+    "ruta": "/api/contexto/cambiar-delegacion/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "atención fuera contexto no visible",
+    "ruta": "/api/atenciones/4/",
+    "esperado": [
+      404
+    ],
+    "obtenido": 404,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "evidencia fuera contexto no visible",
+    "ruta": "/api/operacion/evidencias/3/archivo/",
+    "esperado": [
+      404
+    ],
+    "obtenido": 404,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "usuarios desactivar",
+    "ruta": "/api/usuarios/11/toggle-estado/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "usuarios persistencia estado",
+    "ruta": "/api/usuarios/11/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "usuarios estado inactivo",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "roles desactivar",
+    "ruta": "/api/roles/9/toggle-estado/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "roles persistencia estado",
+    "ruta": "/api/roles/9/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "roles estado inactivo",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "cargos desactivar",
+    "ruta": "/api/cargos/3/toggle-estado/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "cargos persistencia estado",
+    "ruta": "/api/cargos/3/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "cargos estado inactivo",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "tipos-atencion desactivar",
+    "ruta": "/api/tipos-atencion/6/toggle-estado/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "tipos-atencion persistencia estado",
+    "ruta": "/api/tipos-atencion/6/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "tipos-atencion estado inactivo",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "cerrar sesión",
+    "ruta": "/api/logout/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "API sin sesión",
+    "ruta": "/api/contexto/",
+    "esperado": [
+      401
+    ],
+    "obtenido": 401,
+    "resultado": "PASS"
+  }
+]

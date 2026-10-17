@@ -1,0 +1,30 @@
+[
+  {
+    "caso": "Código se muestra un dígito por casilla",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Código real recibido por Gmail válido",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Confirmación diferente rechazada",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Nueva contraseña guardada y retorno al login",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Contraseña anterior rechazada",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Ingreso con nueva contraseña",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Verificación consumida tras cambiar contraseña",
+    "resultado": "PASS"
+  }
+]
