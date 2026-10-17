@@ -1,0 +1,186 @@
+[
+  {
+    "navegador": "Chrome for Testing",
+    "version": "155.0.8059.84",
+    "results": [
+      {
+        "caso": "ACC-01",
+        "variante": "Administrador",
+        "estado": "Aprobado"
+      },
+      {
+        "caso": "UX-05",
+        "variante": "delegaciones — abrir por teclado, Escape y retorno de foco",
+        "estado": "Aprobado"
+      },
+      {
+        "caso": "UX-05",
+        "variante": "roles — abrir por teclado, Escape y retorno de foco",
+        "estado": "Aprobado"
+      },
+      {
+        "caso": "UX-05",
+        "variante": "usuarios — abrir por teclado, Escape y retorno de foco",
+        "estado": "Aprobado"
+      },
+      {
+        "caso": "UX-05",
+        "variante": "items-metas — abrir por teclado, Escape y retorno de foco",
+        "estado": "Aprobado"
+      },
+      {
+        "caso": "UX-05",
+        "variante": "tipos-atencion — abrir por teclado, Escape y retorno de foco",
+        "estado": "Aprobado"
+      },
+      {
+        "caso": "UX-05",
+        "variante": "subatenciones — abrir por teclado, Escape y retorno de foco",
+        "estado": "Aprobado"
+      },
+      {
+        "caso": "UX-01/02/03 e INT-02",
+        "variante": "23 registros, tres páginas, filtro, XLSX y conflicto real",
+        "estado": "Aprobado"
+      },
+      {
+        "caso": "UX-04",
+        "variante": "Fallo 503 controlado y sin listado simulado",
+        "estado": "Aprobado"
+      },
+      {
+        "caso": "UX-06",
+        "variante": "1440 × 1000",
+        "estado": "Aprobado"
+      },
+      {
+        "caso": "UX-06",
+        "variante": "390 × 844",
+        "estado": "Aprobado"
+      },
+      {
+        "caso": "ACC-01/ADM-06/SEG-02",
+        "variante": "Coordinador coordinador.qa",
+        "estado": "Aprobado"
+      },
+      {
+        "caso": "ACC-01/ADM-06/SEG-02",
+        "variante": "Delegado delegado.qa",
+        "estado": "Aprobado"
+      },
+      {
+        "caso": "ACC-01/ADM-06/SEG-02",
+        "variante": "Funcionario funcionario1.qa",
+        "estado": "Aprobado"
+      },
+      {
+        "caso": "ACC-01/ADM-06/SEG-02",
+        "variante": "Funcionario funcionario2.qa",
+        "estado": "Aprobado"
+      },
+      {
+        "caso": "ACC-01/ADM-06/SEG-02",
+        "variante": "Verificador verificador.qa",
+        "estado": "Aprobado"
+      },
+      {
+        "caso": "ACC-01/ADM-06/SEG-02",
+        "variante": "Consulta consulta.qa",
+        "estado": "Aprobado"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "navegador": "Microsoft Edge",
+    "version": "155.0.4283.45",
+    "results": [
+      {
+        "caso": "ACC-01",
+        "variante": "Administrador",
+        "estado": "Aprobado"
+      },
+      {
+        "caso": "UX-05",
+        "variante": "delegaciones — abrir por teclado, Escape y retorno de foco",
+        "estado": "Aprobado"
+      },
+      {
+        "caso": "UX-05",
+        "variante": "roles — abrir por teclado, Escape y retorno de foco",
+        "estado": "Aprobado"
+      },
+      {
+        "caso": "UX-05",
+        "variante": "usuarios — abrir por teclado, Escape y retorno de foco",
+        "estado": "Aprobado"
+      },
+      {
+        "caso": "UX-05",
+        "variante": "items-metas — abrir por teclado, Escape y retorno de foco",
+        "estado": "Aprobado"
+      },
+      {
+        "caso": "UX-05",
+        "variante": "tipos-atencion — abrir por teclado, Escape y retorno de foco",
+        "estado": "Aprobado"
+      },
+      {
+        "caso": "UX-05",
+        "variante": "subatenciones — abrir por teclado, Escape y retorno de foco",
+        "estado": "Aprobado"
+      },
+      {
+        "caso": "UX-01/02/03 e INT-02",
+        "variante": "23 registros, tres páginas, filtro, XLSX y conflicto real",
+        "estado": "Aprobado"
+      },
+      {
+        "caso": "UX-04",
+        "variante": "Fallo 503 controlado y sin listado simulado",
+        "estado": "Aprobado"
+      },
+      {
+        "caso": "UX-06",
+        "variante": "1440 × 1000",
+        "estado": "Aprobado"
+      },
+      {
+        "caso": "UX-06",
+        "variante": "390 × 844",
+        "estado": "Aprobado"
+      },
+      {
+        "caso": "ACC-01/ADM-06/SEG-02",
+        "variante": "Coordinador coordinador.qa",
+        "estado": "Aprobado"
+      },
+      {
+        "caso": "ACC-01/ADM-06/SEG-02",
+        "variante": "Delegado delegado.qa",
+        "estado": "Aprobado"
+      },
+      {
+        "caso": "ACC-01/ADM-06/SEG-02",
+        "variante": "Funcionario funcionario1.qa",
+        "estado": "Aprobado"
+      },
+      {
+        "caso": "ACC-01/ADM-06/SEG-02",
+        "variante": "Funcionario funcionario2.qa",
+        "estado": "Aprobado"
+      },
+      {
+        "caso": "ACC-01/ADM-06/SEG-02",
+        "variante": "Verificador verificador.qa",
+        "estado": "Aprobado"
+      },
+      {
+        "caso": "ACC-01/ADM-06/SEG-02",
+        "variante": "Consulta consulta.qa",
+        "estado": "Aprobado"
+      }
+    ],
+    "errors": []
+  }
+]

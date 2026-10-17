@@ -1,0 +1,34 @@
+{
+  "fecha": "2026-10-15T22:24:00.239Z",
+  "results": [
+    {
+      "modulo": "delegaciones",
+      "resultado": "Crear, consultar, editar, exportar, cancelar y desactivar desde la interfaz"
+    },
+    {
+      "modulo": "roles",
+      "resultado": "Crear, consultar, editar, exportar, cancelar y desactivar desde la interfaz"
+    },
+    {
+      "modulo": "usuarios",
+      "resultado": "Crear, consultar, editar, exportar, cancelar y desactivar desde la interfaz"
+    },
+    {
+      "modulo": "tipos-atencion",
+      "resultado": "Crear, consultar, editar, exportar, cancelar y desactivar desde la interfaz"
+    },
+    {
+      "modulo": "subatenciones",
+      "resultado": "Crear, consultar, editar, exportar, cancelar y desactivar desde la interfaz"
+    },
+    {
+      "modulo": "items-metas",
+      "resultado": "Crear, consultar, editar, exportar, cancelar y desactivar desde la interfaz"
+    },
+    {
+      "modulo": "errores",
+      "resultado": "Duplicado rechazado, formulario preservado y sin éxito falso"
+    }
+  ],
+  "errors": []
+}

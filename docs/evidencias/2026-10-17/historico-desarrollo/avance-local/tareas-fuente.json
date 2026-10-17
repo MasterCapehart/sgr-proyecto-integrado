@@ -1,0 +1,212 @@
+[
+  {
+    "id": "T01",
+    "responsable": "Daniel Angel",
+    "tarea": "Configurar Django y MySQL",
+    "estado_excel": "Terminada",
+    "alcance_local": "Implementación y verificación local"
+  },
+  {
+    "id": "T02",
+    "responsable": "Daniel Flores",
+    "tarea": "Validar y alinear el modelo de datos",
+    "estado_excel": "Terminada",
+    "alcance_local": "Implementación y verificación local"
+  },
+  {
+    "id": "T03",
+    "responsable": "Daniel Angel",
+    "tarea": "Crear modelos y migraciones iniciales",
+    "estado_excel": "Terminada",
+    "alcance_local": "Implementación y verificación local"
+  },
+  {
+    "id": "T04",
+    "responsable": "Daniel Flores",
+    "tarea": "Acordar API y patrón común de CRUD",
+    "estado_excel": "Terminada",
+    "alcance_local": "Implementación y verificación local"
+  },
+  {
+    "id": "T05",
+    "responsable": "Daniel Angel",
+    "tarea": "Conectar login y logout",
+    "estado_excel": "Terminada",
+    "alcance_local": "Implementación y verificación local"
+  },
+  {
+    "id": "T06",
+    "responsable": "Daniel Angel",
+    "tarea": "Implementar solicitud y envío de código",
+    "estado_excel": "Terminada",
+    "alcance_local": "Implementación y verificación local"
+  },
+  {
+    "id": "T07",
+    "responsable": "Daniel Angel",
+    "tarea": "Validar código y cambiar contraseña",
+    "estado_excel": "Pendiente",
+    "alcance_local": "Implementación y verificación local"
+  },
+  {
+    "id": "T08",
+    "responsable": "Daniel Angel",
+    "tarea": "Aplicar permisos y contexto autorizado",
+    "estado_excel": "Pendiente",
+    "alcance_local": "Implementación y verificación local"
+  },
+  {
+    "id": "T09",
+    "responsable": "Daniel Angel",
+    "tarea": "Completar CRUD Roles",
+    "estado_excel": "Pendiente",
+    "alcance_local": "Implementación y verificación local"
+  },
+  {
+    "id": "T10",
+    "responsable": "Daniel Angel",
+    "tarea": "Completar CRUD Usuarios",
+    "estado_excel": "Pendiente",
+    "alcance_local": "Implementación y verificación local"
+  },
+  {
+    "id": "T11",
+    "responsable": "Daniel Angel",
+    "tarea": "Compartir búsqueda y paginación del servidor",
+    "estado_excel": "Pendiente",
+    "alcance_local": "Implementación y verificación local"
+  },
+  {
+    "id": "T12",
+    "responsable": "Daniel Angel",
+    "tarea": "Preparar exportación Excel autorizada",
+    "estado_excel": "Pendiente",
+    "alcance_local": "Implementación y verificación local"
+  },
+  {
+    "id": "T13",
+    "responsable": "Matías",
+    "tarea": "Completar CRUD Delegaciones con patrón común",
+    "estado_excel": "Pendiente",
+    "alcance_local": "Implementación y verificación local"
+  },
+  {
+    "id": "T14",
+    "responsable": "Daniel Flores",
+    "tarea": "Completar CRUD Tipo de Atención",
+    "estado_excel": "Terminada",
+    "alcance_local": "Implementación y verificación local"
+  },
+  {
+    "id": "T15",
+    "responsable": "Daniel Flores",
+    "tarea": "Completar CRUD Sub Atenciones",
+    "estado_excel": "Terminada",
+    "alcance_local": "Implementación y verificación local"
+  },
+  {
+    "id": "T16",
+    "responsable": "Daniel Flores",
+    "tarea": "Completar CRUD Ítems y metas",
+    "estado_excel": "Terminada",
+    "alcance_local": "Implementación y verificación local"
+  },
+  {
+    "id": "T17",
+    "responsable": "Daniel Flores",
+    "tarea": "Conectar registro de atención ciudadana",
+    "estado_excel": "Terminada",
+    "alcance_local": "Implementación y verificación local"
+  },
+  {
+    "id": "T18",
+    "responsable": "Daniel Flores",
+    "tarea": "Proteger integridad e idempotencia de atención",
+    "estado_excel": "Terminada",
+    "alcance_local": "Implementación y verificación local"
+  },
+  {
+    "id": "T19",
+    "responsable": "Daniel Flores",
+    "tarea": "Integrar cabecera y cambio de delegación",
+    "estado_excel": "Terminada",
+    "alcance_local": "Implementación y verificación local"
+  },
+  {
+    "id": "T20",
+    "responsable": "Matías",
+    "tarea": "Revisar diseño municipal y adaptación móvil",
+    "estado_excel": "Pendiente",
+    "alcance_local": "Implementación y verificación local"
+  },
+  {
+    "id": "T21",
+    "responsable": "Matías",
+    "tarea": "Revisar mensajes y estados de interfaz",
+    "estado_excel": "Pendiente",
+    "alcance_local": "Implementación y verificación local"
+  },
+  {
+    "id": "T22",
+    "responsable": "Matías",
+    "tarea": "Organizar matriz y evidencias funcionales",
+    "estado_excel": "Pendiente",
+    "alcance_local": "Implementación y verificación local"
+  },
+  {
+    "id": "T23",
+    "responsable": "Daniel Angel",
+    "tarea": "Ejecutar pruebas de acceso y permisos",
+    "estado_excel": "Pendiente",
+    "alcance_local": "Implementación y verificación local"
+  },
+  {
+    "id": "T24",
+    "responsable": "Daniel Flores",
+    "tarea": "Ejecutar pruebas de CRUD y atención",
+    "estado_excel": "Pendiente",
+    "alcance_local": "Implementación y verificación local"
+  },
+  {
+    "id": "T25",
+    "responsable": "Daniel Flores",
+    "tarea": "Preparar despliegue AWS con apoyo",
+    "estado_excel": "Pendiente",
+    "alcance_local": "Excluido AWS/carga AWS"
+  },
+  {
+    "id": "T26",
+    "responsable": "Daniel Angel",
+    "tarea": "Comprobar acceso y correo en AWS",
+    "estado_excel": "Pendiente",
+    "alcance_local": "Excluido AWS/carga AWS"
+  },
+  {
+    "id": "T27",
+    "responsable": "Daniel Flores",
+    "tarea": "Ejecutar pruebas de carga y corrección final",
+    "estado_excel": "Pendiente",
+    "alcance_local": "Excluido AWS/carga AWS"
+  },
+  {
+    "id": "T28",
+    "responsable": "Daniel Flores",
+    "tarea": "Actualizar y publicar diagramas vigentes",
+    "estado_excel": "Pendiente",
+    "alcance_local": "Parte local; publicación/revisión humana excluida"
+  },
+  {
+    "id": "T29",
+    "responsable": "Matías",
+    "tarea": "Completar README y dossier de evidencias",
+    "estado_excel": "Pendiente",
+    "alcance_local": "Parte local; publicación/revisión humana excluida"
+  },
+  {
+    "id": "T30",
+    "responsable": "Daniel Flores",
+    "tarea": "Cerrar versión y preparar demostración",
+    "estado_excel": "Pendiente",
+    "alcance_local": "Parte local; publicación/revisión humana excluida"
+  }
+]

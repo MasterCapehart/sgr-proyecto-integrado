@@ -1,0 +1,1503 @@
+Requisitos y plan de pruebas de la segunda
+evaluación
+Proyecto Integrado SGR | Municipalidad de La Serena
+La segunda entrega debe presentar el acceso al sistema, la recuperación de contraseña, seis
+mantenedores y el ingreso de atención ciudadana. Las pantallas deben utilizar un mismo template,
+identificar la delegación activa según el perfil del usuario y estar disponibles en AWS, con código
+actualizado en un repositorio remoto Git.
+
+
+A1 Módulos y pantallas requeridas
+Componente                 Alcance requerido
+
+                           Ingreso con usuario o correo y contraseña, validación de credenciales y acceso
+Login
+                           según perfil.
+
+Recuperar contraseña       Solicitud de código mediante el correo asociado a la cuenta.
+
+                           Ingreso y comprobación del código, vigencia, reenvío y tratamiento de intentos
+Validar código
+                           fallidos.
+
+Crear nueva contraseña     Nueva clave, confirmación, validación de requisitos y retorno al login.
+
+CRUD Delegaciones          Código, nombre, dirección, comuna y estado según el modelo de datos.
+
+CRUD Roles                 Nombre, descripción, permisos y alcance autorizado.
+
+CRUD Usuarios              Nombre, correo, rol, delegación o delegaciones autorizadas y estado.
+
+                           Código, nombre, descripción y estado; corresponde al mantenedor de Ítems del
+CRUD Ítems y metas
+                           proyecto.
+
+CRUD Tipo de Atención      Código, nombre, descripción y estado.
+
+CRUD Sub Atención          Código, nombre, Tipo de Atención asociado y estado.
+
+                           Solicitante, tipo, subatención, descripción, delegación, usuario responsable y
+Ingreso de atención
+                           fecha de registro.
+
+
+
+Alcance conforme al avance de Backend
+Todas las pantallas y su navegación deben estar creadas. La persistencia y funcionalidad se exigirán
+según el avance de Backend. Cada equipo debe distinguir funciones operativas, simuladas y
+pendientes; las simulaciones no acreditan persistencia real. Todas las funciones implementadas deben
+estar probadas y validadas.
+Los diseños se basan en mockups.pdf, páginas 1 a 6. Los catálogos de Vecinos y Tipo de Gestión que
+aparecen allí sirven como contexto; su implementación completa no se incorpora como requisito
+adicional en esta entrega. El ingreso de atención debe identificar al solicitante según el modelo
+definido.
+
+                                                                                  SGR | Segunda evaluación | 1
+
+A2 Requisitos comunes de interfaz y contexto
+Normas gráficas institucionales
+La identidad visual de todas las pantallas debe basarse en las normas gráficas oficiales de la
+Municipalidad de La Serena. El template debe adaptarse a sus disposiciones sobre logotipo, colores,
+tipografías y usos permitidos, según el material oficial publicado. Este requisito comprende login,
+recuperación de contraseña, mantenedores, ingreso de atención y mensajes SweetAlert2.
+Referencia oficial: https://laserena.cl/conocenos/normas-graficas
+
+Estructura de cada mantenedor
+•   Incluir crear, consultar, listar, editar y eliminar o desactivar registros, respetando relaciones y reglas
+    de negocio.
+•   Mostrar una tabla con columnas relevantes, estado textual y acciones claras. Incorporar paginador,
+    total de resultados y búsqueda por coincidencia parcial en varios campos, sin distinguir mayúsculas
+    y minúsculas.
+•   Conservar los filtros al cambiar de página. Mostrar estados de carga, listado vacío, ausencia de
+    coincidencias y errores. El buscador inteligente no requiere inteligencia artificial.
+•   Incorporar Exportar a Excel. Cuando esté operativo, exportar los resultados autorizados del filtro
+    aplicado en todas sus páginas, sin incluir contraseñas, tokens o campos internos.
+•   Aplicar el template de manera consistente: tipografía, colores, espaciados, formularios, botones y
+    navegación adaptable. Identificar campos obligatorios y permitir guardar o cancelar.
+
+Identificación gráfica de la delegación
+La cabecera debe mostrar de forma permanente el código y nombre de la delegación activa, además
+del nombre del usuario y su rol. Utilizar un distintivo con texto e icono o color de apoyo; el color por sí
+solo no debe identificar el contexto.
+Un usuario con una sola delegación tendrá su contexto fijo. Cuando el perfil permita varias
+delegaciones, el selector debe mostrar únicamente las autorizadas. Un cambio de contexto debe
+actualizar listados, filtros, exportaciones y formularios, y advertir sobre cambios sin guardar.
+La delegación y los permisos deben validarse en el servidor cuando exista Backend. Ocultar botones o
+modificar un distintivo no constituye control de acceso. El registro de una atención debe conservar la
+delegación y el usuario responsable de su creación.
+
+Ingreso de atención
+El formulario debe identificar al solicitante y permitir seleccionar Tipo de Atención y Sub Atención. La
+segunda lista debe mostrar solo opciones activas asociadas al tipo elegido. Si cambia el tipo, se debe
+limpiar la subatención seleccionada cuando deje de ser válida.
+La delegación debe completarse a partir del contexto autorizado del usuario. El responsable y la fecha
+y hora se registrarán automáticamente cuando el Backend esté integrado. Tras guardar, mostrar
+confirmación y un identificador de atención; cancelar no debe crear registros.
+
+
+
+
+                                                                                 SGR | Segunda evaluación | 2
+
+A3 Validaciones y pruebas obligatorias
+Las alertas, confirmaciones y resultados de operación deben implementarse con SweetAlert2. Las
+validaciones deben ejecutarse en la interfaz y también en el servidor cuando esté integrado.
+SweetAlert2 comunica los resultados; no sustituye las validaciones ni ejecuta las pruebas de estrés.
+
+Acceso y recuperación de contraseña
+Probar ingreso correcto e incorrecto, campos vacíos, cuenta inactiva, cierre de sesión y acceso a rutas
+protegidas. La recuperación debe usar una respuesta que no revele si un correo existe. Comprobar
+código válido, incorrecto, vencido, reutilizado y reenvío, con límites de intentos y frecuencia definidos.
+La pantalla de nueva contraseña solo debe habilitarse después de una verificación válida. Mostrar los
+requisitos de la clave, comprobar la confirmación y rechazar datos inválidos. Tras guardar, invalidar el
+código utilizado y comprobar el ingreso con la nueva clave y el rechazo de la anterior. La vigencia de
+10 minutos y espera de 45 segundos de los diseños son valores referenciales del PDF, sujetos a la
+configuración del proyecto.
+
+Cobertura funcional por módulo
+ Área                   Casos que deben comprobarse
+
+                        Crear, consultar, editar y eliminar o desactivar; campos requeridos, formatos,
+ Los seis CRUD
+                        longitudes, duplicados y restricciones por relaciones.
+
+                        Buscar, paginar, combinar filtros y exportar a Excel cuando esté operativo. Confirmar
+ Listados
+                        coherencia entre la tabla y el archivo.
+
+                        Asociación válida entre ambos catálogos y tratamiento de tipos con subatenciones
+ Tipo y Sub Atención
+                        relacionadas.
+
+                        Solicitante, campos obligatorios, dependencia tipo y subatención, guardado,
+ Ingreso de atención
+                        cancelación y prevención de doble envío.
+
+                        Distintivo correcto, datos del contexto autorizado y rechazo de acceso a otras
+ Perfil y delegación
+                        delegaciones al alterar rutas o solicitudes.
+
+                        Éxito real, validación fallida, error de servidor, confirmación y cancelación de
+ SweetAlert2
+                        eliminación. No mostrar éxito si la operación falla.
+
+
+
+Pruebas de estrés y registro de resultados
+Evaluar las operaciones integradas aumentando progresivamente la concurrencia hasta observar
+degradación o alcanzar el límite seguro del entorno de prueba. Registrar herramienta, entorno AWS,
+volumen de datos, escenarios, concurrencia, duración, solicitudes por segundo, latencia promedio y
+percentil 95, errores y recuperación; CPU y memoria cuando estén disponibles.
+Definir previamente carga y umbrales de aceptación. Para cada prueba funcional registrar requisito,
+módulo, precondiciones, pasos, resultado esperado y obtenido, estado, evidencia, responsable y
+fecha. Documentar defectos y repetir tras corregir. Las pruebas pendientes por falta de Backend deben
+quedar justificadas, sin declararlas aprobadas.
+
+
+
+
+                                                                                    SGR | Segunda evaluación | 3
+
+A4 Despliegue y evidencias de la entrega
+AWS y repositorio Git
+•     Entregar una URL o dirección AWS operativa y acceso de evaluación acordado con el docente.
+      Verificar que el despliegue corresponde a la versión entregada y se conecta a la base de datos
+      cuando proceda.
+•     Documentar servicios y componentes AWS, configuración y pasos de inicio o actualización. Usar
+      datos de prueba y mantener secretos fuera del código y de las evidencias públicas.
+•     Entregar repositorio remoto Git con acceso habilitado, código actualizado, historial de commits y
+      commit o etiqueta de la entrega.
+•     Incluir README con integrantes, descripción, requisitos, instalación, configuración, despliegue,
+      estado de cada módulo e instrucciones de pruebas; adjuntar migraciones o scripts de base de
+      datos y ejemplo de configuración sin secretos.
+
+Lista de verificación
+ Nº      Evidencia requerida
+
+ 1       Login y flujo completo de recuperación: solicitar código, validarlo y crear nueva contraseña.
+
+ 2       Seis CRUD: Delegaciones, Roles, Usuarios, Ítems y metas, Tipo de Atención y Sub Atención.
+
+ 3       Ingreso de atención con dependencia de catálogos y contexto de delegación.
+
+ 4       Tabla, paginador, búsqueda y Exportar a Excel en cada mantenedor, según avance funcional.
+
+         Normas gráficas oficiales aplicadas; identificación de delegación, usuario y rol; alcance según
+ 5       perfil.
+
+ 6       Validaciones y mensajes SweetAlert2 en todas las funciones implementadas.
+
+ 7       URL AWS, repositorio Git y versión inequívoca de la entrega.
+
+ 8       Resultados de pruebas funcionales y estrés, evidencias y correcciones.
+
+ 9       Resumen de funciones operativas, simuladas y pendientes según avance de Backend.
+
+
+
+Lectura de los diseños de referencia
+Los diseños del anexo C proponen una distribución mejorada a partir del PDF adjunto. Son referencias
+funcionales, no una reproducción certificada de la identidad institucional. Antes de implementar, ajustar
+logotipo, colores y tipografías a las normas gráficas oficiales de La Serena. Los datos son ficticios y las
+acciones deben adaptarse al perfil real.
+Los listados ilustran el patrón común. Cada CRUD también debe disponer de formularios de creación y
+edición y de una vista de consulta con las mismas convenciones. Las acciones representadas no
+acreditan funcionalidad: esta se demuestra con la aplicación desplegada y sus pruebas.
+
+
+
+
+                                                                                      SGR | Segunda evaluación | 4
+
+B1 Alcance y fuentes del plan de pruebas
+Este documento reúne los requisitos de la segunda evaluación y el plan del Sistema de Gestión de
+Resultados. La parte A establece la entrega; la parte B contiene los 84 casos, su preparación y los
+registros de ejecución; el anexo C reúne los diseños de referencia.
+Para esta evaluación se deben presentar Login, Recuperar contraseña, Validar código, Crear nueva
+contraseña, los CRUD de Delegaciones, Roles, Usuarios, Ítems, Tipo de Atención y Sub Atención, e
+Ingreso de atención. Cada pantalla debe identificar la delegación según el perfil, cuando corresponda.
+Se ejecutarán las pruebas de las funciones integradas según el avance de Backend, incluyendo
+validaciones, permisos, interfaz, persistencia, AWS y Git. Las pruebas sobre metas, agenda,
+evidencias, indicadores u otras funciones del SGR se aplicarán cuando esas funciones formen parte
+del incremento acordado. Un requisito exigible que no está implementado se registra como pendiente o
+bloqueado, nunca como aprobado ni como No aplica por ese solo motivo.
+Estado del plan: preparado para ejecución. Los resultados reales, fechas, responsables y evidencias
+deben completarse. Los casos de estrés requieren ejecutar la carga y registrar las métricas; una
+captura de pantalla no sustituye esa evidencia.
+
+Clav
+        Documento y aplicación
+e
+
+        Guia_Proyecto_Software_SGR_Alumnos.pdf, versión 1.0 de 31 de agosto de 2026. Fuente principal:
+S1
+        RF-001 a RF-038, RNF-001 a RNF-018, RN-001 a RN-013, CA-01 a CA-10 y HU-01 a HU-31.
+
+        PRESENTACIÓN MATRIZ REGIMIENTO RESULTADO (1) (1).pptx. Contexto operativo, 20
+S2
+        diapositivas: registro personal, atención social, evidencias, agenda, cálculos y resúmenes.
+
+        PROYECTO INTEGRADO - PLAN DE PRUEBAS - DESPLIEGUE - REQUERIMIENTOS (1).pdf.
+S3      Referencia de estructura: identificación, módulo, tipo, perfil, datos y resultado esperado; bloques de
+        seguridad, estrés y AWS.
+
+
+
+Se aplica la especificación formal de S1 y, para el prototipo académico, la línea base de su sección
+13.1, página 27. S2 aporta el proceso y ejemplos, sin trasladar los datos personales de sus capturas.
+De S3 se adapta el formato al dominio SGR; productos, proveedores, stock y perfiles de bodega no
+pertenecen al alcance de este sistema.
+Se conservan los requisitos complementarios de la entrega: AWS, Git, tablas paginadas, búsqueda en
+tiempo real, Excel, SweetAlert2 e identificación de delegación. La interfaz debe basarse en las normas
+gráficas de La Serena: https://laserena.cl/conocenos/normas-graficas.
+
+Alcance y priorización
+El plan cubre el sistema completo. Las historias P1 de S1 constituyen el mínimo recomendado; P2 y
+P3 se ejecutan al incorporarse al incremento. Los casos de funciones no implementadas se registran
+como no ejecutados con justificación. Las reglas cuantitativas o decisiones aún pendientes deben
+aprobarse antes de declarar conformidad.
+
+
+
+
+                                                                                    SGR | Segunda evaluación | 5
+
+B2 Preparación y control de la ejecución
+Ambiente y responsabilidades
+Ejecutar primero en LOCAL/QA y luego en AWS-TEST con la misma versión identificada por commit.
+El responsable de pruebas prepara datos y evidencias; desarrollo corrige defectos; el docente o
+responsable funcional valida reglas y acepta el alcance. Las pruebas de carga y seguridad se realizan
+solo en el entorno de prueba autorizado.
+
+Dato de control                     Registro a completar
+
+Equipo y ejecutor                   ____________________________________________
+
+Versión y commit                    ____________________________________________
+
+Entorno y URL                       ____________________________________________
+
+Fecha y zona horaria                ____________________________________________
+
+Motor y versión de base de datos    ____________________________________________
+
+Navegadores y herramientas          ____________________________________________
+
+Carga y parámetros aprobados        ____________________________________________
+
+
+
+Conjunto común de datos ficticios
+Crear D01 Centro y D02 Norte. Usar cuentas de prueba para Administrador, Coordinador, Delegado
+D01, Funcionario F01/D01, Funcionario F02/D02, Verificador D01 y Consulta D01. Configurar un rol
+inactivo y una cuenta inactiva. Los permisos transversales solo se asignan cuando el alcance los
+autorice expresamente.
+Crear cargo C01, ítems I01 e I02, Tipo Social y Sub Atención Orientación, y un segundo tipo con otra
+subatención. Preparar un caso social CS01 con persona ficticia P001. Utilizar correos example.test
+mediante un buzón de pruebas controlado y fotografías sintéticas sin personas identificables.
+Para cálculos, cargar el lote CAL descrito en la sección siguiente. Para volumen, preparar 5.000 y
+10.000 registros con una semilla reproducible y una distribución conocida entre D01 y D02.
+Restablecer el lote antes de cada caso que lo modifique.
+
+Criterios de entrada y salida
+Entrada: alcance y permisos definidos, aplicación disponible, migraciones aplicadas, datos cargados,
+reglas numéricas registradas y versión fijada. Salida propuesta para aceptación: todos los casos
+aplicables ejecutados, 100 % de los críticos aprobados, sin defectos críticos o altos abiertos, y
+limitaciones restantes aceptadas explícitamente.
+Estados: No ejecutado, Aprobado, Fallido, Bloqueado y No aplica. Bloqueado exige causa; No aplica
+exige fundamento y aprobación. La prioridad de ejecución por riesgo no reemplaza la prioridad
+P1/P2/P3 del backlog. Registrar cada variante negativa de manera independiente.
+
+
+
+
+                                                                            SGR | Segunda evaluación | 6
+
+B3 Datos de referencia para cálculos
+Estos valores permiten comparar el resultado del sistema con un cálculo independiente. Los pesos se
+expresan como puntos porcentuales y el aporte ponderado también, evitando multiplicar dos
+porcentajes sin normalización. Referencias: S1, páginas 12 y 27; S2, diapositivas 12 y 14 a 19.
+
+Lote        Datos y resultado verificable
+
+            I01: meta 10, avance aprobado 8, peso 40. Cumplimiento 80 %; aporte 32 puntos. I02: meta 20,
+CAL-A       avance 10, peso 60. Cumplimiento 50 %; aporte 30 puntos. Total personal: 62 puntos
+            porcentuales.
+
+            I01: meta 10, avance 20, peso 40 y tope 150 %. Cumplimiento bruto 200 %, computable 150 % y
+CAL-B
+            aporte 60 puntos. Con I02 de CAL-A, total computable 90 puntos.
+
+            Agenda: 10 compromisos distintos, 8 Realizados, 1 Pendiente y 1 En proceso. Realizado 80 % y
+CAL-C
+            no realizado 20 %. No sumar nuevamente el total de ingresados como si fuera otro estado.
+
+            Período de prueba 01-10-2026 a 30-10-2026; para este lote se propone conteo de días calendario
+CAL-D
+            inclusivo. Al 15-10: 15/30 = 50 %. Antes del inicio: 0 %; después del término: 100 %.
+
+            Con esperado 50 %: avance 29,99 % = rojo; 30 % = ámbar; 49,99 % = ámbar; 50 % = verde. El
+CAL-E
+            avance comparado debe usar la misma escala de porcentaje que el esperado.
+
+            Umbral colectivo 80 %: 79,99 % no alcanza; 80 % alcanza; 80,01 % supera. Para ítem porcentual,
+CAL-F
+            aprobar fórmula: con realizado 80 % y meta 80 %, cumplimiento = 100 %.
+
+
+
+Parámetros que deben quedar resueltos
+Registrar la convención de días computables, festivos, fecha inicial/final y zona horaria. CAL-D es un
+dato de ensayo propuesto, no una regla institucional. Aprobar precisión y redondeo; para esta prueba
+se propone conservar precisión interna y mostrar dos decimales. No redondear antes de evaluar
+límites del semáforo.
+Confirmar el tratamiento de período sin actividades, compromisos con denominador cero, resultado
+global de delegación, anulación de evidencias y transiciones de agenda permitidas. El resultado global
+debe compararse con su fórmula aprobada, sin sumar porcentajes personales arbitrariamente.
+El tope académico de 150 % y los umbrales deben ser configurables. Las bonificaciones y
+penalizaciones se prueban solo con reglas parametrizadas aprobadas; no se fijan automáticamente los
+-20 % o -30 % observados en la presentación. La meta de ítems cuantitativos debe ser mayor que
+cero.
+
+
+
+
+                                                                                SGR | Segunda evaluación | 7
+
+B4 Acceso y recuperación
+Funcionales e integración. RNF-004, HU-26 y requisitos complementarios de la entrega.
+
+ID y
+               Perfil y datos previos     Pasos de ejecución                   Resultado esperado
+referencia
+
+               Cada uno de los seis                                            Acceso individual; rol y
+ACC-01                                    Iniciar sesión por cada rol; abrir
+               roles activos;                                                  delegación correctos; opciones
+RNF-004                                   menú y pantalla inicial.
+               credenciales válidas.                                           acordes a permisos.
+
+               Cuenta activa; clave                                            Se rechaza acceso; mensaje
+ACC-02                                    Ejecutar cada variante de
+               incorrecta; cuenta                                              genérico o validación contextual;
+RNF-004                                   ingreso por separado.
+               inactiva; campos vacíos.                                        no se crea sesión.
+
+                                          Cerrar sesión; usar Atrás y          La sesión deja de autorizar; no
+ACC-03         Usuario autenticado en
+                                          solicitar de nuevo una ruta          se recuperan datos protegidos
+RNF-004        un módulo interno.
+                                          interna.                             mediante una nueva petición.
+
+            Cuenta existente y                                                 Respuesta genérica equivalente;
+ACC-04                                    Solicitar recuperación con
+            correo no registrado;                                              la cuenta existente recibe código;
+Complemento                               ambos correos.
+            buzón de prueba.                                                   no se revela existencia.
+
+                                                                               Solo el vigente autoriza cambio;
+            Código vigente,
+ACC-05                                    Validar cada código; reenviar        hay control de vigencia,
+            erróneo, vencido y
+Complemento                               según límite configurado.            reutilización, intentos y
+            previamente usado.
+                                                                               frecuencia.
+
+                                                                               Inválidas rechazadas; nueva
+            Código validado; clave        Intentar cambios inválidos;
+ACC-06                                                                         aceptada; anterior y código
+            válida, débil y               guardar clave válida; probar
+Complemento                                                                    invalidados; confirmación
+            confirmación distinta.        clave antigua y nueva.
+                                                                               SweetAlert2.
+
+
+
+Registro por caso: completar resultado real, estado, responsable, fecha, evidencia y defecto en la ficha
+de ejecución. Todas las filas parten en estado No ejecutado.
+
+
+
+
+                                                                                    SGR | Segunda evaluación | 8
+
+B5 Administración de organización y perfiles
+Funcionales e integración. HU-26 y HU-04. La tabla de permisos debe aprobarse antes de ejecutar.
+
+ID y
+               Perfil y datos previos    Pasos de ejecución                    Resultado esperado
+referencia
+
+               Administrador;            Crear D03; consultar; editar          CRUD persiste los cambios; D03
+ADM-01
+               delegación con nombre     nombre; revisar filtros y             aparece de inmediato en filtros y
+RF-001
+               nuevo.                    asignación.                           asignaciones.
+
+                                                                               Duplicado rechazado;
+               Administrador; D01        Intentar nombre duplicado;
+ADM-02                                                                         desactivación preserva historia y
+               existente y con           desactivar D01; consultar
+RF-001                                                                         evita nuevas asignaciones no
+               actividades.              historia.
+                                                                               permitidas.
+
+               Administrador; usuario    Crear usuario; editar                 Persistencia correcta; permisos
+ADM-03
+               ficticio, cargo C01 y     cargo/rol/delegación; consultar;      reflejan asignación; cuenta
+RF-002
+               D01.                      desactivar.                           inactiva sin acceso operativo.
+
+               Administrador; rol de     Crear/editar rol; asignarlo;          Solo operaciones autorizadas;
+ADM-04
+               prueba con lectura        probar lectura y escritura; retirar   baja del rol respeta usuarios
+RF-002
+               limitada.                 o desactivar rol.                     vinculados; cambios auditables.
+
+               Administrador; C01 con    Seleccionar ambos cargos;             Cada cargo muestra sus ítems
+ADM-05
+               I01/I02 y C02 con otro    modificar una asociación con          vigentes; no altera registros
+RF-003
+               ítem.                     vigencia.                             históricos cerrados.
+
+               F01/D01, F02/D02 y                                              Cabecera y datos coinciden; solo
+ADM-06                                   Abrir vistas y cambiar contexto
+               coordinador con alcance                                         delegaciones autorizadas en
+RNF-005                                  cuando el perfil lo permita.
+               aprobado.                                                       selector; contexto fijo si es único.
+
+
+
+Registro por caso: completar resultado real, estado, responsable, fecha, evidencia y defecto en la ficha
+de ejecución. Todas las filas parten en estado No ejecutado.
+
+
+
+
+                                                                                    SGR | Segunda evaluación | 9
+
+B6 Catálogos y reglas de mantenimiento
+Funcionales e integración. HU-27, HU-04 y requisitos comunes a los CRUD.
+
+ID y
+               Perfil y datos previos     Pasos de ejecución                   Resultado esperado
+referencia
+
+CAT-01                                                                         Datos consistentes; relaciones y
+               Administrador; ítem        Crear, consultar, modificar y
+RF-003 RF-                                                                     vigencia correctas; referencias
+               nuevo para cargo C01.      desactivar un ítem o función.
+004                                                                            históricas conservadas.
+
+                                          Crear, listar, editar y desactivar   Ciclo completo válido; duplicados
+CAT-02         Administrador; tipo de
+                                          el tipo; probar nombre/código        según unicidad rechazados;
+RF-004         atención nuevo.
+                                          duplicado.                           historia inalterada.
+
+                                                                               Asociación válida persiste;
+               Administrador;             Crear subatención; asociar al
+CAT-03                                                                         referencias inexistentes
+               subatención y dos tipos    tipo; editar; probar asociación
+RF-004                                                                         rechazadas; filtros dependientes
+               distintos.                 inexistente.
+                                                                               coherentes.
+
+CAT-04         Tipo y subatención                                              El historial conserva significado y
+                                          Modificar etiqueta o desactivar;
+RF-004 RF-     usados por atención                                             versión; no hay referencias rotas
+                                          consultar el registro previo.
+038            histórica.                                                      ni cambio retroactivo indebido.
+
+               Cada maestro:
+                                          Probar vacío, longitud máxima y      Cada campo respeta regla del
+CAT-05         Delegaciones, Roles,
+                                          máxima+1, formato inválido y         modelo en cliente y servidor; sin
+RNF-007        Usuarios, Ítems, Tipos y
+                                          relación inactiva.                   guardado parcial.
+               Subatenciones.
+
+            Registro libre y otro         Solicitar eliminación; cancelar;     Cancelar no modifica; restricción
+CAT-06
+            relacionado; cada             confirmar cuando proceda;            explicada; SweetAlert2 solo
+Complemento
+            CRUD.                         provocar error controlado.           informa éxito tras guardar.
+
+
+
+Registro por caso: completar resultado real, estado, responsable, fecha, evidencia y defecto en la ficha
+de ejecución. Todas las filas parten en estado No ejecutado.
+
+
+
+
+                                                                                  SGR | Segunda evaluación | 10
+
+B7 Períodos metas y ponderaciones
+Unitarias e integración. HU-04, HU-05, HU-25 y HU-28.
+
+ID y
+               Perfil y datos previos     Pasos de ejecución                     Resultado esperado
+referencia
+
+                                                                                 Duración según calendario
+PAR-01         Administrador; fechas      Crear período; comprobar días;
+                                                                                 aprobado; intervalo inválido
+RF-005         válidas e invertidas.      intentar término anterior al inicio.
+                                                                                 rechazado; sin 90/91 días fijos.
+
+PAR-02                                                                           Solo suma válida de 100 % y
+               C01 con pesos 40/60,       Guardar cada configuración,
+RF-006 RN-                                                                       rangos permitidos; excepción
+               40/59 y 40/61.             incluyendo peso negativo.
+001                                                                              requiere configuración formal.
+
+                                                                                 Meta positiva aceptada;
+PAR-03
+               Ítem cuantitativo; metas   Guardar metas; probar ítem             cero/negativa rechazadas;
+RF-007 RN-
+               10, 0 y -1.                porcentual sin fórmula.                porcentual exige fórmula
+002
+                                                                                 aprobada.
+
+PAR-04                                                                           Versiones vigentes correctas; P0
+               Período cerrado P0 y       Cambiar meta, peso y umbral
+RF-007 RF-                                                                       mantiene parámetros y
+               abierto P1.                para P1; consultar P0.
+038                                                                              resultados originales.
+
+               Operativo y                                                       Operativo bloqueado; reapertura
+PAR-05                                    Intentar editar P0; solicitar
+               administrador                                                     permitida solo con autorización y
+RN-013                                    reapertura autorizada.
+               autorizado; P0 cerrado.                                           auditoría.
+
+               Administrador; nuevo       Cambiar parámetros desde               Cambio sin editar código;
+PAR-06
+               catálogo, umbral y         administración; repetir cálculo        validación previa; vigencia y
+RNF-015
+               ponderación.               afectado.                              efecto trazables.
+
+
+
+Registro por caso: completar resultado real, estado, responsable, fecha, evidencia y defecto en la ficha
+de ejecución. Todas las filas parten en estado No ejecutado.
+
+
+
+
+                                                                                    SGR | Segunda evaluación | 11
+
+B8 Actividades y atención social
+Funcionales e integración. HU-01 y HU-03; esta última P2 según S1. CA-04.
+
+ID y
+               Perfil y datos previos      Pasos de ejecución                    Resultado esperado
+referencia
+
+                                                                                 Identificador visible; persistencia
+ACT-01         F01/D01; fecha, acción,     Registrar actividad completa;         íntegra; autor y delegación de
+RF-009         contacto ficticio e I01.    recargar y consultar detalle.         sesión; sin avance hasta
+                                                                                 aprobación.
+
+               F01; campo obligatorio                                            Rechazo contextual sin registro
+ACT-02                                     Enviar cada variante desde
+               vacío, teléfono inválido,                                         parcial; se conservan datos
+RF-010                                     formulario y solicitud al servidor.
+               ítem ajeno o inactivo.                                            válidos del formulario.
+
+                                           Abrir ficha personal; cambiar         Cargo, delegación, metas y
+ACT-03         F01 con datos en dos
+                                           período; consultar detalle de         avances del período elegido
+RF-008         períodos.
+                                           ítem.                                 coinciden con datos base.
+
+                                                                                 Un caso conserva secuencia
+ACT-04         CS01 y persona ficticia     Registrar primera, segunda y
+                                                                                 completa y una sola
+RF-015 RN-     P001; tres gestiones        tercera gestión con fecha y
+                                                                                 identificación principal de la
+012            distintas.                  resultado.
+                                                                                 persona.
+
+ACT-05         CS01 con tres               Intentar cuarta gestión en el         Cuarta gestión bloqueada para
+RF-015 RN-     gestiones; Tipo Social y    mismo caso; cambiar tipo              ese caso; selección incoherente
+012            subatención válida.         dejando subatención anterior.         rechazada o limpiada.
+
+ACT-06                                     Pulsar Guardar dos veces;             Una operación lógica genera un
+               F01; atención válida y
+RF-009 RNF-                                comprobar registros y estado          registro; éxito SweetAlert2 con
+               red lenta controlada.
+007                                        del formulario.                       identificador; sin duplicado.
+
+
+
+Registro por caso: completar resultado real, estado, responsable, fecha, evidencia y defecto en la ficha
+de ejecución. Todas las filas parten en estado No ejecutado.
+
+
+
+
+                                                                                    SGR | Segunda evaluación | 12
+
+B9 Evidencias y validación
+Funcionales, integración y concurrencia. HU-09, HU-10, HU-11; CA-01 y CA-02.
+
+ID y
+               Perfil y datos previos      Pasos de ejecución                 Resultado esperado
+referencia
+
+EVI-01         Dos funcionarios;           Registrar ambas; consultar         Códigos distintos e inmutables;
+RF-011 RN-     actividades distintas       códigos; editar datos de una       cada evidencia mantiene su
+010            simultáneas.                actividad.                         vínculo correcto.
+
+                                                                              Se conserva archivo o vínculo
+EVI-02         F01; fotografía sintética   Adjuntar archivo; abrir desde
+                                                                              válido, código, autor, fecha y
+RF-012         permitida.                  actividad como actor autorizado.
+                                                                              metadatos de carga.
+
+                                                                              Registra
+EVI-03         Verificador; actividad      Aprobar; consultar auditoría y
+                                                                              verificador/fecha/decisión;
+RF-013 RF-     pendiente con archivo y     tablero; repetir la misma
+                                                                              avance aumenta una sola vez;
+014            CAL-A.                      petición.
+                                                                              repetición sin doble conteo.
+
+EVI-04                                     Rechazar con motivo; corregir      Rechazo conserva motivo y no
+               Verificador; evidencia
+RF-013 RF-                                 como funcionario; enviar y         puntúa; historial completo;
+               pendiente.
+014                                        aprobar.                           puntúa una vez al aprobar.
+
+EVI-05         Actividad aprobada                                             La actividad anulada deja de
+                                           Anular conforme al flujo
+RF-022 RN-     incluida en avance;                                            aportar; recalcula avance;
+                                           aprobado; consultar indicador.
+009            actor autorizado.                                              conserva trazabilidad y motivo.
+
+EVI-06         Dos verificadores                                              Se resuelve o informa conflicto;
+                                           Uno aprueba y otro rechaza
+RF-013 RNF-    autorizados sobre la                                           una decisión vigente; sin doble
+                                           simultáneamente.
+003            misma versión.                                                 puntuación ni pérdida silenciosa.
+
+
+
+Registro por caso: completar resultado real, estado, responsable, fecha, evidencia y defecto en la ficha
+de ejecución. Todas las filas parten en estado No ejecutado.
+
+
+
+
+                                                                                 SGR | Segunda evaluación | 13
+
+B10 Agenda colectiva y plazos
+Funcionales e integración. HU-02, HU-12, HU-13, HU-14 y HU-15; CA-03.
+
+ID y                                       Pasos de
+               Perfil y datos previos                          Resultado esperado
+referencia                                 ejecución
+
+                                           Crear
+                                           compromiso
+AGE-01         F01; solicitante,           derivado de
+                                                               Compromiso vinculado, visible en D01 y
+RF-016 RF-     territorio, fecha,          actividad;
+                                                               persistido con todos los campos.
+017            responsable y apoyo.        consultar
+                                           agenda
+                                           autorizada.
+
+               F01; compromiso sin
+AGE-02                                     Intentar guardar    Se rechaza e identifica el campo; no se crea
+               responsable y sin fecha
+RF-017                                     cada variante.      compromiso incompleto.
+               obligatoria.
+
+                                           Recorrer
+                                           transiciones
+                                           permitidas entre
+               Actor autorizado; matriz    Ingresado,
+AGE-03                                                         Permitidas guardadas con antes/después, autor,
+               de transiciones             Pendiente, En
+RF-018                                                         fecha y observación; prohibida rechazada.
+               aprobada.                   proceso y
+                                           Realizado;
+                                           intentar una
+                                           prohibida.
+
+               Compromiso abierto;         Avanzar reloj de
+AGE-04                                                         Vencimiento según regla de fechas; atraso
+               fecha de prueba             prueba; revisar
+RF-019 RF-                                                     visible; alerta con motivo y enlace; cierre
+               anterior, igual y           agenda, alerta y
+037                                                            conserva atraso.
+               posterior al vencimiento.   cierre tardío.
+
+               Compromiso vinculado        Cerrar y validar;
+AGE-05                                                         Alimenta el ítem una sola vez; cierre sin
+               a un ítem; cierre y         repetir cierre y
+RF-020                                                         validación requerida no otorga puntaje.
+               validación disponibles.     recalcular.
+
+                                           Consultar
+AGE-06         Compromiso de               agenda;
+                                                             Continuidad operativa; nuevo responsable
+RF-017 RF-     funcionario ausente;        reasignar según
+                                                             visible; se conserva origen y cambio auditado.
+036            delegado autorizado.        permisos; revisar
+                                           historial.
+
+
+
+Registro por caso: completar resultado real, estado, responsable, fecha, evidencia y defecto en la ficha
+de ejecución. Todas las filas parten en estado No ejecutado.
+
+
+
+
+                                                                                  SGR | Segunda evaluación | 14
+
+B11 Cálculos y límites numéricos
+Unitarias e integración. HU-06, HU-07, HU-16 y HU-17. Ejecutar con el lote CAL y reloj controlado.
+
+ID y
+               Perfil y datos previos       Pasos de ejecución                Resultado esperado
+referencia
+
+CAL-01         CAL-A; actividades                                             Solo aprobadas: 8/10 = 80 % y
+                                            Recalcular avance y
+RF-022 RF-     aprobadas, pendientes                                          10/20 = 50 %; no duplica por
+                                            cumplimiento de I01 e I02.
+023            y rechazadas.                                                  evidencia adicional.
+
+                                                                              CAL-A: 32+30=62; CAL-B:
+CAL-02                                      Calcular aportes, suma y
+               CAL-A y luego CAL-B                                            60+30=90. Distingue bruto y
+RF-024 RN-                                  cambio de tope por
+               con tope 150 %.                                                computable; respeta tope
+005                                         configuración.
+                                                                              vigente.
+
+                                                                              80 % realizado, 20 % no
+CAL-03                                      Obtener realizado/no realizado;
+               CAL-C y CAL-F; misma                                           realizado; umbral se alcanza
+RF-021 RN-                                  evaluar 79,99 %, 80 % y 80,01
+               delegación y período.                                          desde 80 %; no duplica
+006                                         %.
+                                                                              denominador.
+
+CAL-04         CAL-D; antes del inicio,                                       0 %; 3,33 %; 50 %; 100 %; 100
+                                            Recalcular esperado con cada
+RF-026 RN-     día 1, día 15, día final y                                     %, bajo la convención inclusiva
+                                            fecha.
+007            posterior.                                                     aprobada para el lote.
+
+                                                                              Rojo, ámbar, ámbar y verde,
+CAL-05
+               CAL-E; esperado fijo 50      Ingresar los cuatro valores de    respectivamente; texto
+RF-027 RN-
+               %.                           frontera y cambiar umbral.        equivalente al color; sin
+008
+                                                                              redondeo anticipado.
+
+                                                                              No hay división por cero ni éxito
+CAL-06         Meta cero forzada para       Consultar cálculo y tablero;
+                                                                              ficticio; meta inválida se detecta;
+RF-023 RF-     prueba y agenda sin          revisar tratamiento de valores
+                                                                              denominador vacío según regla
+026            compromisos.                 indefinidos.
+                                                                              aprobada.
+
+
+
+Registro por caso: completar resultado real, estado, responsable, fecha, evidencia y defecto en la ficha
+de ejecución. Todas las filas parten en estado No ejecutado.
+
+
+
+
+                                                                                 SGR | Segunda evaluación | 15
+
+B12 Tableros ajustes y colaboración
+Funcionales e integración. HU-08, HU-18, HU-19, HU-21, HU-22, HU-24 y HU-31, según su prioridad
+en S1.
+
+ID y
+               Perfil y datos previos     Pasos de ejecución                  Resultado esperado
+referencia
+
+TAB-01         CAL-A y registros de       Filtrar panel personal y de         Mismos filtros y totales que el
+RF-028 RF-     D01/D02 en dos             delegación; abrir el detalle        detalle; sin datos de otra
+029            períodos.                  origen.                             delegación no autorizada.
+
+                                                                              Indicadores reproducibles según
+                                          Consultar último ingreso, días
+TAB-02         Tres registros válidos y                                       denominador aprobado; nuevo
+                                          sin ingreso, cantidad y
+RF-030         fechas controladas.                                            dato actualiza; caso sin registros
+                                          promedio; agregar otro registro.
+                                                                              definido.
+
+                                                                              Detalle consistente; cada período
+TAB-03         Cargos y períodos
+                                          Abrir vista global; navegar a       usa su versión; no emite
+RF-031 RF-     cerrados con reglas
+                                          funcionario; comparar períodos.     decisiones automáticas
+038            distintas.
+                                                                              laborales.
+
+               Regla de ajuste                                                Efecto coincide con fórmula
+TAB-04                                    Aplicar bonificación y
+               aprobada y                                                     aprobada; motivo, valor y
+RF-025 RN-                                penalización; intentar ajuste sin
+               parametrizada; actor                                           responsable auditados; inválidos
+011                                       permiso o motivo.
+               autorizado.                                                    rechazados.
+
+                                                                              Comentario conserva autor,
+               Registro compartido;
+TAB-05                                    Añadir observación; consultar       fecha y referencia; no queda
+               actores con permisos
+RF-035                                    desde otra cuenta autorizada.       expuesto fuera del alcance
+               definidos.
+                                                                              permitido.
+
+               Reglas activas de
+                                                                              Motivo, responsable, fecha y
+TAB-06         vencimiento, evidencia     Provocar cada condición; abrir
+                                                                              enlace correctos; revisión no
+RF-037         pendiente y bajo           alerta; marcar revisada.
+                                                                              elimina el evento original.
+               avance.
+
+
+
+Registro por caso: completar resultado real, estado, responsable, fecha, evidencia y defecto en la ficha
+de ejecución. Todas las filas parten en estado No ejecutado.
+
+
+
+
+                                                                                 SGR | Segunda evaluación | 16
+
+B13 Búsqueda exportación y experiencia
+Funcionales y usabilidad. HU-20 y HU-29; complementar en los seis CRUD y demás listados
+implementados.
+
+ID y
+               Perfil y datos previos     Pasos de ejecución                   Resultado esperado
+referencia
+
+               Registros con                                                   Solo coincidencias de todos los
+                                          Combinar filtros y rango de
+UX-01          delegación, cargo, ítem,                                        filtros; actualización en tiempo
+                                          fechas; buscar parcial con
+RF-032         período y estado                                                real y estado sin resultados
+                                          mayúsculas distintas.
+               conocidos.                                                      claro.
+
+                                                                               Sin duplicados ni omisiones; total
+UX-02          Al menos 25 registros;     Recorrer páginas; cambiar filtro
+                                                                               correcto; página se ajusta al
+RF-032         tamaño de página 10.       desde página 3.
+                                                                               nuevo conjunto filtrado.
+
+UX-03          Filtro devuelve 23         Exportar a Excel; abrir archivo;     23 registros autorizados, no solo
+RF-033 RNF-    registros en tres          comparar identificadores y           10; filtros, fecha y columnas
+016            páginas.                   encabezados.                         legibles; sin secretos.
+
+               Pantallas de login,        Revisar template, normas             Diseño coherente con referencia
+UX-04
+               recuperación, CRUD e       gráficas, mensajes SweetAlert2       oficial; contexto de delegación
+RNF-011
+               ingreso de atención.       y errores de carga.                  visible; error no simula éxito.
+
+                                                                               Acceso a controles y foco
+                                          Recorrer sin ratón; abrir/cerrar
+UX-05          Usuario con teclado;                                            predecible; textos alternativos;
+                                          diálogos; revisar foco, etiquetas
+RNF-012        imágenes y semáforo.                                            estado no depende solo del
+                                          y contraste.
+                                                                               color.
+
+                                                                               Flujos completables; sin
+               Chrome y Edge              Ejecutar login, registro, carga de
+UX-06                                                                          controles cortados ni
+               soportados; escritorio y   evidencia, consulta y
+RNF-013                                                                        superposición; registrar
+               móvil.                     exportación.
+                                                                               versiones y tamaños.
+
+
+
+Registro por caso: completar resultado real, estado, responsable, fecha, evidencia y defecto en la ficha
+de ejecución. Todas las filas parten en estado No ejecutado.
+
+
+
+
+                                                                                  SGR | Segunda evaluación | 17
+
+B14 Seguridad de acceso y datos
+Seguridad en QA autorizado. HU-26 y controles técnicos de S1, página 28. No utilizar datos reales.
+
+ID y
+               Perfil y datos previos    Pasos de ejecución                   Resultado esperado
+referencia
+
+               F01/D01; identificador    Alterar identificador en consulta,   Servidor deniega cada operación
+SEG-01
+               conocido de un registro   edición, exportación y descarga      sin filtrar datos ni modificar D02;
+RNF-005
+               de D02.                   de evidencia.                        evento trazable.
+
+               Consulta D01 y                                                 Autorización por operación
+                                         Invocar directamente creación
+SEG-02         Funcionario sin                                                impide escalamiento; ocultar
+                                         de usuarios, cambio de rol y
+RNF-005        privilegios                                                    botones no es la única
+                                         aprobación reservada.
+               administrativos.                                               protección.
+
+                                                                              Entradas se tratan como datos;
+               Campos de búsqueda y      Enviar apóstrofos, condiciones
+SEG-03                                                                        sin cambio de consulta,
+               texto libre; datos        de consulta y etiquetas HTML
+RNF-007                                                                       ejecución de scripts ni trazas
+               adversos inocuos.         de prueba.
+                                                                              técnicas.
+
+SEG-04         Cuenta propia y acceso    Revisar hash, sesión y               No hay claves en texto plano o
+RNF-004        técnico de QA a           transporte; ejecutar login fallido   logs; hash seguro; sesión y
+RNF-006        almacenamiento y logs.    y cambio de clave.                   comunicaciones protegidas.
+
+               Archivo permitido,                                             Solo formatos/tamaños
+SEG-05         ejecutable, MIME          Cargar cada variante; intentar       permitidos; sin ejecución ni
+RNF-017        discordante y tamaño      acceder sin autorización.            exposición pública; análisis y
+               excedido.                                                      metadatos según política.
+
+               Personas ficticias,                                            Solo datos necesarios; política
+SEG-06                                   Revisar campos y accesos;
+               exports, respaldos y                                           aplicada a datos y archivos;
+RNF-009                                  probar eliminación o
+               política de retención                                          respaldo protegido; evidencia del
+RNF-006                                  anonimización al vencimiento.
+               aprobada.                                                      tratamiento.
+
+
+
+Registro por caso: completar resultado real, estado, responsable, fecha, evidencia y defecto en la ficha
+de ejecución. Todas las filas parten en estado No ejecutado.
+
+
+
+
+                                                                                 SGR | Segunda evaluación | 18
+
+B15 Integridad auditoría y calidad de plataforma
+Integración y no funcionales. HU-23, HU-25 y HU-30; CA-08, CA-09 y CA-10.
+
+ID y
+               Perfil y datos previos       Pasos de ejecución                   Resultado esperado
+referencia
+
+INT-01                                                                           Ambos registros íntegros y
+               F01 y F02; dos registros     Guardar al mismo tiempo;
+RF-034 RNF-                                                                      disponibles para su ámbito; sin
+               diferentes.                  recargar ambas cuentas.
+003                                                                              pérdida ni duplicación.
+
+INT-02         Dos sesiones con la                                               Detecta o resuelve el conflicto
+                                            Guardar cambios distintos sobre
+RF-034 RNF-    misma versión de una                                              explícitamente; sin sobrescritura
+                                            el mismo registro.
+007            actividad.                                                        silenciosa.
+
+                                                                                 Usuario, fecha, origen, acción,
+INT-03         Alta, edición, validación,   Ejecutar cada evento; consultar
+                                                                                 antes y después disponibles;
+RF-036 RNF-    estado y cambio de           auditoría; intentar alterarla como
+                                                                                 alteración no autorizada
+008            parámetros.                  operativo.
+                                                                                 bloqueada.
+
+                                                                                 El modelo admite la ampliación
+INT-04                                      Configurar mediante
+               Nueva delegación,                                                 sin rediseño ni cambios de
+RNF-014                                     administración; ejecutar registro
+               cargo y período.                                                  código para parámetros
+RNF-015                                     y consulta.
+                                                                                 habituales.
+
+               Respaldo automatizado;       Restaurar base y evidencias;         Datos/archivos coherentes; RPO
+INT-05
+               lote conocido y              medir pérdida temporal y tiempo      y RTO medidos frente a objetivos
+RNF-010
+               ambiente aislado.            de recuperación.                     aprobados, no asumidos.
+
+                                                                                 Detección y recuperación
+INT-06         Monitoreo activo; falla      Inducir y recuperar falla; revisar
+                                                                                 registradas; disponibilidad
+RNF-001        de aplicación y tarea        métricas, alertas y registro de
+                                                                                 calculada en ventana real
+RNF-018        automática controladas.      indisponibilidad.
+                                                                                 observada.
+
+
+
+Registro por caso: completar resultado real, estado, responsable, fecha, evidencia y defecto en la ficha
+de ejecución. Todas las filas parten en estado No ejecutado.
+
+
+
+
+                                                                                    SGR | Segunda evaluación | 19
+
+B16 Rendimiento carga y estrés
+No funcionales. RNF-002 y RNF-003. Aplicar el protocolo de la sección posterior; conservar scripts y
+métricas.
+
+ID y
+               Perfil y datos previos     Pasos de ejecución                  Resultado esperado
+referencia
+
+                                                                              Comparar cada operación con
+               5.000 y 10.000             Medir consulta, filtro y
+REN-01                                                                        objetivo 2 s de S1; sin omisiones
+               registros; carga normal    paginación con caché fría y
+RNF-002                                                                       ni errores; reportar percentiles y
+               aprobada.                  caliente.
+                                                                              máximo.
+
+               Datos multiusuario,                                            Objetivo de hasta 5 s según S1
+REN-02                                    Consultar tablero y cambiar
+               período y delegación;                                          para tableros; cifras coherentes y
+RNF-002                                   filtros repetidamente.
+               carga normal.                                                  sin datos fuera del filtro.
+
+                                                                              Archivo completo e íntegro;
+REN-03                                    Exportar conjunto completo
+               10.000 registros; filtro                                       medir duración y efecto en
+RNF-002 RF-                               mientras otros usuarios
+               conocido.                                                      consultas; umbral de exportación
+033                                       consultan.
+                                                                              por aprobar.
+
+                                                                              Ninguna pérdida, duplicación o
+REN-04         Cuentas separadas y
+                                          Ejecutar carga mixta y escrituras   sobrescritura silenciosa;
+RNF-003 RF-    datos únicos por usuario
+                                          concurrentes progresivas.           conciliación de conteos tras la
+034            virtual.
+                                                                              carga.
+
+                                                                              Identifica capacidad y punto de
+REN-05         AWS-TEST con límites       Aumentar concurrencia sobre
+                                                                              degradación; registra
+RNF-002        seguros y métricas         carga normal hasta degradación
+                                                                              latencias/errores/recursos sin
+RNF-018        activas.                   o límite de parada.
+                                                                              corrupción.
+
+                                                                              Se recupera operación; datos
+REN-06
+               Entorno tras estrés y      Reducir carga; repetir login,       conciliados; tiempo de
+RNF-001
+               lote de control intacto.   registro, aprobación y tablero.     recuperación documentado; sin
+RNF-003
+                                                                              bloqueo persistente.
+
+
+
+Registro por caso: completar resultado real, estado, responsable, fecha, evidencia y defecto en la ficha
+de ejecución. Todas las filas parten en estado No ejecutado.
+
+
+
+
+                                                                                 SGR | Segunda evaluación | 20
+
+B17 Despliegue AWS y prueba integral
+Smoke y aceptación. Usar la versión exacta del repositorio y repetir tras cambios de despliegue.
+
+ID y
+               Perfil y datos previos    Pasos de ejecución                 Resultado esperado
+referencia
+
+                                                                            Acceso operativo, certificado
+AWS-01      URL AWS-TEST y               Abrir por HTTPS; consultar
+                                                                            válido y versión correcta; sin
+Complemento commit declarado.            versión y recursos estáticos.
+                                                                            errores visibles ni secretos.
+
+                                                                            Permisos y delegación se
+AWS-02                                   Ingresar y ejecutar
+               Seis roles de                                                mantienen igual que en QA;
+RNF-004                                  lectura/escritura permitida y
+               demostración en AWS.                                         sesiones válidas y logout
+RNF-005                                  denegada.
+                                                                            efectivo.
+
+AWS-03                                   Crear, consultar, editar y         Persistencia real, sin pérdida al
+               Administrador; seis
+RF-001 RF-                               desactivar un registro por         reinicio; búsqueda, paginación y
+               CRUD desplegados.
+004                                      CRUD; reiniciar aplicación.        exportación funcionales.
+
+               F01 y Verificador D01;    Registrar actividad; cargar        Un incremento válido, sin
+AWS-04
+               I01 con avance base       evidencia; aprobar; abrir ficha,   duplicación; mismo resultado en
+CA-01 CA-06
+               conocido.                 tablero y exportación.             detalle, resumen y archivo.
+
+               Configuración de red,     Revisar puertos, Security          Solo accesos necesarios; BD y
+AWS-05
+               base, archivos y          Groups, exposición de BD,          evidencias sin acceso público no
+RNF-006
+               variables del ambiente.   secretos y errores.                autorizado; secretos fuera de Git.
+
+                                                                            Procedimiento reproducible;
+            Repositorio, README,         Instalar desde clon limpio;
+AWS-06                                                                      commit verificable; rollback
+            migraciones y copia de       desplegar versión; ensayar
+Complemento                                                                 conserva integridad o requiere
+            respaldo.                    reversión definida.
+                                                                            restauración documentada.
+
+
+
+Registro por caso: completar resultado real, estado, responsable, fecha, evidencia y defecto en la ficha
+de ejecución. Todas las filas parten en estado No ejecutado.
+
+
+
+
+                                                                               SGR | Segunda evaluación | 21
+
+B18 Protocolo de rendimiento y estrés
+S1 propone 2 segundos para registro y consulta y hasta 5 segundos para tableros en operación
+normal, sujetos al contexto del proyecto. El objetivo de 200 ms de S3 pertenece al ejemplo y no se
+adopta como umbral obligatorio del SGR. Antes de ejecutar, fijar volumen, concurrencia normal, red,
+instancia AWS, estado de caché y límite de recursos.
+
+Etapa propuesta       Configuración inicial ajustable
+
+                      10.000 registros ficticios, distribución D01/D02 conocida, cuentas independientes y
+Preparación           respaldo recuperable. Excluir envíos masivos de correo externo; utilizar buzón de
+                      pruebas.
+
+Control               1 usuario durante 2 minutos; comprobar script, respuestas y conteos esperados.
+
+                      10 usuarios durante 10 minutos; solo será carga normal contractual si el docente la
+Carga normal          aprueba. Propuesta de mezcla: 50 % consulta/filtro, 20 % ficha/tablero, 20 % registro y
+                      10 % validación.
+
+                      20 y luego 50 usuarios, 5 minutos por escalón, con incremento gradual. Ampliar solo si la
+Carga incremental
+                      infraestructura y límites autorizados lo permiten.
+
+                      Superar la carga normal hasta degradación verificable o criterio de parada. La carga de
+Estrés
+                      datos sola no constituye una prueba de estrés.
+
+                      Volver a 1 usuario por 5 minutos; ejecutar REN-06 y conciliar registros, decisiones e
+Recuperación
+                      indicadores.
+
+
+
+Medición y decisión
+Medir tiempos de respuesta de extremo a extremo, promedio, p95, p99, máximo, rendimiento en
+solicitudes por segundo, errores, timeouts y CPU/memoria/conexiones cuando estén disponibles.
+Separar resultados por endpoint y tipo de operación. No declarar cumplimiento del máximo objetivo de
+S1 únicamente porque el p95 lo cumpla; registrar también los excedentes.
+Como propuesta de parada, detener ante corrupción de datos, indisponibilidad sostenida o errores
+superiores al 5 % durante un minuto. Aprobar estos límites antes de ejecutar. Bajo carga normal se
+propone error funcional 0 %; cualquier umbral adicional debe quedar acordado. No se exige mantener
+la latencia normal en sobrecarga extrema, pero sí preservar integridad y demostrar recuperación.
+Disponibilidad 99,5 % mensual, RPO 24 horas y RTO 4 horas son objetivos iniciales por validar en S1.
+Un smoke test o una prueba de pocos minutos no demuestra disponibilidad mensual. Registrar
+duración real del monitoreo y calcular disponibilidad como (tiempo observado menos indisponibilidad) /
+tiempo observado × 100.
+
+
+
+
+                                                                                  SGR | Segunda evaluación | 22
+
+B19 Trazabilidad de requisitos y aceptación
+Los identificadores RF, RNF y RN se conservan de S1. Los casos complementarios corresponden a
+requisitos de la entrega, no a nuevos números atribuidos a la guía. Vincular cada caso ejecutado con
+la HU implementada, la tarea o commit y la evidencia.
+
+Criterio integral de S1                      Casos principales
+
+CA-01 Registro validado                      ACT-01, EVI-03, AWS-04
+
+CA-02 Evidencia rechazada                    EVI-04
+
+CA-03 Compromiso vencido                     AGE-04, TAB-06
+
+CA-04 Atención social                        ACT-04, ACT-05
+
+CA-05 Cálculo diario                         CAL-04, CAL-05
+
+CA-06 Consolidación                          TAB-01, CAL-03, AWS-04
+
+CA-07 Control de acceso                      ADM-06, SEG-01, SEG-02
+
+CA-08 Concurrencia                           EVI-06, INT-01, INT-02, REN-04
+
+CA-09 Historial                              INT-03, PAR-04
+
+CA-10 Período cerrado                        PAR-05
+
+
+
+Cobertura del backlog
+HU-01: ACT; HU-02: AGE; HU-03: ACT-04/05; HU-04: ADM-05, CAT-01 y PAR; HU-05: PAR; HU-06:
+ACT-03 y CAL-01; HU-07: CAL y TAB-04; HU-08: TAB-01/03; HU-09: EVI-02 y SEG-05; HU-10: EVI-
+01; HU-11: EVI-03/04/05/06.
+HU-12: AGE-01/02; HU-13: AGE-03; HU-14: AGE-04 y CAL-03; HU-15: AGE-06; HU-16 y HU-17: CAL-
+04/05; HU-18: TAB-01/03; HU-19: TAB-02/06; HU-20: UX-01/03; HU-21: CAL-05 y TAB-01/06; HU-22:
+TAB-03; HU-23: INT-01/02 y REN-04; HU-24: TAB-05; HU-25: PAR-04/06; HU-26: ACC, ADM y SEG;
+HU-27: CAT; HU-28: PAR-01/05; HU-29: UX-01/02; HU-30: INT-03; HU-31: TAB-06.
+Las referencias por caso cubren los RF-001 a RF-038 y los RNF-001 a RNF-018 al nivel de escenarios
+de este plan. El equipo debe añadir variantes específicas de sus reglas y modelo, y comprobar la
+cobertura de cada criterio de la historia antes de cerrarla. Cubrir un requisito en el diseño de pruebas
+no significa haberlo validado.
+
+
+
+
+                                                                              SGR | Segunda evaluación | 23
+
+B20 Ficha de ejecución y registro de defectos
+Duplicar esta ficha por caso y por variante. Adjuntar capturas, respuesta de API, consulta de
+verificación o salida de automatización. Las evidencias deben incluir ambiente y versión sin exponer
+claves ni datos personales reales.
+
+ID del caso y variante
+________________________________________________________________________
+
+HU y requisito relacionado
+________________________________________________________________________
+
+Tarea y commit
+________________________________________________________________________
+
+Entorno y datos utilizados
+________________________________________________________________________
+
+Responsable y fecha
+________________________________________________________________________
+
+Resultado real observado
+________________________________________________________________________
+
+Estado y motivo si está bloqueado o no aplica
+________________________________________________________________________
+
+Ruta o enlace de evidencia
+________________________________________________________________________
+
+ID de defecto y resultado de repetición
+________________________________________________________________________
+
+Clasificación de defectos
+Crítico: acceso no autorizado, pérdida/corrupción de datos o imposibilidad del flujo principal. Alto:
+cálculo erróneo, validación que duplica puntaje o función esencial sin alternativa. Medio: afecta un flujo
+con alternativa. Bajo: defecto visual o de texto sin impacto operativo. Conservar pasos reproducibles,
+esperado/obtenido, versión, evidencia, responsable y estado.
+
+
+
+
+                                                                             SGR | Segunda evaluación | 24
+
+B21 Informe de cierre de pruebas
+Completar después de ejecutar. Adjuntar el detalle por caso y la matriz HU → requisito → tarea o
+commit → prueba → resultado → responsable → evidencia. El informe debe distinguir cobertura
+planificada, cobertura ejecutada y éxito de los casos ejecutados.
+
+Indicador                                              Valor a completar
+
+Casos diseñados en este documento                      84
+
+Variantes adicionales creadas                          ________
+
+Casos aplicables al incremento                         ________
+
+Aprobados / fallidos                                   ________ / ________
+
+Bloqueados / no ejecutados / no aplica                 ________ / ________ / ________
+
+                                                       (Aprobados + Fallidos) / Aplicables × 100 =
+Cobertura ejecutada
+                                                       ________
+
+                                                       Aprobados / (Aprobados + Fallidos) × 100 =
+Tasa de aprobación
+                                                       ________
+
+Defectos críticos / altos abiertos                     ________ / ________
+
+Versión evaluada y fecha de cierre                     ________
+
+Decisión de aceptación                                 Aceptado / Aceptado con condiciones / Rechazado
+
+
+
+Si un denominador es cero, informar Sin ejecución o No calculable, según corresponda. No contar
+Bloqueado ni No ejecutado como Aprobado. Las funciones excluidas deben estar justificadas en el
+alcance y no eliminarse para mejorar artificialmente el porcentaje.
+
+Conclusión del equipo
+Cumplimientos demostrados: __________________________________________________
+Limitaciones y riesgos pendientes: ______________________________________________
+Acciones y responsables: ______________________________________________________
+Decisión del docente o responsable: _____________________________________________
+
+Paquete mínimo de evidencias
+•   Documento completado y matriz de trazabilidad con enlaces verificables.
+•   Casos automatizados o instrucciones manuales reproducibles, datos semilla y configuración de
+    pruebas.
+•   Resultados de carga, cálculos independientes, incidencias y evidencias de corrección y regresión.
+•   URL AWS, commit evaluado, README y evidencia de instalación, respaldo y recuperación según
+    alcance.
+
+
+
+
+                                                                            SGR | Segunda evaluación | 25
+
+C1 Login y solicitud de recuperación
+
+
+
+
+Diseños 1 y 2. Campos identificados, acción principal visible y navegación entre ingreso y recuperación.
+
+Comportamiento esperado
+El login dirige al contexto autorizado del usuario. La solicitud de recuperación informa el siguiente paso
+con un mensaje genérico y conserva el estilo del sistema. Los errores deben indicar cómo corregir los
+datos sin revelar información de otras cuentas.
+
+
+
+
+                                                                                    SGR | Segunda evaluación | 26
+
+C2 Validación de código y nueva contraseña
+
+
+
+
+Diseños 3 y 4. Progreso explícito, código de seis dígitos y creación de nueva clave después de verificar la solicitud.
+
+Comportamiento esperado
+Permitir pegar el código completo y desplazarse entre casillas con teclado. Informar vencimiento y
+disponibilidad de reenvío. Mostrar u ocultar la contraseña con un control accesible, validar la
+coincidencia y confirmar el cambio con SweetAlert2.
+
+
+
+
+                                                                                       SGR | Segunda evaluación | 27
+
+C3 Delegaciones y Roles
+
+
+
+
+Diseños 5 y 6. Cabecera con delegación activa, búsqueda, exportación, paginación y acciones por registro. El perfil
+determina el alcance de consulta y administración.
+
+
+
+
+                                                                                     SGR | Segunda evaluación | 28
+
+C4 Usuarios e Ítems y metas
+
+
+
+
+Diseños 7 y 8. Usuarios muestra la delegación asignada a cada registro. El acceso a usuarios de otras delegaciones
+requiere autorización del perfil. Ítems y metas conserva el mismo patrón visual.
+
+
+
+
+                                                                                   SGR | Segunda evaluación | 29
+
+C5 Tipo de Atención y Sub Atención
+
+
+
+
+Diseños 9 y 10. La Sub Atención identifica su Tipo de Atención asociado. Ambos catálogos requieren validaciones de
+integridad antes de modificar o eliminar registros relacionados.
+
+
+
+
+                                                                                  SGR | Segunda evaluación | 30
+
+C6 Ingreso de atención y contexto del usuario
+
+
+
+
+Diseño 11. Perfil Operador, delegación visible y preasignada, selección dependiente de Tipo de Atención y Sub
+Atención y registro de responsable.
+
+Validaciones del formulario
+El solicitante, tipo, subatención y descripción deben cumplir las reglas del proyecto. La delegación no
+se modifica libremente: se obtiene del contexto autorizado. Si el perfil permite cambiarla, el sistema
+debe validar el nuevo contexto antes de guardar. El servidor debe comprobar la relación entre los
+catálogos y evitar registros duplicados por doble envío.
+
+Resultado de la operación
+Confirmar con SweetAlert2 únicamente después de guardar correctamente. Mostrar el identificador
+generado y permitir iniciar una nueva atención o consultar la registrada. Ante un error, conservar los
+datos útiles del formulario e informar cómo continuar.
+
+
+
+
+                                                                                   SGR | Segunda evaluación | 31
+
+D Referencias y aplicación de las normas gráficas
+La presentación del sistema y de sus documentos debe basarse en las normas gráficas oficiales de la
+Municipalidad de La Serena. Este documento académico utiliza Arial, texto negro, fondos blancos y
+grises, y rojo institucional #AD0000 en encabezados de tablas y acciones de los diseños de referencia.
+
+Criterios de aplicación
+•   Usar Arial para documentos internos, de acuerdo con el manual municipal. Mantener una jerarquía
+    tipográfica uniforme, márgenes amplios y contraste legible.
+•   Utilizar el rojo #AD0000 como acento según el recurso municipal para medios digitales; no utilizar
+    el color como único medio para informar errores, estados o delegaciones.
+•   Cuando se incorpore el escudo o logotipo, utilizar los archivos oficiales, conservar las proporciones
+    y respetar el área de autonomía establecida en el manual. No redibujar, deformar ni recolorear la
+    marca.
+•   Identificar el documento como material académico. Los mockups son ejemplos de interfaz con
+    datos ficticios y no constituyen una aprobación institucional de diseño.
+
+Fuentes institucionales
+Normas gráficas de la Municipalidad de La Serena
+https://laserena.cl/conocenos/normas-graficas
+Reglamento de normas gráficas 2019
+https://laserena.cl/documentos/docs/REGLAMENTO_normas_graficas_2019.pdf
+Referencia tipográfica: página 25, fuente para documentos internos Arial.
+Recurso municipal para medios digitales
+https://framework.laserena.cl/
+Referencia de color primario: #AD0000.
+
+
+
+
+                                                                            SGR | Segunda evaluación | 32

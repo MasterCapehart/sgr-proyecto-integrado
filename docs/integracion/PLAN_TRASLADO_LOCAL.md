@@ -1,7 +1,7 @@
 # Integración del avance de la copia local
 
 ## Objetivo
-Trasladar el avance funcional de sgr-eva2-local al repositorio original actualizado, conservando los commits humanos existentes, las configuraciones privadas y los datos originales. Publicar una rama revisable con commits por módulo; la integración en main sigue el flujo de revisión del equipo.
+Trasladar el avance funcional de sgr-eva2-local al repositorio original actualizado, conservando los commits humanos existentes, las configuraciones privadas y los datos originales. Publicar una rama con commits por módulo, sin abrir una solicitud de revisión ni integrar en main, según la instrucción actual del usuario.
 
 ## Base
 - Original actualizado a origin/main: 358a1ed.
@@ -24,7 +24,7 @@ Trasladar el avance funcional de sgr-eva2-local al repositorio original actualiz
 - Ejecutar las pruebas de la aplicación y comprobar deriva de modelos.
 - Verificar contra base temporal; no ejecutar cambios destructivos en la base original.
 - Auditar secretos, identidad y mensajes antes de cada commit.
-- Publicar rama y abrir un pull request revisable. No certificar AWS, cálculos ni escenarios no ejecutados.
+- Publicar únicamente la rama, sin abrir pull request. No certificar AWS, cálculos ni escenarios no ejecutados.
 
 ## Pendientes conocidos
 DEF-META-001: configuraciones de metas duplicadas. PAR-01/PAR-05: períodos con fechas/cierre no implementados. Trasladar el proyecto no subsana estas incidencias.

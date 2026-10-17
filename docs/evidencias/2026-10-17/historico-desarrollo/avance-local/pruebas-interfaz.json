@@ -1,0 +1,39 @@
+{
+  "fecha": "2026-10-15T22:12:47.975Z",
+  "results": [
+    {
+      "pantalla": "delegaciones",
+      "estado": "Listado real y modal accesibles"
+    },
+    {
+      "pantalla": "roles",
+      "estado": "Listado real y modal accesibles"
+    },
+    {
+      "pantalla": "usuarios",
+      "estado": "Listado real y modal accesibles"
+    },
+    {
+      "pantalla": "tipos-atencion",
+      "estado": "Listado real y modal accesibles"
+    },
+    {
+      "pantalla": "subatenciones",
+      "estado": "Listado real y modal accesibles"
+    },
+    {
+      "pantalla": "items-metas",
+      "estado": "Listado real y modal accesibles"
+    },
+    {
+      "pantalla": "atenciones",
+      "estado": "Guardado real y formulario reiniciado"
+    },
+    {
+      "pantalla": "movil",
+      "ancho": 390,
+      "desborde": false
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,119 @@
+{
+  "fecha": "2026-10-16T01:36:40.292Z",
+  "results": [
+    {
+      "navegador": "Chrome",
+      "pantalla": "/index.html",
+      "caso": "Cuatro tarjetas coinciden con agregados del servidor",
+      "estado": "Aprobado"
+    },
+    {
+      "navegador": "Chrome",
+      "pantalla": "/pages/desempeno.html",
+      "caso": "Cuatro tarjetas coinciden con agregados del servidor",
+      "estado": "Aprobado"
+    },
+    {
+      "navegador": "Chrome",
+      "pantalla": "/pages/tubo-trabajo.html",
+      "caso": "Cuatro tarjetas coinciden con agregados del servidor",
+      "estado": "Aprobado"
+    },
+    {
+      "navegador": "Chrome",
+      "pantalla": "/pages/evidencias.html",
+      "caso": "Cuatro tarjetas coinciden con agregados del servidor",
+      "estado": "Aprobado"
+    },
+    {
+      "navegador": "Chrome",
+      "pantalla": "/pages/validacion.html",
+      "caso": "Cuatro tarjetas coinciden con agregados del servidor",
+      "estado": "Aprobado"
+    },
+    {
+      "navegador": "Chrome",
+      "pantalla": "/pages/reportes.html",
+      "caso": "Cuatro tarjetas coinciden con agregados del servidor",
+      "estado": "Aprobado"
+    },
+    {
+      "navegador": "Chrome",
+      "pantalla": "/pages/ingreso-atencion.html",
+      "caso": "Cuatro tarjetas coinciden con agregados del servidor",
+      "estado": "Aprobado"
+    },
+    {
+      "navegador": "Chrome",
+      "caso": "Filtro de estado actualiza las tarjetas",
+      "estado": "Aprobado"
+    },
+    {
+      "navegador": "Chrome",
+      "caso": "Error de servidor muestra indisponibilidad sin ceros simulados",
+      "estado": "Aprobado"
+    },
+    {
+      "navegador": "Chrome",
+      "caso": "Tarjetas adaptables a móvil; sin errores JavaScript",
+      "estado": "Aprobado"
+    },
+    {
+      "navegador": "Edge",
+      "pantalla": "/index.html",
+      "caso": "Cuatro tarjetas coinciden con agregados del servidor",
+      "estado": "Aprobado"
+    },
+    {
+      "navegador": "Edge",
+      "pantalla": "/pages/desempeno.html",
+      "caso": "Cuatro tarjetas coinciden con agregados del servidor",
+      "estado": "Aprobado"
+    },
+    {
+      "navegador": "Edge",
+      "pantalla": "/pages/tubo-trabajo.html",
+      "caso": "Cuatro tarjetas coinciden con agregados del servidor",
+      "estado": "Aprobado"
+    },
+    {
+      "navegador": "Edge",
+      "pantalla": "/pages/evidencias.html",
+      "caso": "Cuatro tarjetas coinciden con agregados del servidor",
+      "estado": "Aprobado"
+    },
+    {
+      "navegador": "Edge",
+      "pantalla": "/pages/validacion.html",
+      "caso": "Cuatro tarjetas coinciden con agregados del servidor",
+      "estado": "Aprobado"
+    },
+    {
+      "navegador": "Edge",
+      "pantalla": "/pages/reportes.html",
+      "caso": "Cuatro tarjetas coinciden con agregados del servidor",
+      "estado": "Aprobado"
+    },
+    {
+      "navegador": "Edge",
+      "pantalla": "/pages/ingreso-atencion.html",
+      "caso": "Cuatro tarjetas coinciden con agregados del servidor",
+      "estado": "Aprobado"
+    },
+    {
+      "navegador": "Edge",
+      "caso": "Filtro de estado actualiza las tarjetas",
+      "estado": "Aprobado"
+    },
+    {
+      "navegador": "Edge",
+      "caso": "Error de servidor muestra indisponibilidad sin ceros simulados",
+      "estado": "Aprobado"
+    },
+    {
+      "navegador": "Edge",
+      "caso": "Tarjetas adaptables a móvil; sin errores JavaScript",
+      "estado": "Aprobado"
+    }
+  ]
+}
