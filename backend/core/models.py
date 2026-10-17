@@ -2,15 +2,20 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 class Delegacion(models.Model):
-    nombre = models.CharField(max_length=100)
+    version = models.PositiveIntegerField(default=1, editable=False)
+    codigo = models.CharField(max_length=20, unique=True, null=True, blank=True)
+    nombre = models.CharField(max_length=100, unique=True)
     direccion = models.CharField(max_length=255, blank=True, null=True)
-    comuna = models.CharField(max_length=100, default='Coquimbo')
+    comuna = models.CharField(max_length=100, default='La Serena')
     estado = models.BooleanField(default=True)
 
     def __str__(self):
         return self.nombre
 
 class Rol(models.Model):
+    version = models.PositiveIntegerField(default=1, editable=False)
+    permisos = models.JSONField(default=list, blank=True)
+    alcance = models.CharField(max_length=20, default="delegacion", choices=[("delegacion", "Delegaciones autorizadas"), ("global", "Global")])
     nombre = models.CharField(max_length=50, unique=True)
     descripcion = models.CharField(max_length=200, blank=True, null=True)
     estado = models.BooleanField(default=True)
@@ -19,11 +24,23 @@ class Rol(models.Model):
         return self.nombre
 
 class Usuario(AbstractUser):
+    cargo = models.ForeignKey("core.Cargo", on_delete=models.PROTECT, null=True, blank=True)
+    version = models.PositiveIntegerField(default=1, editable=False)
+    delegaciones = models.ManyToManyField(Delegacion, blank=True, related_name="usuarios_autorizados")
+    correo_unico = models.CharField(max_length=254, unique=True, null=True, blank=True, editable=False)
+
+    def save(self, *args, **kwargs):
+        self.rut = self.rut or None
+        self.email = self.email.strip().lower()
+        self.correo_unico = self.email or None
+        super().save(*args, **kwargs)
+
     # Heredamos de AbstractUser para aprovechar el login de Django
     rut = models.CharField(max_length=12, unique=True, null=True, blank=True)
     rol = models.ForeignKey(Rol, on_delete=models.SET_NULL, null=True, blank=True)
     delegacion = models.ForeignKey(Delegacion, on_delete=models.SET_NULL, null=True, blank=True)
     codigo_recuperacion = models.CharField(max_length=6, null=True, blank=True) # <-- Aquí está el campo nuevo
+    # Compatibilidad de la migración remota 0007; el flujo vigente usa RecuperacionAcceso.
     codigo_recuperacion_creado = models.DateTimeField(null=True, blank=True)
     codigo_recuperacion_intentos = models.PositiveSmallIntegerField(default=0)
     
@@ -31,9 +48,10 @@ class Usuario(AbstractUser):
         return f"{self.username} - {self.get_full_name()}"
 
 class CatalogoBase(models.Model):
+    version = models.PositiveIntegerField(default=1, editable=False)
     """Modelo abstracto para reutilizar en otros catálogos como Tipos de Atención"""
     codigo = models.CharField(max_length=20, unique=True)
-    nombre = models.CharField(max_length=100)
+    nombre = models.CharField(max_length=100, unique=True)
     descripcion = models.TextField(blank=True, null=True)
     estado = models.BooleanField(default=True)
 
@@ -58,6 +76,7 @@ class SubAtencion(CatalogoBase):
 
 
 class ItemMeta(CatalogoBase):
+    cargos = models.ManyToManyField("core.Cargo", blank=True, related_name="items")
     """
     Catálogo de Ítems medibles y criterios de evaluación SGR (Tarea T16).
     Mapea a los indicadores y conceptos operativos para el cálculo de resultados.
@@ -73,6 +92,7 @@ class ItemMeta(CatalogoBase):
 
 
 class ConfiguracionMeta(models.Model):
+    version = models.PositiveIntegerField(default=1, editable=False)
     """
     Asignación y alcance de metas por período e ítem medible (Tarea T16).
     Conserva la historia y valida referencias sin fórmulas inventadas.
@@ -88,6 +108,19 @@ class ConfiguracionMeta(models.Model):
 
 
 class Atencion(models.Model):
+    fecha_visita_programada = models.DateField(null=True, blank=True)
+    fecha_visita_realizada = models.DateField(null=True, blank=True)
+    tipo_gestion = models.CharField(max_length=100, blank=True, default='')
+    compromiso = models.ForeignKey('core.Compromiso', null=True, blank=True, on_delete=models.PROTECT, related_name='atenciones_sociales')
+    catalogos_snapshot = models.JSONField(null=True, blank=True, editable=False)
+    rut_solicitante = models.CharField(max_length=12, blank=True, default='')
+    telefono_solicitante = models.CharField(max_length=20, blank=True, default='')
+    requiere_visita = models.BooleanField(null=True, blank=True, default=None)
+    fecha_visita = models.DateField(null=True, blank=True)
+    fecha_entrega_informe = models.DateField(null=True, blank=True)
+    fecha_entrega_beneficio = models.DateField(null=True, blank=True)
+    gestion_realizada = models.TextField(max_length=2000, blank=True, default='')
+
     """
     Registro transaccional de Atención Ciudadana (Tarea T17).
     Registra la solicitud del ciudadano con autor, fecha y delegación asignados
@@ -133,6 +166,10 @@ class Atencion(models.Model):
         verbose_name = 'Atención Ciudadana'
         verbose_name_plural = 'Atenciones Ciudadanas'
         ordering = ['-id']
+        constraints = [
+            models.UniqueConstraint(fields=['caso_social','numero_gestion'], name='caso_gestion_unica_local'),
+            models.CheckConstraint(condition=models.Q(numero_gestion__gte=1, numero_gestion__lte=3) | models.Q(numero_gestion__isnull=True), name='gestion_rango_local'),
+        ]
 
     @property
     def codigo_atencion(self):
@@ -171,3 +208,39 @@ class AuditoriaDerivacion(models.Model):
 
     def __str__(self):
         return f"Derivación {self.atencion.folio}: {self.delegacion_origen.nombre} -> {self.delegacion_destino.nombre}"
+
+class RecuperacionAcceso(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    identificador = models.UUIDField(unique=True)
+    codigo_hash = models.CharField(max_length=128)
+    vence = models.DateTimeField()
+    creado = models.DateTimeField(auto_now_add=True)
+    intentos = models.PositiveSmallIntegerField(default=0)
+    verificado = models.BooleanField(default=False)
+    consumido = models.BooleanField(default=False)
+
+class CasoSocial(models.Model):
+    codigo = models.CharField(max_length=50, unique=True)
+    solicitante = models.CharField(max_length=200)
+
+class EventoLocal(models.Model):
+    antes = models.JSONField(null=True, blank=True)
+    despues = models.JSONField(null=True, blank=True)
+    origen = models.GenericIPAddressField(null=True, blank=True)
+    delegacion = models.ForeignKey(Delegacion, null=True, blank=True, on_delete=models.PROTECT)
+    usuario = models.ForeignKey(Usuario, null=True, on_delete=models.PROTECT)
+    fecha = models.DateTimeField(auto_now_add=True)
+    recurso = models.CharField(max_length=50)
+    registro = models.PositiveIntegerField(null=True)
+    accion = models.CharField(max_length=30)
+
+
+class AccesoFallido(models.Model):
+    cuenta_hash = models.CharField(max_length=64, db_index=True)
+    direccion_hash = models.CharField(max_length=64, db_index=True)
+    creado = models.DateTimeField(auto_now_add=True, db_index=True)
+
+from .domain_models import Cargo, DerivacionActividad, Actividad, Evidencia, RevisionEvidencia, Compromiso, SeguimientoCompromiso, Conversacion, Mensaje
+from .closure_models import VersionCatalogo, PoliticaOperativa, CierreCompromiso, AlertaLocal
+
+from .matrix_models import Reclamo
