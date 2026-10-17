@@ -7,6 +7,13 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('recuperacion/', views.solicitar_recuperacion, name='recuperacion'),
 
+    # CRUD de Roles (T09)
+
+    # CRUD de Usuarios (T10)
+    path('usuarios/', views.UsuarioCRUDView.as_view(), name='usuarios-list'),
+    path('usuarios/<int:pk>/', views.UsuarioCRUDView.as_view(), name='usuarios-detail'),
+    path('usuarios/<int:pk>/toggle-estado/', views.UsuarioCRUDView.as_view(), {'action': 'toggle-estado'}, name='usuarios-toggle'),
+
     # Endpoints TipoAtencion (T14)
     path('tipos-atencion/', views.TipoAtencionCRUDView.as_view(), name='tipo-atencion-list'),
     path('tipos-atencion/export/', views.TipoAtencionCRUDView.as_view(), {'action': 'export'}, name='tipo-atencion-export'),
@@ -20,8 +27,6 @@ urlpatterns = [
     path('delegaciones/<int:pk>/toggle-estado/', views.DelegacionCRUDView.as_view(), {'action': 'toggle-estado'}, name='delegacion-toggle'),
 
 
-
-    # Endpoints Roles (T09)
     path('roles/', views.RolCRUDView.as_view(), name='rol-list'),
     path('roles/export/', views.RolCRUDView.as_view(), {'action': 'export'}, name='rol-export'),
     path('roles/<int:pk>/', views.RolCRUDView.as_view(), name='rol-detail'),
