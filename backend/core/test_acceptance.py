@@ -1,6 +1,6 @@
 """Regresiones encontradas durante la aceptación funcional local/AWS."""
 from django.test import TestCase
-from .models import Usuario, ItemMeta, ConfiguracionMeta
+from .models import Usuario, ItemMeta, ConfiguracionMeta, PeriodoGestion
 
 
 class UnicidadMetaPorPeriodo(TestCase):
@@ -10,8 +10,10 @@ class UnicidadMetaPorPeriodo(TestCase):
         )
         self.client.force_login(self.user)
         self.item = ItemMeta.objects.create(codigo='QA-META', nombre='Ítem QA')
+        self.period1 = PeriodoGestion.objects.create(codigo='P1', nombre='2026-Trimestre 1', fecha_inicio='2026-01-01', fecha_fin='2026-03-31')
+        self.period2 = PeriodoGestion.objects.create(codigo='P2', nombre='2026-Trimestre 2', fecha_inicio='2026-04-01', fecha_fin='2026-06-30')
         self.meta = ConfiguracionMeta.objects.create(
-            item=self.item, periodo='2026-Trimestre 1', meta_esperada=10,
+            item=self.item, periodo='P1', periodo_gestion=self.period1, meta_esperada=10,
             ponderacion=20,
         )
 

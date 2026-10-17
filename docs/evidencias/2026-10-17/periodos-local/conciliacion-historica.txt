@@ -1,0 +1,2 @@
+{"modo": "aplicar", "grupos": [{"item": 341, "periodo": "QA 92248949 207", "ids": [2, 3], "vigente": 2, "criterio": "única activa", "archivadas": [3]}, {"item": 341, "periodo": "QA Duplicado 92248949", "ids": [5, 6], "vigente": 5, "criterio": "valores idénticos", "archivadas": [6]}]}
+Verificado: cero grupos pendientes; todas las filas y valores históricos conservados.

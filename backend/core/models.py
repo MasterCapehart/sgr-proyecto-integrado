@@ -91,6 +91,27 @@ class ItemMeta(CatalogoBase):
         return f"{self.codigo} - {self.nombre}"
 
 
+class PeriodoGestion(CatalogoBase):
+    """Calendario explícito; cerrado es independiente del estado activo del catálogo."""
+    fecha_inicio = models.DateField()
+    fecha_fin = models.DateField()
+    cerrado = models.BooleanField(default=False, editable=False)
+    parametros_cierre = models.JSONField(default=dict, blank=True, editable=False)
+
+    class Meta:
+        constraints = [models.CheckConstraint(
+            condition=models.Q(fecha_fin__gte=models.F('fecha_inicio')),
+            name='periodo_fechas_ordenadas',
+        )]
+
+    @property
+    def duracion_dias(self):
+        return (self.fecha_fin - self.fecha_inicio).days + 1
+
+    def __str__(self):
+        return f'{self.codigo} · {self.nombre}'
+
+
 class ConfiguracionMeta(models.Model):
     version = models.PositiveIntegerField(default=1, editable=False)
     """
@@ -99,9 +120,14 @@ class ConfiguracionMeta(models.Model):
     """
     item = models.ForeignKey(ItemMeta, on_delete=models.PROTECT, related_name='configuraciones_meta')
     periodo = models.CharField(max_length=50, default='2026-Anual')
+    periodo_gestion = models.ForeignKey(PeriodoGestion, null=True, blank=True, on_delete=models.PROTECT, related_name='metas')
+    conciliada_con = models.ForeignKey('self', null=True, blank=True, on_delete=models.PROTECT, related_name='duplicados_conciliados', editable=False)
     meta_esperada = models.DecimalField(max_digits=10, decimal_places=2, default=100.00)
     ponderacion = models.DecimalField(max_digits=5, decimal_places=2, default=10.00)
     estado = models.BooleanField(default=True)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=['item', 'periodo_gestion'], name='meta_unica_item_periodo_gestion')]
 
     def __str__(self):
         return f"Meta {self.item.codigo} ({self.periodo}): {self.meta_esperada}"
