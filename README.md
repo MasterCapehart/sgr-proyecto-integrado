@@ -1,30 +1,25 @@
 # Sistema de Gestión de Resultados (SGR)
 
-Proyecto Integrado: Sistema de Gestión de Resultados para Delegaciones Municipales.
+Aplicación municipal con Django, MySQL e interfaz HTML/CSS/JavaScript. El backend sirve las pantallas y la API desde un mismo origen.
 
-## Organización
+## Ejecutar en local
 
-- `frontend/`: interfaz de usuario. Framework pendiente de acuerdo del equipo.
-- `backend/`: backend previsto con Django y MySQL; expondrá una API para el frontend.
-- `docs/`: requerimientos, UML, modelo de datos y acuerdos del equipo.
-- `.github/`: plantillas para tareas y solicitudes de integración.
+Seguir [backend/README.md](backend/README.md). Cada integrante mantiene su propio `.env` y su base MySQL; Git comparte código y migraciones, no contraseñas ni datos locales.
 
-Este repositorio contiene la estructura inicial. Todavía no incluye una aplicación ejecutable.
+## Módulos integrados
 
-## Primeros pasos
+Acceso y recuperación por código; usuario, rol y delegación activa; delegaciones, roles, usuarios, ítems, configuraciones de metas, tipos y subatenciones; registro de atención; actividades, evidencias y revisión; compromisos, seguimientos, conversación, alertas y auditoría; planillas y exportación Excel.
 
-1. Clonar este repositorio.
-2. Leer `CONTRIBUTING.md`.
-3. Acordar el framework del frontend y las versiones de las tecnologías.
-4. Configurar el backend, la base de datos y las instrucciones de instalación.
-5. Implementar acceso y roles, seguido del registro de actividades y evidencias.
+Los permisos deben asignarse explícitamente y los catálogos deben validarse con el equipo. Los indicadores incluidos son vistas del avance disponible, no una certificación del motor de cálculo definitivo.
 
-Cada parte deberá documentar sus comandos de instalación, ejecución y pruebas en su propio README cuando se implemente.
+## Organización y colaboración
 
-## Colaboración
+- `backend/`: modelos, migraciones, API y pruebas.
+- `frontend/`: pantallas y componentes compartidos.
+- `docs/`: requisitos, diagramas, acuerdos y evidencias.
+- [Plan de integración](docs/integracion/PLAN_TRASLADO_LOCAL.md).
+- [Trabajo en equipo](CONTRIBUTING.md): ramas, commits por tarea y revisión antes de integrar a main.
 
-Crear una rama por tarea, abrir un pull request y solicitar la revisión de otro integrante antes de integrar a `main`. Registrar tareas y responsables en GitHub Issues.
+## Límites conocidos
 
-## Datos y configuración
-
-No subir credenciales ni datos personales reales. Las configuraciones locales se guardan en archivos `.env` excluidos del repositorio. Los ejemplos deben usar valores ficticios. Las migraciones de Django se versionan junto al código.
+Configuraciones de metas duplicadas (DEF-META-001) y períodos con cierre/reapertura (PAR-01/PAR-05) requieren trabajo adicional. AWS y cálculos definitivos quedan pendientes. Las evidencias históricas de la copia no sustituyen repetir la aceptación en cada entorno.
