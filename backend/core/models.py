@@ -24,6 +24,8 @@ class Usuario(AbstractUser):
     rol = models.ForeignKey(Rol, on_delete=models.SET_NULL, null=True, blank=True)
     delegacion = models.ForeignKey(Delegacion, on_delete=models.SET_NULL, null=True, blank=True)
     codigo_recuperacion = models.CharField(max_length=6, null=True, blank=True) # <-- Aquí está el campo nuevo
+    codigo_recuperacion_creado = models.DateTimeField(null=True, blank=True)
+    codigo_recuperacion_intentos = models.PositiveSmallIntegerField(default=0)
     
     def __str__(self):
         return f"{self.username} - {self.get_full_name()}"

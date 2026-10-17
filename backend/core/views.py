@@ -1,6 +1,9 @@
 import json
 import random
 import datetime
+import secrets
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 import openpyxl
 from .models import Usuario, TipoAtencion, Delegacion, Rol
 from django.db import models, transaction
@@ -54,42 +57,54 @@ def logout_view(request):
     return JsonResponse({'error': 'Método no permitido. Use POST.'}, status=405)
 
 
+CODIGO_VENCE_MINUTOS = 15
+CODIGO_MAX_INTENTOS = 5
+
+
+def _invalidar_codigo(usuario):
+    """Anula el codigo de recuperacion vigente de un usuario."""
+    usuario.codigo_recuperacion = None
+    usuario.codigo_recuperacion_creado = None
+    usuario.codigo_recuperacion_intentos = 0
+    usuario.save(update_fields=['codigo_recuperacion', 'codigo_recuperacion_creado', 'codigo_recuperacion_intentos'])
+
+
 @csrf_exempt
 def solicitar_recuperacion(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
             email = data.get('email')
-            
+
             if not email:
                 return JsonResponse({'error': 'El correo es obligatorio'}, status=400)
-            
-            # Buscar si el usuario existe
+
             usuario = Usuario.objects.filter(email=email).first()
-            
+
             if usuario:
-                # Generar código de 6 dígitos
-                codigo = str(random.randint(100000, 999999))
+                # Código de 6 dígitos con una fuente criptográficamente segura
+                codigo = str(secrets.randbelow(900000) + 100000)
                 usuario.codigo_recuperacion = codigo
-                usuario.save()
-                
-                # Simular el envío del correo en la consola
+                usuario.codigo_recuperacion_creado = timezone.now()
+                usuario.codigo_recuperacion_intentos = 0
+                usuario.save(update_fields=['codigo_recuperacion', 'codigo_recuperacion_creado', 'codigo_recuperacion_intentos'])
+
                 send_mail(
                     'Código de Recuperación - SGR',
-                    f'Hola {usuario.username},\n\nTu código de recuperación es: {codigo}\n\nSi no solicitaste esto, ignora este correo.',
+                    f'Hola {usuario.username},\n\nTu código de recuperación es: {codigo}\n\n'
+                    f'Vence en {CODIGO_VENCE_MINUTOS} minutos. Si no solicitaste esto, ignora este correo.',
                     'soporte@sgr.cl',
                     [email],
                     fail_silently=False,
                 )
-            
+
             # Siempre devolvemos el mismo mensaje por seguridad (evita enumeración de usuarios)
             return JsonResponse({'mensaje': 'Si el correo está registrado, recibirás un código pronto.'}, status=200)
-            
+
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Formato JSON inválido'}, status=400)
-            
-    return JsonResponse({'error': 'Método no permitido. Use POST.'}, status=405)
 
+    return JsonResponse({'error': 'Método no permitido. Use POST.'}, status=405)
 
 
 @csrf_exempt
@@ -100,25 +115,51 @@ def validar_y_cambiar_password(request):
             email = data.get('email')
             codigo = data.get('codigo')
             nueva_password = data.get('nueva_password')
-            
-            # Verificar que vengan los 3 datos
+
             if not all([email, codigo, nueva_password]):
                 return JsonResponse({'error': 'Faltan datos obligatorios (email, codigo, nueva_password)'}, status=400)
-            
+
+            # Mismo mensaje para todo fallo del código, para no dar pistas
+            respuesta_invalida = JsonResponse({'error': 'Código inválido o correo incorrecto'}, status=400)
+
             usuario = Usuario.objects.filter(email=email).first()
-            
-            # Validar que el usuario exista y el código coincida
-            if usuario and usuario.codigo_recuperacion == codigo:
-                usuario.set_password(nueva_password) # Encripta y guarda la nueva contraseña
-                usuario.codigo_recuperacion = None # Limpiamos el código para que no se reuse
-                usuario.save()
-                return JsonResponse({'mensaje': 'Contraseña actualizada exitosamente'}, status=200)
-            else:
-                return JsonResponse({'error': 'Código inválido o correo incorrecto'}, status=400)
-                
+            if not usuario or not usuario.codigo_recuperacion:
+                return respuesta_invalida
+
+            # El código vence y se anula tras demasiados intentos fallidos
+            creado = usuario.codigo_recuperacion_creado
+            vencido = creado is None or timezone.now() - creado > datetime.timedelta(minutes=CODIGO_VENCE_MINUTOS)
+            if vencido or usuario.codigo_recuperacion_intentos >= CODIGO_MAX_INTENTOS:
+                _invalidar_codigo(usuario)
+                return respuesta_invalida
+
+            if not secrets.compare_digest(str(codigo).encode(), usuario.codigo_recuperacion.encode()):
+                usuario.codigo_recuperacion_intentos += 1
+                if usuario.codigo_recuperacion_intentos >= CODIGO_MAX_INTENTOS:
+                    _invalidar_codigo(usuario)
+                else:
+                    usuario.save(update_fields=['codigo_recuperacion_intentos'])
+                return respuesta_invalida
+
+            # Código correcto: la contraseña nueva debe cumplir los validadores de Django
+            try:
+                validate_password(nueva_password, user=usuario)
+            except ValidationError as e:
+                return JsonResponse(
+                    {'error': 'La contraseña no cumple los requisitos de seguridad', 'detalles': list(e.messages)},
+                    status=400,
+                )
+
+            usuario.set_password(nueva_password)
+            usuario.codigo_recuperacion = None  # un solo uso
+            usuario.codigo_recuperacion_creado = None
+            usuario.codigo_recuperacion_intentos = 0
+            usuario.save()
+            return JsonResponse({'mensaje': 'Contraseña actualizada exitosamente'}, status=200)
+
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Formato JSON inválido'}, status=400)
-            
+
     return JsonResponse({'error': 'Método no permitido. Use POST.'}, status=405)
 
 
