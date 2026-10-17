@@ -17,7 +17,7 @@ import os
 from dotenv import load_dotenv
 
 # Cargar variables de entorno
-load_dotenv(Path(__file__).resolve().parent.parent / ".env", override=True)
+load_dotenv(Path(__file__).resolve().parent.parent / ".env", override=False)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -81,11 +81,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': "sgr_eva2_local",
-        'USER': "sgr_eva2_app",
+        "NAME": os.getenv("DB_NAME", "sgr_db"),
+        "USER": os.getenv("DB_USER", "root"),
         'PASSWORD': os.getenv("DB_PASSWORD", ""),
-        'HOST': "127.0.0.1",
-        'PORT': "8891",
+        "HOST": os.getenv("DB_HOST", "localhost"),
+        "PORT": os.getenv("DB_PORT", "3306"),
     }
 }
 
@@ -142,11 +142,11 @@ AUTH_USER_MODEL = 'core.Usuario'
 
 
 # Aislamiento de la copia: cookies y archivos propios.
-SESSION_COOKIE_NAME = "sgr_eva2_local_session"
-CSRF_COOKIE_NAME = "sgr_eva2_local_csrf"
-MEDIA_ROOT = BASE_DIR.parent / "media_local"
-STATIC_ROOT = BASE_DIR.parent / "static_local"
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+SESSION_COOKIE_NAME = os.getenv("SESSION_COOKIE_NAME", "sgr_session")
+CSRF_COOKIE_NAME = os.getenv("CSRF_COOKIE_NAME", "sgr_csrf")
+MEDIA_ROOT = BASE_DIR.parent / "media"
+STATIC_ROOT = BASE_DIR.parent / "staticfiles"
+ALLOWED_HOSTS = [host.strip() for host in os.getenv("ALLOWED_HOSTS", "127.0.0.1,localhost").split(",") if host.strip()]
 
 # El modo local se conserva hasta configurar explícitamente SMTP en el .env privado.
 from .email_settings import email_configuration
