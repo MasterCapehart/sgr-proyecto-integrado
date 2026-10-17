@@ -64,13 +64,16 @@ def solicitar_recuperacion(request):
             if not email:
                 return JsonResponse({'error': 'El correo es obligatorio'}, status=400)
             
+            # Buscar si el usuario existe
             usuario = Usuario.objects.filter(email=email).first()
             
             if usuario:
+                # Generar código de 6 dígitos
                 codigo = str(random.randint(100000, 999999))
                 usuario.codigo_recuperacion = codigo
                 usuario.save()
                 
+                # Simular el envío del correo en la consola
                 send_mail(
                     'Código de Recuperación - SGR',
                     f'Hola {usuario.username},\n\nTu código de recuperación es: {codigo}\n\nSi no solicitaste esto, ignora este correo.',
@@ -79,6 +82,7 @@ def solicitar_recuperacion(request):
                     fail_silently=False,
                 )
             
+            # Siempre devolvemos el mismo mensaje por seguridad (evita enumeración de usuarios)
             return JsonResponse({'mensaje': 'Si el correo está registrado, recibirás un código pronto.'}, status=200)
             
         except json.JSONDecodeError:
@@ -123,14 +127,23 @@ def validar_y_cambiar_password(request):
 # ==========================================
 
 class TipoAtencionCRUDView(BaseCRUDView):
+    """
+    CRUD completo de Tipos de Atención (Tarea T14).
+    Gestiona el catálogo padre de atención ciudadana con:
+    - Validación estricta de duplicados en código y nombre.
+    - Protección referencial: impide desactivar o alterar si posee subatenciones hijas activas.
+    - Exportación común a formato Excel/CSV.
+    """
     model = TipoAtencion
     fields = ["codigo", "nombre", "descripcion", "estado"]
     search_fields = ["codigo", "nombre", "descripcion"]
     ordering = ["codigo"]
 
     def validate_payload(self, data, instance=None):
+        """Valida obligatoriedad y unicidad de código y nombre."""
         errors = super().validate_payload(data, instance=instance)
         
+        # Validación de duplicados en código
         codigo = data.get("codigo")
         if codigo:
             qs_codigo = TipoAtencion.objects.filter(codigo__iexact=codigo.strip())
@@ -139,6 +152,7 @@ class TipoAtencionCRUDView(BaseCRUDView):
             if qs_codigo.exists():
                 errors.setdefault("codigo", []).append("Ya existe un tipo de atención con este código.")
 
+        # Validación de duplicados en nombre
         nombre = data.get("nombre")
         if nombre:
             qs_nombre = TipoAtencion.objects.filter(nombre__iexact=nombre.strip())
@@ -150,6 +164,7 @@ class TipoAtencionCRUDView(BaseCRUDView):
         return errors
 
     def delete(self, request, pk=None, *args, **kwargs):
+        """Impide desactivar si posee referencias dependientes activas (Criterio T14)."""
         try:
             instance = self.get_queryset().get(pk=pk)
         except self.model.DoesNotExist:
@@ -167,12 +182,14 @@ class TipoAtencionCRUDView(BaseCRUDView):
         return super().delete(request, pk=pk, *args, **kwargs)
 
     def toggle_estado(self, request, pk):
+        """Impide alternar a inactivo si posee referencias dependientes activas (Criterio T14)."""
         try:
             instance = self.get_queryset().get(pk=pk)
         except self.model.DoesNotExist:
             from .api import api_error
             return api_error(code="NOT_FOUND", message=f"El tipo de atención con ID {pk} no existe.", status=404)
 
+        # Si actualmente está activo y se solicita cambiar a inactivo
         if instance.estado:
             if hasattr(instance, "subatenciones") and instance.subatenciones.filter(estado=True).exists():
                 from .api import api_error
@@ -186,12 +203,25 @@ class TipoAtencionCRUDView(BaseCRUDView):
 
 
 class DelegacionCRUDView(BaseCRUDView):
+    """
+    Vista de referencia para el CRUD de Delegaciones (Tarea T13 asignada a Matías).
+    Demuestra la reusabilidad directa del patrón común.
+    """
     model = Delegacion
     fields = ["nombre", "direccion", "comuna", "estado"]
     search_fields = ["nombre", "direccion", "comuna"]
     ordering = ["nombre"]
 
+
 class SubAtencionCRUDView(BaseCRUDView):
+    """
+    CRUD completo de Subatenciones (catálogo hijo - Tarea T15).
+    Gestiona el catálogo dependiente de TipoAtencion con:
+    - Validación de catálogo padre obligatorio y activo.
+    - Control de duplicados en código y nombre.
+    - Búsqueda por código, nombre y catálogo padre.
+    - Exportación a Excel/CSV con el nombre del tipo padre.
+    """
     model = SubAtencion
     fields = ["codigo", "nombre", "descripcion", "tipo_atencion", "estado"]
     search_fields = ["codigo", "nombre", "descripcion", "tipo_atencion__codigo", "tipo_atencion__nombre"]
@@ -225,6 +255,8 @@ class SubAtencionCRUDView(BaseCRUDView):
 
     def validate_payload(self, data, instance=None):
         errors = {}
+
+        # 1. Resolver y validar tipo_atencion (catálogo padre)
         tipo_id = data.get("tipo_atencion") or data.get("tipo_padre")
         parent_obj = None
 
@@ -240,11 +272,13 @@ class SubAtencionCRUDView(BaseCRUDView):
             if not parent_obj:
                 errors.setdefault("tipo_atencion", []).append("El Tipo de Atención indicado no existe.")
             elif not parent_obj.estado:
+                # Regla T15: El catálogo padre debe estar activo
                 errors.setdefault("tipo_atencion", []).append("El Tipo de Atención seleccionado está inactivo. Debe estar activo para asociarle subatenciones.")
 
         if parent_obj:
             data["tipo_atencion"] = parent_obj
 
+        # 2. Validar campos requeridos y unicidad
         codigo = data.get("codigo")
         if not codigo:
             errors.setdefault("codigo", []).append("El código es obligatorio.")
@@ -305,6 +339,8 @@ class ItemMetaCRUDView(BaseCRUDView):
 
     def validate_payload(self, data, instance=None):
         errors = super().validate_payload(data, instance=instance)
+
+        # Validación de duplicados en código
         codigo = data.get("codigo")
         if codigo:
             qs_codigo = ItemMeta.objects.filter(codigo__iexact=str(codigo).strip())
@@ -313,6 +349,7 @@ class ItemMetaCRUDView(BaseCRUDView):
             if qs_codigo.exists():
                 errors.setdefault("codigo", []).append("Ya existe un ítem con este código.")
 
+        # Validación de duplicados en nombre
         nombre = data.get("nombre")
         if nombre:
             qs_nombre = ItemMeta.objects.filter(nombre__iexact=str(nombre).strip())
@@ -324,6 +361,7 @@ class ItemMetaCRUDView(BaseCRUDView):
         return errors
 
     def delete(self, request, pk=None, *args, **kwargs):
+        """Impide desactivar si posee metas configuradas activas (Criterio T16)."""
         try:
             instance = self.get_queryset().get(pk=pk)
         except self.model.DoesNotExist:
@@ -341,6 +379,7 @@ class ItemMetaCRUDView(BaseCRUDView):
         return super().delete(request, pk=pk, *args, **kwargs)
 
     def toggle_estado(self, request, pk):
+        """Impide alternar a inactivo si posee referencias dependientes activas (Criterio T16)."""
         try:
             instance = self.get_queryset().get(pk=pk)
         except self.model.DoesNotExist:
@@ -390,6 +429,10 @@ class ItemMetaCRUDView(BaseCRUDView):
 # ==========================================
 
 class AtencionContextoView(View):
+    """
+    Retorna el contexto institucional de sesión del funcionario y la delegación (Tarea T17).
+    Garantiza que la delegación de origen, el responsable y la fecha se resuelvan desde el servidor.
+    """
     def get(self, request, *args, **kwargs):
         user = getattr(request, 'user', None)
         if not user or not getattr(user, 'is_authenticated', False):
@@ -405,7 +448,9 @@ class AtencionContextoView(View):
         if not delegacion or not delegacion.estado:
             delegacion = Delegacion.objects.filter(estado=True).first()
 
+        from django.utils import timezone
         ahora = timezone.now()
+
         user_display = (
             f"{user.get_full_name() or user.username} ({user.rol.nombre if user.rol else 'Funcionario Municipal'})"
             if user else "Funcionario Municipal"
@@ -435,6 +480,14 @@ class AtencionContextoView(View):
 
 
 class AtencionCRUDView(BaseCRUDView):
+    """
+    CRUD y Registro de Atención Ciudadana (Tarea T17).
+    - Asigna folio real único generado en el servidor (AT-YYYY-XXXX).
+    - Valida existencia y estado activo de TipoAtencion y SubAtencion.
+    - Valida compatibilidad estricta: subatención debe pertenecer al tipo seleccionado.
+    - Asigna automáticamente autor (usuario) y delegación de origen desde el contexto del servidor.
+    - Persiste en MySQL y retorna ID y folio reales.
+    """
     model = Atencion
     fields = ["solicitante", "descripcion", "caso_social"]
     search_fields = ["folio", "solicitante", "descripcion", "tipo_atencion__nombre", "sub_atencion__nombre"]
@@ -444,6 +497,7 @@ class AtencionCRUDView(BaseCRUDView):
         return Atencion.objects.select_related("tipo_atencion", "sub_atencion", "delegacion", "usuario").all()
 
     def filter_queryset(self, qs):
+        """Filtra por búsqueda, estado y ámbito territorial/delegación activa (T19)."""
         qs = super().filter_queryset(qs)
         del_param = self.request.GET.get("delegacion")
         if del_param:
@@ -506,6 +560,7 @@ class AtencionCRUDView(BaseCRUDView):
         }
 
     def _generar_folio(self):
+        """Genera un folio correlativo único e incremental para el año actual."""
         anio = timezone.now().year
         prefijo = f"AT-{anio}-"
         ultimo = Atencion.objects.filter(folio__startswith=prefijo).order_by("-id").first()
@@ -523,9 +578,13 @@ class AtencionCRUDView(BaseCRUDView):
             return self.toggle_estado(request, pk)
 
         from .api import api_error, api_success
+
         data = request.json_data
         errors = {}
 
+        # -------------------------------------------------------------
+        # 1. Idempotencia y Prevención de Duplicados (Criterio T18)
+        # -------------------------------------------------------------
         clave_idempotencia = (
             data.get("clave_idempotencia") or
             request.headers.get("X-Idempotency-Key") or
@@ -542,6 +601,9 @@ class AtencionCRUDView(BaseCRUDView):
                     status=200
                 )
 
+        # -------------------------------------------------------------
+        # 2. Validación de campos obligatorios
+        # -------------------------------------------------------------
         solicitante = str(data.get("solicitante") or "").strip()
         if not solicitante:
             errors.setdefault("solicitante", []).append("El nombre o RUT del solicitante es obligatorio.")
@@ -550,6 +612,9 @@ class AtencionCRUDView(BaseCRUDView):
         if not descripcion:
             errors.setdefault("descripcion", []).append("La descripción de la atención es obligatoria.")
 
+        # -------------------------------------------------------------
+        # 3. Validación de Tipo y Subatención (Catálogos y Pareja)
+        # -------------------------------------------------------------
         tipo_id = data.get("tipo_atencion") or data.get("tipo")
         tipo_obj = None
         if not tipo_id:
@@ -566,7 +631,7 @@ class AtencionCRUDView(BaseCRUDView):
             if not tipo_obj:
                 errors.setdefault("tipo_atencion", []).append("El Tipo de Atención indicado no existe.")
             elif not tipo_obj.estado:
-                errors.setdefault("tipo_atencion", []).append("El Tipo de Atención seleccionado está inactivo.")
+                errors.setdefault("tipo_atencion", []).append("El Tipo de Atención seleccionado está inactivo. Debe seleccionar un catálogo activo.")
 
         sub_id = data.get("sub_atencion") or data.get("subtipo")
         sub_obj = None
@@ -584,15 +649,24 @@ class AtencionCRUDView(BaseCRUDView):
             if not sub_obj:
                 errors.setdefault("sub_atencion", []).append("La Subatención indicada no existe.")
             elif not sub_obj.estado:
-                errors.setdefault("sub_atencion", []).append("La Subatención seleccionada está inactiva.")
+                errors.setdefault("sub_atencion", []).append("La Subatención seleccionada está inactiva. Debe seleccionar una subatención activa.")
             elif tipo_obj and sub_obj.tipo_atencion_id != tipo_obj.pk:
+                # Regla T18: Rechazar pareja inválida
                 errors.setdefault("sub_atencion", []).append(
                     f"La subatención '{sub_obj.nombre}' no pertenece al tipo de atención '{tipo_obj.nombre}'."
                 )
 
         if errors:
-            return api_error(code="VALIDATION_ERROR", message="Error de validación.", details=errors, status=400)
+            return api_error(
+                code="VALIDATION_ERROR",
+                message="Error de validación al registrar atención ciudadana.",
+                details=errors,
+                status=400
+            )
 
+        # -------------------------------------------------------------
+        # 4. Autor y Responsable Autorizado (Criterio T18)
+        # -------------------------------------------------------------
         usuario = getattr(request, 'user', None)
         if usuario and not getattr(usuario, 'is_authenticated', False):
             usuario = None
@@ -600,11 +674,22 @@ class AtencionCRUDView(BaseCRUDView):
             usuario = Usuario.objects.filter(is_active=True).first()
 
         if not usuario or not usuario.is_active:
-            return api_error(code="RESPONSABLE_NO_AUTORIZADO", message="Usuario no activo o autorizado.", status=403)
+            return api_error(
+                code="RESPONSABLE_NO_AUTORIZADO",
+                message="El usuario responsable no se encuentra activo o autorizado en el sistema.",
+                status=403
+            )
 
         if usuario.rol and not usuario.rol.estado:
-            return api_error(code="RESPONSABLE_NO_AUTORIZADO", message="Rol del usuario inactivo.", status=403)
+            return api_error(
+                code="RESPONSABLE_NO_AUTORIZADO",
+                message="El rol asignado al funcionario responsable se encuentra inactivo.",
+                status=403
+            )
 
+        # -------------------------------------------------------------
+        # 5. Origen Conservado y Rechazo de Ámbito Manipulado (Criterio T18)
+        # -------------------------------------------------------------
         del_sesion_id = request.session.get('delegacion_activa_id') if hasattr(request, 'session') else None
         delegacion_origen = None
         if del_sesion_id:
@@ -616,8 +701,13 @@ class AtencionCRUDView(BaseCRUDView):
             delegacion_origen = Delegacion.objects.filter(estado=True).first()
 
         if not delegacion_origen:
-            return api_error(code="SERVER_CONTEXT_ERROR", message="Ámbito territorial no determinado.", status=500)
+            return api_error(
+                code="SERVER_CONTEXT_ERROR",
+                message="No se pudo determinar el ámbito territorial de origen en el servidor.",
+                status=500
+            )
 
+        # Detectar si el cliente intentó manipular la delegación de origen
         del_manipulada = data.get("delegacion") or data.get("delegacion_origen") or data.get("id_delegacion")
         if del_manipulada:
             del_manipulada_id = None
@@ -631,23 +721,38 @@ class AtencionCRUDView(BaseCRUDView):
             if del_manipulada_id and del_manipulada_id != delegacion_origen.pk:
                 return api_error(
                     code="AMBITO_MANIPULADO",
-                    message="No autorizado para registrar fuera de su delegación de origen.",
+                    message="Ámbito territorial manipulado: No está autorizado para registrar atenciones fuera de su delegación de origen.",
+                    details={"delegacion": ["La delegación de captura enviada no coincide con su ámbito autorizado."]},
                     status=403
                 )
 
+        # -------------------------------------------------------------
+        # 6. Delegación Responsable y Derivación Auditada
+        # -------------------------------------------------------------
         del_resp_val = data.get("delegacion_responsable")
         delegacion_responsable = delegacion_origen
         if del_resp_val:
             if str(del_resp_val).isdigit():
                 delegacion_responsable = Delegacion.objects.filter(pk=int(del_resp_val)).first()
             else:
-                delegacion_responsable = Delegacion.objects.filter(models.Q(nombre__icontains=str(del_resp_val).strip())).first()
+                delegacion_responsable = Delegacion.objects.filter(
+                    models.Q(nombre__icontains=str(del_resp_val).strip())
+                ).first()
 
             if not delegacion_responsable:
-                return api_error(code="DELEGACION_RESPONSABLE_INVALIDA", message="Delegación responsable no existe.", status=400)
+                return api_error(
+                    code="DELEGACION_RESPONSABLE_INVALIDA",
+                    message="La delegación responsable indicada no existe.",
+                    status=400
+                )
             if not delegacion_responsable.estado:
-                return api_error(code="DELEGACION_RESPONSABLE_INACTIVA", message="Delegación responsable inactiva.", status=400)
+                return api_error(
+                    code="DELEGACION_RESPONSABLE_INACTIVA",
+                    message="La delegación responsable indicada se encuentra inactiva.",
+                    status=400
+                )
 
+        # Detección de doble envío concurrente reciente sin clave explícita
         if not clave_idempotencia:
             ventana = timezone.now() - datetime.timedelta(seconds=4)
             duplicado_reciente = Atencion.objects.filter(
@@ -666,19 +771,27 @@ class AtencionCRUDView(BaseCRUDView):
                     status=200
                 )
 
+        # -------------------------------------------------------------
+        # 7. Transacción Atómica con Control de Concurrencia y Caso Social
+        # -------------------------------------------------------------
         caso_social_raw = str(data.get("caso_social") or "").strip()
         caso_social_code = caso_social_raw.upper() if caso_social_raw else None
 
         with transaction.atomic():
             numero_gestion = None
             if caso_social_code:
-                gestiones_anteriores = Atencion.objects.select_for_update().filter(caso_social__iexact=caso_social_code)
+                # Bloqueo pesimista para evitar concurrencia en la cuenta de gestiones
+                gestiones_anteriores = Atencion.objects.select_for_update().filter(
+                    caso_social__iexact=caso_social_code
+                )
                 conteo_gestiones = gestiones_anteriores.count()
 
+                # Regla institucional T18: cuarta gestión social rechazada
                 if conteo_gestiones >= 3:
                     return api_error(
                         code="CUARTA_GESTION_RECHAZADA",
-                        message=f"El caso social '{caso_social_code}' ya cuenta con 3 gestiones. Límite máximo.",
+                        message=f"Rechazo de regla institucional: El caso social '{caso_social_code}' ya cuenta con 3 gestiones registradas. Una atención social no puede exceder 3 gestiones sucesivas.",
+                        details={"caso_social": [f"El caso social {caso_social_code} ha alcanzado el límite máximo de 3 gestiones."]},
                         status=400
                     )
 
@@ -701,6 +814,7 @@ class AtencionCRUDView(BaseCRUDView):
                 estado=True
             )
 
+            # Si es una derivación a otra delegación, registrar auditoría
             if delegacion_responsable and delegacion_responsable.pk != delegacion_origen.pk:
                 AuditoriaDerivacion.objects.create(
                     atencion=atencion,
@@ -748,6 +862,11 @@ class AtencionCRUDView(BaseCRUDView):
 # ==========================================
 
 class ContextoView(View):
+    """
+    Retorna el contexto institucional global de la cabecera y sesión (Tarea T19).
+    Suministra funcionario activo, su rol municipal, su ámbito territorial vigente (delegación activa)
+    y el listado de delegaciones activas autorizadas en el sistema.
+    """
     def get(self, request, *args, **kwargs):
         user = getattr(request, 'user', None)
         if not user or not getattr(user, 'is_authenticated', False):
@@ -763,6 +882,7 @@ class ContextoView(View):
         if not delegacion or not delegacion.estado:
             delegacion = Delegacion.objects.filter(estado=True).first()
 
+        # Guardar en sesión para persistencia permanente
         if delegacion and hasattr(request, 'session'):
             request.session['delegacion_activa_id'] = delegacion.pk
 
@@ -809,6 +929,10 @@ class ContextoView(View):
 
 @method_decorator(csrf_exempt, name='dispatch')
 class CambiarDelegacionView(View):
+    """
+    Cambia el ámbito territorial activo del funcionario desde el selector de cabecera (Tarea T19).
+    Valida delegación existente y activa, actualizando la sesión del servidor.
+    """
     def post(self, request, *args, **kwargs):
         from .api import api_error, api_success
 
@@ -820,15 +944,30 @@ class CambiarDelegacionView(View):
 
         del_id = data.get("delegacion_id")
         if not del_id:
-            return api_error(code="DELEGACION_REQUIRED", message="ID de delegación requerido.", status=400)
+            return api_error(
+                code="DELEGACION_REQUIRED",
+                message="Debe especificar el ID de la delegación que desea activar.",
+                details={"delegacion_id": ["El campo delegacion_id es obligatorio."]},
+                status=400
+            )
 
         delegacion = Delegacion.objects.filter(pk=del_id).first()
         if not delegacion:
-            return api_error(code="DELEGACION_NOT_FOUND", message="Delegación no existe.", status=404)
+            return api_error(
+                code="DELEGACION_NOT_FOUND",
+                message=f"La delegación con ID {del_id} no existe.",
+                status=404
+            )
 
         if not delegacion.estado:
-            return api_error(code="DELEGACION_INACTIVA", message="Delegación inactiva.", status=400)
+            return api_error(
+                code="DELEGACION_INACTIVA",
+                message="No se puede cambiar a una delegación inactiva.",
+                details={"delegacion_id": ["La delegación seleccionada está inactiva."]},
+                status=400
+            )
 
+        # Actualizar sesión institucional permanente
         if hasattr(request, 'session'):
             request.session['delegacion_activa_id'] = delegacion.pk
 
@@ -838,8 +977,12 @@ class CambiarDelegacionView(View):
             user.save(update_fields=['delegacion'])
 
         return api_success(
-            data={"id": delegacion.pk, "nombre": delegacion.nombre, "display": delegacion.nombre},
-            message=f"Ámbito territorial cambiado a {delegacion.nombre}.",
+            data={
+                "id": delegacion.pk,
+                "nombre": delegacion.nombre,
+                "display": delegacion.nombre
+            },
+            message=f"Ámbito territorial cambiado exitosamente a {delegacion.nombre}.",
             status=200
         )
 
