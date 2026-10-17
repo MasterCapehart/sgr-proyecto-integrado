@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/Users/danielflores/Desktop/Proyecto Integrado/sgr-proyecto-integrado/.integracion/aws-deploy/aceptacion/api.py", line 72, in <module>
+    verifier=next(x for x in accounts if x['username']=='verificador.aws');v=Client();v.login(verifier['username'],verifier['password'])
+                                                                                      ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/danielflores/Desktop/Proyecto Integrado/sgr-proyecto-integrado/.integracion/aws-deploy/aceptacion/api.py", line 17, in login
+    def login(self,u,p):self.csrf();s,b=self.call('/api/login/',{'username':u,'password':p});assert s==200,(s,b);self.csrf()
+                                                                                                    ^^^^^^
+AssertionError: (401, {'success': False, 'error': {'code': '401', 'message': 'Credenciales incorrectas o cuenta sin acceso.', 'details': {}}})
+Traceback (most recent call last):
+  File "/Users/danielflores/Desktop/Proyecto Integrado/sgr-proyecto-integrado/.integracion/aws-deploy/aceptacion/api.py", line 72, in <module>
+    verifier=next(x for x in accounts if x['username']=='verificador.aws');v=Client();v.login(verifier['username'],verifier['password'])
+                                                                                      ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/danielflores/Desktop/Proyecto Integrado/sgr-proyecto-integrado/.integracion/aws-deploy/aceptacion/api.py", line 17, in login
+    def login(self,u,p):self.csrf();s,b=self.call('/api/login/',{'username':u,'password':p});assert s==200,(s,b);self.csrf()
+                                                                                                    ^^^^^^
+AssertionError: (401, {'success': False, 'error': {'code': '401', 'message': 'Credenciales incorrectas o cuenta sin acceso.', 'details': {}}})

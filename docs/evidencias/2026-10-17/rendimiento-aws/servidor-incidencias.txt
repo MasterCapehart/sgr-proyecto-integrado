@@ -1,0 +1,5 @@
+Oct 17 23:38:57 ip-10-20-1-247 gunicorn[1294]: 127.0.0.1 - - [17/Oct/2026:20:38:57 -0300] "GET /api/periodos/export/?search=PER80313954&estado=todos&page=1&page_size=10&ordering=-id HTTP/1.0" 200 5215 "https://50.17.79.145/pages/periodos.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36"
+Oct 17 23:47:44 ip-10-20-1-247 gunicorn[1290]: [2026-10-17 23:47:44 +0000] [1290] [CRITICAL] WORKER TIMEOUT (pid:1294)
+Oct 17 23:47:44 ip-10-20-1-247 gunicorn[1294]: [2026-10-17 20:47:44 -0300] [1294] [ERROR] Error handling request GET /api/atenciones/export/?search=REN50d1c897
+Oct 17 23:47:44 ip-10-20-1-247 gunicorn[1294]: Traceback (most recent call last):
+Oct 17 23:47:44 ip-10-20-1-247 gunicorn[1294]: 127.0.0.1 - - [17/Oct/2026:20:47:44 -0300] "GET /api/atenciones/export/?search=REN50d1c897 HTTP/1.0" 500 0 "-" "-"

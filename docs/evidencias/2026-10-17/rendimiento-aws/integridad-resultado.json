@@ -1,0 +1,12 @@
+{
+  "tag": "REN50d1c897",
+  "semillas_d01": 10000,
+  "semillas_d02": 100,
+  "escrituras_db": 67,
+  "confirmadas_cliente": 67,
+  "confirmadas_ausentes_o_id_distinto": 0,
+  "escrituras_sin_confirmacion_cliente": 0,
+  "duplicados_clave": [],
+  "autor_o_delegacion_incorrectos": 0,
+  "integridad_confirmada": true
+}

@@ -1,0 +1,1 @@
+{"database_temporal": "sgr_restore_qa_20261017235559", "inicio_utc": "2026-10-17T23:55:59.465537+00:00", "restauracion_s": 3.98, "tablas": 39, "filas": 11194, "conteos_y_checksums_iguales": true, "checksums_disponibles": true, "backup_bytes": 2642736, "esquema_temporal_eliminado": true, "ventana_operacion_s": 13.574}
