@@ -3,6 +3,7 @@
   function dirty() { return window.SGRDrafts?.hasChanges() || false; }
 
   const ICONS = {
+    periodos: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4M8 3v4M3 11h18"></path></svg>`,
     home: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>`,
     alertas: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>`,
     gobierno: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>`,
@@ -42,6 +43,7 @@
     ['cargos', 'cargos', 'Cargos y áreas', 'cargos.ver'],
     ['usuarios', 'usuarios', 'Usuarios', 'usuarios.ver'],
     ['items-metas', 'items-metas', 'Ítems y metas', 'items-metas.ver'],
+    ['periodos', 'periodos', 'Períodos de gestión', 'periodos.ver'],
     ['configuraciones-metas', 'configuraciones-metas', 'Configuración de metas', 'configuraciones-metas.ver'],
     ['tipos-atencion', 'tipos-atencion', 'Tipos de atención', 'tipos-atencion.ver'],
     ['subatenciones', 'subatenciones', 'Subatenciones', 'subatenciones.ver']
@@ -175,7 +177,7 @@
             const groups = [
               ['Gestión diaria', ['actividades', 'atencion', 'casos-sociales', 'compromisos', 'reclamos']],
               ['Seguimiento', ['evidencias', 'validacion', 'alertas', 'reportes', 'auditoria']],
-              ['Administración', ['delegaciones', 'usuarios', 'roles', 'cargos', 'items-metas', 'configuraciones-metas', 'tipos-atencion', 'subatenciones', 'gobierno']]
+              ['Administración', ['delegaciones', 'usuarios', 'roles', 'cargos', 'items-metas', 'periodos', 'configuraciones-metas', 'tipos-atencion', 'subatenciones', 'gobierno']]
             ];
 
             for (const [label, ids] of groups) {
