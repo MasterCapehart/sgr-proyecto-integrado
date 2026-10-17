@@ -36,3 +36,6 @@ from . import feedback_api,matrix_profiles
 urlpatterns += [path('planillas/',matrix_profiles.profiles),path('reclamos/',feedback_api.records),path('reclamos/export/',feedback_api.records,{'action':'export'}),path('reclamos/<int:pk>/',feedback_api.records)]
 
 urlpatterns += [path('reclamos/opciones/',feedback_api.options)]
+
+from . import deploy_api
+urlpatterns += [path("version/", deploy_api.version), path("health/", deploy_api.health)]

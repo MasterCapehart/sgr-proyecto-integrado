@@ -27,8 +27,9 @@ from django.urls import re_path
 from django.views.static import serve
 from django.conf import settings
 _frontend_local = settings.BASE_DIR.parent / "frontend"
-urlpatterns += [
-    path("", serve, {"path": "index.html", "document_root": _frontend_local}),
-    path("index.html", serve, {"path": "index.html", "document_root": _frontend_local}),
-    re_path(r"^(?P<path>(?:assets|pages)/.*)$", serve, {"document_root": _frontend_local}),
-]
+if settings.DEBUG:
+    urlpatterns += [
+        path("", serve, {"path": "index.html", "document_root": _frontend_local}),
+        path("index.html", serve, {"path": "index.html", "document_root": _frontend_local}),
+        re_path(r"^(?P<path>(?:assets|pages)/.*)$", serve, {"document_root": _frontend_local}),
+    ]

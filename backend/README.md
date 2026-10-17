@@ -51,3 +51,10 @@ Las pruebas crean una base con prefijo test_; el usuario MySQL debe tener autori
 Las clases tests_legacy_crud, tests_acceso_permisos y tests_roles_usuarios conservan las regresiones del contrato anterior y usan exclusivamente URLs de prueba. No acreditan el contrato de producción actual. Las demás suites verifican la API integrada, incluidos aislamiento, permisos y flujos operativos. Existe una prueba marcada como fallo esperado heredada; no equivale a cobertura satisfactoria de esa condición.
 
 El servidor de desarrollo y el servicio estático incluidos son para uso local. El despliegue de producción se configura posteriormente.
+
+## Configuración AWS
+
+El despliegue usa `config.settings_production`, dependencias en
+`requirements-production.txt` y archivos operativos en `deploy/aws/`.
+Las variables privadas se mantienen fuera de Git. Consultar `deploy/aws/README.md`
+para las restricciones comprobadas del Learner Lab y el estado del procedimiento.
