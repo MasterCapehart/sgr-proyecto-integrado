@@ -1,7 +1,8 @@
-import json
+iimport json
 import random
 import datetime
 import openpyxl
+from .models import Usuario, TipoAtencion, Delegacion, Rol
 from django.db import models, transaction
 from django.utils import timezone
 from django.views import View
@@ -158,65 +159,6 @@ class DelegacionCRUDView(BaseCRUDView):
     fields = ["nombre", "direccion", "comuna", "estado"]
     search_fields = ["nombre", "direccion", "comuna"]
     ordering = ["nombre"]
-
-class RolCRUDView(BaseCRUDView):
-    """CRUD para la gestión de Roles y Permisos (T09)"""
-    model = Rol
-    fields = ["nombre", "descripcion", "estado"]
-    search_fields = ["nombre", "descripcion"]
-    ordering = ["nombre"]
-
-class UsuarioCRUDView(BaseCRUDView):
-    """CRUD para la gestión de Usuarios"""
-    model = Usuario
-    fields = ["username", "first_name", "last_name", "email", "is_active"]
-    search_fields = ["username", "first_name", "last_name", "email"]
-    ordering = ["username"]
-
-    def get_queryset(self):
-        # Optimiza la consulta trayendo datos de llave foránea de una vez
-        return Usuario.objects.select_related("rol", "delegacion").all()
-
-    def serialize_instance(self, instance):
-        data = super().serialize_instance(instance)
-        # Asegura compatibilidad con el JS que busca el campo 'estado'
-        data["estado"] = getattr(instance, 'is_active', getattr(instance, 'estado', True))
-        
-        # Formatea los datos para que el JS los inyecte directo en la tabla
-        data["nombre_apellidos"] = instance.get_full_name() or instance.username
-        data["correo_institucional"] = getattr(instance, 'email', getattr(instance, 'correo', 'Sin correo'))
-        data["rol_asignado"] = instance.rol.nombre if getattr(instance, 'rol', None) else "Sin rol"
-        data["delegacion_activa"] = instance.delegacion.nombre if getattr(instance, 'delegacion', None) else "Sin delegación"
-        return data
-
-    def export(self, request):
-        """Exporta usuarios a XLSX real (Tarea T12)."""
-        qs = self.filter_queryset(self.get_queryset())
-        
-        wb = openpyxl.Workbook()
-        ws = wb.active
-        ws.title = "Usuarios"
-        
-        headers = ["ID", "Username", "Nombre y Apellidos", "Correo Institucional", "Rol Asignado", "Delegación Activa", "Estado"]
-        ws.append(headers)
-        
-        for item in qs:
-            estado_str = "Activo" if getattr(item, 'is_active', getattr(item, 'estado', True)) else "Inactivo"
-            ws.append([
-                item.pk,
-                item.username,
-                item.get_full_name() or item.username,
-                getattr(item, 'email', getattr(item, 'correo', '')),
-                item.rol.nombre if getattr(item, 'rol', None) else "",
-                item.delegacion.nombre if getattr(item, 'delegacion', None) else "",
-                estado_str
-            ])
-            
-        response = HttpResponse(content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-        response["Content-Disposition"] = 'attachment; filename="usuarios_export.xlsx"'
-        wb.save(response)
-        return response
-
 
 class SubAtencionCRUDView(BaseCRUDView):
     model = SubAtencion
@@ -873,3 +815,189 @@ class CambiarDelegacionView(View):
             message=f"Ámbito territorial cambiado a {delegacion.nombre}.",
             status=200
         )
+
+
+# ==========================================
+# 3. CRUD de Roles (T09)
+# ==========================================
+
+class RolCRUDView(BaseCRUDView):
+    model = Rol
+    fields = ["nombre", "descripcion", "estado"]
+    search_fields = ["nombre", "descripcion"]
+    ordering = ["nombre"]
+
+
+# ==========================================
+# 4. CRUD de Usuarios (T10)
+# ==========================================
+
+class UsuarioCRUDView(BaseCRUDView):
+    """
+    CRUD completo de Usuarios (Tarea T10).
+    - Encripta contraseñas usando set_password() en la creación/edición.
+    - Nunca expone los hashes de contraseñas en los listados (serialize_instance).
+    - Valida correos y nombres de usuario únicos.
+    - Mapea el campo 'estado' del frontend al 'is_active' de AbstractUser.
+    """
+    model = Usuario
+    fields = ["username", "email", "first_name", "last_name", "rut"]
+    search_fields = ["username", "email", "first_name", "last_name", "rut", "rol__nombre", "delegacion__nombre"]
+    ordering = ["username"]
+
+    def get_queryset(self):
+        return Usuario.objects.select_related("rol", "delegacion").all()
+
+    def serialize_instance(self, instance):
+        # Jamás devolvemos el campo password por seguridad
+        return {
+            "id": instance.pk,
+            "username": instance.username,
+            "email": instance.email,
+            "first_name": instance.first_name,
+            "last_name": instance.last_name,
+            "rut": instance.rut,
+            "estado": instance.is_active,  # Mapeamos is_active a estado para el frontend
+            "rol": {
+                "id": instance.rol.pk,
+                "nombre": instance.rol.nombre
+            } if instance.rol else None,
+            "delegacion": {
+                "id": instance.delegacion.pk,
+                "nombre": instance.delegacion.nombre
+            } if instance.delegacion else None,
+        }
+
+    def validate_payload(self, data, instance=None):
+        errors = {}
+
+        # 1. Validar Email único
+        email = data.get("email")
+        if not email:
+            errors.setdefault("email", []).append("El correo electrónico es obligatorio.")
+        else:
+            qs = Usuario.objects.filter(email__iexact=str(email).strip())
+            if instance:
+                qs = qs.exclude(pk=instance.pk)
+            if qs.exists():
+                errors.setdefault("email", []).append("Ya existe un usuario registrado con este correo.")
+
+        # 2. Validar Username único
+        username = data.get("username")
+        if not username:
+            errors.setdefault("username", []).append("El nombre de usuario es obligatorio.")
+        else:
+            qs = Usuario.objects.filter(username__iexact=str(username).strip())
+            if instance:
+                qs = qs.exclude(pk=instance.pk)
+            if qs.exists():
+                errors.setdefault("username", []).append("Ya existe este nombre de usuario.")
+
+        return errors
+
+    def post(self, request, pk=None, action=None, *args, **kwargs):
+        from .api import api_error, api_success
+        from .models import Rol, Delegacion
+
+        # Acción especial: Activar / Desactivar
+        if action == "toggle-estado" and pk is not None:
+            try:
+                instance = self.get_queryset().get(pk=pk)
+                instance.is_active = not instance.is_active
+                instance.save(update_fields=["is_active"])
+                return api_success(
+                    data=self.serialize_instance(instance),
+                    message=f"Usuario {'activado' if instance.is_active else 'desactivado'} correctamente."
+                )
+            except self.model.DoesNotExist:
+                return api_error(code="NOT_FOUND", message="Usuario no encontrado.", status=404)
+
+        # Flujo de Creación / Actualización
+        data = request.json_data
+        
+        instance = None
+        if pk:
+            try:
+                instance = self.get_queryset().get(pk=pk)
+            except self.model.DoesNotExist:
+                return api_error(code="NOT_FOUND", message="Usuario no encontrado.", status=404)
+
+        errors = self.validate_payload(data, instance=instance)
+        if errors:
+            return api_error(code="VALIDATION_ERROR", message="Errores de validación", details=errors, status=400)
+
+        # Resolver relaciones foráneas
+        rol_id = data.get("rol")
+        delegacion_id = data.get("delegacion")
+        rol_obj = Rol.objects.filter(pk=rol_id).first() if rol_id else None
+        delegacion_obj = Delegacion.objects.filter(pk=delegacion_id).first() if delegacion_id else None
+
+        password = str(data.get("password") or "").strip()
+
+        if instance:
+            # Editar usuario existente
+            instance.username = data.get("username", instance.username)
+            instance.email = data.get("email", instance.email)
+            instance.first_name = data.get("first_name", instance.first_name)
+            instance.last_name = data.get("last_name", instance.last_name)
+            instance.rut = data.get("rut", instance.rut)
+            instance.rol = rol_obj
+            instance.delegacion = delegacion_obj
+            
+            # Solo actualizamos is_active si viene en el payload
+            if "estado" in data:
+                instance.is_active = (str(data["estado"]).lower() == "true")
+
+            # Solo encriptamos y cambiamos la clave si el administrador ingresó una nueva
+            if password:
+                instance.set_password(password)
+            
+            instance.save()
+            msg = "Usuario actualizado exitosamente."
+        else:
+            # Crear usuario nuevo
+            if not password:
+                return api_error(code="VALIDATION_ERROR", message="La contraseña es obligatoria para crear un usuario.", status=400)
+            
+            instance = Usuario(
+                username=data.get("username"),
+                email=data.get("email"),
+                first_name=data.get("first_name", ""),
+                last_name=data.get("last_name", ""),
+                rut=data.get("rut", ""),
+                rol=rol_obj,
+                delegacion=delegacion_obj,
+                is_active=(str(data.get("estado", "true")).lower() == "true")
+            )
+            # set_password es OBLIGATORIO para que el hash de Django se genere
+            instance.set_password(password)
+            instance.save()
+            msg = "Usuario creado exitosamente."
+
+        return api_success(data=self.serialize_instance(instance), message=msg, status=201 if not pk else 200)
+
+    def export(self, request):
+        """Exporta usuarios a XLSX real (T12). Nunca incluye contraseñas ni hashes."""
+        qs = self.filter_queryset(self.get_queryset())
+
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        ws.title = "Usuarios"
+        ws.append(["ID", "Usuario", "Nombre y Apellidos", "Correo Institucional", "RUT", "Rol Asignado", "Delegación", "Estado"])
+
+        for item in qs:
+            ws.append([
+                item.pk,
+                item.username,
+                item.get_full_name() or item.username,
+                item.email or "",
+                item.rut or "",
+                item.rol.nombre if item.rol else "",
+                item.delegacion.nombre if item.delegacion else "",
+                "Activo" if item.is_active else "Inactivo",
+            ])
+
+        response = HttpResponse(content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        response["Content-Disposition"] = 'attachment; filename="usuarios_export.xlsx"'
+        wb.save(response)
+        return response

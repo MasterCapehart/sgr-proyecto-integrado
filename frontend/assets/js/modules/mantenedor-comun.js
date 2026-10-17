@@ -93,6 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const estado = (rawStatus === 'activo' || rawStatus === 'activos') ? 'activos' 
       : (rawStatus === 'inactivo' || rawStatus === 'inactivos') ? 'inactivos' : 'todos';
 
+    // Agregamos page_size y page actual
     const url = `${API_BASE}${endpointPath}?search=${encodeURIComponent(term)}&estado=${encodeURIComponent(estado)}&page_size=50&page=${currentPage}`;
 
     try {
@@ -103,6 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (data.success && Array.isArray(data.results)) {
         backendActive = true;
         
+        // Actualizar variables de paginación según la respuesta de Django
         hasNextPage = data.next !== null;
         hasPrevPage = data.previous !== null;
         updatePaginationUI();
@@ -136,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Búsqueda y Filtros
+  // Al escribir en buscar o cambiar estado, volvemos a la página 1
   let searchTimeout = null;
   if (searchInput) {
     searchInput.addEventListener('input', () => {
@@ -346,8 +348,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const item = data.data;
             if (action === 'ver') {
                 window.Swal?.fire({
-                  title: `Detalle: ${item.nombre}`,
-                  html: `<div style="text-align: left;"><p><strong>Nombre:</strong> ${item.nombre}</p><p><strong>Estado:</strong> ${item.estado ? 'Activo' : 'Inactivo'}</p></div>`,
+                  title: `Detalle: ${escapeHtml(item.codigo || item.nombre || '')}`,
+                  html: `<div style="text-align: left;"><p><strong>Nombre:</strong> ${escapeHtml(item.nombre || '-')}</p><p><strong>Estado:</strong> ${item.estado ? 'Activo' : 'Inactivo'}</p></div>`,
                   icon: 'info',
                   confirmButtonColor: '#ad0000'
                 });
@@ -369,7 +371,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 5. Botón Exportar a Excel
   if (btnExport) {
     btnExport.addEventListener('click', () => {
       const term = (searchInput ? searchInput.value.trim() : '');

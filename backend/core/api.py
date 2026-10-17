@@ -39,14 +39,14 @@ def api_error(code="BAD_REQUEST", message="Ocurrió un error en la solicitud", d
 class BaseCRUDView(View):
     """
     Clase base reusable para vistas CRUD según el Patrón Común de API (Tarea T04).
-    
+    Incluye control de acceso centralizado (T08) y exportación a XLSX nativo (T12).
+
     Provee soporte automático para:
     - Listado paginado con búsqueda (?search=) y filtro de estado (?estado=activos|inactivos|todos).
     - Creación (POST).
     - Consulta de detalle (GET con pk).
     - Actualización parcial/total (PUT / PATCH).
     - Desactivación lógica (DELETE / toggle-estado).
-    - Exportación a XLSX nativo (Tarea T12).
     """
     model = None
     fields = []
@@ -57,7 +57,30 @@ class BaseCRUDView(View):
     soft_delete_field = "estado"
 
     def dispatch(self, request, *args, **kwargs):
-        """Manejo centralizado de parseo de JSON en métodos que envían cuerpo."""
+        # 1. VERIFICACIÓN DE AUTENTICACIÓN
+        if not request.user.is_authenticated:
+            return api_error(
+                code="UNAUTHORIZED", 
+                message="Debe iniciar sesión para acceder a este recurso.", 
+                status=401
+            )
+
+        # 2. VERIFICACIÓN DE PERMISOS DE ESCRITURA (ROLES)
+        # Protegemos métodos que modifican datos
+        if request.method in ["POST", "PUT", "PATCH", "DELETE"]:
+            # Obtenemos el nombre del rol del usuario (protegido contra nulos)
+            rol_nombre = getattr(request.user.rol, 'nombre', '').lower() if hasattr(request.user, 'rol') and request.user.rol else ''
+            
+            # Ejemplo: Si el rol es 'Lector' o 'Ciudadano', bloqueamos la escritura.
+            # Puedes ajustar los nombres de los roles según los que hayan creado en su base de datos.
+            if rol_nombre in ['lector', 'ciudadano']:
+                return api_error(
+                    code="FORBIDDEN", 
+                    message="Su rol no tiene permisos para modificar o crear registros.", 
+                    status=403
+                )
+
+        # 3. PARSEO DEL BODY (Manejo original)
         if request.method in ["POST", "PUT", "PATCH"]:
             if request.content_type and "application/json" in request.content_type:
                 try:
@@ -76,10 +99,25 @@ class BaseCRUDView(View):
         return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
-        """Retorna el queryset base para el modelo."""
+        """
+        Retorna el queryset base aplicando el contexto autorizado del usuario.
+        Evita que vean o editen registros de otras delegaciones.
+        """
         if self.model is None:
             raise NotImplementedError("Debe definir 'model' en la vista CRUD.")
-        return self.model.objects.all()
+            
+        qs = self.model.objects.all()
+        user = self.request.user
+        
+        # Obtenemos el rol para saber si es Administrador Global
+        rol_nombre = getattr(user.rol, 'nombre', '').lower() if hasattr(user, 'rol') and user.rol else ''
+        
+        # Si NO es administrador, y el modelo tiene campo delegacion, aplicamos el filtro
+        es_admin = 'admin' in rol_nombre
+        if not es_admin and hasattr(self.model, 'delegacion') and hasattr(user, 'delegacion') and user.delegacion:
+            qs = qs.filter(delegacion=user.delegacion)
+            
+        return qs
 
     def serialize_instance(self, instance):
         """Convierte una instancia del modelo a diccionario JSON."""
@@ -87,7 +125,6 @@ class BaseCRUDView(View):
         for field in self.fields:
             if hasattr(instance, field):
                 val = getattr(instance, field)
-                # Si es modelo relacionado, obtener ID
                 if hasattr(val, "pk"):
                     data[field] = val.pk
                 else:
@@ -96,7 +133,6 @@ class BaseCRUDView(View):
 
     def filter_queryset(self, qs):
         """Aplica filtros estándar: búsqueda libre y estado."""
-        # 1. Búsqueda libre
         search_query = self.request.GET.get("search", "").strip()
         if search_query and self.search_fields:
             q_filter = Q()
@@ -104,16 +140,13 @@ class BaseCRUDView(View):
                 q_filter |= Q(**{f"{field}__icontains": search_query})
             qs = qs.filter(q_filter)
 
-        # 2. Filtro por estado
         estado_filter = self.request.GET.get("estado", "activos").lower()
         if hasattr(self.model, self.soft_delete_field):
             if estado_filter == "activos":
                 qs = qs.filter(**{self.soft_delete_field: True})
             elif estado_filter == "inactivos":
                 qs = qs.filter(**{self.soft_delete_field: False})
-            # Si es 'todos', no se filtra por estado
 
-        # 3. Ordenamiento
         ordering = self.request.GET.get("ordering")
         if ordering:
             qs = qs.order_by(ordering)
@@ -125,6 +158,7 @@ class BaseCRUDView(View):
     def get(self, request, pk=None, action=None, *args, **kwargs):
         """Maneja listado paginado, detalle o exportación a Excel."""
         if action == "export":
+            # Extra: Verificar rol para exportar (Opcional, según reglas de negocio)
             return self.export(request)
         if pk is not None:
             return self.retrieve(request, pk)
@@ -172,10 +206,8 @@ class BaseCRUDView(View):
         return response
 
     def list(self, request):
-        """Retorna listado paginado según el contrato común."""
         qs = self.filter_queryset(self.get_queryset())
         
-        # Paginación
         try:
             page_size = int(request.GET.get("page_size", self.default_page_size))
             page_size = max(1, min(page_size, self.max_page_size))
@@ -202,22 +234,19 @@ class BaseCRUDView(View):
         }, status=200)
 
     def retrieve(self, request, pk):
-        """Retorna el detalle de un registro específico."""
         try:
             instance = self.get_queryset().get(pk=pk)
         except self.model.DoesNotExist:
             return api_error(
                 code="NOT_FOUND",
-                message=f"El registro con ID {pk} no existe.",
+                message=f"El registro con ID {pk} no existe o no tiene permisos para verlo.",
                 status=404
             )
         return api_success(data=self.serialize_instance(instance))
 
     def validate_payload(self, data, instance=None):
-        """Valida campos requeridos y formatos. Puede ser sobrescrito."""
         errors = {}
         for field in self.fields:
-            # Si el campo es obligatorio en el modelo y no está presente
             model_field = self.model._meta.get_field(field)
             if not model_field.blank and not model_field.null:
                 if field not in data or data[field] is None or data[field] == "":
@@ -226,7 +255,6 @@ class BaseCRUDView(View):
         return errors
 
     def post(self, request, pk=None, action=None, *args, **kwargs):
-        """Crea un nuevo registro o ejecuta una acción personalizada como toggle-estado."""
         if action == "toggle-estado" and pk is not None:
             return self.toggle_estado(request, pk)
 
@@ -245,6 +273,14 @@ class BaseCRUDView(View):
             for field in self.fields:
                 if field in data:
                     setattr(instance, field, data[field])
+            
+            # Autocompletar la delegación si el modelo lo requiere y el usuario la tiene
+            if hasattr(instance, 'delegacion') and hasattr(request.user, 'delegacion') and request.user.delegacion:
+                # Si no mandaron delegacion explícita o si NO es admin, forzamos la suya.
+                rol_nombre = getattr(request.user.rol, 'nombre', '').lower() if hasattr(request.user, 'rol') and request.user.rol else ''
+                if 'delegacion' not in data or 'admin' not in rol_nombre:
+                    instance.delegacion = request.user.delegacion
+
             instance.full_clean()
             instance.save()
             return api_success(
@@ -268,21 +304,26 @@ class BaseCRUDView(View):
             )
 
     def put(self, request, pk=None, *args, **kwargs):
-        """Actualización total de un registro."""
         return self.update(request, pk, partial=False)
 
     def patch(self, request, pk=None, *args, **kwargs):
-        """Actualización parcial de un registro."""
         return self.update(request, pk, partial=True)
 
     def update(self, request, pk, partial=True):
-        """Actualiza un registro existente."""
         try:
+            # get_queryset() ya filtra por delegación, así que si intentan modificar algo ajeno, dará Error 404
             instance = self.get_queryset().get(pk=pk)
         except self.model.DoesNotExist:
-            return api_error(code="NOT_FOUND", message=f"El registro con ID {pk} no existe.", status=404)
+            return api_error(code="NOT_FOUND", message=f"El registro con ID {pk} no existe o no tiene permisos para editarlo.", status=404)
 
         data = request.json_data
+        
+        # Evitar que se edite la delegación y se "robe" un registro a otro contexto
+        if 'delegacion' in data:
+            rol_nombre = getattr(request.user.rol, 'nombre', '').lower() if hasattr(request.user, 'rol') and request.user.rol else ''
+            if 'admin' not in rol_nombre:
+                data.pop('delegacion') # Quitamos el intento de cambio malicioso
+
         errors = self.validate_payload(data, instance=instance) if not partial else {}
         if errors:
             return api_error(
@@ -318,11 +359,10 @@ class BaseCRUDView(View):
             )
 
     def delete(self, request, pk=None, *args, **kwargs):
-        """Desactiva lógicamente el registro para conservar trazabilidad histórica."""
         try:
             instance = self.get_queryset().get(pk=pk)
         except self.model.DoesNotExist:
-            return api_error(code="NOT_FOUND", message=f"El registro con ID {pk} no existe.", status=404)
+            return api_error(code="NOT_FOUND", message=f"El registro con ID {pk} no existe o no tiene permisos para eliminarlo.", status=404)
 
         if hasattr(instance, self.soft_delete_field):
             setattr(instance, self.soft_delete_field, False)
@@ -336,11 +376,10 @@ class BaseCRUDView(View):
             return api_success(message="Registro eliminado exitosamente.")
 
     def toggle_estado(self, request, pk):
-        """Alterna el estado activo/inactivo de un registro."""
         try:
             instance = self.get_queryset().get(pk=pk)
         except self.model.DoesNotExist:
-            return api_error(code="NOT_FOUND", message=f"El registro con ID {pk} no existe.", status=404)
+            return api_error(code="NOT_FOUND", message=f"El registro con ID {pk} no existe o no tiene permisos.", status=404)
 
         if hasattr(instance, self.soft_delete_field):
             nuevo_estado = not getattr(instance, self.soft_delete_field)
