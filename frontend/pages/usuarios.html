@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Usuarios · SGR</title>
   <link rel="stylesheet" href="../assets/css/styles.css">
+<link rel="stylesheet" href="../assets/css/mockups.css">
+<link rel="stylesheet" href="../assets/css/operacion.css">
 </head>
 <body data-page="usuarios" data-base-path="../">
   <a class="skip-link" href="#main-content">Saltar al contenido</a>
@@ -59,19 +61,13 @@
                 <th scope="col">Acciones</th>
               </tr>
             </thead>
-            <tbody id="table-body">
-              <!-- Las filas se renderizan dinámicamente vía usuarios.js desde Django -->
-            </tbody>
+            <tbody id="table-body"><tr><td>Cargando datos locales…</td></tr></tbody>
           </table>
         </div>
 
         <div class="pager">
-          <span id="page-info">Cargando registros...</span>
-          <div class="pagebuttons">
-            <button type="button" class="button small secondary" id="btn-prev" disabled>Anterior</button>
-            <button type="button" class="button small" id="page-number" disabled>1</button>
-            <button type="button" class="button small secondary" id="btn-next" disabled>Siguiente</button>
-          </div>
+          <span id="page-info">Cargando…</span>
+          
         </div>
       </div>
 
@@ -79,44 +75,32 @@
       <dialog id="modal-editor">
         <form id="form-editor" method="dialog" novalidate>
           <div class="modalhead">
-            <h2 id="modal-title">Nuevo usuario</h2>
-            <span class="badge" style="background: #fee2e2; color: var(--municipal-red);">Campos obligatorios *</span>
-            <button type="button" class="linkbtn" id="modal-close" style="font-size: 16px;" aria-label="Cerrar">✕</button>
+            <h2 id="modal-title">Nuevo Usuario</h2>
+            <button type="button" class="linkbtn" id="modal-close" style="font-size: 16px;">✕</button>
           </div>
           <div class="modalbody grid">
             <div class="field">
               <label for="campo-nombre">Nombre completo <span class="required" aria-hidden="true">*</span></label>
-              <input type="text" id="campo-nombre" name="nombre" placeholder="ej. Andrés Pérez" required aria-required="true">
-              <p class="help">Nombre y apellidos de la persona que usará la cuenta.</p>
+              <input type="text" id="campo-nombre" name="nombre" placeholder="ej. Andrés Pérez" required>
             </div>
             <div class="field">
               <label for="campo-correo">Correo institucional <span class="required" aria-hidden="true">*</span></label>
-              <input type="email" id="campo-correo" name="correo" placeholder="ej. aperez@laserena.cl" required aria-required="true">
-              <p class="help">Será también el nombre de usuario. Debe ser único.</p>
-            </div>
-            <div class="field">
-              <label for="campo-rut">RUT</label>
-              <input type="text" id="campo-rut" name="rut" placeholder="ej. 12.345.678-9" maxlength="12">
-              <p class="help">Opcional. Si se ingresa, no puede repetirse.</p>
-            </div>
-            <div class="field">
-              <label for="campo-password">Contraseña <span class="required" aria-hidden="true">*</span></label>
-              <input type="password" id="campo-password" name="password" autocomplete="new-password">
-              <p class="help" id="ayuda-password"></p>
+              <input type="email" id="campo-correo" name="correo" placeholder="ej. aperez@laserena.cl" required>
             </div>
             <div class="field">
               <label for="campo-rol">Rol asignado <span class="required" aria-hidden="true">*</span></label>
-              <select id="campo-rol" name="rol" required aria-required="true">
-                <option value="">Cargando roles...</option>
+              <select id="campo-rol" name="rol" required>
+                <option value="Administrador">Administrador</option>
+                <option value="Operador Territorial">Operador Territorial</option>
+                <option value="Consultor">Consultor</option>
               </select>
-              <p class="help">Define los permisos de la cuenta.</p>
             </div>
             <div class="field">
               <label for="campo-delegacion">Delegación autorizada <span class="required" aria-hidden="true">*</span></label>
-              <select id="campo-delegacion" name="delegacion" required aria-required="true">
-                <option value="">Cargando delegaciones...</option>
+              <select id="campo-delegacion" name="delegacion" required>
+                <option value="DEL01 · Las Compañías">DEL01 · Las Compañías</option>
+                <option value="DEL02 · La Pampa">DEL02 · La Pampa</option>
               </select>
-              <p class="help">Ámbito territorial en el que podrá operar.</p>
             </div>
             <div class="field full">
               <label for="campo-estado">Estado de la cuenta</label>
@@ -124,7 +108,6 @@
                 <option value="Activo">Activo</option>
                 <option value="Inactivo">Inactivo</option>
               </select>
-              <p class="help">Una cuenta inactiva no puede iniciar sesión.</p>
             </div>
           </div>
           <div class="modalfoot">
@@ -139,9 +122,10 @@
   </div>
 
   <script defer src="../assets/vendor/sweetalert2.min.js"></script>
-  <script defer src="../assets/js/components/layout.js"></script>
-  <!-- Módulo propio de Usuarios (no usa mantenedor-comun.js) -->
-  <script defer src="../assets/js/modules/usuarios.js"></script>
+  <script defer src="../assets/js/api-local.js"></script>
+<script defer src="../assets/js/modules/borradores.js"></script>
+<script defer src="../assets/js/components/layout.js"></script>
+  <script defer src="../assets/js/modules/mantenedor-comun.js"></script>
   <script defer src="../assets/js/app.js"></script>
 </body>
 </html>

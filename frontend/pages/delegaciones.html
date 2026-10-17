@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Delegaciones · SGR</title>
   <link rel="stylesheet" href="../assets/css/styles.css">
+<link rel="stylesheet" href="../assets/css/mockups.css">
+<link rel="stylesheet" href="../assets/css/operacion.css">
 </head>
 <body data-page="delegaciones" data-base-path="../">
   <a class="skip-link" href="#main-content">Saltar al contenido</a>
@@ -59,54 +61,13 @@
                 <th scope="col">Acciones</th>
               </tr>
             </thead>
-            <tbody id="table-body">
-              <tr data-status="activo">
-                <td><strong>DEL01</strong></td>
-                <td>Las Compañías</td>
-                <td>Esmeralda 1810</td>
-                <td>La Serena</td>
-                <td><span class="badge green">Activa</span></td>
-                <td>
-                  <button type="button" class="linkbtn" data-action="ver" data-id="DEL01">Ver</button> · 
-                  <button type="button" class="linkbtn" data-action="editar" data-id="DEL01">Editar</button> · 
-                  <button type="button" class="linkbtn" data-action="desactivar" data-id="DEL01">Desactivar</button>
-                </td>
-              </tr>
-              <tr data-status="activo">
-                <td><strong>DEL02</strong></td>
-                <td>La Pampa</td>
-                <td>Juan José Latorre 243</td>
-                <td>La Serena</td>
-                <td><span class="badge green">Activa</span></td>
-                <td>
-                  <button type="button" class="linkbtn" data-action="ver" data-id="DEL02">Ver</button> · 
-                  <button type="button" class="linkbtn" data-action="editar" data-id="DEL02">Editar</button> · 
-                  <button type="button" class="linkbtn" data-action="desactivar" data-id="DEL02">Desactivar</button>
-                </td>
-              </tr>
-              <tr data-status="inactivo">
-                <td><strong>DEL03</strong></td>
-                <td>Sector Rural Cordillera</td>
-                <td>Ruta D-41 Km 15</td>
-                <td>La Serena</td>
-                <td><span class="badge red">Inactiva</span></td>
-                <td>
-                  <button type="button" class="linkbtn" data-action="ver" data-id="DEL03">Ver</button> · 
-                  <button type="button" class="linkbtn" data-action="editar" data-id="DEL03">Editar</button> · 
-                  <button type="button" class="linkbtn" data-action="activar" data-id="DEL03">Activar</button>
-                </td>
-              </tr>
-            </tbody>
+            <tbody id="table-body"><tr><td>Cargando datos locales…</td></tr></tbody>
           </table>
         </div>
 
         <div class="pager">
-          <span id="page-info">Mostrando 3 registros</span>
-          <div class="pagebuttons">
-            <button type="button" class="button small secondary" disabled>Anterior</button>
-            <button type="button" class="button small">1</button>
-            <button type="button" class="button small secondary" disabled>Siguiente</button>
-          </div>
+          <span id="page-info">Cargando…</span>
+          
         </div>
       </div>
 
@@ -154,7 +115,9 @@
   </div>
 
   <script defer src="../assets/vendor/sweetalert2.min.js"></script>
-  <script defer src="../assets/js/components/layout.js"></script>
+  <script defer src="../assets/js/api-local.js"></script>
+<script defer src="../assets/js/modules/borradores.js"></script>
+<script defer src="../assets/js/components/layout.js"></script>
   <script defer src="../assets/js/modules/mantenedor-comun.js"></script>
   <script defer src="../assets/js/app.js"></script>
 </body>

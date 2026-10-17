@@ -1,266 +1,33 @@
-/**
- * Componentes compartidos del Sistema de Gestión de Resultados (SGR).
- * Tarea T19: Integrar cabecera y cambio de delegación activa con persistencia de contexto.
- */
 (() => {
-  const API_BASE = window.location.origin.includes(':8000') ? '' : 'http://127.0.0.1:8000';
-
-  /**
-   * Comprueba si el usuario tiene cambios pendientes o formularios sucios en la vista actual.
-   * Evita pérdidas involuntarias de datos al cambiar de delegación activa en la cabecera.
-   */
-  function hasUnsavedChanges() {
-    // 1. Detección en formulario de Registro de Atención Ciudadana (M-20)
-    const sol = document.getElementById('solicitante');
-    const desc = document.getElementById('descripcion-atencion');
-    const caso = document.getElementById('codigo-caso-social');
-    if ((sol && sol.value.trim().length > 0) ||
-        (desc && desc.value.trim().length > 0) ||
-        (caso && caso.value.trim().length > 0)) {
-      return true;
+ const publicPages=['login','recovery','validate-code','new-password'];
+ function dirty(){return window.SGRDrafts?.hasChanges()||false;}
+ const links=[['alertas','alertas','Alertas operativas','alertas.ver'],['gobierno','gobierno','Reglas y permisos','gobierno.ver'],['reclamos','reclamos','Reclamos y felicitaciones','reclamos.ver'],['actividades','desempeno','Mi planilla de trabajo','actividades.ver'],['evidencias','evidencias','Evidencias','evidencias.ver'],['compromisos','tubo-trabajo','Tubo de trabajo','compromisos.ver'],['validacion','validacion','Bandeja de validación','evidencias.revisar'],['casos-sociales','casos-sociales','Gestión social','atenciones.ver'],['atencion','ingreso-atencion','Registrar atención','atenciones.crear'],['reportes','reportes','Reportes operativos','reportes.ver'],['auditoria','auditoria','Auditoría','auditoria.ver'],['delegaciones','delegaciones','Delegaciones','delegaciones.ver'],['roles','roles','Roles y permisos','roles.ver'],['cargos','cargos','Cargos y áreas','cargos.ver'],['usuarios','usuarios','Usuarios','usuarios.ver'],['items-metas','items-metas','Ítems y metas','items-metas.ver'],['configuraciones-metas','configuraciones-metas','Configuración de metas','configuraciones-metas.ver'],['tipos-atencion','tipos-atencion','Tipos de atención','tipos-atencion.ver'],['subatenciones','subatenciones','Subatenciones','subatenciones.ver']];
+ window.SGRLayout={hasUnsavedChanges:dirty,mount({basePath='',currentPage}){
+  const header=document.getElementById('site-header'),sidebar=document.getElementById('site-sidebar');
+  if(header){header.classList.add('top');header.innerHTML=`<a class="mark" href="${basePath}index.html"><img src="${basePath}assets/images/escudo-blanco.svg" alt="Escudo Municipalidad de La Serena"><span><strong>SGR · La Serena</strong><small>Sistema de Gestión de Resultados</small></span></a>`;}
+  if(publicPages.includes(currentPage))return;
+  if(header)header.insertAdjacentHTML('beforeend','<div class="context"><small>Delegación activa</small><select id="session-delegation-select" aria-label="Delegación activa"></select></div><div class="identity"><strong id="session-user">Cargando…</strong><small id="session-role">Cargando…</small><small id="session-cargo" hidden></small><button type="button" id="logout-local">Cerrar sesión</button></div>');
+  const mobile=document.createElement('button');mobile.type='button';mobile.className='button mobilemenu';mobile.textContent='☰ Menú';mobile.setAttribute('aria-expanded','false');mobile.setAttribute('aria-controls','site-sidebar');header?.after(mobile);mobile.onclick=()=>{const open=sidebar.classList.toggle('open');mobile.setAttribute('aria-expanded',String(open));};
+  const ready=(async()=>{
+   try{
+    const {data:c}=await SGRApi.request('/api/contexto/');window.SGRContext=c;
+    const user=document.getElementById('session-user'),role=document.getElementById('session-role'),select=document.getElementById('session-delegation-select');
+    if(user)user.textContent=c.usuario.nombre;if(role)role.textContent=c.rol;const cargo=document.getElementById('session-cargo');if(cargo&&c.usuario.cargo_nombre){cargo.hidden=false;cargo.textContent=c.usuario.cargo_nombre;}
+    if(select){
+     for(const d of c.delegaciones_autorizadas){const o=new Option(`${d.codigo || ''} · ${d.nombre}`,d.id,false,d.id===c.delegacion_activa?.id);select.add(o);}
+     select.disabled=c.delegaciones_autorizadas.length<=1;
+     select.addEventListener('change',async()=>{
+      const previous=window.SGRContext.delegacion_activa?.id;
+      if(dirty() && !(await Swal.fire({target:document.querySelector('dialog[open]')||document.body,icon:'warning',title:'¿Cambiar delegación?',text:'Se descartarán los datos sin guardar.',showCancelButton:true,confirmButtonText:'Cambiar',cancelButtonText:'Mantener'})).isConfirmed){select.value=previous;return;}
+      try{await SGRApi.send('/api/contexto/cambiar-delegacion/',{delegacion_id:Number(select.value)});SGRDrafts.cleanAll();location.reload();}catch(e){select.value=previous;SGRApi.message(e.message);}
+     });
     }
-
-    // 2. Detección en modales CRUD abiertos (M-03, M-04, M-07, etc.)
-    const modal = document.getElementById('modal-editor');
-    if (modal && modal.open) {
-      const form = document.getElementById('form-editor');
-      if (form) {
-        const inputs = form.querySelectorAll('input:not([type="hidden"]), textarea, select');
-        for (const input of inputs) {
-          if (input.value && input.value.trim().length > 0) {
-            return true;
-          }
-        }
-      }
-      return true;
-    }
-
-    // 3. Bandera manual de control global para vistas específicas
-    if (window.__sgrHasUnsavedChanges === true) {
-      return true;
-    }
-
-    return false;
-  }
-
-  /**
-   * Inicializa y mantiene el contexto institucional permanente en la cabecera (T19).
-   * Carga funcionario real, rol y catálogo de delegaciones activas autorizadas.
-   */
-  async function initSessionContext() {
-    const userEl = document.getElementById('session-user');
-    const roleEl = document.getElementById('session-role');
-    const selectEl = document.getElementById('session-delegation-select');
-
-    if (!userEl || !roleEl || !selectEl) return;
-
-    // 1. Restaurar desde sessionStorage para evitar parpadeos visuales al navegar
-    try {
-      const cachedRaw = sessionStorage.getItem('sgr_contexto');
-      if (cachedRaw) {
-        const cached = JSON.parse(cachedRaw);
-        if (cached.usuario) {
-          userEl.textContent = cached.usuario.display || `${cached.usuario.nombre_completo} (${cached.usuario.rut || ''})`;
-          roleEl.textContent = cached.usuario.rol || 'Funcionario';
-        }
-        if (cached.delegaciones_autorizadas && Array.isArray(cached.delegaciones_autorizadas)) {
-          renderDelegations(selectEl, cached.delegaciones_autorizadas, cached.delegacion_activa ? cached.delegacion_activa.id : null);
-        }
-      }
-    } catch (_) {}
-
-    // 2. Consultar contexto en vivo desde el backend Django
-    try {
-        const res = await fetch(`${API_BASE}/api/contexto/`, { credentials: 'include' });
-            if (res.status === 401) {
-        // Sesión vencida o cerrada: no mostrar datos de un usuario anterior
-        try { sessionStorage.removeItem('sgr_contexto'); } catch (_) {}
-        userEl.textContent = 'Sin sesión iniciada';
-        roleEl.textContent = '';
-      } else if (res.ok) {
-        const json = await res.json();
-        if (json.success && json.data) {
-          const d = json.data;
-          // Guardar en sesión del navegador
-          sessionStorage.setItem('sgr_contexto', JSON.stringify(d));
-
-          // Actualizar datos del funcionario
-          if (d.usuario) {
-            userEl.textContent = d.usuario.display || `${d.usuario.nombre_completo} (${d.usuario.rut || ''})`;
-            roleEl.textContent = d.usuario.rol || 'Funcionario Municipal';
-          }
-
-          // Actualizar selector de delegaciones autorizadas
-          if (Array.isArray(d.delegaciones_autorizadas)) {
-            const activeId = d.delegacion_activa ? d.delegacion_activa.id : null;
-            renderDelegations(selectEl, d.delegaciones_autorizadas, activeId);
-          }
-        }
-      }
-    } catch (err) {
-      console.warn('No se pudo sincronizar el contexto con el servidor:', err);
-    }
-
-    // 3. Manejar cambio interactivo de delegación activa
-    if (!selectEl.dataset.initialized) {
-      selectEl.dataset.initialized = 'true';
-      selectEl.addEventListener('change', async () => {
-        const previousId = selectEl.dataset.currentId;
-        const newId = selectEl.value;
-
-        if (!newId || newId === previousId) return;
-
-        // Comprobar si hay cambios sin guardar
-        if (hasUnsavedChanges()) {
-          let proceed = false;
-          if (window.Swal) {
-            const result = await window.Swal.fire({
-              title: '¿Cambiar ámbito territorial?',
-              text: 'Hay datos sin guardar en el formulario actual. Al cambiar de delegación activa se actualizará el contexto institucional.',
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#ad0000',
-              cancelButtonColor: '#65717e',
-              confirmButtonText: 'Sí, cambiar delegación',
-              cancelButtonText: 'Cancelar y mantener'
-            });
-            proceed = result.isConfirmed;
-          } else {
-            proceed = confirm('Hay datos sin guardar. ¿Deseas cambiar de delegación activa?');
-          }
-
-          if (!proceed) {
-            selectEl.value = previousId;
-            return;
-          }
-        }
-
-        // Enviar cambio al servidor
-        try {
-          const res = await fetch(`${API_BASE}/api/contexto/cambiar-delegacion/`, {
-            method: 'POST',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ delegacion_id: parseInt(newId, 10) })
-          });
-          const json = await res.json();
-
-          if (res.ok && json.success) {
-            selectEl.dataset.currentId = String(newId);
-
-            // Actualizar sessionStorage
-            try {
-              const cached = JSON.parse(sessionStorage.getItem('sgr_contexto') || '{}');
-              if (cached.delegacion_activa) {
-                cached.delegacion_activa.id = json.data.id;
-                cached.delegacion_activa.nombre = json.data.nombre;
-                cached.delegacion_activa.display = json.data.display;
-              }
-              if (Array.isArray(cached.delegaciones_autorizadas)) {
-                cached.delegaciones_autorizadas.forEach(del => {
-                  del.activa = (del.id === json.data.id);
-                });
-              }
-              sessionStorage.setItem('sgr_contexto', JSON.stringify(cached));
-            } catch (_) {}
-
-            // Notificar a las vistas que el ámbito territorial ha cambiado
-            window.dispatchEvent(new CustomEvent('sgr:delegacion-cambiada', {
-              detail: json.data
-            }));
-
-            if (window.Swal) {
-              window.Swal.fire({
-                icon: 'success',
-                title: 'Ámbito territorial actualizado',
-                text: `Delegación activa: ${json.data.nombre}`,
-                timer: 2000,
-                showConfirmButton: false,
-                toast: true,
-                position: 'top-end'
-              });
-            }
-          } else {
-            const msg = (json.error && json.error.message) || 'No se pudo cambiar la delegación.';
-            if (window.Swal) {
-              window.Swal.fire({
-                icon: 'error',
-                title: 'No fue posible cambiar la delegación',
-                text: msg,
-                confirmButtonColor: '#ad0000'
-              });
-            } else {
-              alert(msg);
-            }
-            selectEl.value = previousId;
-          }
-        } catch (err) {
-          console.error('Error al comunicar cambio de delegación:', err);
-          selectEl.value = previousId;
-          if (window.Swal) {
-            window.Swal.fire({
-              icon: 'error',
-              title: 'Error de conexión',
-              text: 'No fue posible comunicar el cambio de delegación al servidor.',
-              confirmButtonColor: '#ad0000'
-            });
-          }
-        }
-      });
-    }
-  }
-
-  function renderDelegations(selectEl, delegations, activeId) {
-    selectEl.innerHTML = '';
-    if (!delegations || delegations.length === 0) {
-      selectEl.innerHTML = '<option value="">Sin delegaciones</option>';
-      return;
-    }
-    delegations.forEach(del => {
-      const opt = document.createElement('option');
-      opt.value = del.id;
-      opt.textContent = del.nombre;
-      if (activeId && String(del.id) === String(activeId)) {
-        opt.selected = true;
-      }
-      selectEl.appendChild(opt);
-    });
-    if (activeId) {
-      selectEl.dataset.currentId = String(activeId);
-    }
-  }
-
-  window.SGRLayout = {
-    hasUnsavedChanges,
-    mount({ basePath, currentPage }) {
-      const header = document.getElementById('site-header');
-      const sidebar = document.getElementById('site-sidebar');
-      if (header) {
-        if (currentPage === 'login' || currentPage === 'recovery' || currentPage === 'validate-code' || currentPage === 'new-password') {
-          header.innerHTML = `<a class="brand" href="${basePath}index.html"><img src="${basePath}assets/images/escudo-blanco.svg" alt="Escudo de la Municipalidad de La Serena"><span><strong>SGR</strong><small>Municipalidad de La Serena</small></span></a><div class="public-title">Sistema de Gestión de Resultados</div>`;
-        } else {
-          header.innerHTML = `<a class="brand" href="${basePath}index.html"><img src="${basePath}assets/images/escudo-blanco.svg" alt="Escudo de la Municipalidad de La Serena"><span><strong>SGR</strong><small>Municipalidad de La Serena</small></span></a><dl class="identity" aria-label="Contexto institucional de acceso"><div><dt>Usuario</dt><dd id="session-user">Cargando...</dd></div><div><dt>Rol</dt><dd id="session-role">Cargando...</dd></div><div><dt>Delegación activa</dt><dd id="session-delegation"><select id="session-delegation-select" class="delegation-select" aria-label="Cambiar delegación activa"><option value="">Cargando...</option></select></dd></div></dl>`;
-          initSessionContext();
-        }
-      }
-      if (sidebar) {
-        sidebar.innerHTML = `<nav aria-label="Navegación principal">
-          <a href="${basePath}index.html" ${currentPage === 'home' ? 'aria-current="page"' : ''}>Inicio</a>
-          <a href="${basePath}pages/guia.html" ${currentPage === 'guide' ? 'aria-current="page"' : ''}>Guía de componentes</a>
-          <p class="nav-heading">Operación</p>
-          <a href="${basePath}pages/ingreso-atencion.html" ${currentPage === 'atencion' ? 'aria-current="page"' : ''}>Registrar atención</a>
-          <p class="nav-heading">Administración</p>
-          <a href="${basePath}pages/delegaciones.html" ${currentPage === 'delegaciones' ? 'aria-current="page"' : ''}>Delegaciones</a>
-          <a href="${basePath}pages/roles.html" ${currentPage === 'roles' ? 'aria-current="page"' : ''}>Roles y permisos</a>
-          <a href="${basePath}pages/usuarios.html" ${currentPage === 'usuarios' ? 'aria-current="page"' : ''}>Usuarios</a>
-          <a href="${basePath}pages/items-metas.html" ${currentPage === 'items-metas' ? 'aria-current="page"' : ''}>Ítems y metas</a>
-          <p class="nav-heading">Catálogos</p>
-          <a href="${basePath}pages/tipos-atencion.html" ${currentPage === 'tipos-atencion' ? 'aria-current="page"' : ''}>Tipos de atención</a>
-          <a href="${basePath}pages/subatenciones.html" ${currentPage === 'subatenciones' ? 'aria-current="page"' : ''}>Subatenciones</a>
-          <p class="nav-heading">Acceso</p>
-          <a href="${basePath}pages/login.html" ${currentPage === 'login' ? 'aria-current="page"' : ''}>Cerrar sesión / Login</a>
-        </nav>`;
-      }
-    }
-  };
+    if(sidebar){const nav=document.createElement('nav');nav.setAttribute('aria-label','Navegación principal');const home=document.createElement('a');home.href=basePath+'index.html';home.textContent='Inicio';home.className='nav';if(currentPage==='home')home.setAttribute('aria-current','page');nav.append(home);
+     const groups=[['Gestión diaria',['actividades','atencion','casos-sociales','compromisos','reclamos']],['Seguimiento',['evidencias','validacion','alertas','reportes','auditoria']],['Administración',['delegaciones','usuarios','roles','cargos','items-metas','configuraciones-metas','tipos-atencion','subatenciones','gobierno']]];
+     for(const [label,ids] of groups){const available=links.filter(x=>ids.includes(x[0])&&c.permisos.includes(x[3])).sort((a,b)=>ids.indexOf(a[0])-ids.indexOf(b[0]));if(!available.length)continue;const section=document.createElement('details');section.className='nav-section';section.open=label==='Gestión diaria'||available.some(x=>x[0]===currentPage)||(currentPage==='compromiso-detalle'&&ids.includes('compromisos'));const title=document.createElement('summary');title.textContent=label;section.append(title);for(const [id,file,text] of available){const a=document.createElement('a');a.href=basePath+'pages/'+file+'.html';a.textContent=text;a.className='nav';if(id===currentPage||(id==='compromisos'&&currentPage==='compromiso-detalle'))a.setAttribute('aria-current','page');section.append(a);}nav.append(section);}sidebar.replaceChildren(nav);}
+    document.getElementById('logout-local')?.addEventListener('click',async()=>{if(dirty() && !(await Swal.fire({target:document.querySelector('dialog[open]')||document.body,icon:'warning',title:'¿Cerrar sesión?',text:'Hay datos sin guardar.',showCancelButton:true})).isConfirmed)return;try{await SGRApi.send('/api/logout/',{});SGRDrafts.cleanAll();sessionStorage.clear();location.href=basePath+'pages/login.html';}catch(e){SGRApi.message(e.message);}});
+    return c;
+   }catch(e){if(e.status===401){sessionStorage.clear();location.replace(basePath+'pages/login.html');}else await SGRApi.message(e.message);throw e;}
+  })();window.SGRSession=ready;ready.catch(()=>{});
+ }};
 })();

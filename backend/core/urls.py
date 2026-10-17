@@ -1,64 +1,38 @@
 from django.urls import path
-from . import views
-
+from . import local_api as api
 urlpatterns = [
-    # Autenticación y Recuperación (T05, T06)
-    path('login/', views.login_view, name='login'),
-    path('logout/', views.logout_view, name='logout'),
-    path('recuperacion/', views.solicitar_recuperacion, name='recuperacion'),
-    path('validar-recuperacion/', views.validar_y_cambiar_password, name='validar-recuperacion'),
-
-
-
-    # CRUD de Usuarios (T10)
-    path('usuarios/', views.UsuarioCRUDView.as_view(), name='usuarios-list'),
-    path('usuarios/export/', views.UsuarioCRUDView.as_view(), {'action': 'export'}, name='usuarios-export'),
-    path('usuarios/<int:pk>/', views.UsuarioCRUDView.as_view(), name='usuarios-detail'),
-    path('usuarios/<int:pk>/toggle-estado/', views.UsuarioCRUDView.as_view(), {'action': 'toggle-estado'}, name='usuarios-toggle'),
-
-    # Endpoints TipoAtencion (T14)
-    path('tipos-atencion/', views.TipoAtencionCRUDView.as_view(), name='tipo-atencion-list'),
-    path('tipos-atencion/export/', views.TipoAtencionCRUDView.as_view(), {'action': 'export'}, name='tipo-atencion-export'),
-    path('tipos-atencion/<int:pk>/', views.TipoAtencionCRUDView.as_view(), name='tipo-atencion-detail'),
-    path('tipos-atencion/<int:pk>/toggle-estado/', views.TipoAtencionCRUDView.as_view(), {'action': 'toggle-estado'}, name='tipo-atencion-toggle'),
-
-    # Endpoints Delegaciones (Referencia reutilizable para Matías T13)
-    path('delegaciones/', views.DelegacionCRUDView.as_view(), name='delegacion-list'),
-    path('delegaciones/export/', views.DelegacionCRUDView.as_view(), {'action': 'export'}, name='delegacion-export'),
-    path('delegaciones/<int:pk>/', views.DelegacionCRUDView.as_view(), name='delegacion-detail'),
-    path('delegaciones/<int:pk>/toggle-estado/', views.DelegacionCRUDView.as_view(), {'action': 'toggle-estado'}, name='delegacion-toggle'),
-
-
-    path('roles/', views.RolCRUDView.as_view(), name='rol-list'),
-    path('roles/export/', views.RolCRUDView.as_view(), {'action': 'export'}, name='rol-export'),
-    path('roles/<int:pk>/', views.RolCRUDView.as_view(), name='rol-detail'),
-    path('roles/<int:pk>/toggle-estado/', views.RolCRUDView.as_view(), {'action': 'toggle-estado'}, name='rol-toggle'),
-
-    # Endpoints SubAtencion (T15)
-    path('subatenciones/', views.SubAtencionCRUDView.as_view(), name='subatencion-list'),
-    path('subatenciones/export/', views.SubAtencionCRUDView.as_view(), {'action': 'export'}, name='subatencion-export'),
-    path('subatenciones/<int:pk>/', views.SubAtencionCRUDView.as_view(), name='subatencion-detail'),
-    path('subatenciones/<int:pk>/toggle-estado/', views.SubAtencionCRUDView.as_view(), {'action': 'toggle-estado'}, name='subatencion-toggle'),
-
-    # Endpoints Ítems y Metas (T16)
-    path('items-metas/', views.ItemMetaCRUDView.as_view(), name='item-meta-list'),
-    path('items-metas/export/', views.ItemMetaCRUDView.as_view(), {'action': 'export'}, name='item-meta-export'),
-    path('items-metas/<int:pk>/', views.ItemMetaCRUDView.as_view(), name='item-meta-detail'),
-    path('items-metas/<int:pk>/toggle-estado/', views.ItemMetaCRUDView.as_view(), {'action': 'toggle-estado'}, name='item-meta-toggle'),
-
-    # Endpoints Registro de Atención Ciudadana (T17 / T18)
-    path('atenciones/contexto/', views.AtencionContextoView.as_view(), name='atencion-contexto'),
-    path('atenciones/', views.AtencionCRUDView.as_view(), name='atencion-list'),
-    path('atenciones/export/', views.AtencionCRUDView.as_view(), {'action': 'export'}, name='atencion-export'),
-    path('atenciones/<int:pk>/', views.AtencionCRUDView.as_view(), name='atencion-detail'),
-    path('atenciones/<int:pk>/toggle-estado/', views.AtencionCRUDView.as_view(), {'action': 'toggle-estado'}, name='atencion-toggle'),
-
-    # Endpoints Contexto Global y Cambio de Ámbito Territorial (T19)
-    path('contexto/', views.ContextoView.as_view(), name='contexto-global'),
-    path('contexto/cambiar-delegacion/', views.CambiarDelegacionView.as_view(), name='cambiar-delegacion'),
-
-
-    # Endpoints Contexto Global y Cambio de Ámbito Territorial (T19)
-    path('contexto/', views.ContextoView.as_view(), name='contexto-global'),
-    path('contexto/cambiar-delegacion/', views.CambiarDelegacionView.as_view(), name='cambiar-delegacion'),
+ path('auditoria/',api.audit),path('csrf/',api.csrf),path('login/',api.access),path('logout/',api.exit_access),
+ path('recuperacion/',api.recovery),path('recuperacion/estado/',api.recovery_status),
+ path('recuperacion/verificar/',api.recovery,{'step':'verificar'}),
+ path('recuperacion/cambiar/',api.recovery,{'step':'cambiar'}),
+ path('contexto/',api.context),path('atenciones/contexto/',api.context),
+ path('contexto/cambiar-delegacion/',api.change_context),path('opciones/',api.options),
 ]
+for resource in api.RESOURCES:
+ urlpatterns += [
+  path(resource+'/',api.crud,{'resource':resource}),
+  path(resource+'/export/',api.crud,{'resource':resource,'action':'export'}),
+  path(resource+'/<int:pk>/',api.crud,{'resource':resource}),
+  path(resource+'/<int:pk>/toggle-estado/',api.crud,{'resource':resource,'action':'toggle-estado'}),
+ ]
+
+from . import domain_api as domain
+urlpatterns += [path('operacion/opciones/',domain.options)]
+for resource in domain.MODELS:
+ urlpatterns += [path('operacion/'+resource+'/',domain.records,{'resource':resource}),path('operacion/'+resource+'/export/',domain.records,{'resource':resource,'action':'export'}),path('operacion/'+resource+'/<int:pk>/',domain.records,{'resource':resource}),path('operacion/'+resource+'/<int:pk>/mensajes/',domain.messages,{'resource':resource})]
+urlpatterns += [path('operacion/evidencias/<int:pk>/archivo/',domain.download),path('operacion/evidencias/<int:pk>/revisar/',domain.review)]
+
+from . import excel_api
+urlpatterns += [path('casos-sociales/',excel_api.cases),path('casos-sociales/<str:code>/',excel_api.cases),path('operacion/actividades/<int:pk>/derivacion/',excel_api.derivation)]
+from . import closure_api
+urlpatterns += [path('alertas/',closure_api.alerts),path('alertas/<int:pk>/revisar/',closure_api.mark_alert),path('gobierno/',closure_api.governance),path('operacion/evidencias/<int:pk>/anular/',closure_api.annul),path('operacion/compromisos/<int:pk>/reabrir/',closure_api.reopen)]
+for resource in closure_api.CATALOGS:
+ urlpatterns += [path(resource+'/<int:pk>/historial/',closure_api.history,{'resource':resource})]
+
+from . import kpis
+urlpatterns += [path('indicadores/',kpis.overview)]
+
+from . import feedback_api,matrix_profiles
+urlpatterns += [path('planillas/',matrix_profiles.profiles),path('reclamos/',feedback_api.records),path('reclamos/export/',feedback_api.records,{'action':'export'}),path('reclamos/<int:pk>/',feedback_api.records)]
+
+urlpatterns += [path('reclamos/opciones/',feedback_api.options)]

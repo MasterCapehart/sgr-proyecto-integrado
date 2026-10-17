@@ -9,7 +9,7 @@
   };
   document.querySelectorAll('[data-alert]').forEach(button => {
     button.addEventListener('click', () => {
-      window.Swal.fire({ ...messages[button.dataset.alert], confirmButtonColor: '#ad0000', confirmButtonText: 'Aceptar', ...messages[button.dataset.alert] });
+      window.Swal.fire({ ...messages[button.dataset.alert], confirmButtonColor: '#AD0000', confirmButtonText: 'Aceptar', ...messages[button.dataset.alert] });
     });
   });
 })();

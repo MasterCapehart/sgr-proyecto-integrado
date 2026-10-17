@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Registrar atención · SGR</title>
   <link rel="stylesheet" href="../assets/css/styles.css">
+<link rel="stylesheet" href="../assets/css/mockups.css">
+<link rel="stylesheet" href="../assets/css/operacion.css">
 </head>
 <body data-page="atencion" data-base-path="../">
   <a class="skip-link" href="#main-content">Saltar al contenido</a>
@@ -26,7 +28,7 @@
       </div>
 
       <div class="notice" style="margin-bottom: 24px;">
-        La delegación de atención, el funcionario responsable y la fecha/hora son asignados por el servidor según tu sesión autorizada para garantizar la inmutabilidad del origen (Sección 12 de la Guía SGR).
+        Tu delegación y tus datos de responsable se completan automáticamente.
       </div>
 
       <div class="card" style="padding: 0; margin-bottom: 24px;">
@@ -39,13 +41,13 @@
           <div class="grid">
             <div class="field">
               <label for="solicitante">Vecino o Solicitante <span class="required" aria-hidden="true">*</span></label>
-              <input type="text" id="solicitante" name="solicitante" placeholder="Nombre completo o RUT del solicitante" required aria-required="true">
+              <input type="text" id="solicitante" name="solicitante" placeholder="Nombre del solicitante" required aria-required="true">
               <p class="help">Identifica al ciudadano que presenta la solicitud o consulta.</p>
             </div>
 
             <div class="field">
               <label for="delegacion-contexto">Delegación de atención (Origen)</label>
-              <input type="text" id="delegacion-contexto" value="DEL01 · Las Compañías" readonly class="readonly" style="background: #f1f5f9; cursor: not-allowed;">
+              <input type="text" id="delegacion-contexto" value="Cargando delegación…" readonly class="readonly" style="background: #f1f5f9; cursor: not-allowed;">
               <p class="help">Fijada automáticamente según el contexto de tu sesión.</p>
             </div>
 
@@ -76,9 +78,24 @@
               <input type="text" id="codigo-caso-social" name="caso_social" placeholder="ej. CS-2026-089">
             </div>
 
+            <details class="social-optional full" id="datos-seguimiento-social">
+              <summary>Gestión social · visitas, informe y beneficio</summary>
+              <div class="grid">
+                <div class="field"><label for="rut-solicitante">RUN del solicitante (opcional)</label><input id="rut-solicitante" maxlength="12" placeholder="12345678-5"><p class="help">Se valida el dígito verificador cuando se informa.</p></div>
+                <div class="field"><label for="telefono-solicitante">Teléfono (opcional)</label><input id="telefono-solicitante" type="tel" maxlength="20"></div>
+                <div class="field"><label for="requiere-visita">¿Requiere visita?</label><select id="requiere-visita"><option value="no">No</option><option value="si">Sí</option></select></div>
+                <div class="field"><label for="fecha-visita-programada">Fecha programada de visita</label><input id="fecha-visita-programada" type="date" disabled></div><div class="field"><label for="fecha-visita-realizada">Fecha de visita realizada</label><input id="fecha-visita-realizada" type="date" disabled></div><div class="field"><label for="tipo-gestion">Gestión de esta etapa</label><select id="tipo-gestion"><option value="">Selecciona una gestión…</option></select></div><div class="field"><label for="compromiso-social">Ingreso al tubo de trabajo</label><select id="compromiso-social"><option value="">Sin vínculo al tubo</option></select></div>
+                <div class="field"><label for="fecha-entrega-informe">Fecha de entrega de informe (opcional)</label><input id="fecha-entrega-informe" type="date"></div>
+                <div class="field"><label for="fecha-entrega-beneficio">Fecha de entrega de beneficio (opcional)</label><input id="fecha-entrega-beneficio" type="date"></div>
+                <div class="field full"><label for="gestion-realizada">Gestión realizada / observaciones de esta etapa</label><textarea id="gestion-realizada" maxlength="2000"></textarea></div>
+              </div>
+              <p class="help">Usa el mismo código de caso para sus gestiones sucesivas. Las fechas no informadas se conservan vacías.</p>
+              <a class="button secondary" href="casos-sociales.html">Consultar expedientes sociales</a>
+            </details>
+
             <div class="field">
               <label for="responsable-nombre">Funcionario responsable</label>
-              <input type="text" id="responsable-nombre" value="Daniel Flores (Operador Territorial)" readonly class="readonly" style="background: #f1f5f9; cursor: not-allowed;">
+              <input type="text" id="responsable-nombre" value="Cargando sesión…" readonly class="readonly" style="background: #f1f5f9; cursor: not-allowed;">
             </div>
 
             <div class="field">
@@ -87,7 +104,7 @@
             </div>
           </div>
 
-          <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--line);">
+          <div class="attention-actions">
             <button type="button" class="button secondary" id="btn-cancelar">Cancelar</button>
             <button type="submit" class="button primary" id="btn-guardar">Guardar atención ciudadana →</button>
           </div>
@@ -99,7 +116,10 @@
   </div>
 
   <script defer src="../assets/vendor/sweetalert2.min.js"></script>
-  <script defer src="../assets/js/components/layout.js"></script>
+  <script defer src="../assets/js/api-local.js"></script>
+<script defer src="../assets/js/modules/borradores.js"></script>
+<script defer src="../assets/js/components/kpis.js"></script>
+<script defer src="../assets/js/components/layout.js"></script>
   <script defer src="../assets/js/modules/ingreso-atencion.js"></script>
   <script defer src="../assets/js/app.js"></script>
 </body>
