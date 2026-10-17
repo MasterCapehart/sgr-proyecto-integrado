@@ -111,7 +111,7 @@ if 'db_instance' not in state:
     versions=rds.describe_db_engine_versions(Engine='mysql',EngineVersion='8.4',DefaultOnly=True)['DBEngineVersions']
     if not versions: versions=rds.describe_db_engine_versions(Engine='mysql',DefaultOnly=True)['DBEngineVersions']
     engine=versions[0]['EngineVersion']
-    state['db_master_user']='sgr_deploy';state['db_master_password']=secrets.token_urlsafe(32);state['db_app_password']=secrets.token_urlsafe(32);save()
+    state['db_master_user']='sgr_deploy';state['db_master_password']=secrets.token_urlsafe(24);state['db_app_password']=secrets.token_urlsafe(24);save()
     rds.create_db_instance(DBInstanceIdentifier=name,DBInstanceClass='db.t3.micro',Engine='mysql',EngineVersion=engine,MasterUsername=state['db_master_user'],MasterUserPassword=state['db_master_password'],DBName='sgr_prueba',AllocatedStorage=20,StorageType='gp3',StorageEncrypted=True,PubliclyAccessible=False,MultiAZ=False,VpcSecurityGroupIds=[state['db_sg']],DBSubnetGroupName=state['db_subnet_group'],BackupRetentionPeriod=7,DeletionProtection=True,AutoMinorVersionUpgrade=True,Tags=tags)
     state['db_instance']=name;state['db_engine']=engine;save()
 if 'key_pair' not in state:
