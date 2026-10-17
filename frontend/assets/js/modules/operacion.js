@@ -21,7 +21,40 @@
    for(const v of values)input.add(typeof v==='string'?new Option(v,v):new Option(type==='compromisos'?v.descripcion+' · '+v.folio:type==='actividades'?v.codigo+' · '+v.solicitud:v.nombre||v.codigo||v.folio||v.nombre_archivo,v.id));
   }else{input=el('input');input.type=type;}
   input.id='op-'+name;input.name=name;input.required=!optional;
-  if(type==='file'){input.accept='.pdf,.png,.jpg,.jpeg';wrap.append(el('p','help','Hasta 10 MB. Descarga protegida; los archivos no se publican.'));}
+  if(type==='file'){
+   input.accept='.pdf,.png,.jpg,.jpeg';
+   input.style.display='none';
+   const dz=el('div','sgr-dropzone');
+   dz.innerHTML=`
+     <svg class="sgr-dropzone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+       <polyline points="17 8 12 3 7 8"></polyline>
+       <line x1="12" y1="3" x2="12" y2="15"></line>
+     </svg>
+     <div class="sgr-dropzone-title">Arrastra tu archivo aquí o <span style="color:var(--municipal-red);text-decoration:underline;">examina tu equipo</span></div>
+     <div class="sgr-dropzone-sub">PDF, PNG o JPG hasta 10 MB. Respaldo protegido.</div>
+     <div class="sgr-dropzone-preview" style="display:none;">
+       <div class="sgr-dropzone-fileinfo">
+         <span style="font-size:20px;">📄</span>
+         <div>
+           <div class="sgr-dropzone-filename"></div>
+           <div class="sgr-dropzone-filesize"></div>
+         </div>
+       </div>
+       <button type="button" class="linkbtn" style="color:var(--municipal-red);font-size:12px;font-weight:600;">Quitar</button>
+     </div>
+   `;
+   const prev=dz.querySelector('.sgr-dropzone-preview'), fnEl=dz.querySelector('.sgr-dropzone-filename'), fsEl=dz.querySelector('.sgr-dropzone-filesize'), rem=prev.querySelector('button');
+   const showFile=f=>{if(f){fnEl.textContent=f.name;fsEl.textContent=(f.size/(1024*1024)).toFixed(2)+' MB';prev.style.display='flex';}else{prev.style.display='none';}};
+   dz.onclick=e=>{if(e.target!==rem)input.click();};
+   rem.onclick=e=>{e.stopPropagation();input.value='';showFile(null);};
+   dz.ondragover=e=>{e.preventDefault();dz.classList.add('dragover');};
+   dz.ondragleave=()=>dz.classList.remove('dragover');
+   dz.ondrop=e=>{e.preventDefault();dz.classList.remove('dragover');if(e.dataTransfer.files?.length){input.files=e.dataTransfer.files;showFile(e.dataTransfer.files[0]);}};
+   input.onchange=()=>{if(input.files?.length)showFile(input.files[0]);else showFile(null);};
+   wrap.append(input,dz);
+   return wrap;
+  }
   if(type==='textarea')input.maxLength=name==='observacion'?2000:5000;
   if(type==='number'){input.min=1;input.max=1;input.step=1;input.value=1;input.readOnly=true;}
   if(type==='text'||type==='tel')input.maxLength=name==='telefono'?20:200;
@@ -62,8 +95,23 @@
   await comments(body,item);
  }catch(e){SGRApi.message(e.message);}}
  function parameters(){const p=new URLSearchParams({search:query,page:current,page_size:20});if(resource==='actividades'&&profile!=='GENERAL')p.set('vista',profile);if(state)p.set('estado',state);if(since)p.set('desde',since);if(until)p.set('hasta',until);for(const [k,v] of Object.entries(extraFilters))if(v)p.set(k,v);return p;}
- async function load(){const tbody=$('#operation-rows');try{const data=await SGRApi.request(base+resource+'/?'+parameters());SGRKpis.update(kpiSection,data.kpis);rows=data.results;total=data.total_pages;count=data.count;tbody.replaceChildren();if(!rows.length){const td=el('td','empty','No hay registros para estos filtros.');td.colSpan=cfg.columns.length+1;const tr=el('tr');tr.append(td);tbody.append(tr);}for(const item of rows){const tr=el('tr');if(resource==='compromisos'&&item.estado==='Realizado')tr.classList.add('realizado');for(const [name] of cfg.columns){const td=el('td');if(name==='estado')td.append(el('span','badge '+(['Aprobada','Validada','Realizado'].includes(item.estado)?'green':'amber'),item.estado));else if(name.includes('fecha'))td.textContent=date(item[name]);else if(name==='origen')td.textContent=item.origen==='Interno'?'INT':'EXT';else if(name==='ingreso_tubo'&&item.compromiso){const a=el('a',null,'Sí · Abrir');a.href='compromiso-detalle.html?id='+item.compromiso;td.append(a);}else if(name==='imagen_verificacion'){td.textContent=item.imagen_verificacion;if(can('evidencias','ver'))for(const e of item.evidencias_actuales||[]){const a=el('a',null,e.archivo+' · '+e.estado);a.href=e.url;td.append(el('br'),a);}}else td.textContent=item[name]||'—';if(['folio','codigo','codigo_actividad'].includes(name))td.className='record-code';tr.append(td);}const actions=el('td');const wrap=el('div','actions');wrap.append(button('Ver detalle',()=>detail(item),'linkbtn'));if(can(resource,'editar')&&(item.autor===ctx.usuario.id||item.responsable===ctx.usuario.id||can(resource,'editar_equipo'))&&resource!=='evidencias'&&(resource!=='compromisos'||item.estado!=='Realizado')&&(resource!=='actividades'||['Borrador','Corrección','Rechazada'].includes(item.estado)))wrap.append(button(resource==='compromisos'?'Seguimiento':'Editar',()=>editor(item),'linkbtn'));if(resource==='actividades'&&can(resource,'editar')&&(item.autor===ctx.usuario.id||can(resource,'editar_equipo')))wrap.append(button(item.derivado_a?'Seguir derivación':'Derivar',()=>derivationEditor(item),'linkbtn'));if(item.dias_atraso_cierre>0)wrap.append(el('span','badge amber','Cerrado con '+item.dias_atraso_cierre+' días de atraso'));if(item.vencido)wrap.append(el('span','badge red','Vencido'));actions.append(wrap);tr.append(actions);tbody.append(tr);}$('#operation-count').textContent=`${count} resultados · Página ${current} de ${total}`;$('#operation-prev').disabled=current<=1;$('#operation-next').disabled=current>=total;
-  }catch(e){SGRKpis.error(kpiSection);tbody.replaceChildren();const td=el('td','empty','No se pudieron cargar los datos. '+e.message);td.colSpan=cfg.columns.length+1;const tr=el('tr');tr.append(td);tbody.append(tr);$('#operation-count').textContent='Datos no disponibles';}}
+  async function load(){
+   const tbody=$('#operation-rows');
+   tbody.replaceChildren();
+   const colsCount=cfg.columns.length+1;
+   for(let i=0;i<5;i++){
+     const sTr=el('tr','sgr-skeleton-row');
+     for(let j=0;j<colsCount;j++){
+       const sTd=el('td');
+       if(j===colsCount-1)sTd.append(el('span','sgr-skeleton-badge'));
+       else{const bar=el('span','sgr-skeleton-box');bar.style.width=(35+(j*17)%55)+'%';sTd.append(bar);}
+       sTr.append(sTd);
+     }
+     tbody.append(sTr);
+   }
+   $('#operation-count').textContent='Cargando registros…';
+   try{const data=await SGRApi.request(base+resource+'/?'+parameters());SGRKpis.update(kpiSection,data.kpis);rows=data.results;total=data.total_pages;count=data.count;tbody.replaceChildren();if(!rows.length){const td=el('td','empty','No hay registros para estos filtros.');td.colSpan=cfg.columns.length+1;const tr=el('tr');tr.append(td);tbody.append(tr);}for(const item of rows){const tr=el('tr');if(resource==='compromisos'&&item.estado==='Realizado')tr.classList.add('realizado');for(const [name] of cfg.columns){const td=el('td');if(name==='estado')td.append(el('span','badge '+(['Aprobada','Validada','Realizado'].includes(item.estado)?'green':'amber'),item.estado));else if(name.includes('fecha'))td.textContent=date(item[name]);else if(name==='origen')td.textContent=item.origen==='Interno'?'INT':'EXT';else if(name==='ingreso_tubo'&&item.compromiso){const a=el('a',null,'Sí · Abrir');a.href='compromiso-detalle.html?id='+item.compromiso;td.append(a);}else if(name==='imagen_verificacion'){td.textContent=item.imagen_verificacion;if(can('evidencias','ver'))for(const e of item.evidencias_actuales||[]){const a=el('a',null,e.archivo+' · '+e.estado);a.href=e.url;td.append(el('br'),a);}}else td.textContent=item[name]||'—';if(['folio','codigo','codigo_actividad'].includes(name))td.className='record-code';tr.append(td);}const actions=el('td');const wrap=el('div','actions');wrap.append(button('Ver detalle',()=>detail(item),'linkbtn'));if(can(resource,'editar')&&(item.autor===ctx.usuario.id||item.responsable===ctx.usuario.id||can(resource,'editar_equipo'))&&resource!=='evidencias'&&(resource!=='compromisos'||item.estado!=='Realizado')&&(resource!=='actividades'||['Borrador','Corrección','Rechazada'].includes(item.estado)))wrap.append(button(resource==='compromisos'?'Seguimiento':'Editar',()=>editor(item),'linkbtn'));if(resource==='actividades'&&can(resource,'editar')&&(item.autor===ctx.usuario.id||can(resource,'editar_equipo')))wrap.append(button(item.derivado_a?'Seguir derivación':'Derivar',()=>derivationEditor(item),'linkbtn'));if(item.dias_atraso_cierre>0)wrap.append(el('span','badge amber','Cerrado con '+item.dias_atraso_cierre+' días de atraso'));if(item.vencido)wrap.append(el('span','badge red','Vencido'));actions.append(wrap);tr.append(actions);tbody.append(tr);}$('#operation-count').textContent=`${count} resultados · Página ${current} de ${total}`;$('#operation-prev').disabled=current<=1;$('#operation-next').disabled=current>=total;
+   }catch(e){SGRKpis.error(kpiSection);tbody.replaceChildren();const td=el('td','empty','No se pudieron cargar los datos. '+e.message);td.colSpan=cfg.columns.length+1;const tr=el('tr');tr.append(td);tbody.append(tr);$('#operation-count').textContent='Datos no disponibles';}}
  function render(){const main=$('#main-content');main.replaceChildren();main.append(el('div','crumb','SGR / '+(page==='reportes'?'Consulta y control':'Operación')+' / '+cfg.title));const head=el('div','head'),title=el('div');title.append(el('div','eyebrow',page==='validacion'?'Control de evidencia':'Gestión municipal'),el('h1',null,page==='validacion'?'Bandeja de validación':page==='reportes'?'Reportes operativos':cfg.title),el('p','sub',page==='reportes'?'Consulta y exporta registros reales. El motor de cálculos está fuera de esta versión.':cfg.subtitle+(resource==='actividades'&&ctx.usuario.cargo_nombre?' Cargo: '+ctx.usuario.cargo_nombre+' · Área: '+ctx.usuario.area:'')));head.append(title);if(can(resource,'crear')&&!['validacion','reportes'].includes(page))head.append(button(resource==='evidencias'?'+ Adjuntar evidencia':resource==='actividades'?'+ Nueva actividad':'+ Nuevo compromiso',()=>editor(),'button primary'));main.append(head);const anchor=el('div');main.append(anchor);kpiSection=SGRKpis.mount(anchor);anchor.remove();
   const card=el('section','card'),toolbar=el('div','toolbar');if(resource==='actividades'&&profiles.length){const label=el('label','planilla-select');label.append(el('span',null,'Vista de planilla por función'));const select=el('select');select.setAttribute('aria-label','Vista de planilla');for(const p of profiles)select.add(new Option(p.nombre,p.codigo));select.value=profile;select.onchange=()=>{const selected=profiles.find(p=>p.codigo===select.value);if(selected.ruta){if(can('atenciones','ver'))location.assign(selected.ruta);else SGRApi.message('Tu función utiliza Gestión social. Solicita permiso para consultar atenciones.','warning');select.value=profile;return;}profile=select.value;cfg.columns=selected.columnas;extraFilters={};current=1;render();load();};label.append(select);toolbar.append(label);}
   if(page==='reportes'){const wrap=el('label');wrap.append(el('span',null,'Registros'));const select=el('select');select.setAttribute('aria-label','Tipo de reporte');for(const r of Object.keys(configs))if(can(r,'ver'))select.add(new Option(configs[r].title,r));select.value=resource;select.onchange=()=>{resource=select.value;cfg=configs[resource];current=1;query='';state='';since='';until='';extraFilters={};render();load();};wrap.append(select);toolbar.append(wrap);}

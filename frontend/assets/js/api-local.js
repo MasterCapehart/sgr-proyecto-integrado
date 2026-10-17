@@ -23,5 +23,19 @@ window.SGRApi = {
     do { response=await this.request(`/api/${resource}/?page_size=100&page=${page}&${query}`);results.push(...response.results);page++; } while(page<=response.total_pages);
     return results;
   },
-  message(text, icon='error') { return Swal.fire({target:document.querySelector('dialog[open]') || document.body,icon,title:icon==='success'?'Operación completada':'Revisa la información',text,confirmButtonColor:'#AD0000'}); }
+  message(text, icon='error') { return Swal.fire({target:document.querySelector('dialog[open]') || document.body,icon,title:icon==='success'?'Operación completada':'Revisa la información',text,confirmButtonColor:'#AD0000'}); },
+  toast(text, icon='success') {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      }
+    });
+    return Toast.fire({ icon, title: text });
+  }
 };
