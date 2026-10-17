@@ -39,3 +39,6 @@ urlpatterns += [path('reclamos/opciones/',feedback_api.options)]
 
 from . import deploy_api
 urlpatterns += [path("version/", deploy_api.version), path("health/", deploy_api.health)]
+
+from . import period_api
+urlpatterns += [path('periodos/<int:pk>/cerrar/',period_api.transition,{'action':'cerrar'}),path('periodos/<int:pk>/reabrir/',period_api.transition,{'action':'reabrir'})]

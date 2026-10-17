@@ -203,6 +203,8 @@ class FlujoLocal(TestCase):
         self.assertEqual(self.send('/api/atenciones/',{**p,'tipo_atencion':other.pk}).status_code,409)
 
     def test_meta_validada_y_relacion_protegida(self):
+        from .models import PeriodoGestion
+        PeriodoGestion.objects.create(codigo='2026',nombre='Calendario QA 2026',fecha_inicio='2026-01-01',fecha_fin='2026-12-31')
         item=ItemMeta.objects.create(codigo='META',nombre='Ítem Meta')
         self.assertEqual(self.send('/api/configuraciones-metas/',{'item':item.pk,'periodo':'2026','meta_esperada':-1,'ponderacion':20}).status_code,400)
         self.assertEqual(self.send('/api/configuraciones-metas/',{'item':item.pk,'periodo':'2026','meta_esperada':10,'ponderacion':20}).status_code,201)

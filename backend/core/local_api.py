@@ -23,11 +23,12 @@ from django.utils import timezone
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_http_methods
 from .models import (Delegacion, Rol, Usuario, TipoAtencion, SubAtencion, ItemMeta,
- Cargo, ConfiguracionMeta, Atencion, AuditoriaDerivacion, RecuperacionAcceso, CasoSocial, EventoLocal, AccesoFallido)
+ Cargo, ConfiguracionMeta, PeriodoGestion, Atencion, AuditoriaDerivacion, RecuperacionAcceso, CasoSocial, EventoLocal, AccesoFallido)
 
 logger = logging.getLogger(__name__)
 
 RESOURCES = {
+ 'periodos': (PeriodoGestion, ['codigo','nombre','fecha_inicio','fecha_fin','estado']),
  'cargos': (Cargo, ['codigo','nombre','area','planilla','estado']),
  'delegaciones': (Delegacion, ['codigo','nombre','direccion','comuna','estado']),
  'roles': (Rol, ['nombre','descripcion','alcance','permisos','estado']),
@@ -35,7 +36,7 @@ RESOURCES = {
  'tipos-atencion': (TipoAtencion, ['codigo','nombre','descripcion','estado']),
  'subatenciones': (SubAtencion, ['codigo','nombre','descripcion','tipo_atencion','estado']),
  'items-metas': (ItemMeta, ['codigo','nombre','descripcion','unidad_medida','cargos','estado']),
- 'configuraciones-metas': (ConfiguracionMeta, ['item','periodo','meta_esperada','ponderacion','estado']),
+ 'configuraciones-metas': (ConfiguracionMeta, ['item','periodo','periodo_gestion','meta_esperada','ponderacion','estado']),
  'atenciones': (Atencion, ['folio','solicitante','tipo_atencion','sub_atencion','descripcion','delegacion','delegacion_responsable','usuario','fecha_registro','caso_social','numero_gestion','rut_solicitante','telefono_solicitante','requiere_visita','fecha_visita','fecha_entrega_informe','fecha_entrega_beneficio','gestion_realizada','fecha_visita_programada','fecha_visita_realizada','tipo_gestion','compromiso','estado']),
 }
 ACTIONS = ['ver','crear','editar','desactivar','exportar']
@@ -78,6 +79,10 @@ def serialize(obj, fields):
         elif field.is_relation: value=getattr(obj,name+'_id')
         else: value=getattr(obj,name)
         result[name]=value
+    if isinstance(obj,PeriodoGestion):
+        result.update(cerrado=obj.cerrado,situacion='Cerrado' if obj.cerrado else 'Abierto',duracion_dias=obj.duracion_dias,parametros_cierre=obj.parametros_cierre)
+    if isinstance(obj,ConfiguracionMeta):
+        result.update(conciliada_con=obj.conciliada_con_id,periodo_cerrado=bool(obj.periodo_gestion_id and obj.periodo_gestion.cerrado),periodo_nombre=obj.periodo_gestion.nombre if obj.periodo_gestion_id else obj.periodo,historico_sin_calendario=not bool(obj.periodo_gestion_id))
     if isinstance(obj,SubAtencion): result['tipo_padre_display']=f'{obj.tipo_atencion.codigo} · {obj.tipo_atencion.nombre}'
     if isinstance(obj,Atencion):
         snapshot=obj.catalogos_snapshot or {}
@@ -219,7 +224,7 @@ def options(request):
     if not any(allowed(request.user,r) for r in RESOURCES): return error('Sin permisos.',403)
     from .matrix_profiles import PROFILES
     from .excel_support import GESTIONES
-    result={'gestiones':GESTIONES,'planillas':[{'id':k,'nombre':v['nombre']} for k,v in PROFILES.items() if k!='GENERAL'],'cargos':list(Cargo.objects.filter(estado=True).values('id','codigo','nombre','area')),'delegaciones':list(delegations(request.user).values('id','nombre','codigo')),
+    result={'periodos':list(PeriodoGestion.objects.all().order_by('-fecha_inicio').values('id','codigo','nombre','estado','cerrado')), 'gestiones':GESTIONES,'planillas':[{'id':k,'nombre':v['nombre']} for k,v in PROFILES.items() if k!='GENERAL'],'cargos':list(Cargo.objects.filter(estado=True).values('id','codigo','nombre','area')),'delegaciones':list(delegations(request.user).values('id','nombre','codigo')),
             'tipos-atencion':list(TipoAtencion.objects.filter(estado=True).values('id','nombre','codigo')),
             'items-metas':list(ItemMeta.objects.filter(estado=True).values('id','nombre','codigo'))}
     if allowed(request.user,'usuarios','crear') or allowed(request.user,'usuarios','editar'):
@@ -229,6 +234,10 @@ def options(request):
 
 def validate_data(obj, data, resource, request, creating=False):
     fields=RESOURCES[resource][1]; incoming=dict(data)
+    if isinstance(obj,PeriodoGestion) and obj.pk and obj.cerrado:raise ValidationError('El período está cerrado. Reábrelo con autorización antes de editarlo.')
+    if isinstance(obj,ConfiguracionMeta):
+        from .period_support import prepare_meta
+        prepare_meta(obj,incoming,creating)
     if resource=='usuarios' and 'estado' in incoming: incoming['is_active']=incoming.pop('estado')
     valid_fields=set(fields)|({'password'} if resource=='usuarios' else set())
     if set(incoming)-valid_fields: raise ValidationError('Hay campos desconocidos o no editables.')
@@ -289,16 +298,21 @@ def validate_data(obj, data, resource, request, creating=False):
         if not obj.tipo_atencion_id:raise ValidationError({'tipo_atencion':'Selecciona el tipo padre.'})
         if obj.estado and not obj.tipo_atencion.estado:raise ValidationError({'tipo_atencion':'No se puede activar una subatención cuyo tipo está inactivo.'})
     if isinstance(obj,ConfiguracionMeta):
+        from .period_support import validate_period_meta
+        validate_period_meta(obj)
         if obj.estado and obj.item_id and not obj.item.estado:raise ValidationError({'item':'No se puede activar una meta de un ítem inactivo.'})
         if obj.item_id:
             # Una misma fila de ítem serializa creaciones y cambios concurrentes.
             # No altera ni elimina configuraciones históricas preexistentes.
             ItemMeta.objects.select_for_update().get(pk=obj.item_id)
-            if ConfiguracionMeta.objects.filter(item_id=obj.item_id,periodo__iexact=obj.periodo).exclude(pk=obj.pk).exists():
+            duplicates=ConfiguracionMeta.objects.filter(item_id=obj.item_id,conciliada_con__isnull=True).exclude(pk=obj.pk)
+            duplicates=duplicates.filter(periodo_gestion_id=obj.periodo_gestion_id) if obj.periodo_gestion_id else duplicates.filter(periodo_gestion__isnull=True,periodo__iexact=obj.periodo)
+            if duplicates.exists():
                 raise ValidationError({'periodo':'Ya existe una meta para este ítem y período. Edita la configuración existente.'})
         if Decimal(str(obj.meta_esperada))<=0 or not 0<Decimal(str(obj.ponderacion))<=100: raise ValidationError('Meta positiva y ponderación entre 0 y 100.')
     if obj.pk and hasattr(obj,'estado') and not obj.estado:
         relations=[]
+        if isinstance(obj,PeriodoGestion): relations=[obj.metas.all()]
         if isinstance(obj,Delegacion): relations=[obj.usuario_set.filter(is_active=True), obj.usuarios_autorizados.filter(is_active=True),obj.atenciones_origen.all(),obj.atenciones_responsable.all()]
         if isinstance(obj,TipoAtencion): relations=[obj.subatenciones.filter(estado=True),obj.atenciones.all()]
         if isinstance(obj,SubAtencion): relations=[obj.atenciones.all()]
@@ -330,12 +344,12 @@ def crud(request, resource, pk=None, action=None):
             statefield='is_active' if resource=='usuarios' else 'estado'
             if state!='todos': qs=qs.filter(**{statefield:state=='activos'})
             if search:
-                query=Q(tipo_atencion__nombre__icontains=search) if resource=='subatenciones' else Q()
+                query=Q(tipo_atencion__nombre__icontains=search) if resource=='subatenciones' else Q(item__nombre__icontains=search)|Q(item__codigo__icontains=search)|Q(periodo_gestion__nombre__icontains=search) if resource=='configuraciones-metas' else Q()
                 for name in fields:
                     f=model._meta.get_field(name)
                     if f.get_internal_type() in ['CharField','TextField','EmailField']: query|=Q(**{name+'__icontains':search})
                 qs=qs.filter(query)
-            for parent in ['tipo_atencion','item','rol','delegacion']:
+            for parent in ['tipo_atencion','item','periodo_gestion','rol','delegacion']:
                 if parent in fields and request.GET.get(parent):
                     if not request.GET[parent].isdigit(): return error('Filtro relacionado inválido.')
                     qs=qs.filter(**{parent+'_id':request.GET[parent]})
@@ -371,7 +385,13 @@ def crud(request, resource, pk=None, action=None):
             if request.method!='POST' or pk or action: return error('El registro de atención no permite modificaciones retrospectivas.',405)
             return create_attention(request,body(request))
         with transaction.atomic():
+            locked_periods=None
+            if resource=='configuraciones-metas':
+                from .period_support import lock_meta_periods
+                locked_periods=lock_meta_periods(qs,pk,body(request))
             obj=qs.select_for_update().filter(pk=pk).first() if pk else model()
+            if obj is not None and resource=='configuraciones-metas' and obj.periodo_gestion_id and obj.periodo_gestion_id not in locked_periods:
+                return error('El período de la meta cambió. Recarga antes de guardar.',409)
             if obj is None: return error('Registro no encontrado.',404)
             if pk and not request.user.is_superuser:
                 target_role=obj if isinstance(obj,Rol) else obj.rol if isinstance(obj,Usuario) else None

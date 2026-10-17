@@ -58,3 +58,11 @@ El despliegue usa `config.settings_production`, dependencias en
 `requirements-production.txt` y archivos operativos en `deploy/aws/`.
 Las variables privadas se mantienen fuera de Git. Consultar `deploy/aws/README.md`
 para las restricciones comprobadas del Learner Lab y el estado del procedimiento.
+
+## Períodos y conciliación histórica
+
+Tras actualizar el código, ejecutar `python manage.py migrate`. En Administración → Períodos de gestión se crean calendarios con fechas reales y duración inclusiva (incluye años bisiestos). Cerrar y reabrir requieren permisos independientes, versión vigente y motivo; el cierre conserva los parámetros y bloquea modificaciones de metas. El historial conserva las capturas anteriores. No incorpora el motor de cálculos ni valida sumas de ponderación por cargo.
+
+Las nuevas metas seleccionan un calendario activo y abierto. El API admite también un código/nombre textual si identifica un único calendario existente. Las metas anteriores mantienen su texto y FK vacía hasta que un administrador las vincule expresamente: no se inventan fechas.
+
+Para revisar duplicados históricos: `python manage.py conciliar_metas` (solo simula). Para aplicar: `python manage.py conciliar_metas --apply --usuario ADMIN --motivo "Motivo autorizado"`, con respaldo previo. Conserva filas y valores, marca la repetida inactiva y la vincula a la vigente, con auditoría. Solo decide automáticamente entre valores idénticos o una única activa; casos ambiguos o calendarios ya vinculados requieren revisión manual. Repetir el comando no duplica cambios.
