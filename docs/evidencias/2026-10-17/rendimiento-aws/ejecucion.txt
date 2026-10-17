@@ -1,0 +1,10 @@
+Cuentas independientes autenticadas: 51
+Lotes 5.000/10.000 y separación D02 comprobados.
+INICIO control 1 120
+FIN control peticiones 66 errores 0
+INICIO normal 10 600
+Exportación simultánea: False
+FIN normal peticiones 97 errores 11
+INICIO recuperacion 1 300
+FIN recuperacion peticiones 169 errores 0
+FINAL conteos conciliados: 10067

@@ -1,0 +1,6 @@
+{
+  "muestras": 64,
+  "cpu_max_pct": 52.08,
+  "mem_disponible_min_mib": 1364.81,
+  "alcance": "EC2 invitado, no m\u00e9tricas RDS ni cr\u00e9ditos CPU"
+}

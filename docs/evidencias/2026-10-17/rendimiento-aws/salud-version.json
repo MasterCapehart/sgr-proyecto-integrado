@@ -1,0 +1,15 @@
+{
+  "health": {
+    "http": 200,
+    "body": {
+      "status": "ok"
+    }
+  },
+  "version": {
+    "http": 200,
+    "body": {
+      "service": "SGR",
+      "version": "47358a26167f4efb0a4fe0638e78d815f821967a"
+    }
+  }
+}

@@ -1,0 +1,170 @@
+{
+  "database_temporal": "sgr_restore_qa_20261017235559",
+  "inicio_utc": "2026-10-17T23:55:59.465537+00:00",
+  "restauracion_s": 3.98,
+  "tablas": 39,
+  "filas": 11194,
+  "conteos_y_checksums_iguales": true,
+  "checksums_disponibles": true,
+  "comparacion": {
+    "auth_group": {
+      "filas": 0,
+      "coincide": true
+    },
+    "auth_group_permissions": {
+      "filas": 0,
+      "coincide": true
+    },
+    "auth_permission": {
+      "filas": 132,
+      "coincide": true
+    },
+    "core_accesofallido": {
+      "filas": 4,
+      "coincide": true
+    },
+    "core_actividad": {
+      "filas": 8,
+      "coincide": true
+    },
+    "core_alertalocal": {
+      "filas": 2,
+      "coincide": true
+    },
+    "core_atencion": {
+      "filas": 10177,
+      "coincide": true
+    },
+    "core_auditoriaderivacion": {
+      "filas": 0,
+      "coincide": true
+    },
+    "core_cargo": {
+      "filas": 4,
+      "coincide": true
+    },
+    "core_casosocial": {
+      "filas": 1,
+      "coincide": true
+    },
+    "core_cierrecompromiso": {
+      "filas": 3,
+      "coincide": true
+    },
+    "core_compromiso": {
+      "filas": 4,
+      "coincide": true
+    },
+    "core_configuracionmeta": {
+      "filas": 3,
+      "coincide": true
+    },
+    "core_conversacion": {
+      "filas": 6,
+      "coincide": true
+    },
+    "core_delegacion": {
+      "filas": 8,
+      "coincide": true
+    },
+    "core_derivacionactividad": {
+      "filas": 0,
+      "coincide": true
+    },
+    "core_eventolocal": {
+      "filas": 440,
+      "coincide": true
+    },
+    "core_evidencia": {
+      "filas": 6,
+      "coincide": true
+    },
+    "core_itemmeta": {
+      "filas": 6,
+      "coincide": true
+    },
+    "core_itemmeta_cargos": {
+      "filas": 0,
+      "coincide": true
+    },
+    "core_mensaje": {
+      "filas": 6,
+      "coincide": true
+    },
+    "core_periodogestion": {
+      "filas": 1,
+      "coincide": true
+    },
+    "core_politicaoperativa": {
+      "filas": 0,
+      "coincide": true
+    },
+    "core_reclamo": {
+      "filas": 3,
+      "coincide": true
+    },
+    "core_recuperacionacceso": {
+      "filas": 1,
+      "coincide": true
+    },
+    "core_revisionevidencia": {
+      "filas": 4,
+      "coincide": true
+    },
+    "core_rol": {
+      "filas": 12,
+      "coincide": true
+    },
+    "core_seguimientocompromiso": {
+      "filas": 6,
+      "coincide": true
+    },
+    "core_subatencion": {
+      "filas": 7,
+      "coincide": true
+    },
+    "core_tipoatencion": {
+      "filas": 9,
+      "coincide": true
+    },
+    "core_usuario": {
+      "filas": 66,
+      "coincide": true
+    },
+    "core_usuario_delegaciones": {
+      "filas": 68,
+      "coincide": true
+    },
+    "core_usuario_groups": {
+      "filas": 0,
+      "coincide": true
+    },
+    "core_usuario_user_permissions": {
+      "filas": 0,
+      "coincide": true
+    },
+    "core_versioncatalogo": {
+      "filas": 56,
+      "coincide": true
+    },
+    "django_admin_log": {
+      "filas": 0,
+      "coincide": true
+    },
+    "django_content_type": {
+      "filas": 33,
+      "coincide": true
+    },
+    "django_migrations": {
+      "filas": 37,
+      "coincide": true
+    },
+    "django_session": {
+      "filas": 81,
+      "coincide": true
+    }
+  },
+  "backup_bytes": 2642736,
+  "esquema_temporal_eliminado": true,
+  "ventana_operacion_s": 13.574
+}

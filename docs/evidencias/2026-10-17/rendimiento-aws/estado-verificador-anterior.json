@@ -1,0 +1,7 @@
+{
+  "existe": true,
+  "cuenta_activa": false,
+  "rol_activo": true,
+  "delegacion_activa": true,
+  "alcance": "Comprobaci\u00f3n de estado posterior al rechazo 401; no se restableci\u00f3 la cuenta."
+}
