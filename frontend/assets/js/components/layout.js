@@ -72,7 +72,12 @@
     // 2. Consultar contexto en vivo desde el backend Django
     try {
         const res = await fetch(`${API_BASE}/api/contexto/`, { credentials: 'include' });
-      if (res.ok) {
+            if (res.status === 401) {
+        // Sesión vencida o cerrada: no mostrar datos de un usuario anterior
+        try { sessionStorage.removeItem('sgr_contexto'); } catch (_) {}
+        userEl.textContent = 'Sin sesión iniciada';
+        roleEl.textContent = '';
+      } else if (res.ok) {
         const json = await res.json();
         if (json.success && json.data) {
           const d = json.data;
