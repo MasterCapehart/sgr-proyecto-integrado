@@ -1,8 +1,10 @@
 import json
+from datetime import timedelta
 from unittest import expectedFailure
 
 from django.core import mail
 from django.test import TestCase, Client
+from django.utils import timezone
 
 from .models import Rol, Usuario
 
@@ -214,9 +216,8 @@ class RecuperacionTests(SesionTestCase):
         })
         self.assertEqual(r.status_code, 400)
 
-    @expectedFailure
     def test_codigo_se_invalida_tras_intentos_fallidos(self):
-        """DEFECTO conocido: no hay limite de intentos al validar el codigo."""
+        """Tras 5 intentos fallidos el codigo se invalida (T07)."""
         codigo = self.pedir_codigo()
         for _ in range(5):
             post_json(Client(), "/api/validar-recuperacion/", {
@@ -227,11 +228,40 @@ class RecuperacionTests(SesionTestCase):
         })
         self.assertEqual(r.status_code, 400)
 
-    @expectedFailure
     def test_contrasena_debil_se_rechaza(self):
-        """DEFECTO conocido: la contrasena nueva no se valida."""
+        """La contrasena nueva debe cumplir los validadores de Django (T07)."""
         codigo = self.pedir_codigo()
         r = post_json(Client(), "/api/validar-recuperacion/", {
             "email": "admin_acc@laserena.cl", "codigo": codigo, "nueva_password": "1",
         })
         self.assertEqual(r.status_code, 400)
+
+    def test_codigo_vencido_se_rechaza(self):
+        codigo = self.pedir_codigo()
+        Usuario.objects.filter(email="admin_acc@laserena.cl").update(
+            codigo_recuperacion_creado=timezone.now() - timedelta(minutes=16)
+        )
+        r = post_json(Client(), "/api/validar-recuperacion/", {
+            "email": "admin_acc@laserena.cl", "codigo": codigo, "nueva_password": "OtraClave456!",
+        })
+        self.assertEqual(r.status_code, 400)
+        self.admin.refresh_from_db()
+        self.assertTrue(self.admin.check_password(self.CLAVE))
+
+    def test_cuatro_intentos_fallidos_aun_permiten_el_codigo_correcto(self):
+        codigo = self.pedir_codigo()
+        for _ in range(4):
+            post_json(Client(), "/api/validar-recuperacion/", {
+                "email": "admin_acc@laserena.cl", "codigo": "000000", "nueva_password": "OtraClave456!",
+            })
+        r = post_json(Client(), "/api/validar-recuperacion/", {
+            "email": "admin_acc@laserena.cl", "codigo": codigo, "nueva_password": "OtraClave456!",
+        })
+        self.assertEqual(r.status_code, 200)
+
+    def test_contrasena_debil_no_gasta_el_codigo(self):
+        codigo = self.pedir_codigo()
+        datos = {"email": "admin_acc@laserena.cl", "codigo": codigo, "nueva_password": "1"}
+        self.assertEqual(post_json(Client(), "/api/validar-recuperacion/", datos).status_code, 400)
+        datos["nueva_password"] = "ClaveNueva456!"
+        self.assertEqual(post_json(Client(), "/api/validar-recuperacion/", datos).status_code, 200)
