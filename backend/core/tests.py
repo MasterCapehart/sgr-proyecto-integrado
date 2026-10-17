@@ -1068,7 +1068,7 @@ class IntegridadIdempotenciaAtencionAPITestCase(TestCase):
         self.assertEqual(atencion.delegacion, self.delegacion_origen)
 
     def test_responsable_autorizado_rechaza_usuario_inactivo(self):
-        """T18: Rechaza con HTTP 403 si el usuario responsable está inactivo."""
+        """T18: Rechaza con HTTP 401 si el usuario responsable está inactivo."""
         self.usuario.is_active = False
         self.usuario.save()
 
@@ -1421,6 +1421,22 @@ class ContextoGlobalAPITestCase(TestCase):
         _, _, content = leer_xlsx(res_export)
         self.assertIn("AT-2026-9002", content)
         self.assertNotIn("AT-2026-9001", content)
+
+
+class ContextoRequiereSesionTestCase(TestCase):
+    """Seguridad: los endpoints de contexto no deben exponer datos sin sesión iniciada."""
+
+    def setUp(self):
+        # Existe un usuario activo: antes se usaba como "usuario de respaldo" sin sesión
+        Usuario.objects.create_user(username="activo_seguridad", password="x12345678")
+
+    def test_contexto_sin_sesion_devuelve_401(self):
+        response = Client().get("/api/contexto/")
+        self.assertEqual(response.status_code, 401)
+
+    def test_atenciones_contexto_sin_sesion_devuelve_401(self):
+        response = Client().get("/api/atenciones/contexto/")
+        self.assertEqual(response.status_code, 401)
 
 
 

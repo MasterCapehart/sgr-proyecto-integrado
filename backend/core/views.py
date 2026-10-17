@@ -16,7 +16,7 @@ from .models import (
     Usuario, TipoAtencion, SubAtencion, Delegacion,
     ItemMeta, ConfiguracionMeta, Atencion, AuditoriaDerivacion, Rol
 )
-from .api import BaseCRUDView
+from .api import BaseCRUDView, api_error
 
 # ==========================================
 # 1. Autenticación y Recuperación
@@ -81,6 +81,37 @@ def solicitar_recuperacion(request):
             
             return JsonResponse({'mensaje': 'Si el correo está registrado, recibirás un código pronto.'}, status=200)
             
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Formato JSON inválido'}, status=400)
+            
+    return JsonResponse({'error': 'Método no permitido. Use POST.'}, status=405)
+
+
+
+@csrf_exempt
+def validar_y_cambiar_password(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            email = data.get('email')
+            codigo = data.get('codigo')
+            nueva_password = data.get('nueva_password')
+            
+            # Verificar que vengan los 3 datos
+            if not all([email, codigo, nueva_password]):
+                return JsonResponse({'error': 'Faltan datos obligatorios (email, codigo, nueva_password)'}, status=400)
+            
+            usuario = Usuario.objects.filter(email=email).first()
+            
+            # Validar que el usuario exista y el código coincida
+            if usuario and usuario.codigo_recuperacion == codigo:
+                usuario.set_password(nueva_password) # Encripta y guarda la nueva contraseña
+                usuario.codigo_recuperacion = None # Limpiamos el código para que no se reuse
+                usuario.save()
+                return JsonResponse({'mensaje': 'Contraseña actualizada exitosamente'}, status=200)
+            else:
+                return JsonResponse({'error': 'Código inválido o correo incorrecto'}, status=400)
+                
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Formato JSON inválido'}, status=400)
             
@@ -361,10 +392,8 @@ class ItemMetaCRUDView(BaseCRUDView):
 class AtencionContextoView(View):
     def get(self, request, *args, **kwargs):
         user = getattr(request, 'user', None)
-        if user and not getattr(user, 'is_authenticated', False):
-            user = None
-        if not user:
-            user = Usuario.objects.filter(is_active=True).first()
+        if not user or not getattr(user, 'is_authenticated', False):
+            return api_error(code="UNAUTHORIZED", message="Debe iniciar sesión para acceder a este recurso.", status=401)
 
         del_sesion_id = request.session.get('delegacion_activa_id') if hasattr(request, 'session') else None
         delegacion = None
@@ -721,10 +750,8 @@ class AtencionCRUDView(BaseCRUDView):
 class ContextoView(View):
     def get(self, request, *args, **kwargs):
         user = getattr(request, 'user', None)
-        if user and not getattr(user, 'is_authenticated', False):
-            user = None
-        if not user:
-            user = Usuario.objects.filter(is_active=True).first()
+        if not user or not getattr(user, 'is_authenticated', False):
+            return api_error(code="UNAUTHORIZED", message="Debe iniciar sesión para acceder a este recurso.", status=401)
 
         del_sesion_id = request.session.get('delegacion_activa_id') if hasattr(request, 'session') else None
         delegacion = None
