@@ -16,6 +16,9 @@ class PatronCRUDAPITestCase(TestCase):
 
     def setUp(self):
         self.client = Client()
+
+        self.usuario = Usuario.objects.create_user(username="patron_test", password="x12345678")
+        self.client.force_login(self.usuario)
         
         # Crear datos de prueba para TipoAtencion
         for i in range(1, 16):
@@ -655,6 +658,7 @@ class AtencionCiudadanaAPITestCase(TestCase):
             rol=self.rol,
             delegacion=self.delegacion
         )
+        self.client.force_login(self.usuario)
 
         # Catálogo Tipo de Atención
         self.tipo_social = TipoAtencion.objects.create(
@@ -936,6 +940,7 @@ class IntegridadIdempotenciaAtencionAPITestCase(TestCase):
             rol=self.rol,
             delegacion=self.delegacion_origen
         )
+        self.client.force_login(self.usuario)
 
         # Catálogos
         self.tipo_social = TipoAtencion.objects.create(
@@ -1041,7 +1046,7 @@ class IntegridadIdempotenciaAtencionAPITestCase(TestCase):
         self.assertEqual(atencion.delegacion, self.delegacion_origen)
 
     def test_responsable_autorizado_rechaza_usuario_inactivo(self):
-        """T18: Rechaza con HTTP 403 si el usuario responsable está inactivo."""
+        """T18: Rechaza con HTTP 401 si el usuario responsable está inactivo."""
         self.usuario.is_active = False
         self.usuario.save()
 
@@ -1053,8 +1058,8 @@ class IntegridadIdempotenciaAtencionAPITestCase(TestCase):
         }
         # Sin usuario activo de respaldo
         response = self.client.post("/api/atenciones/", data=json.dumps(payload), content_type="application/json")
-        self.assertEqual(response.status_code, 403)
-        self.assertEqual(response.json()["error"]["code"], "RESPONSABLE_NO_AUTORIZADO")
+                # Con T08, una cuenta inactiva pierde la sesión: la API responde 401
+        self.assertEqual(response.status_code, 401)
 
         # Restaurar
         self.usuario.is_active = True
@@ -1393,6 +1398,22 @@ class ContextoGlobalAPITestCase(TestCase):
         content = res_export.content.decode("utf-8-sig")
         self.assertIn("AT-2026-9002", content)
         self.assertNotIn("AT-2026-9001", content)
+
+
+class ContextoRequiereSesionTestCase(TestCase):
+    """Seguridad: los endpoints de contexto no deben exponer datos sin sesión iniciada."""
+
+    def setUp(self):
+        # Existe un usuario activo: antes se usaba como "usuario de respaldo" sin sesión
+        Usuario.objects.create_user(username="activo_seguridad", password="x12345678")
+
+    def test_contexto_sin_sesion_devuelve_401(self):
+        response = Client().get("/api/contexto/")
+        self.assertEqual(response.status_code, 401)
+
+    def test_atenciones_contexto_sin_sesion_devuelve_401(self):
+        response = Client().get("/api/atenciones/contexto/")
+        self.assertEqual(response.status_code, 401)
 
 
 

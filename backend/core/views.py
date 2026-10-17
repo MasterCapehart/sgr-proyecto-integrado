@@ -15,7 +15,7 @@ from .models import (
     Usuario, TipoAtencion, SubAtencion, Delegacion,
     ItemMeta, ConfiguracionMeta, Atencion, AuditoriaDerivacion
 )
-from .api import BaseCRUDView
+from .api import BaseCRUDView, api_error
 
 # ==========================================
 # 1. Autenticación y Recuperación
@@ -410,10 +410,8 @@ class AtencionContextoView(View):
     """
     def get(self, request, *args, **kwargs):
         user = getattr(request, 'user', None)
-        if user and not getattr(user, 'is_authenticated', False):
-            user = None
-        if not user:
-            user = Usuario.objects.filter(is_active=True).first()
+        if not user or not getattr(user, 'is_authenticated', False):
+            return api_error(code="UNAUTHORIZED", message="Debe iniciar sesión para acceder a este recurso.", status=401)
 
         del_sesion_id = request.session.get('delegacion_activa_id') if hasattr(request, 'session') else None
         delegacion = None
@@ -850,10 +848,8 @@ class ContextoView(View):
     """
     def get(self, request, *args, **kwargs):
         user = getattr(request, 'user', None)
-        if user and not getattr(user, 'is_authenticated', False):
-            user = None
-        if not user:
-            user = Usuario.objects.filter(is_active=True).first()
+        if not user or not getattr(user, 'is_authenticated', False):
+            return api_error(code="UNAUTHORIZED", message="Debe iniciar sesión para acceder a este recurso.", status=401)
 
         del_sesion_id = request.session.get('delegacion_activa_id') if hasattr(request, 'session') else None
         delegacion = None
