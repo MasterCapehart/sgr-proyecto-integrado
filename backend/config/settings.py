@@ -17,7 +17,8 @@ import os
 from dotenv import load_dotenv
 
 # Cargar variables de entorno
-load_dotenv(Path(__file__).resolve().parent.parent / ".env", override=False)
+if os.getenv("SGR_LOAD_DOTENV", "True") == "True":
+    load_dotenv(Path(__file__).resolve().parent.parent / ".env", override=False)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

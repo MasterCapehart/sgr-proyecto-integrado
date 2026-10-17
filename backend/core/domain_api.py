@@ -258,7 +258,12 @@ def download(request,pk):
     obj=scoped(request,'evidencias').filter(pk=pk).first()
     if not obj:return api.error('Archivo no encontrado.',404)
     try:response=FileResponse(obj.archivo.open('rb'),as_attachment=True,filename=obj.nombre_archivo,content_type=obj.tipo_mime)
-    except FileNotFoundError:return api.error('El archivo no está disponible.',404)
+    except Exception as exc:
+        from .storage_errors import storage_error
+        failure = storage_error(exc)
+        if failure is None:
+            raise
+        return api.error(failure[1], failure[0])
     response['X-Content-Type-Options']='nosniff';response['Cache-Control']='private, no-store';return response
 
 @require_http_methods(['POST'])
