@@ -1,0 +1,3 @@
+DOMAIN_PERMISSIONS = [f'{r}.{a}' for r in ['actividades','evidencias','compromisos'] for a in ['ver','crear','editar','exportar','ver_equipo','editar_equipo']] + ['evidencias.revisar','conversaciones.crear','reportes.ver','evidencias.anular','compromisos.reabrir','alertas.ver','alertas.revisar','gobierno.ver','gobierno.configurar']
+
+DOMAIN_PERMISSIONS += ['reclamos.'+a for a in ['ver','crear','editar','exportar','ver_equipo','editar_equipo']]

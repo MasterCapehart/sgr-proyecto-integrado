@@ -1,0 +1,115 @@
+{
+  "fecha": "2026-10-16T23:39:23.877Z",
+  "results": [
+    {
+      "browserName": "Chrome",
+      "caso": "Menú con tres grupos únicos y acciones directas",
+      "estado": "Aprobado"
+    },
+    {
+      "browserName": "Chrome",
+      "caso": "Vista T OC con columnas y exportación real",
+      "estado": "Aprobado"
+    },
+    {
+      "browserName": "Chrome",
+      "caso": "Planilla GES SEG usa selector de profesionales configurados",
+      "estado": "Aprobado"
+    },
+    {
+      "browserName": "Chrome",
+      "caso": "Vista G SOC abre la planilla social de tres etapas",
+      "estado": "Aprobado"
+    },
+    {
+      "browserName": "Chrome",
+      "caso": "Tubo conserva sus columnas y nombre familiar",
+      "estado": "Aprobado"
+    },
+    {
+      "browserName": "Chrome",
+      "caso": "Atención guarda ambas fechas y gestión; formulario antes de KPI",
+      "estado": "Aprobado"
+    },
+    {
+      "browserName": "Chrome",
+      "caso": "Planilla social de tres etapas y exportación",
+      "estado": "Aprobado"
+    },
+    {
+      "browserName": "Chrome",
+      "caso": "Reclamo guardado y consultable en base local",
+      "estado": "Aprobado"
+    },
+    {
+      "browserName": "Chrome",
+      "caso": "Más acciones conserva historial y permite cancelar desactivación",
+      "estado": "Aprobado"
+    },
+    {
+      "browserName": "Chrome",
+      "caso": "Formulario móvil sin desborde horizontal",
+      "estado": "Aprobado"
+    },
+    {
+      "browserName": "Chrome",
+      "caso": "Código con seis casillas visuales, pegado y teclado; sin errores JS",
+      "estado": "Aprobado"
+    },
+    {
+      "browserName": "Edge",
+      "caso": "Menú con tres grupos únicos y acciones directas",
+      "estado": "Aprobado"
+    },
+    {
+      "browserName": "Edge",
+      "caso": "Vista T OC con columnas y exportación real",
+      "estado": "Aprobado"
+    },
+    {
+      "browserName": "Edge",
+      "caso": "Planilla GES SEG usa selector de profesionales configurados",
+      "estado": "Aprobado"
+    },
+    {
+      "browserName": "Edge",
+      "caso": "Vista G SOC abre la planilla social de tres etapas",
+      "estado": "Aprobado"
+    },
+    {
+      "browserName": "Edge",
+      "caso": "Tubo conserva sus columnas y nombre familiar",
+      "estado": "Aprobado"
+    },
+    {
+      "browserName": "Edge",
+      "caso": "Atención guarda ambas fechas y gestión; formulario antes de KPI",
+      "estado": "Aprobado"
+    },
+    {
+      "browserName": "Edge",
+      "caso": "Planilla social de tres etapas y exportación",
+      "estado": "Aprobado"
+    },
+    {
+      "browserName": "Edge",
+      "caso": "Reclamo guardado y consultable en base local",
+      "estado": "Aprobado"
+    },
+    {
+      "browserName": "Edge",
+      "caso": "Más acciones conserva historial y permite cancelar desactivación",
+      "estado": "Aprobado"
+    },
+    {
+      "browserName": "Edge",
+      "caso": "Formulario móvil sin desborde horizontal",
+      "estado": "Aprobado"
+    },
+    {
+      "browserName": "Edge",
+      "caso": "Código con seis casillas visuales, pegado y teclado; sin errores JS",
+      "estado": "Aprobado"
+    }
+  ]
+}

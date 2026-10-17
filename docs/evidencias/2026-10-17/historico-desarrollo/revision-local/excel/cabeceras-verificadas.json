@@ -1,0 +1,1863 @@
+[
+  {
+    "hoja": "SALON",
+    "cabeceras": [],
+    "errores_ref_o_celda": 1,
+    "muestra_coordenadas_error": [
+      "F928"
+    ]
+  },
+  {
+    "hoja": "TUBO",
+    "cabeceras": [
+      {
+        "fila": 2,
+        "columnas": [
+          [
+            "A2",
+            "N°"
+          ],
+          [
+            "B2",
+            "FECHA SOLICITUD"
+          ],
+          [
+            "C2",
+            "ACTIVIDAD/ SOLICITUD/ PROBLEMA"
+          ],
+          [
+            "D2",
+            "INT EXT"
+          ],
+          [
+            "E2",
+            "SOLICITANTE"
+          ],
+          [
+            "F2",
+            "TERRITORIO"
+          ],
+          [
+            "G2",
+            "RESPONSABLE"
+          ],
+          [
+            "H2",
+            "FECHA DE COMPROMISO"
+          ],
+          [
+            "I2",
+            "MES COM"
+          ],
+          [
+            "J2",
+            "AREA/PERSONA APOYO"
+          ],
+          [
+            "K2",
+            "AVANCE, OBSERVACIONES"
+          ],
+          [
+            "L2",
+            "ESTATUS"
+          ],
+          [
+            "M2",
+            "UNIDAD"
+          ],
+          [
+            "N2",
+            "CODIGO VERIFICACION FOTO"
+          ]
+        ]
+      }
+    ],
+    "errores_ref_o_celda": 0,
+    "muestra_coordenadas_error": []
+  },
+  {
+    "hoja": "AP ADM.",
+    "cabeceras": [
+      {
+        "fila": 15,
+        "columnas": [
+          [
+            "A15",
+            "Nº"
+          ],
+          [
+            "B15",
+            "FECHA"
+          ],
+          [
+            "C15",
+            "ACTIVIDAD/ SOLICITUD/ PROBLEMA"
+          ],
+          [
+            "E15",
+            "CONTACTO"
+          ],
+          [
+            "F15",
+            "TELEFONO"
+          ],
+          [
+            "H15",
+            "ITEM"
+          ],
+          [
+            "I15",
+            "DETALLE"
+          ],
+          [
+            "J15",
+            "DERIVADO A"
+          ],
+          [
+            "K15",
+            "UNIDAD"
+          ],
+          [
+            "L15",
+            "FECHA"
+          ],
+          [
+            "M15",
+            "AREA"
+          ],
+          [
+            "N15",
+            "MES"
+          ],
+          [
+            "O15",
+            "DIA"
+          ],
+          [
+            "P15",
+            "NUMERO"
+          ],
+          [
+            "Q15",
+            "CODIGO FOTO"
+          ],
+          [
+            "R15",
+            "IMAGEN VERIF"
+          ],
+          [
+            "S15",
+            "verificador valido"
+          ],
+          [
+            "T15",
+            "resultado"
+          ]
+        ]
+      }
+    ],
+    "errores_ref_o_celda": 0,
+    "muestra_coordenadas_error": []
+  },
+  {
+    "hoja": "COOR DISERCO",
+    "cabeceras": [
+      {
+        "fila": 19,
+        "columnas": [
+          [
+            "B19",
+            "FECHA"
+          ],
+          [
+            "C19",
+            "ACTIVIDAD/ SOLICITUD/ PROBLEMA"
+          ],
+          [
+            "E19",
+            "CONTACTO"
+          ],
+          [
+            "G19",
+            "FONO"
+          ],
+          [
+            "H19",
+            "INGRESO A TUBO"
+          ],
+          [
+            "I19",
+            "ITEM"
+          ],
+          [
+            "J19",
+            "UNIDAD (1)"
+          ],
+          [
+            "K19",
+            "FECHA"
+          ],
+          [
+            "L19",
+            "AREA"
+          ],
+          [
+            "M19",
+            "MES"
+          ],
+          [
+            "N19",
+            "DIA"
+          ],
+          [
+            "O19",
+            "NUMERO"
+          ],
+          [
+            "P19",
+            "CODIGO NUEVO"
+          ],
+          [
+            "Q19",
+            "IMAGEN VERIF"
+          ],
+          [
+            "R19",
+            "verificador valido"
+          ],
+          [
+            "S19",
+            "resultado"
+          ]
+        ]
+      }
+    ],
+    "errores_ref_o_celda": 0,
+    "muestra_coordenadas_error": []
+  },
+  {
+    "hoja": "T OC1",
+    "cabeceras": [
+      {
+        "fila": 17,
+        "columnas": [
+          [
+            "A17",
+            "Nº"
+          ],
+          [
+            "B17",
+            "FECHA"
+          ],
+          [
+            "C17",
+            "ACTIVIDAD/ SOLICITUD/ PROBLEMA"
+          ],
+          [
+            "D17",
+            "ACCIÓN"
+          ],
+          [
+            "E17",
+            "NOMBRE DE CONTACTO"
+          ],
+          [
+            "G17",
+            "FONO"
+          ],
+          [
+            "H17",
+            "INGRESO A TUBO"
+          ],
+          [
+            "I17",
+            "ITEM"
+          ],
+          [
+            "J17",
+            "unidad (1)"
+          ],
+          [
+            "K17",
+            "FECHA"
+          ],
+          [
+            "L17",
+            "AREA"
+          ],
+          [
+            "M17",
+            "MES"
+          ],
+          [
+            "N17",
+            "DIA"
+          ],
+          [
+            "O17",
+            "NUMERO"
+          ],
+          [
+            "P17",
+            "CODIGO FOTO"
+          ],
+          [
+            "R17",
+            "IMAGEN VERIF"
+          ],
+          [
+            "S17",
+            "verificador valido"
+          ],
+          [
+            "T17",
+            "resultado"
+          ]
+        ]
+      }
+    ],
+    "errores_ref_o_celda": 0,
+    "muestra_coordenadas_error": []
+  },
+  {
+    "hoja": "T OC 2",
+    "cabeceras": [
+      {
+        "fila": 16,
+        "columnas": [
+          [
+            "A16",
+            "Nº"
+          ],
+          [
+            "B16",
+            "FECHA"
+          ],
+          [
+            "C16",
+            "ACTIVIDAD/ SOLICITUD/ PROBLEMA"
+          ],
+          [
+            "D16",
+            "ACCIÓN"
+          ],
+          [
+            "E16",
+            "CONTACTO"
+          ],
+          [
+            "G16",
+            "FONO"
+          ],
+          [
+            "H16",
+            "INGRESO A TUBO"
+          ],
+          [
+            "I16",
+            "ITEM"
+          ],
+          [
+            "J16",
+            "unidad"
+          ],
+          [
+            "K16",
+            "FECHA"
+          ],
+          [
+            "L16",
+            "AREA"
+          ],
+          [
+            "M16",
+            "MES"
+          ],
+          [
+            "N16",
+            "DIA"
+          ],
+          [
+            "O16",
+            "NUMERO"
+          ],
+          [
+            "P16",
+            "CODIGO FOTO"
+          ],
+          [
+            "R16",
+            "IMAGEN VERIF"
+          ],
+          [
+            "S16",
+            "verificador valido"
+          ],
+          [
+            "T16",
+            "resultado"
+          ]
+        ]
+      }
+    ],
+    "errores_ref_o_celda": 0,
+    "muestra_coordenadas_error": []
+  },
+  {
+    "hoja": "T OC 3",
+    "cabeceras": [
+      {
+        "fila": 16,
+        "columnas": [
+          [
+            "A16",
+            "Nº"
+          ],
+          [
+            "B16",
+            "FECHA"
+          ],
+          [
+            "C16",
+            "ACTIVIDAD/ SOLICITUD/ PROBLEMA"
+          ],
+          [
+            "D16",
+            "ACCIÓN"
+          ],
+          [
+            "E16",
+            "PERSONA DE CONTACTO"
+          ],
+          [
+            "G16",
+            "FONO CONTACTO"
+          ],
+          [
+            "H16",
+            "INGRESO A TUBO"
+          ],
+          [
+            "I16",
+            "ITEM"
+          ],
+          [
+            "J16",
+            "unidad"
+          ],
+          [
+            "K16",
+            "FECHA"
+          ],
+          [
+            "L16",
+            "AREA"
+          ],
+          [
+            "M16",
+            "DIA"
+          ],
+          [
+            "N16",
+            "MES"
+          ],
+          [
+            "O16",
+            "NUMERO"
+          ],
+          [
+            "P16",
+            "CODIGO FOTO"
+          ],
+          [
+            "R16",
+            "IMAGEN VERIF"
+          ],
+          [
+            "S16",
+            "verificador valido"
+          ],
+          [
+            "T16",
+            "resultado"
+          ]
+        ]
+      }
+    ],
+    "errores_ref_o_celda": 0,
+    "muestra_coordenadas_error": []
+  },
+  {
+    "hoja": "T OC 4",
+    "cabeceras": [
+      {
+        "fila": 16,
+        "columnas": [
+          [
+            "A16",
+            "Nº"
+          ],
+          [
+            "B16",
+            "FECHA"
+          ],
+          [
+            "C16",
+            "ACTIVIDAD/ SOLICITUD/ PROBLEMA"
+          ],
+          [
+            "D16",
+            "ACCIÓN"
+          ],
+          [
+            "E16",
+            "CONTACTO"
+          ],
+          [
+            "G16",
+            "FONO"
+          ],
+          [
+            "H16",
+            "INGRESO A TUBO"
+          ],
+          [
+            "I16",
+            "ITEM"
+          ],
+          [
+            "J16",
+            "unidad"
+          ],
+          [
+            "K16",
+            "FECHA"
+          ],
+          [
+            "L16",
+            "AREA"
+          ],
+          [
+            "M16",
+            "MES"
+          ],
+          [
+            "N16",
+            "DIA"
+          ],
+          [
+            "O16",
+            "NUMERO"
+          ],
+          [
+            "P16",
+            "CODIGO FOTO"
+          ],
+          [
+            "R16",
+            "IMAGEN VERIF"
+          ],
+          [
+            "S16",
+            "verificador valido"
+          ],
+          [
+            "T16",
+            "resultado"
+          ]
+        ]
+      }
+    ],
+    "errores_ref_o_celda": 0,
+    "muestra_coordenadas_error": []
+  },
+  {
+    "hoja": "G SOC 1",
+    "cabeceras": [
+      {
+        "fila": 20,
+        "columnas": [
+          [
+            "A20",
+            "Nº"
+          ],
+          [
+            "B20",
+            "FECHA INGRESO"
+          ],
+          [
+            "C20",
+            "TIPO ATENCION"
+          ],
+          [
+            "D20",
+            "SUB ATENCION"
+          ],
+          [
+            "E20",
+            "USUARIO"
+          ],
+          [
+            "F20",
+            "RUT"
+          ],
+          [
+            "G20",
+            "TELEFONO"
+          ],
+          [
+            "H20",
+            "REQUIERE VISITA"
+          ],
+          [
+            "I20",
+            "INGRESO AL TUBO"
+          ],
+          [
+            "J20",
+            "PRIMERA GESTION"
+          ],
+          [
+            "K20",
+            "unidad (1)"
+          ],
+          [
+            "L20",
+            "unidad(1)"
+          ],
+          [
+            "M20",
+            "FECHA PROGRAMADA VISITA"
+          ],
+          [
+            "N20",
+            "DIF INGRESO PROGRAMADA"
+          ],
+          [
+            "O20",
+            "Observaciones"
+          ],
+          [
+            "P20",
+            "SEGUNDA GESTION"
+          ],
+          [
+            "Q20",
+            "unidad (1)"
+          ],
+          [
+            "R20",
+            "unidad(1)"
+          ],
+          [
+            "S20",
+            "FECHA DE VISITA"
+          ],
+          [
+            "T20",
+            "DIF FECHA PROGRAMADA Y VISITA"
+          ],
+          [
+            "U20",
+            "FECHA ENTREGA INFORME"
+          ],
+          [
+            "V20",
+            "DIF. VISITA INFORME"
+          ],
+          [
+            "W20",
+            "TERCERA GESTION"
+          ],
+          [
+            "X20",
+            "unidad (1)"
+          ],
+          [
+            "Y20",
+            "unidad(1)"
+          ],
+          [
+            "Z20",
+            "FECHA ENTREGA BENEFICIO"
+          ],
+          [
+            "AA20",
+            "DIF INFORME ENTREGA BENEFICIO"
+          ],
+          [
+            "AB20",
+            "DIF INGRESO ENTREGA BENEFICIO"
+          ],
+          [
+            "AC20",
+            "UNIDAD (1)"
+          ],
+          [
+            "AD20",
+            "FECHA"
+          ],
+          [
+            "AE20",
+            "AREA"
+          ],
+          [
+            "AF20",
+            "MES"
+          ],
+          [
+            "AG20",
+            "DIA"
+          ],
+          [
+            "AH20",
+            "NUMERO"
+          ],
+          [
+            "AI20",
+            "CODIGO"
+          ],
+          [
+            "AJ20",
+            "IMAGEN VERIF"
+          ],
+          [
+            "AK20",
+            "verificador valido"
+          ],
+          [
+            "AL20",
+            "resultado"
+          ],
+          [
+            "AM20",
+            "Devolucion 1"
+          ],
+          [
+            "AN20",
+            "Devolucion 2"
+          ],
+          [
+            "AO20",
+            "Devolucion 3"
+          ]
+        ]
+      }
+    ],
+    "errores_ref_o_celda": 0,
+    "muestra_coordenadas_error": []
+  },
+  {
+    "hoja": "G SOC2",
+    "cabeceras": [
+      {
+        "fila": 15,
+        "columnas": [
+          [
+            "A15",
+            "Nº"
+          ],
+          [
+            "B15",
+            "FECHA INGRESO"
+          ],
+          [
+            "C15",
+            "TIPO ATENCION"
+          ],
+          [
+            "D15",
+            "SUB ATENCION"
+          ],
+          [
+            "E15",
+            "USUARIO"
+          ],
+          [
+            "F15",
+            "RUT"
+          ],
+          [
+            "G15",
+            "TELEFONO"
+          ],
+          [
+            "H15",
+            "REQUIERE VISITA"
+          ],
+          [
+            "I15",
+            "INGRESO AL TUBO"
+          ],
+          [
+            "J15",
+            "PRIMERA GESTION"
+          ],
+          [
+            "K15",
+            "unidad (1)"
+          ],
+          [
+            "L15",
+            "unidad(1)"
+          ],
+          [
+            "M15",
+            "FECHA PROGRAMADA VISITA"
+          ],
+          [
+            "N15",
+            "DIF INGRESO PROGRAMADA"
+          ],
+          [
+            "O15",
+            "Observaciones"
+          ],
+          [
+            "P15",
+            "SEGUNDA GESTION"
+          ],
+          [
+            "Q15",
+            "unidad (1)"
+          ],
+          [
+            "R15",
+            "unidad(1)"
+          ],
+          [
+            "S15",
+            "FECHA DE VISITA"
+          ],
+          [
+            "T15",
+            "DIF FECHA PROGRAMADA Y VISITA"
+          ],
+          [
+            "U15",
+            "FECHA ENTREGA INFORME"
+          ],
+          [
+            "V15",
+            "DIF. VISITA INFORME"
+          ],
+          [
+            "W15",
+            "TERCERA GESTION"
+          ],
+          [
+            "X15",
+            "unidad (1)"
+          ],
+          [
+            "Y15",
+            "unidad(1)"
+          ],
+          [
+            "Z15",
+            "FECHA ENTREGA BENEFICIO"
+          ],
+          [
+            "AA15",
+            "DIF INFORME ENTREGA BENEFICIO"
+          ],
+          [
+            "AB15",
+            "DIF INGRESO ENTREGA BENEFICIO"
+          ],
+          [
+            "AC15",
+            "UNIDAD"
+          ],
+          [
+            "AD15",
+            "FECHA"
+          ],
+          [
+            "AE15",
+            "AREA"
+          ],
+          [
+            "AF15",
+            "MES"
+          ],
+          [
+            "AG15",
+            "DIA"
+          ],
+          [
+            "AH15",
+            "NUMERO"
+          ],
+          [
+            "AI15",
+            "CODIGO"
+          ],
+          [
+            "AJ15",
+            "IMAGEN VERIF"
+          ],
+          [
+            "AK15",
+            "verificador valido"
+          ],
+          [
+            "AL15",
+            "resultado"
+          ],
+          [
+            "AM15",
+            "Devolucion 1"
+          ],
+          [
+            "AN15",
+            "Devolucion 2"
+          ],
+          [
+            "AO15",
+            "Devolucion 3"
+          ]
+        ]
+      }
+    ],
+    "errores_ref_o_celda": 0,
+    "muestra_coordenadas_error": []
+  },
+  {
+    "hoja": "G SOC3",
+    "cabeceras": [
+      {
+        "fila": 15,
+        "columnas": [
+          [
+            "A15",
+            "Nº"
+          ],
+          [
+            "B15",
+            "FECHA INGRESO"
+          ],
+          [
+            "C15",
+            "TIPO ATENCION"
+          ],
+          [
+            "D15",
+            "SUB ATENCION"
+          ],
+          [
+            "E15",
+            "USUARIO"
+          ],
+          [
+            "F15",
+            "RUT"
+          ],
+          [
+            "G15",
+            "TELEFONO"
+          ],
+          [
+            "H15",
+            "REQUIERE VISITA"
+          ],
+          [
+            "I15",
+            "INGRESO AL TUBO"
+          ],
+          [
+            "J15",
+            "PRIMERA GESTION"
+          ],
+          [
+            "K15",
+            "unidad (1)"
+          ],
+          [
+            "L15",
+            "unidad(1)"
+          ],
+          [
+            "M15",
+            "FECHA PROGRAMADA VISITA"
+          ],
+          [
+            "N15",
+            "DIF INGRESO PROGRAMADA"
+          ],
+          [
+            "O15",
+            "Observaciones"
+          ],
+          [
+            "P15",
+            "SEGUNDA GESTION"
+          ],
+          [
+            "Q15",
+            "unidad (1)"
+          ],
+          [
+            "R15",
+            "unidad(1)"
+          ],
+          [
+            "S15",
+            "FECHA DE VISITA"
+          ],
+          [
+            "T15",
+            "DIF FECHA PROGRAMADA Y VISITA"
+          ],
+          [
+            "U15",
+            "FECHA ENTREGA INFORME"
+          ],
+          [
+            "V15",
+            "TERCERA GESTION"
+          ],
+          [
+            "W15",
+            "unidad (1)"
+          ],
+          [
+            "X15",
+            "unidad(1)"
+          ],
+          [
+            "Y15",
+            "DIF. VISITA INFORME"
+          ],
+          [
+            "Z15",
+            "FECHA ENTREGA BENEFICIO"
+          ],
+          [
+            "AA15",
+            "DIF INFORME ENTREGA BENEFICIO"
+          ],
+          [
+            "AB15",
+            "DIF INGRESO ENTREGA BENEFICIO"
+          ],
+          [
+            "AC15",
+            "UNIDAD"
+          ],
+          [
+            "AD15",
+            "FECHA"
+          ],
+          [
+            "AE15",
+            "AREA"
+          ],
+          [
+            "AF15",
+            "DIA"
+          ],
+          [
+            "AG15",
+            "MES"
+          ],
+          [
+            "AH15",
+            "NUMERO"
+          ],
+          [
+            "AI15",
+            "CODIGO"
+          ],
+          [
+            "AJ15",
+            "IMAGEN VERIF"
+          ],
+          [
+            "AK15",
+            "verificador valido"
+          ],
+          [
+            "AL15",
+            "resultado"
+          ],
+          [
+            "AM15",
+            "Devolucion 1"
+          ],
+          [
+            "AN15",
+            "Devolucion 2"
+          ],
+          [
+            "AO15",
+            "Devolucion 3"
+          ]
+        ]
+      }
+    ],
+    "errores_ref_o_celda": 0,
+    "muestra_coordenadas_error": []
+  },
+  {
+    "hoja": "G SOC4",
+    "cabeceras": [
+      {
+        "fila": 15,
+        "columnas": [
+          [
+            "A15",
+            "Nº"
+          ],
+          [
+            "B15",
+            "FECHA INGRESO"
+          ],
+          [
+            "C15",
+            "TIPO ATENCION"
+          ],
+          [
+            "D15",
+            "SUB ATENCION"
+          ],
+          [
+            "E15",
+            "USUARIO"
+          ],
+          [
+            "F15",
+            "RUT"
+          ],
+          [
+            "G15",
+            "TELEFONO"
+          ],
+          [
+            "H15",
+            "REQUIERE VISITA"
+          ],
+          [
+            "I15",
+            "INGRESO AL TUBO"
+          ],
+          [
+            "J15",
+            "PRIMERA GESTION"
+          ],
+          [
+            "K15",
+            "unidad (1)"
+          ],
+          [
+            "L15",
+            "unidad(1)"
+          ],
+          [
+            "M15",
+            "FECHA PROGRAMADA VISITA"
+          ],
+          [
+            "N15",
+            "DIF INGRESO PROGRAMADA"
+          ],
+          [
+            "O15",
+            "Observaciones"
+          ],
+          [
+            "P15",
+            "SEGUNDA GESTION"
+          ],
+          [
+            "Q15",
+            "unidad (1)"
+          ],
+          [
+            "R15",
+            "unidad(1)"
+          ],
+          [
+            "S15",
+            "FECHA DE VISITA"
+          ],
+          [
+            "T15",
+            "DIF FECHA PROGRAMADA Y VISITA"
+          ],
+          [
+            "U15",
+            "FECHA ENTREGA INFORME"
+          ],
+          [
+            "V15",
+            "DIF. VISITA INFORME"
+          ],
+          [
+            "W15",
+            "TERCERA GESTION"
+          ],
+          [
+            "X15",
+            "unidad (1)"
+          ],
+          [
+            "Y15",
+            "unidad(1)"
+          ],
+          [
+            "Z15",
+            "FECHA ENTREGA BENEFICIO"
+          ],
+          [
+            "AA15",
+            "UNIDAD"
+          ],
+          [
+            "AB15",
+            "FECHA"
+          ],
+          [
+            "AC15",
+            "AREA"
+          ],
+          [
+            "AD15",
+            "MES"
+          ],
+          [
+            "AE15",
+            "DIA"
+          ],
+          [
+            "AF15",
+            "NUMERO"
+          ],
+          [
+            "AG15",
+            "CODIGO"
+          ],
+          [
+            "AH15",
+            "IMAGEN VERIF"
+          ],
+          [
+            "AI15",
+            "verificador valido"
+          ],
+          [
+            "AJ15",
+            "resultado"
+          ],
+          [
+            "AK15",
+            "Devolucion 1"
+          ],
+          [
+            "AL15",
+            "Devolucion 2"
+          ],
+          [
+            "AM15",
+            "Devolucion 3"
+          ]
+        ]
+      }
+    ],
+    "errores_ref_o_celda": 0,
+    "muestra_coordenadas_error": []
+  },
+  {
+    "hoja": " G SOC5",
+    "cabeceras": [
+      {
+        "fila": 15,
+        "columnas": [
+          [
+            "A15",
+            "Nº"
+          ],
+          [
+            "B15",
+            "FECHA INGRESO"
+          ],
+          [
+            "C15",
+            "TIPO ATENCION"
+          ],
+          [
+            "D15",
+            "SUB ATENCION"
+          ],
+          [
+            "E15",
+            "USUARIO"
+          ],
+          [
+            "F15",
+            "RUT"
+          ],
+          [
+            "G15",
+            "TELEFONO"
+          ],
+          [
+            "H15",
+            "REQUIERE VISITA"
+          ],
+          [
+            "I15",
+            "INGRESO AL TUBO"
+          ],
+          [
+            "J15",
+            "PRIMERA GESTION"
+          ],
+          [
+            "K15",
+            "unidad (1)"
+          ],
+          [
+            "L15",
+            "unidad(1)"
+          ],
+          [
+            "M15",
+            "FECHA PROGRAMADA VISITA"
+          ],
+          [
+            "N15",
+            "DIF INGRESO PROGRAMADA"
+          ],
+          [
+            "O15",
+            "Observaciones"
+          ],
+          [
+            "P15",
+            "SEGUNDA GESTION"
+          ],
+          [
+            "Q15",
+            "unidad (1)"
+          ],
+          [
+            "R15",
+            "unidad(1)"
+          ],
+          [
+            "S15",
+            "FECHA DE VISITA"
+          ],
+          [
+            "T15",
+            "DIF FECHA PROGRAMADA Y VISITA"
+          ],
+          [
+            "U15",
+            "FECHA ENTREGA INFORME"
+          ],
+          [
+            "V15",
+            "DIF. VISITA INFORME"
+          ],
+          [
+            "W15",
+            "TERCERA GESTION"
+          ],
+          [
+            "X15",
+            "unidad (1)"
+          ],
+          [
+            "Y15",
+            "unidad(1)"
+          ],
+          [
+            "Z15",
+            "FECHA ENTREGA BENEFICIO"
+          ],
+          [
+            "AA15",
+            "UNIDAD"
+          ],
+          [
+            "AB15",
+            "FECHA"
+          ],
+          [
+            "AC15",
+            "AREA"
+          ],
+          [
+            "AD15",
+            "MES"
+          ],
+          [
+            "AE15",
+            "DIA"
+          ],
+          [
+            "AF15",
+            "NUMERO"
+          ],
+          [
+            "AG15",
+            "CODIGO"
+          ],
+          [
+            "AH15",
+            "IMAGEN VERIF"
+          ],
+          [
+            "AI15",
+            "verificador valido"
+          ],
+          [
+            "AJ15",
+            "resultado"
+          ],
+          [
+            "AK15",
+            "Devolucion 1"
+          ],
+          [
+            "AL15",
+            "Devolucion 2"
+          ],
+          [
+            "AM15",
+            "Devolucion 3"
+          ]
+        ]
+      }
+    ],
+    "errores_ref_o_celda": 0,
+    "muestra_coordenadas_error": []
+  },
+  {
+    "hoja": "PLAN y CON",
+    "cabeceras": [
+      {
+        "fila": 15,
+        "columnas": [
+          [
+            "B15",
+            "FECHA"
+          ],
+          [
+            "C15",
+            "DETALLE"
+          ],
+          [
+            "D15",
+            "CONTACTO y telefono"
+          ],
+          [
+            "F15",
+            "INGRESO A TUBO"
+          ],
+          [
+            "G15",
+            "ITEM"
+          ],
+          [
+            "H15",
+            "FONO/VERIFICADOR"
+          ],
+          [
+            "I15",
+            "UNIDAD"
+          ],
+          [
+            "J15",
+            "FECHA"
+          ],
+          [
+            "K15",
+            "AREA"
+          ],
+          [
+            "L15",
+            "MES"
+          ],
+          [
+            "M15",
+            "DIA"
+          ],
+          [
+            "N15",
+            "NUMERO"
+          ],
+          [
+            "O15",
+            "CODIGO"
+          ],
+          [
+            "P15",
+            "IMAGEN VERIF"
+          ],
+          [
+            "Q15",
+            "verificador valido"
+          ],
+          [
+            "R15",
+            "resultado"
+          ]
+        ]
+      }
+    ],
+    "errores_ref_o_celda": 0,
+    "muestra_coordenadas_error": []
+  },
+  {
+    "hoja": "CARTAS ",
+    "cabeceras": [
+      {
+        "fila": 2,
+        "columnas": [
+          [
+            "C2",
+            "Fecha"
+          ],
+          [
+            "D2",
+            "Nº"
+          ],
+          [
+            "E2",
+            "PARA"
+          ],
+          [
+            "F2",
+            "REMITE"
+          ],
+          [
+            "G2",
+            "FONO CONTACTO"
+          ],
+          [
+            "H2",
+            "ACTIVIDAD O TEMA"
+          ],
+          [
+            "I2",
+            "FECHA DE LA ACTIVIDAD"
+          ],
+          [
+            "J2",
+            "ENCARGADO DE SEGUIMIENTO"
+          ],
+          [
+            "K2",
+            "ESTADO"
+          ],
+          [
+            "L2",
+            "PRONUNICAMIENTO"
+          ],
+          [
+            "M2",
+            "DERIVADA A"
+          ],
+          [
+            "N2",
+            "OBSERVACION"
+          ],
+          [
+            "O2",
+            "UNIDAD"
+          ],
+          [
+            "Q2",
+            "ESTATUS"
+          ],
+          [
+            "R2",
+            "ESTADO"
+          ]
+        ]
+      }
+    ],
+    "errores_ref_o_celda": 0,
+    "muestra_coordenadas_error": []
+  },
+  {
+    "hoja": "GES SEG",
+    "cabeceras": [
+      {
+        "fila": 16,
+        "columnas": [
+          [
+            "B16",
+            "FECHA"
+          ],
+          [
+            "C16",
+            "SITUACION /SOLICITUD / DETALLE"
+          ],
+          [
+            "D16",
+            "ORGANIZACIÓN O VECINO"
+          ],
+          [
+            "F16",
+            "TELEFONO"
+          ],
+          [
+            "G16",
+            "INGRESO A TUBO"
+          ],
+          [
+            "H16",
+            "ITEM"
+          ],
+          [
+            "I16",
+            "PROFESIONAL"
+          ],
+          [
+            "J16",
+            "UNIDAD"
+          ],
+          [
+            "K16",
+            "FECHA"
+          ],
+          [
+            "L16",
+            "AREA"
+          ],
+          [
+            "M16",
+            "MES"
+          ],
+          [
+            "N16",
+            "DIA"
+          ],
+          [
+            "O16",
+            "NUMERO"
+          ],
+          [
+            "P16",
+            "CODIGO"
+          ],
+          [
+            "Q16",
+            "IMAGEN VERIF"
+          ],
+          [
+            "R16",
+            "verificador valido"
+          ],
+          [
+            "S16",
+            "resultado"
+          ]
+        ]
+      }
+    ],
+    "errores_ref_o_celda": 0,
+    "muestra_coordenadas_error": []
+  },
+  {
+    "hoja": "RECLAMOS",
+    "cabeceras": [
+      {
+        "fila": 9,
+        "columnas": [
+          [
+            "C9",
+            "FECHA"
+          ],
+          [
+            "D9",
+            "USUARIO"
+          ],
+          [
+            "E9",
+            "CONTACTO"
+          ],
+          [
+            "F9",
+            "UBICACION"
+          ],
+          [
+            "G9",
+            "SITUACION QUE RECLAMA"
+          ],
+          [
+            "H9",
+            "UNIDAD"
+          ],
+          [
+            "I9",
+            "PROFESIONAL INVOLUCRADO"
+          ],
+          [
+            "J9",
+            "MEDIO ESCRITO"
+          ],
+          [
+            "K9",
+            "RECLAMO INFORMADO A"
+          ],
+          [
+            "M9",
+            "PUNTAJE"
+          ],
+          [
+            "N9",
+            "FECHA"
+          ],
+          [
+            "O9",
+            "AREA"
+          ],
+          [
+            "P9",
+            "DIA"
+          ],
+          [
+            "Q9",
+            "MES"
+          ],
+          [
+            "R9",
+            "AÑO"
+          ],
+          [
+            "S9",
+            "NUMERO"
+          ],
+          [
+            "T9",
+            "CODIGO"
+          ],
+          [
+            "U9",
+            "IMAGEN VERIF"
+          ],
+          [
+            "V9",
+            "verificador valido"
+          ],
+          [
+            "W9",
+            "resultado"
+          ]
+        ]
+      },
+      {
+        "fila": 23,
+        "columnas": [
+          [
+            "C23",
+            "FECHA"
+          ],
+          [
+            "D23",
+            "USUARIO"
+          ],
+          [
+            "E23",
+            "CONTACTO"
+          ],
+          [
+            "F23",
+            "UBICACION"
+          ],
+          [
+            "G23",
+            "SITUACION QUE FELICITAN"
+          ],
+          [
+            "I23",
+            "PROFESIONAL INVOLUCRADO"
+          ],
+          [
+            "J23",
+            "MEDIO ESCRITO"
+          ],
+          [
+            "K23",
+            "NOMBRE"
+          ],
+          [
+            "M23",
+            "PUNTAJE"
+          ],
+          [
+            "N23",
+            "FECHA"
+          ],
+          [
+            "O23",
+            "AREA"
+          ],
+          [
+            "P23",
+            "DIA"
+          ],
+          [
+            "Q23",
+            "MES"
+          ],
+          [
+            "R23",
+            "AÑO"
+          ],
+          [
+            "S23",
+            "NUMERO"
+          ],
+          [
+            "T23",
+            "CODIGO"
+          ],
+          [
+            "U23",
+            "IMAGEN VERIF"
+          ],
+          [
+            "V23",
+            "verificador valido"
+          ],
+          [
+            "W23",
+            "resultado"
+          ]
+        ]
+      }
+    ],
+    "errores_ref_o_celda": 0,
+    "muestra_coordenadas_error": []
+  },
+  {
+    "hoja": "SEMAFORO",
+    "cabeceras": [],
+    "errores_ref_o_celda": 0,
+    "muestra_coordenadas_error": []
+  },
+  {
+    "hoja": "RESUMEN",
+    "cabeceras": [],
+    "errores_ref_o_celda": 0,
+    "muestra_coordenadas_error": []
+  },
+  {
+    "hoja": "LISTA",
+    "cabeceras": [],
+    "errores_ref_o_celda": 0,
+    "muestra_coordenadas_error": []
+  },
+  {
+    "hoja": "DATO MENU",
+    "cabeceras": [],
+    "errores_ref_o_celda": 0,
+    "muestra_coordenadas_error": []
+  }
+]

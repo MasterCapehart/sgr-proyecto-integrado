@@ -1,0 +1,31 @@
+{
+  "fecha": "2026-10-17T12:14:51.518132-03:00",
+  "entorno": "LOCAL/QA http://127.0.0.1:8010; MySQL 8.0.40 en 8891, sgr_eva2_local; Django 5.2.18; Chrome for Testing 155",
+  "ejecutor": "Ejecución automatizada local solicitada por Daniel Flores; código Gmail aportado por el titular del buzón. Sin aprobación institucional ni firma humana simulada.",
+  "version_sha256": "af526f21b403cf8483b61c69b1ab3e27b12cf2cc1b34a4721e04920d582e412a",
+  "commit": "Sin commit de entrega; copia local sin remotos. Se identifican archivos por huella.",
+  "navegador": {
+    "registros": 97,
+    "aprobados": 89,
+    "ensayos_rectificados": 6,
+    "fallidos": 2,
+    "incidencias_unicas": 1
+  },
+  "exportaciones": {
+    "archivos": 8,
+    "aprobados": 8
+  },
+  "servidor": {
+    "pruebas": 207,
+    "fallos": 0,
+    "errores": 0
+  },
+  "escenarios_bloqueados": 1,
+  "aplicacion_sin_modificaciones": true,
+  "original_sin_cambios": true,
+  "limites": [
+    "No cubre los 84 casos completos del plan.",
+    "AWS, carga, cálculos de desempeño y aprobación municipal fuera de esta ejecución.",
+    "La regla de unicidad de metas necesita definición y protección consistente; se reprodujo el duplicado idéntico."
+  ]
+}

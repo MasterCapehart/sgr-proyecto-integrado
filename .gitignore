@@ -37,3 +37,17 @@ staticfiles/
 # Sesiones locales
 .Codex-session.md
 .claude-session.md
+
+# Configuración y evidencias privadas de entornos locales
+.aislamiento/
+.integracion/
+.local-db/
+.local-mail/
+.local-browsers/
+.revision-local/
+media_local/
+static_local/
+output/
+tmp/
+*.bundle
+*.dump

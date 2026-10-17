@@ -1,3 +1,4 @@
+from django.test import override_settings
 import json
 from datetime import timedelta
 from unittest import expectedFailure
@@ -28,6 +29,7 @@ RUTAS_DE_ESCRITURA = [
 ]
 
 
+@override_settings(ROOT_URLCONF="core.legacy_test_urls")
 class SesionTestCase(TestCase):
     CLAVE = "ClaveSegura123!"
 
@@ -46,6 +48,7 @@ class SesionTestCase(TestCase):
         )
 
 
+@override_settings(ROOT_URLCONF="core.legacy_test_urls")
 class LoginLogoutTests(SesionTestCase):
     """T05: inicio y cierre de sesion."""
 
@@ -100,6 +103,7 @@ class LoginLogoutTests(SesionTestCase):
         self.assertNotEqual(r.status_code, 200)
 
 
+@override_settings(ROOT_URLCONF="core.legacy_test_urls")
 class RutasProtegidasTests(SesionTestCase):
     """T08: ninguna ruta de la API responde sin sesion."""
 
@@ -117,6 +121,7 @@ class RutasProtegidasTests(SesionTestCase):
                 self.assertNotEqual(c.get(ruta).status_code, 401)
 
 
+@override_settings(ROOT_URLCONF="core.legacy_test_urls")
 class PermisosPorRolTests(SesionTestCase):
     """T08/T09/T10: roles de solo lectura no pueden modificar datos."""
 
@@ -148,6 +153,7 @@ class PermisosPorRolTests(SesionTestCase):
         self.assertEqual(r.status_code, 201)
 
 
+@override_settings(ROOT_URLCONF="core.legacy_test_urls")
 class RecuperacionTests(SesionTestCase):
     """T06/T07: recuperacion de contrasena por codigo."""
 

@@ -1,0 +1,386 @@
+{
+  "fecha": "2026-10-17T15:06:29.791Z",
+  "entorno": "http://127.0.0.1:8010",
+  "tag": "92248949",
+  "variantes": [
+    {
+      "id": "UI-1",
+      "caso": "ADM-06",
+      "variante": "selector solo dos delegaciones autorizadas",
+      "fecha": "2026-10-17T15:06:16.575Z",
+      "obtenido": {
+        "delegaciones": [
+          21,
+          22
+        ]
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-1001-selectorsolodosdelegacionesautorizadas.png"
+    },
+    {
+      "id": "UI-2",
+      "caso": "ADM-06",
+      "variante": "borrador al cambiar contexto mantener y descartar",
+      "fecha": "2026-10-17T15:06:16.681Z",
+      "obtenido": {
+        "mantener_borrador": true,
+        "cambiar_limpia": true,
+        "cabecera_y_formulario_correctos": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-1002-borradoralcambiarcontextomantenerydescartar.png"
+    },
+    {
+      "id": "UI-3",
+      "caso": "ADM-06",
+      "variante": "aislamiento listados y rechazo de delegación ajena",
+      "fecha": "2026-10-17T15:06:17.991Z",
+      "obtenido": {
+        "listado_otro_contexto_aislado": true,
+        "cambio_ajeno": 403
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-1003-aislamientolistadosyrechazodedelegacinajena.png"
+    },
+    {
+      "id": "UI-4",
+      "caso": "ADM-04 ADM-06",
+      "variante": "consulta sin crear ni exportar y contexto fijo",
+      "fecha": "2026-10-17T15:06:18.564Z",
+      "obtenido": {
+        "contexto_fijo": true,
+        "botones_ocultos": true,
+        "crear": 403,
+        "exportar": 403
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-1004-consultasincrearniexportarycontextofijo.png"
+    },
+    {
+      "id": "UI-5",
+      "caso": "PAR-01",
+      "variante": "metas crear editar filtrar exportar y desactivar desde pantalla",
+      "fecha": "2026-10-17T15:06:19.121Z",
+      "obtenido": {
+        "id": 4,
+        "http_crear": 201,
+        "http_editar": 200,
+        "meta": "150.00",
+        "exportado": true,
+        "inactivo": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-1005-metascreareditarfiltrarexportarydesactivardesdepantalla.png"
+    },
+    {
+      "id": "UI-6",
+      "caso": "PAR-01",
+      "variante": "metas límites numéricos en interfaz y servidor",
+      "fecha": "2026-10-17T15:06:23.272Z",
+      "obtenido": {
+        "validacion_html": true,
+        "meta_cero": 400,
+        "ponderacion_101": 400
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-1006-metaslmitesnumricoseninterfazyservidor.png"
+    },
+    {
+      "id": "UI-7",
+      "caso": "CAT-02 CAT-03",
+      "variante": "historia atención preserva etiquetas después de editar catálogos",
+      "fecha": "2026-10-17T15:06:25.442Z",
+      "obtenido": {
+        "tipo_historico": "Tipo QA 92248949 1",
+        "sub_historica": "Sub QA 92248949 1",
+        "snapshot_identico": true,
+        "historial_visible": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-1008-historiaatencinpreservaetiquetasdespusdeeditarcatlogos.png"
+    },
+    {
+      "id": "UI-8",
+      "caso": "CAT-01",
+      "variante": "historia de actividad conserva ítem y cargo originales",
+      "fecha": "2026-10-17T15:06:26.356Z",
+      "obtenido": {
+        "id": 15,
+        "snapshot_preservado": true,
+        "item_original": "Ítem QA 92248949",
+        "versiones": 2
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-1009-historiadeactividadconservatemycargooriginales.png"
+    },
+    {
+      "id": "UI-9",
+      "caso": "UX-01 CAT-02",
+      "variante": "paginación total filtros combinados y exportación de varias páginas",
+      "fecha": "2026-10-17T15:06:26.532Z",
+      "obtenido": {
+        "total": 23,
+        "paginas": 3,
+        "filas_ultima": 3,
+        "inactivos": 0,
+        "exportacion": "tipos-23-paginacion-ui.xlsx"
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-1010-paginacintotalfiltroscombinadosyexportacindevariaspginas.png"
+    },
+    {
+      "id": "UI-10",
+      "caso": "ADM-01 ADM-02",
+      "variante": "nueva delegación disponible en asignación de usuario y baja vinculada bloqueada",
+      "fecha": "2026-10-17T15:06:27.728Z",
+      "estado": "Fallido",
+      "obtenido": "The expression evaluated to a falsy value:\n\n  assert.ok(msg.includes('relacionados'))\n",
+      "evidencia": "UI-1011-nuevadelegacindisponibleenasignacindeusuarioybajavinculadabl.png"
+    },
+    {
+      "id": "UI-11",
+      "caso": "PAR-01",
+      "variante": "duplicado de configuración por ítem y período",
+      "fecha": "2026-10-17T15:06:29.151Z",
+      "estado": "Fallido",
+      "obtenido": "DEF-META-001: se esperaba rechazo de combinación duplicada ítem/período; respuesta 201 y 2 registros. Requiere definir y aplicar unicidad de negocio.",
+      "evidencia": "UI-1012-duplicadodeconfiguracinportemyperodo.png"
+    },
+    {
+      "id": "UI-12",
+      "caso": "ACC-05 ACC-06",
+      "variante": "reutilización de código consumido con CSRF válido",
+      "fecha": "2026-10-17T15:06:29.703Z",
+      "obtenido": {
+        "http": 400,
+        "sesion_valida": true,
+        "csrf_correcto": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-1013-reutilizacindecdigoconsumidoconCSRFvlido.png"
+    }
+  ],
+  "creados": {
+    "delegaciones": {
+      "id": 26,
+      "version": 1,
+      "codigo": "P92248949X201",
+      "nombre": "QA Pantalla 92248949 201",
+      "direccion": "Dirección ficticia",
+      "comuna": "La Serena",
+      "estado": true
+    },
+    "roles": {
+      "id": 42,
+      "version": 1,
+      "nombre": "QA Pantalla 92248949 202",
+      "descripcion": "Ensayo de interfaz",
+      "alcance": "delegacion",
+      "permisos": [
+        "tipos-atencion.ver"
+      ],
+      "estado": true
+    },
+    "usuarios": {
+      "id": 37,
+      "version": 1,
+      "username": "uipersona.92248949.203",
+      "first_name": "Persona QA 92248949",
+      "last_name": "Prueba",
+      "email": "ui.92248949.203@example.test",
+      "rut": null,
+      "rol": 38,
+      "cargo": 23,
+      "delegacion": 21,
+      "delegaciones": [
+        21
+      ],
+      "is_active": true,
+      "estado": true,
+      "nombre": "Persona QA 92248949 Prueba"
+    },
+    "items-metas": {
+      "id": 343,
+      "version": 1,
+      "codigo": "P92248949X204",
+      "nombre": "QA Pantalla 92248949 204",
+      "descripcion": "Ensayo de interfaz",
+      "unidad_medida": "Atención",
+      "cargos": [
+        23
+      ],
+      "estado": true
+    },
+    "tipos-atencion": {
+      "id": 46,
+      "version": 1,
+      "codigo": "P92248949X205",
+      "nombre": "QA Pantalla 92248949 205",
+      "descripcion": "Ensayo de interfaz",
+      "estado": true
+    },
+    "subatenciones": {
+      "id": 39,
+      "version": 1,
+      "codigo": "P92248949X206",
+      "nombre": "QA Pantalla 92248949 206",
+      "descripcion": "Ensayo de interfaz",
+      "tipo_atencion": 44,
+      "estado": true,
+      "tipo_padre_display": "P92248949T1 · Tipo QA 92248949 1"
+    },
+    "configuraciones-metas": {
+      "id": 2,
+      "version": 1,
+      "item": 341,
+      "periodo": "QA 92248949 207",
+      "meta_esperada": "120",
+      "ponderacion": "25",
+      "estado": true
+    },
+    "atencion": {
+      "id": 35,
+      "folio": "AT-82B68EAC185F4550A49F29AC3FA0A8D3",
+      "solicitante": "QA Doble 92248949",
+      "tipo_atencion": 44,
+      "sub_atencion": 37,
+      "descripcion": "Ensayo de doble clic con respuesta demorada",
+      "delegacion": 21,
+      "delegacion_responsable": 21,
+      "usuario": 32,
+      "fecha_registro": "2026-10-17T15:01:49.053Z",
+      "caso_social": null,
+      "numero_gestion": 1,
+      "rut_solicitante": "",
+      "telefono_solicitante": "",
+      "requiere_visita": false,
+      "fecha_visita": null,
+      "fecha_entrega_informe": null,
+      "fecha_entrega_beneficio": null,
+      "gestion_realizada": "",
+      "fecha_visita_programada": null,
+      "fecha_visita_realizada": null,
+      "tipo_gestion": "",
+      "compromiso": null,
+      "estado": true,
+      "usuario_nombre": "Administrador QA 92248949",
+      "tipo_nombre": "Tipo QA 92248949 1",
+      "subatencion_nombre": "Sub QA 92248949 1",
+      "catalogos_snapshot": {
+        "tipo_atencion": {
+          "id": 44,
+          "version": 1,
+          "codigo": "P92248949T1",
+          "nombre": "Tipo QA 92248949 1",
+          "descripcion": null,
+          "estado": true
+        },
+        "sub_atencion": {
+          "id": 37,
+          "version": 1,
+          "codigo": "P92248949S1",
+          "nombre": "Sub QA 92248949 1",
+          "descripcion": null,
+          "estado": true,
+          "tipo_atencion_id": 44
+        },
+        "delegacion": {
+          "id": 21,
+          "version": 1,
+          "codigo": "P92248949D1",
+          "nombre": "Delegación QA 92248949 1",
+          "comuna": "La Serena",
+          "direccion": "Domicilio ficticio QA",
+          "estado": true
+        },
+        "capturado_en": "2026-10-17T15:01:49.049888+00:00",
+        "observada": false
+      },
+      "historia_catalogos": "Captura al registrar"
+    },
+    "meta_foco": {
+      "id": 4,
+      "version": 1,
+      "item": 341,
+      "periodo": "QA 92248949 999",
+      "meta_esperada": "120",
+      "ponderacion": "25",
+      "estado": true
+    },
+    "actividad": {
+      "id": 15,
+      "version": 1,
+      "autor": 32,
+      "autor_nombre": "Administrador QA 92248949",
+      "delegacion": 21,
+      "creado": "2026-10-17T15:06:26.386962+00:00",
+      "estado": "Borrador",
+      "fecha": "2026-10-17",
+      "solicitud": "QA historia 92248949",
+      "accion": "Acción de ensayo",
+      "contacto": "Persona ficticia",
+      "telefono": "+56911111111",
+      "sector": "Sector QA",
+      "item": 341,
+      "compromiso": null,
+      "unidad": 1,
+      "plantilla": "GENERAL",
+      "profesional": null,
+      "codigo": "49232f75-6776-4a18-836c-b834ff2686fc",
+      "item_nombre": "Ítem QA 92248949",
+      "catalogos_snapshot": {
+        "item": {
+          "id": 341,
+          "version": 1,
+          "codigo": "P92248949I",
+          "nombre": "Ítem QA 92248949",
+          "descripcion": "Ensayo de historia",
+          "unidad_medida": "Atención",
+          "estado": true,
+          "cargos": [
+            23
+          ],
+          "cargos_detalle": [
+            {
+              "id": 23,
+              "nombre": "Cargo QA 92248949",
+              "version": 1,
+              "area": "Ensayos"
+            }
+          ]
+        },
+        "cargo": {
+          "id": 23,
+          "version": 1,
+          "codigo": "P92248949C",
+          "nombre": "Cargo QA 92248949",
+          "area": "Ensayos",
+          "estado": true,
+          "planilla": ""
+        },
+        "delegacion": {
+          "id": 21,
+          "version": 1,
+          "codigo": "P92248949D1",
+          "nombre": "Delegación QA 92248949 1",
+          "comuna": "La Serena",
+          "direccion": "Domicilio ficticio QA",
+          "estado": true
+        },
+        "capturado_en": "2026-10-17T15:06:26.386705+00:00",
+        "observada": false
+      },
+      "historia_catalogos": "Captura al registrar",
+      "profesional_nombre": null,
+      "cargo": 23,
+      "cargo_nombre": "Cargo QA 92248949",
+      "area": "Ensayos",
+      "derivado_a": "",
+      "estado_derivacion": "Sin derivar",
+      "ingreso_tubo": "No",
+      "derivaciones": [],
+      "evidencias_actuales": [],
+      "imagen_verificacion": "No"
+    }
+  }
+}

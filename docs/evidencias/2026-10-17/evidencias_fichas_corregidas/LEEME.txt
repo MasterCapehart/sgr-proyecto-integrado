@@ -1,0 +1,15 @@
+REGISTRO DE EJECUCIÓN LOCAL SGR
+
+14 métodos de servidor aprobados, 222 comprobaciones y 12 variantes de navegador.
+234 registros individuales B20 en HTML y JSON.
+
+Abrir B20_Registros_Individuales.html en el navegador. Cada registro incluye resultado, HU, requisito, entorno, fecha, versión y evidencia.
+Los Word consolidados están en ../documentos.
+No se declara cierre integral de los casos con pendientes.
+
+Ejecución de servidor reproducible desde la raíz del proyecto aislado:
+PYTHONPATH="$PWD/output/evidencias_fichas_corregidas" backend/.venv/bin/python backend/manage.py test fichas_tests --testrunner=fichas_tests.Runner --noinput
+Usa MySQL temporal y correo en memoria.
+La prueba de navegador necesita las cuentas QA privadas existentes en .aislamiento/perfiles-evaluacion.json; no se incluyen contraseñas en el paquete.
+
+Las incidencias TEST-001 y TEST-002 fueron de las pruebas, no defectos comprobados de la aplicación. El segundo ensayo de navegador encontró el límite de intentos por la repetición; se limpiaron solo los intentos QA generados en esta batería y se ejecutó logout antes de los casos negativos. Se conserva navegador-intento-aislamiento.log.

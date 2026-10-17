@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Ítems y metas · SGR</title>
   <link rel="stylesheet" href="../assets/css/styles.css">
+<link rel="stylesheet" href="../assets/css/mockups.css">
+<link rel="stylesheet" href="../assets/css/operacion.css">
 </head>
 <body data-page="items-metas" data-base-path="../">
   <a class="skip-link" href="#main-content">Saltar al contenido</a>
@@ -27,7 +29,7 @@
       </div>
 
       <div class="notice" style="margin-bottom: 24px;">
-        Este mantenedor define los ítems medibles. La asignación por funcionario, ponderación porcentual y período corresponde a la configuración de metas anuales.
+        Este mantenedor define los ítems medibles. Los valores y períodos se mantienen en <a href="configuraciones-metas.html">Configuración de metas</a>. No se calculan resultados en esta versión.
       </div>
 
       <div class="card" style="padding: 0; margin-bottom: 24px;">
@@ -58,62 +60,13 @@
                 <th scope="col">Acciones</th>
               </tr>
             </thead>
-            <tbody id="table-body">
-              <tr data-status="activo">
-                <td><strong>IT01</strong></td>
-                <td>Atención Ciudadana Registrada</td>
-                <td>Total de atenciones recibidas y registradas en la delegación</td>
-                <td><span class="badge green">Activo</span></td>
-                <td>
-                  <button type="button" class="linkbtn" data-action="ver" data-id="IT01">Ver</button> · 
-                  <button type="button" class="linkbtn" data-action="editar" data-id="IT01">Editar</button> · 
-                  <button type="button" class="linkbtn" data-action="desactivar" data-id="IT01">Desactivar</button>
-                </td>
-              </tr>
-              <tr data-status="activo">
-                <td><strong>IT02</strong></td>
-                <td>Evidencias Validadas</td>
-                <td>Respaldo documental y fotográfico aprobado por supervisión</td>
-                <td><span class="badge green">Activo</span></td>
-                <td>
-                  <button type="button" class="linkbtn" data-action="ver" data-id="IT02">Ver</button> · 
-                  <button type="button" class="linkbtn" data-action="editar" data-id="IT02">Editar</button> · 
-                  <button type="button" class="linkbtn" data-action="desactivar" data-id="IT02">Desactivar</button>
-                </td>
-              </tr>
-              <tr data-status="activo">
-                <td><strong>IT03</strong></td>
-                <td>Compromisos Cumplidos en Plazo</td>
-                <td>Acuerdos comunitarios cerrados satisfactoriamente dentro de fecha</td>
-                <td><span class="badge green">Activo</span></td>
-                <td>
-                  <button type="button" class="linkbtn" data-action="ver" data-id="IT03">Ver</button> · 
-                  <button type="button" class="linkbtn" data-action="editar" data-id="IT03">Editar</button> · 
-                  <button type="button" class="linkbtn" data-action="desactivar" data-id="IT03">Desactivar</button>
-                </td>
-              </tr>
-              <tr data-status="inactivo">
-                <td><strong>IT04</strong></td>
-                <td>Ítem en Estudio</td>
-                <td>Propuesta de indicador territorial en proceso de validación</td>
-                <td><span class="badge red">Inactivo</span></td>
-                <td>
-                  <button type="button" class="linkbtn" data-action="ver" data-id="IT04">Ver</button> · 
-                  <button type="button" class="linkbtn" data-action="editar" data-id="IT04">Editar</button> · 
-                  <button type="button" class="linkbtn" data-action="activar" data-id="IT04">Activar</button>
-                </td>
-              </tr>
-            </tbody>
+            <tbody id="table-body"><tr><td>Cargando datos locales…</td></tr></tbody>
           </table>
         </div>
 
         <div class="pager">
-          <span id="page-info">Mostrando 4 registros</span>
-          <div class="pagebuttons">
-            <button type="button" class="button small secondary" disabled>Anterior</button>
-            <button type="button" class="button small">1</button>
-            <button type="button" class="button small secondary" disabled>Siguiente</button>
-          </div>
+          <span id="page-info">Cargando…</span>
+
         </div>
       </div>
 
@@ -157,7 +110,9 @@
   </div>
 
   <script defer src="../assets/vendor/sweetalert2.min.js"></script>
-  <script defer src="../assets/js/components/layout.js"></script>
+  <script defer src="../assets/js/api-local.js"></script>
+<script defer src="../assets/js/modules/borradores.js"></script>
+<script defer src="../assets/js/components/layout.js"></script>
   <script defer src="../assets/js/modules/mantenedor-comun.js"></script>
   <script defer src="../assets/js/app.js"></script>
 </body>

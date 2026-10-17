@@ -1,0 +1,65 @@
+{
+  "fecha": "2026-10-16T01:21:06.311Z",
+  "results": [
+    {
+      "browser": "chrome",
+      "caso": "Borrador: cancelar conserva; descartar cierra",
+      "estado": "Aprobado"
+    },
+    {
+      "browser": "chrome",
+      "caso": "Cambio solo de teléfono social: navegación advierte y cancelar conserva",
+      "estado": "Aprobado"
+    },
+    {
+      "browser": "chrome",
+      "caso": "Historial de catálogo conserva versiones",
+      "estado": "Aprobado"
+    },
+    {
+      "browser": "chrome",
+      "caso": "Reglas y permisos visibles sin validación automatizada",
+      "estado": "Aprobado"
+    },
+    {
+      "browser": "chrome",
+      "caso": "Bandeja local de alertas accesible",
+      "estado": "Aprobado"
+    },
+    {
+      "browser": "chrome",
+      "caso": "Sin errores JavaScript en nuevos flujos",
+      "estado": "Aprobado"
+    },
+    {
+      "browser": "edge",
+      "caso": "Borrador: cancelar conserva; descartar cierra",
+      "estado": "Aprobado"
+    },
+    {
+      "browser": "edge",
+      "caso": "Cambio solo de teléfono social: navegación advierte y cancelar conserva",
+      "estado": "Aprobado"
+    },
+    {
+      "browser": "edge",
+      "caso": "Historial de catálogo conserva versiones",
+      "estado": "Aprobado"
+    },
+    {
+      "browser": "edge",
+      "caso": "Reglas y permisos visibles sin validación automatizada",
+      "estado": "Aprobado"
+    },
+    {
+      "browser": "edge",
+      "caso": "Bandeja local de alertas accesible",
+      "estado": "Aprobado"
+    },
+    {
+      "browser": "edge",
+      "caso": "Sin errores JavaScript en nuevos flujos",
+      "estado": "Aprobado"
+    }
+  ]
+}

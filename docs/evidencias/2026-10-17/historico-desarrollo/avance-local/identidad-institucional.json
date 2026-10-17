@@ -1,0 +1,12 @@
+{
+  "fecha": "2026-10-15T22:23:59.546264+00:00",
+  "normas": "https://laserena.cl/conocenos/normas-graficas",
+  "logotipo": "https://framework.laserena.cl/img/horizontal-blanco.svg",
+  "sha256_logo": "a1dd8cbf8015b1737f481d89dc3214c9617091d01383e7b725025d3357c0333c",
+  "color_principal": "#C41230",
+  "otros_colores_oficiales": [
+    "#DB3334",
+    "#8B1D19"
+  ],
+  "tipografia_interfaz": "Arial, sans-serif; no se atribuye como tipografía oficial. Logotipo oficial conservado íntegro."
+}

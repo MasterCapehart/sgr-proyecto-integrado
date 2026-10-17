@@ -1,390 +1,51 @@
-/**
- * Módulo reutilizable de lógica común para los Mantenedores CRUD (Consolidado T11, T12, T09)
- * Conexión completa Frontend <-> Backend API REST
- * Controla: Paginación real del servidor, búsqueda dinámica, CSRF Token para seguridad,
- * y renderizado adaptativo de columnas (Roles usa 4 columnas, el resto 5).
- */
-document.addEventListener('DOMContentLoaded', () => {
-  const pageId = document.body.dataset.page;
-  const searchInput = document.getElementById('search-input');
-  const statusFilter = document.getElementById('status-filter');
-  const tableBody = document.getElementById('table-body');
-  const pageInfo = document.getElementById('page-info');
-  const btnNuevo = document.getElementById('btn-nuevo');
-  const btnExport = document.getElementById('btn-export');
-  const modal = document.getElementById('modal-editor');
-  const modalClose = document.getElementById('modal-close');
-  const modalCancel = document.getElementById('modal-cancel');
-  const formEditor = document.getElementById('form-editor');
-  const modalTitle = document.getElementById('modal-title');
-  
-  // Botones de paginación
-  const btnPrev = document.querySelector('.pagebuttons button:first-child');
-  const btnNext = document.querySelector('.pagebuttons button:last-child');
-  const pageNumberDisplay = document.querySelector('.pagebuttons button:nth-child(2)');
-
-  const ENDPOINT_MAP = {
-    'tipos-atencion': '/api/tipos-atencion/',
-    'subatenciones': '/api/subatenciones/',
-    'delegaciones': '/api/delegaciones/',
-    'roles': '/api/roles/',
-    'usuarios': '/api/usuarios/',
-    'items-metas': '/api/items-metas/'
-  };
-
-  const endpointPath = ENDPOINT_MAP[pageId];
-  const API_BASE = window.location.origin.includes(':8000') ? '' : 'http://127.0.0.1:8000';
-
-  let currentEditId = null;
-  let backendActive = false;
-  
-  // Control de paginación T11
-  let currentPage = 1;
-  let hasNextPage = false;
-  let hasPrevPage = false;
-
-  // Función para obtener el CSRF Token de Django
-  function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
+document.addEventListener('DOMContentLoaded', async()=>{
+ const resource=document.body.dataset.page;
+ const definitions={
+  cargos:[['codigo','Código',20],['nombre','Cargo / función',100],['area','Área',100],['planilla','Planilla de trabajo (Excel)','planillas']],
+  delegaciones:[['codigo','Código',20],['nombre','Nombre',100],['direccion','Dirección',255],['comuna','Comuna',100]],
+  roles:[['nombre','Nombre',50],['descripcion','Descripción',200],['alcance','Alcance','scope'],['permisos','Permisos','permissions']],
+  usuarios:[['username','Usuario',150],['first_name','Nombre',150],['last_name','Apellidos',150],['email','Correo','email'],['rut','RUN (opcional)',12],['rol','Rol de acceso','roles'],['cargo','Cargo / función (opcional)','cargos'],['delegacion','Delegación principal','delegaciones'],['delegaciones','Delegaciones autorizadas','multiple'],['password','Contraseña (solo al crear o cambiar)','password']],
+  'tipos-atencion':[['codigo','Código',20],['nombre','Nombre',100],['descripcion','Descripción',2000]],
+  subatenciones:[['codigo','Código',20],['nombre','Nombre',100],['descripcion','Descripción',2000],['tipo_atencion','Tipo de atención','tipos-atencion']],
+  'items-metas':[['codigo','Código',20],['nombre','Nombre',100],['descripcion','Descripción',2000],['unidad_medida','Unidad de medida',50],['cargos','Cargos que utilizan este ítem (vacío: general)','multi-cargos']],
+  'configuraciones-metas':[['item','Ítem','items-metas'],['periodo','Período',50],['meta_esperada','Meta esperada','number'],['ponderacion','Ponderación (%)','number']]
+ };
+ const defs=definitions[resource],tbody=document.getElementById('table-body');if(!defs||!tbody)return;
+ const wrapper=tbody.closest('.tablewrap');if(wrapper){wrapper.tabIndex=0;wrapper.setAttribute('role','region');wrapper.setAttribute('aria-label','Tabla de '+resource+'. Desplazamiento horizontal para ver todas las columnas.');const hint=document.createElement('p');hint.className='table-scroll-hint';hint.textContent='Desliza la tabla para ver todas las columnas y acciones.';wrapper.before(hint);}
+ const endpoint=`/api/${resource}/`,form=document.getElementById('form-editor'),dialog=document.getElementById('modal-editor');
+ const search=document.getElementById('search-input'),status=document.getElementById('status-filter'),info=document.getElementById('page-info');
+ let page=1,total=1,rows=[],options={},id=null,editVersion=null,busy=false,session;
+ try{session=await window.SGRSession;}catch{return;}
+ const can=action=>session.permisos.includes(resource+'.'+action);
+ document.getElementById('btn-nuevo').hidden=!can('crear');document.getElementById('btn-export').hidden=!can('exportar');
+ const columns=defs.filter(d=>!['password','permisos','delegaciones','rut'].includes(d[0])&&(resource!=='usuarios'||['username','first_name','email','rol','delegacion'].includes(d[0])));
+ const head=tbody.closest('table').querySelector('thead');head.replaceChildren();const tr=document.createElement('tr');for(const label of [...columns.map(d=>d[1]),'Estado','Acciones']){const th=document.createElement('th');th.scope='col';th.textContent=label;tr.append(th);}head.append(tr);
+ const oldPager=info?.parentElement.querySelector('.pagination');if(oldPager)oldPager.remove();
+ const pager=document.createElement('div');pager.className='local-pagination';const prev=document.createElement('button'),next=document.createElement('button'),size=document.createElement('select');prev.textContent='Anterior';next.textContent='Siguiente';prev.type=next.type='button';prev.className=next.className='button secondary';size.setAttribute('aria-label','Resultados por página');for(const n of [10,25,50,100])size.add(new Option(n,n));pager.append(prev,size,next);info?.after(pager);if(info)info.setAttribute('aria-live','polite');
+ const sort=document.createElement('select');sort.setAttribute('aria-label','Orden de resultados');for(const [value,text] of [['-id','Más recientes'],['id','Más antiguos'],...(columns.some(d=>d[0]==='nombre')?[['nombre','Nombre A–Z'],['-nombre','Nombre Z–A']]:[])])sort.add(new Option(text,value));pager.append(sort);
+ function query(){const state=status?.value?.toLowerCase()||'activos';return new URLSearchParams({search:search?.value.trim()||'',estado:state.includes('inactiv')?'inactivos':state.includes('tod')?'todos':'activos',page,page_size:size.value,ordering:sort.value});}
+ function button(label,fn){const b=document.createElement('button');b.type='button';b.className='linkbtn';b.textContent=label;b.addEventListener('click',fn);return b;}
+ function nameOf(value,key){if(key==='cargos')return (value||[]).map(id=>options.cargos?.find(c=>c.id===id)?.nombre||id).join(', ')||'General';if(key==='alcance')return value==='global'?'Global':'Delegaciones autorizadas';const type=defs.find(d=>d[0]===key)?.[2];const found=options[type]?.find(o=>o.id===value);return found?.nombre??value??'—';}
+ async function load(){tbody.replaceChildren();const row=document.createElement('tr'),cell=document.createElement('td');cell.colSpan=columns.length+2;cell.textContent='Cargando registros…';row.append(cell);tbody.append(row);prev.disabled=next.disabled=true;
+ try{const data=await SGRApi.request(endpoint+'?'+query());rows=data.results;total=data.total_pages;tbody.replaceChildren();for(const item of rows){const tr=document.createElement('tr');for(const [key] of columns){const td=document.createElement('td');td.textContent=resource==='usuarios'&&key==='first_name'?[item.first_name,item.last_name].filter(Boolean).join(' ')||item.username:nameOf(item[key],key);tr.append(td);}const st=document.createElement('td');st.textContent=(resource==='usuarios'?item.is_active:item.estado)?'Activo':'Inactivo';tr.append(st);const acts=document.createElement('td');acts.className='local-actions';acts.append(button('Consultar',()=>open(item,true)));const more=document.createElement('details');more.className='row-more';const summary=document.createElement('summary');summary.textContent='Más acciones';more.append(summary);if(['delegaciones','cargos','items-metas','tipos-atencion','subatenciones'].includes(resource))more.append(button('Historial',()=>history(item)));if(can('editar'))acts.append(button('Editar',()=>open(item,false)));if(can('desactivar'))more.append(button((resource==='usuarios'?item.is_active:item.estado)?'Desactivar':'Activar',()=>toggle(item)));if(more.children.length>1)acts.append(more);tr.append(acts);tbody.append(tr);}if(!rows.length){const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=columns.length+2;td.textContent=search?.value?'No hay coincidencias con el filtro.':'No hay registros para este estado.';tr.append(td);tbody.append(tr);}if(info)info.textContent=`${data.count} resultados · Página ${page} de ${total}`;prev.disabled=page<=1;next.disabled=page>=total;
+ }catch(e){cell.textContent=e.message;if(info)info.textContent='No se pudo cargar el listado.';}}
+ async function history(item){try{const result=await SGRApi.request(endpoint+item.id+'/historial/');const d=document.createElement('dialog');d.setAttribute('aria-label','Historial de catálogo');const body=document.createElement('div');body.className='body';const title=document.createElement('h2');title.textContent='Historial de versiones';const note=document.createElement('p');note.className='notice neutral';note.textContent=result.message;body.append(title,note);for(const v of result.results){const h=document.createElement('h3');h.textContent='Versión '+v.version+' · '+(v.fecha?new Date(v.fecha).toLocaleString('es-CL'):'Fecha original no registrada')+(v.observada?' · Captura observada':'');const pre=document.createElement('pre');pre.className='wrap-text';pre.textContent=JSON.stringify(v.datos,null,2);body.append(h,pre);}const close=document.createElement('button');close.type='button';close.className='button secondary';close.textContent='Cerrar';close.onclick=()=>d.close();body.append(close);d.append(body);document.body.append(d);d.addEventListener('close',()=>d.remove());d.showModal();}catch(e){SGRApi.message(e.message);}}
+ async function open(item={},readonly=false){
+  id=item.id||null;editVersion=item.version;form.reset();const area=form.querySelector('.modalbody');area.replaceChildren();document.getElementById('modal-title').textContent=readonly?'Consultar registro':id?'Editar registro':'Crear registro';
+  for(const [key,label,type] of defs){const box=document.createElement('div');box.className='field';const lab=document.createElement('label');lab.htmlFor='local-'+key;lab.textContent=label;let input;
+   if(type==='permissions'){input=document.createElement('fieldset');input.id='local-'+key;const legend=document.createElement('legend');legend.textContent='Acciones autorizadas';input.append(legend);for(const permission of options.permisos||[]){const wrap=document.createElement('label'),check=document.createElement('input');check.type='checkbox';check.name=key;check.value=permission;check.checked=(item[key]||[]).includes(permission);check.disabled=readonly;wrap.append(check,document.createTextNode(permission));input.append(wrap);}}
+   else if(['scope','roles','delegaciones','multiple','multi-cargos','cargos','planillas','tipos-atencion','items-metas'].includes(type)){input=document.createElement('select');input.name=key;if(['multiple','multi-cargos'].includes(type))input.multiple=true;const opts=type==='scope'?[{id:'delegacion',nombre:'Delegaciones autorizadas'},{id:'global',nombre:'Global'}]:(options[type==='multiple'?'delegaciones':type==='multi-cargos'?'cargos':type]||[]);if(!['multiple','multi-cargos','scope'].includes(type))input.add(new Option('Selecciona…',''));for(const o of opts){const selected=['multiple','multi-cargos'].includes(type)?(item[key]||[]).includes(o.id):String(item[key]??(type==='scope'?'delegacion':''))===String(o.id);input.add(new Option(o.nombre,o.id,false,selected));}}
+   else{input=document.createElement('input');input.name=key;input.type=['email','password','number'].includes(type)?type:'text';if(typeof type==='number')input.maxLength=type;if(type==='number'){input.step='0.01';input.min='0.01';if(key==='ponderacion')input.max=100;}input.value=key==='password'?'':item[key]??'';if(key==='password')input.autocomplete='new-password';}
+   input.id='local-'+key;input.disabled=readonly;if(!['descripcion','rut','password','permisos','cargo','cargos','planilla'].includes(key))input.required=true;if(key==='password'&&!id)input.required=true;if(input.required)lab.append(document.createTextNode(' *'));box.append(lab,input);area.append(box);
   }
-
-  async function populateParentSelect(selectedId = null) {
-    const selectPadre = document.getElementById('campo-padre');
-    if (!selectPadre) return;
-    try {
-      const res = await fetch(`${API_BASE}/api/tipos-atencion/?estado=activos&page_size=100`, { credentials: "include" });
-      const data = await res.json();
-      if (data.success && Array.isArray(data.results)) {
-        selectPadre.innerHTML = '';
-        if (data.results.length === 0) {
-          selectPadre.innerHTML = '<option value="">(No hay tipos activos disponibles)</option>';
-          return;
-        }
-        data.results.forEach(tipo => {
-          const opt = document.createElement('option');
-          opt.value = tipo.id;
-          opt.textContent = `${tipo.codigo} · ${tipo.nombre}`;
-          if (selectedId && (String(selectedId) === String(tipo.id) || selectedId === tipo.codigo)) opt.selected = true;
-          selectPadre.appendChild(opt);
-        });
-      }
-    } catch (e) {
-      console.warn('Error al cargar catálogo padre:', e);
-    }
-  }
-
-  // 1. Carga de datos con Paginación (T11)
-  async function loadDataFromApi() {
-    if (!endpointPath || !tableBody) return;
-
-    const term = (searchInput ? searchInput.value.trim() : '');
-    const rawStatus = (statusFilter ? statusFilter.value.toLowerCase() : 'todos');
-    const estado = (rawStatus === 'activo' || rawStatus === 'activos') ? 'activos' 
-      : (rawStatus === 'inactivo' || rawStatus === 'inactivos') ? 'inactivos' : 'todos';
-
-    // Agregamos page_size y page actual
-    const url = `${API_BASE}${endpointPath}?search=${encodeURIComponent(term)}&estado=${encodeURIComponent(estado)}&page_size=50&page=${currentPage}`;
-
-    try {
-      const res = await fetch(url, { credentials: "include" });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      
-      if (data.success && Array.isArray(data.results)) {
-        backendActive = true;
-        
-        // Actualizar variables de paginación según la respuesta de Django
-        hasNextPage = data.next !== null;
-        hasPrevPage = data.previous !== null;
-        updatePaginationUI();
-
-        renderTableRows(data.results);
-        if (pageInfo) {
-          pageInfo.textContent = `Mostrando ${data.results.length} de ${data.count} registros (Página ${currentPage})`;
-        }
-      }
-    } catch (err) {
-      console.warn('Modo offline o error:', err.message);
-      filterRowsFrontend();
-    }
-  }
-
-  function updatePaginationUI() {
-    if (btnPrev) btnPrev.disabled = !hasPrevPage;
-    if (btnNext) btnNext.disabled = !hasNextPage;
-    if (pageNumberDisplay) pageNumberDisplay.textContent = currentPage;
-  }
-
-  // Eventos de Paginación
-  if (btnPrev) {
-    btnPrev.addEventListener('click', () => {
-      if (hasPrevPage) { currentPage--; loadDataFromApi(); }
-    });
-  }
-  if (btnNext) {
-    btnNext.addEventListener('click', () => {
-      if (hasNextPage) { currentPage++; loadDataFromApi(); }
-    });
-  }
-
-  // Al escribir en buscar o cambiar estado, volvemos a la página 1
-  let searchTimeout = null;
-  if (searchInput) {
-    searchInput.addEventListener('input', () => {
-      clearTimeout(searchTimeout);
-      searchTimeout = setTimeout(() => {
-        currentPage = 1;
-        if (backendActive) loadDataFromApi(); else filterRowsFrontend();
-      }, 300);
-    });
-  }
-
-  if (statusFilter) {
-    statusFilter.addEventListener('change', () => {
-      currentPage = 1;
-      if (backendActive) loadDataFromApi(); else filterRowsFrontend();
-    });
-  }
-
-  // RENDERIZADO CONDICIONAL DE FILAS (Ajustado para Roles)
-  function renderTableRows(items) {
-    if (!tableBody) return;
-    tableBody.innerHTML = '';
-
-    if (items.length === 0) {
-      const colSpan = (pageId === 'roles') ? "4" : "5";
-      tableBody.innerHTML = `<tr><td colspan="${colSpan}" style="text-align: center; padding: 24px; color: var(--muted);">No se encontraron registros.</td></tr>`;
-      return;
-    }
-
-    items.forEach(item => {
-      const tr = document.createElement('tr');
-      const isActivo = item.estado === true;
-      tr.dataset.status = isActivo ? 'activo' : 'inactivo';
-
-      const badgeHtml = isActivo ? '<span class="badge green">Activo</span>' : '<span class="badge red">Inactivo</span>';
-      const toggleActionText = isActivo ? 'Desactivar' : 'Activar';
-
-      // --- RENDERIZADO EXCLUSIVO PARA ROLES (4 COLUMNAS) ---
-      if (pageId === 'roles') {
-        tr.innerHTML = `
-          <td><strong>${escapeHtml(item.nombre || '-')}</strong></td>
-          <td>${escapeHtml(item.descripcion || '-')}</td>
-          <td>${badgeHtml}</td>
-          <td>
-            <button type="button" class="linkbtn" data-action="ver" data-id="${item.id}">Ver</button> · 
-            <button type="button" class="linkbtn" data-action="editar" data-id="${item.id}">Editar</button> · 
-            <button type="button" class="linkbtn" data-action="toggle-estado" data-id="${item.id}">${toggleActionText}</button>
-          </td>
-        `;
-      } 
-      // --- RENDERIZADO ESTÁNDAR (5 COLUMNAS) ---
-      else {
-        let col3Content = '';
-        if (pageId === 'subatenciones') {
-          col3Content = escapeHtml(item.tipo_padre_display || (item.tipo_atencion_codigo ? `${item.tipo_atencion_codigo} · ${item.tipo_atencion_nombre}` : '-'));
-        } else {
-          col3Content = escapeHtml(item.descripcion || item.direccion || '-');
-        }
-
-        tr.innerHTML = `
-          <td><strong>${escapeHtml(item.codigo || '-')}</strong></td>
-          <td>${escapeHtml(item.nombre || item.nombre_tipo || '-')}</td>
-          <td>${col3Content}</td>
-          <td>${badgeHtml}</td>
-          <td>
-            <button type="button" class="linkbtn" data-action="ver" data-id="${item.id}">Ver</button> · 
-            <button type="button" class="linkbtn" data-action="editar" data-id="${item.id}">Editar</button> · 
-            <button type="button" class="linkbtn" data-action="toggle-estado" data-id="${item.id}">${toggleActionText}</button>
-          </td>
-        `;
-      }
-      tableBody.appendChild(tr);
-    });
-  }
-
-  function escapeHtml(str) {
-    return String(str).replace(/[&<>"']/g, s => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[s]);
-  }
-
-  function filterRowsFrontend() {
-    if (!tableBody) return;
-    const term = (searchInput ? searchInput.value.toLowerCase().trim() : '');
-    const status = (statusFilter ? statusFilter.value.toLowerCase() : 'todos');
-    const rows = tableBody.querySelectorAll('tr');
-
-    rows.forEach(row => {
-      const text = row.textContent.toLowerCase();
-      const rowStatus = (row.dataset.status || '').toLowerCase();
-      row.style.display = ((!term || text.includes(term)) && (status === 'todos' || rowStatus === status)) ? '' : 'none';
-    });
-  }
-
-  // 2. Control del Modal Dialog
-  if (btnNuevo && modal) {
-    btnNuevo.addEventListener('click', async () => {
-      currentEditId = null;
-      const isMasculine = (pageId === 'items-metas');
-      const singularName = pageId === 'subatenciones' ? 'Subatención' 
-         : pageId === 'tipos-atencion' ? 'Tipo de Atención' 
-         : pageId === 'items-metas' ? 'Ítem' 
-         : pageId === 'roles' ? 'Rol' : 'registro';
-
-      if (modalTitle) modalTitle.textContent = `${isMasculine ? 'Nuevo' : 'Nueva'} ${singularName}`;
-      if (formEditor) {
-        formEditor.reset();
-        const inputEstado = formEditor.elements['estado'];
-        if (inputEstado) inputEstado.value = 'Activo';
-      }
-
-      if (pageId === 'subatenciones') await populateParentSelect();
-      modal.showModal();
-    });
-  }
-
-  function closeModal() { if (modal) modal.close(); currentEditId = null; }
-  if (modalClose) modalClose.addEventListener('click', closeModal);
-  if (modalCancel) modalCancel.addEventListener('click', closeModal);
-
-  // 3. Envío de Formulario Seguro
-  if (formEditor) {
-    formEditor.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const payload = {
-        nombre: formEditor.elements['nombre']?.value?.trim(),
-        estado: (formEditor.elements['estado']?.value || 'Activo').toLowerCase() === 'activo'
-      };
-      
-      const codigoVal = formEditor.elements['codigo']?.value?.trim();
-      if (codigoVal !== undefined) payload.codigo = codigoVal;
-
-      const descVal = formEditor.elements['descripcion']?.value?.trim();
-      if (descVal !== undefined) payload.descripcion = descVal;
-
-      if (pageId === 'subatenciones') {
-        const parentVal = formEditor.elements['tipo_padre']?.value || formEditor.elements['tipo_atencion']?.value;
-        if (!parentVal) { window.Swal?.fire({icon: 'warning', title: 'Requerido', text: 'Seleccione un Tipo de Atención'}); return; }
-        payload.tipo_atencion = parentVal;
-      }
-
-      const url = currentEditId ? `${API_BASE}${endpointPath}${currentEditId}/` : `${API_BASE}${endpointPath}`;
-      
-      try {
-        const res = await fetch(url, {
-          method: currentEditId ? 'PATCH' : 'POST',
-          headers: { 
-              'Content-Type': 'application/json',
-              'X-CSRFToken': getCookie('csrftoken') || ''
-          },
-          credentials: "include",
-          body: JSON.stringify(payload)
-        });
-
-        const data = await res.json();
-        if (res.ok && data.success) {
-          closeModal();
-          window.Swal?.fire({icon: 'success', title: 'Éxito', text: data.message});
-          await loadDataFromApi();
-        } else {
-          window.Swal?.fire({icon: 'error', title: 'Error', text: data.error?.message || 'No se pudo guardar'});
-        }
-      } catch (err) {
-        window.Swal?.fire({icon: 'error', title: 'Error', text: 'Error de conexión.'});
-      }
-    });
-  }
-
-  // 4. Acciones de Tabla Seguras
-  if (tableBody) {
-    tableBody.addEventListener('click', async (e) => {
-      const btn = e.target.closest('button[data-action]');
-      if (!btn) return;
-      const { action, id } = btn.dataset;
-
-      if (action === 'toggle-estado') {
-        window.Swal?.fire({
-          title: '¿Cambiar estado?',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#ad0000',
-          confirmButtonText: 'Sí, cambiar',
-        }).then(async (result) => {
-          if (result.isConfirmed) {
-            try {
-              const res = await fetch(`${API_BASE}${endpointPath}${id}/toggle-estado/`, {
-                method: 'POST',
-                headers: { 'X-CSRFToken': getCookie('csrftoken') || '' },
-                credentials: "include"
-              });
-              const data = await res.json();
-              if (res.ok && data.success) {
-                window.Swal.fire('Éxito', data.message, 'success');
-                await loadDataFromApi();
-              } else {
-                window.Swal.fire('Error', data.error?.message || 'Error al cambiar estado.', 'error');
-              }
-            } catch (err) {
-              window.Swal.fire('Error', 'Error de comunicación', 'error');
-            }
-          }
-        });
-      } else if (action === 'editar' || action === 'ver') {
-        try {
-          const res = await fetch(`${API_BASE}${endpointPath}${id}/`, { credentials: "include" });
-          const data = await res.json();
-          if (res.ok && data.success && data.data) {
-            const item = data.data;
-            if (action === 'ver') {
-                window.Swal?.fire({
-                  title: `Detalle: ${escapeHtml(item.codigo || item.nombre || '')}`,
-                  html: `<div style="text-align: left;"><p><strong>Nombre:</strong> ${escapeHtml(item.nombre || '-')}</p><p><strong>Estado:</strong> ${item.estado ? 'Activo' : 'Inactivo'}</p></div>`,
-                  icon: 'info',
-                  confirmButtonColor: '#ad0000'
-                });
-            } else {
-                currentEditId = id;
-                if (modalTitle) modalTitle.textContent = `Editar (${item.codigo || item.nombre})`;
-                if (formEditor) {
-                  if (formEditor.elements['codigo']) formEditor.elements['codigo'].value = item.codigo || '';
-                  if (formEditor.elements['nombre']) formEditor.elements['nombre'].value = item.nombre || '';
-                  if (formEditor.elements['descripcion']) formEditor.elements['descripcion'].value = item.descripcion || '';
-                  if (formEditor.elements['estado']) formEditor.elements['estado'].value = item.estado ? 'Activo' : 'Inactivo';
-                }
-                if (pageId === 'subatenciones') await populateParentSelect(item.tipo_atencion);
-                modal.showModal();
-            }
-          }
-        } catch (err) { console.error(err); }
-      }
-    });
-  }
-
-  if (btnExport) {
-    btnExport.addEventListener('click', () => {
-      const term = (searchInput ? searchInput.value.trim() : '');
-      const rawStatus = (statusFilter ? statusFilter.value.toLowerCase() : 'todos');
-      const estado = (rawStatus === 'activo' || rawStatus === 'activos') ? 'activos' 
-        : (rawStatus === 'inactivo' || rawStatus === 'inactivos') ? 'inactivos' : 'todos';
-      window.location.href = `${API_BASE}${endpointPath}export/?search=${encodeURIComponent(term)}&estado=${encodeURIComponent(estado)}`;
-    });
-  }
-
-  // Recargar datos cuando se cambia el ámbito territorial desde la cabecera
-  window.addEventListener('sgr:delegacion-cambiada', () => {
-    loadDataFromApi();
-  });
-
-  loadDataFromApi();
+  const save=document.getElementById('modal-save');save.hidden=readonly;save.disabled=false;save.textContent='Guardar';dialog.setAttribute('aria-labelledby','modal-title');document.getElementById('modal-close').setAttribute('aria-label','Cerrar formulario');dialog.showModal();dialog.querySelector('input:not([disabled]),select:not([disabled]),button')?.focus();
+ }
+ async function toggle(item){const active=resource==='usuarios'?item.is_active:item.estado;const result=await Swal.fire({icon:'warning',title:active?'¿Desactivar registro?':'¿Activar registro?',text:'Se validarán sus relaciones antes de guardar.',showCancelButton:true,confirmButtonText:'Confirmar',cancelButtonText:'Cancelar'});if(!result.isConfirmed)return;try{await SGRApi.send(endpoint+item.id+'/toggle-estado/',{_version:item.version});await SGRApi.message('Estado guardado.','success');page=1;await load();}catch(e){await SGRApi.message(e.message);}}
+ form.addEventListener('submit',async e=>{e.preventDefault();if(busy)return;if(!form.checkValidity()){await SGRApi.message('Completa los campos obligatorios con el formato indicado.','warning');form.reportValidity();return;}const data={};for(const [key,,type] of defs){if(type==='permissions')data[key]=Array.from(form.querySelectorAll('input[name="permisos"]:checked'),e=>e.value);else{const input=form.elements.namedItem(key);if(['multiple','multi-cargos'].includes(type))data[key]=Array.from(input.selectedOptions,o=>Number(o.value));else if(['roles','cargos','delegaciones','tipos-atencion','items-metas'].includes(type))data[key]=input.value?Number(input.value):null;else if(type==='number')data[key]=Number(input.value);else if(key!=='password'||input.value)data[key]=input.value.trim();}}
+ if(id)data._version=editVersion;
+ busy=true;const save=document.getElementById('modal-save');save.disabled=true;save.textContent='Guardando…';try{await SGRApi.send(endpoint+(id?id+'/':''),data,id?'PATCH':'POST');window.SGRDrafts?.clean(form);dialog.close();await SGRApi.message('Registro guardado en la base local.','success');await load();}catch(ex){await SGRApi.message(ex.message);}finally{busy=false;save.disabled=false;save.textContent='Guardar';}});
+ const close=()=>{if(!busy)dialog.close();};document.getElementById('modal-close').onclick=close;document.getElementById('modal-cancel').onclick=close;
+ document.getElementById('btn-nuevo').onclick=()=>open();prev.onclick=()=>{page--;load();};next.onclick=()=>{page++;load();};size.onchange=sort.onchange=()=>{page=1;load();};let timer;search?.addEventListener('input',()=>{clearTimeout(timer);timer=setTimeout(()=>{page=1;load();},250);});status?.addEventListener('change',()=>{page=1;load();});
+ document.getElementById('btn-export').onclick=async()=>{try{const response=await fetch(endpoint+'export/?'+query(),{credentials:'same-origin'});if(!response.ok){const data=await response.json();throw new Error(data.error?.message||'No se pudo exportar.');}const url=URL.createObjectURL(await response.blob());const a=document.createElement('a');a.href=url;a.download=resource+'.xlsx';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}catch(e){await SGRApi.message(e.message);}};
+ try{options=(await SGRApi.request('/api/opciones/')).data;await load();}catch(e){await SGRApi.message(e.message);}
 });

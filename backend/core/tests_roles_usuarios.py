@@ -1,3 +1,4 @@
+from django.test import override_settings
 import io
 import json
 
@@ -13,6 +14,7 @@ def post_json(client, url, payload):
     return client.post(url, data=json.dumps(payload), content_type="application/json")
 
 
+@override_settings(ROOT_URLCONF="core.legacy_test_urls")
 class SesionBaseTestCase(TestCase):
     """Crea un administrador y un lector con sesion iniciada, y un cliente anonimo."""
 
@@ -32,6 +34,7 @@ class SesionBaseTestCase(TestCase):
         self.client_anonimo = Client()
 
 
+@override_settings(ROOT_URLCONF="core.legacy_test_urls")
 class RolesCRUDTests(SesionBaseTestCase):
     """T09: CRUD de Roles."""
 
@@ -71,6 +74,7 @@ class RolesCRUDTests(SesionBaseTestCase):
         self.assertIn("Nombre", encabezados)
 
 
+@override_settings(ROOT_URLCONF="core.legacy_test_urls")
 class UsuariosCRUDTests(SesionBaseTestCase):
     """T10: CRUD de Usuarios."""
 

@@ -1,0 +1,28 @@
+[
+  {
+    "navegador": "chrome",
+    "cargo": "Asignación real sin cambiar permisos",
+    "items": "Filtro según cargo",
+    "agenda": "Fecha de solicitud y vínculo",
+    "derivacion": "Destino e historial persistidos",
+    "evidencia": "Archivo visible en gestiones",
+    "filtros": "Filtro por columna comprobado",
+    "columnas": "Primera columna fija",
+    "expediente": "Tres gestiones desde la interfaz",
+    "movil": "Sin desborde",
+    "erroresJS": []
+  },
+  {
+    "navegador": "edge",
+    "cargo": "Asignación real sin cambiar permisos",
+    "items": "Filtro según cargo",
+    "agenda": "Fecha de solicitud y vínculo",
+    "derivacion": "Destino e historial persistidos",
+    "evidencia": "Archivo visible en gestiones",
+    "filtros": "Filtro por columna comprobado",
+    "columnas": "Primera columna fija",
+    "expediente": "Tres gestiones desde la interfaz",
+    "movil": "Sin desborde",
+    "erroresJS": []
+  }
+]

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Verificar código · SGR</title>
   <link rel="stylesheet" href="../assets/css/styles.css">
+<link rel="stylesheet" href="../assets/css/mockups.css"><link rel="stylesheet" href="../assets/css/operacion.css?v=20261016-codigo2">
 </head>
 <body data-page="validate-code" data-base-path="../">
   <a class="skip-link" href="#validate-form">Saltar al formulario</a>
@@ -16,7 +17,7 @@
       <p class="eyebrow">Sistema de Gestión de Resultados</p>
       <h1>Una gestión municipal más clara y conectada.</h1>
       <p>Atenciones ciudadanas, compromisos comunitarios y cumplimiento de metas en un mismo espacio de trabajo institucional.</p>
-      <span class="badge">Delegación Municipal Las Compañías</span>
+      <span class="badge">Acceso a delegaciones autorizadas</span>
     </section>
 
     <section class="authpanel">
@@ -34,8 +35,8 @@
         <form id="validate-form" novalidate>
           <div class="field">
             <label for="code">Código de verificación (6 dígitos) <span class="required" aria-hidden="true">*</span></label>
-            <input type="text" id="code" name="code" class="code-input" maxlength="6" pattern="[0-9]{6}" inputmode="numeric" placeholder="123456" required aria-required="true">
-            <p class="help">Ingresa o pega el código numérico recibido.</p>
+            <div class="code-entry"><input type="text" id="code" name="code" class="code-input" maxlength="6" pattern="[0-9]{6}" inputmode="numeric" autocomplete="one-time-code" spellcheck="false" aria-describedby="code-help" required aria-required="true"><div class="code-digits" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
+            <p class="help" id="code-help">Ingresa o pega el código numérico recibido.</p>
           </div>
 
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; font-size: 13px;">
@@ -56,7 +57,9 @@
   </div>
 
   <script defer src="../assets/vendor/sweetalert2.min.js"></script>
-  <script defer src="../assets/js/components/layout.js"></script>
+  <script defer src="../assets/js/api-local.js"></script>
+<script defer src="../assets/js/modules/borradores.js"></script>
+<script defer src="../assets/js/components/layout.js"></script>
   <script defer src="../assets/js/modules/recuperacion.js"></script>
   <script defer src="../assets/js/app.js"></script>
 </body>

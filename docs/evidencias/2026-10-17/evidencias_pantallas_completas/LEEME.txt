@@ -1,0 +1,13 @@
+RESULTADOS DE PRUEBAS LOCALES SGR
+
+Abrir Informe_Pruebas_Pantallas_SGR.html. El Word resumen está en ../documentos.
+
+207 pruebas de servidor aprobadas. Batería de navegador: 97 registros, 89 aprobados, seis ensayos rectificados y dos reproducciones de una incidencia única. Un escenario adicional de períodos con fechas/cierre bloqueado. Ocho Excel verificados.
+
+Pendientes: DEF-META-001 permite metas idénticas duplicadas; períodos con fechas/cierre no disponibles. No se certifica el 100% del plan.
+
+Las cuentas, contraseñas y el código de recuperación están excluidos. Se utilizaron fixtures nuevos; los datos QA permanecen identificados en la base aislada. Se conservó el original sin cambios y no se modificó la aplicación, GitHub ni AWS.
+
+El error HTTP 500 fue simulado expresamente para comprobar mensajes y conservación del formulario; no representa una caída real. Los intentos rectificados se conservan con su resultado original y el vínculo a su repetición. Los registros iniciales interrumpidos del desarrollo del ensayo son antecedentes y no se suman a las cifras finales.
+
+Fuentes reproducibles en fuentes/. Se ejecutan desde la raíz de la copia local con el runtime Node y Playwright indicados, más la configuración privada .aislamiento/pruebas-pantallas.json. Repetir sobre un juego QA nuevo para no generar conflictos con los registros conservados. Recuperación Gmail requiere intervención del titular para entregar el código, que el conector no expone.
