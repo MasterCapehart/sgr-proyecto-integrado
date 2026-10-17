@@ -1,6 +1,7 @@
 import json
 import random
 import datetime
+from .models import Usuario, TipoAtencion, Delegacion, Rol
 from django.db import models, transaction
 from django.utils import timezone
 from django.views import View
@@ -1000,3 +1001,161 @@ class CambiarDelegacionView(View):
         )
 
 
+# ==========================================
+# 3. CRUD de Roles (T09)
+# ==========================================
+
+class RolCRUDView(BaseCRUDView):
+    model = Rol
+    fields = ["nombre", "descripcion", "estado"]
+    search_fields = ["nombre", "descripcion"]
+    ordering = ["nombre"]
+
+
+# ==========================================
+# 4. CRUD de Usuarios (T10)
+# ==========================================
+
+class UsuarioCRUDView(BaseCRUDView):
+    """
+    CRUD completo de Usuarios (Tarea T10).
+    - Encripta contraseñas usando set_password() en la creación/edición.
+    - Nunca expone los hashes de contraseñas en los listados (serialize_instance).
+    - Valida correos y nombres de usuario únicos.
+    - Mapea el campo 'estado' del frontend al 'is_active' de AbstractUser.
+    """
+    model = Usuario
+    fields = ["username", "email", "first_name", "last_name", "rut"]
+    search_fields = ["username", "email", "first_name", "last_name", "rut", "rol__nombre", "delegacion__nombre"]
+    ordering = ["username"]
+
+    def get_queryset(self):
+        return Usuario.objects.select_related("rol", "delegacion").all()
+
+    def serialize_instance(self, instance):
+        # Jamás devolvemos el campo password por seguridad
+        return {
+            "id": instance.pk,
+            "username": instance.username,
+            "email": instance.email,
+            "first_name": instance.first_name,
+            "last_name": instance.last_name,
+            "rut": instance.rut,
+            "estado": instance.is_active,  # Mapeamos is_active a estado para el frontend
+            "rol": {
+                "id": instance.rol.pk,
+                "nombre": instance.rol.nombre
+            } if instance.rol else None,
+            "delegacion": {
+                "id": instance.delegacion.pk,
+                "nombre": instance.delegacion.nombre
+            } if instance.delegacion else None,
+        }
+
+    def validate_payload(self, data, instance=None):
+        errors = {}
+
+        # 1. Validar Email único
+        email = data.get("email")
+        if not email:
+            errors.setdefault("email", []).append("El correo electrónico es obligatorio.")
+        else:
+            qs = Usuario.objects.filter(email__iexact=str(email).strip())
+            if instance:
+                qs = qs.exclude(pk=instance.pk)
+            if qs.exists():
+                errors.setdefault("email", []).append("Ya existe un usuario registrado con este correo.")
+
+        # 2. Validar Username único
+        username = data.get("username")
+        if not username:
+            errors.setdefault("username", []).append("El nombre de usuario es obligatorio.")
+        else:
+            qs = Usuario.objects.filter(username__iexact=str(username).strip())
+            if instance:
+                qs = qs.exclude(pk=instance.pk)
+            if qs.exists():
+                errors.setdefault("username", []).append("Ya existe este nombre de usuario.")
+
+        return errors
+
+    def post(self, request, pk=None, action=None, *args, **kwargs):
+        from .api import api_error, api_success
+        from .models import Rol, Delegacion
+
+        # Acción especial: Activar / Desactivar
+        if action == "toggle-estado" and pk is not None:
+            try:
+                instance = self.get_queryset().get(pk=pk)
+                instance.is_active = not instance.is_active
+                instance.save(update_fields=["is_active"])
+                return api_success(
+                    data=self.serialize_instance(instance),
+                    message=f"Usuario {'activado' if instance.is_active else 'desactivado'} correctamente."
+                )
+            except self.model.DoesNotExist:
+                return api_error(code="NOT_FOUND", message="Usuario no encontrado.", status=404)
+
+        # Flujo de Creación / Actualización
+        data = request.json_data
+        
+        instance = None
+        if pk:
+            try:
+                instance = self.get_queryset().get(pk=pk)
+            except self.model.DoesNotExist:
+                return api_error(code="NOT_FOUND", message="Usuario no encontrado.", status=404)
+
+        errors = self.validate_payload(data, instance=instance)
+        if errors:
+            return api_error(code="VALIDATION_ERROR", message="Errores de validación", details=errors, status=400)
+
+        # Resolver relaciones foráneas
+        rol_id = data.get("rol")
+        delegacion_id = data.get("delegacion")
+        rol_obj = Rol.objects.filter(pk=rol_id).first() if rol_id else None
+        delegacion_obj = Delegacion.objects.filter(pk=delegacion_id).first() if delegacion_id else None
+
+        password = str(data.get("password") or "").strip()
+
+        if instance:
+            # Editar usuario existente
+            instance.username = data.get("username", instance.username)
+            instance.email = data.get("email", instance.email)
+            instance.first_name = data.get("first_name", instance.first_name)
+            instance.last_name = data.get("last_name", instance.last_name)
+            instance.rut = data.get("rut", instance.rut)
+            instance.rol = rol_obj
+            instance.delegacion = delegacion_obj
+            
+            # Solo actualizamos is_active si viene en el payload
+            if "estado" in data:
+                instance.is_active = (str(data["estado"]).lower() == "true")
+
+            # Solo encriptamos y cambiamos la clave si el administrador ingresó una nueva
+            if password:
+                instance.set_password(password)
+            
+            instance.save()
+            msg = "Usuario actualizado exitosamente."
+        else:
+            # Crear usuario nuevo
+            if not password:
+                return api_error(code="VALIDATION_ERROR", message="La contraseña es obligatoria para crear un usuario.", status=400)
+            
+            instance = Usuario(
+                username=data.get("username"),
+                email=data.get("email"),
+                first_name=data.get("first_name", ""),
+                last_name=data.get("last_name", ""),
+                rut=data.get("rut", ""),
+                rol=rol_obj,
+                delegacion=delegacion_obj,
+                is_active=(str(data.get("estado", "true")).lower() == "true")
+            )
+            # set_password es OBLIGATORIO para que el hash de Django se genere
+            instance.set_password(password)
+            instance.save()
+            msg = "Usuario creado exitosamente."
+
+        return api_success(data=self.serialize_instance(instance), message=msg, status=201 if not pk else 200)
