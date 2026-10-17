@@ -1,4 +1,6 @@
+import io
 import json
+import openpyxl
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.utils import timezone
@@ -6,6 +8,18 @@ from .models import (
     TipoAtencion, Delegacion, SubAtencion, ItemMeta,
     ConfiguracionMeta, Rol, Usuario, Atencion, AuditoriaDerivacion
 )
+
+XLSX_MIME = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+
+
+def leer_xlsx(response):
+    """Abre la descarga XLSX y devuelve (cabeceras, filas, texto_plano)."""
+    wb = openpyxl.load_workbook(io.BytesIO(response.content))
+    ws = wb.active
+    filas = [[("" if c is None else str(c)) for c in row] for row in ws.iter_rows(values_only=True)]
+    cabeceras = filas[0] if filas else []
+    texto = "\n".join(" | ".join(f) for f in filas)
+    return cabeceras, filas[1:], texto
 
 
 class PatronCRUDAPITestCase(TestCase):
@@ -17,9 +31,16 @@ class PatronCRUDAPITestCase(TestCase):
     def setUp(self):
         self.client = Client()
 
-        self.usuario = Usuario.objects.create_user(username="patron_test", password="x12345678")
-        self.client.force_login(self.usuario)
-        
+        # T08: la API exige sesión iniciada
+        self.rol_admin = Rol.objects.create(nombre="Administrador Patron", descripcion="Rol de pruebas", estado=True)
+        self.usuario_patron = Usuario.objects.create_user(
+            username="admin_patron_t04",
+            password="Password123!",
+            email="admin_patron@laserena.cl",
+            rol=self.rol_admin
+        )
+        self.client.force_login(self.usuario_patron)
+
         # Crear datos de prueba para TipoAtencion
         for i in range(1, 16):
             TipoAtencion.objects.create(
@@ -275,15 +296,16 @@ class PatronCRUDAPITestCase(TestCase):
         parent.refresh_from_db()
         self.assertFalse(parent.estado)
 
-    def test_export_tipos_atencion_csv(self):
-        """T14: Verifica la exportación común de Tipos de Atención a CSV descargable."""
+    def test_export_tipos_atencion_xlsx(self):
+        """T14: Verifica la exportación común de Tipos de Atención a XLSX real (T12)."""
         response = self.client.get("/api/tipos-atencion/export/")
         self.assertEqual(response.status_code, 200)
-        self.assertIn("text/csv", response["Content-Type"])
-        self.assertIn("tipoatencion_export.csv", response["Content-Disposition"])
-        content = response.content.decode("utf-8-sig")
-        self.assertIn("Código", content)
-        self.assertIn("Nombre", content)
+        self.assertIn(XLSX_MIME, response["Content-Type"])
+        self.assertIn("tipoatencion_export.xlsx", response["Content-Disposition"])
+        cabeceras, filas, _ = leer_xlsx(response)
+        self.assertIn("Código", cabeceras)
+        self.assertIn("Nombre", cabeceras)
+        self.assertEqual(len(filas), TipoAtencion.objects.filter(estado=True).count())
 
     # =======================================================
     # Pruebas Específicas T15: Catálogo Hijo SubAtencion
@@ -452,14 +474,14 @@ class PatronCRUDAPITestCase(TestCase):
         sub.refresh_from_db()
         self.assertFalse(sub.estado)
 
-    def test_subatencion_export_csv(self):
-        """T15: Verifica la exportación común de Subatenciones a CSV."""
+    def test_subatencion_export_xlsx(self):
+        """T15: Verifica la exportación común de Subatenciones a XLSX real (T12)."""
         response = self.client.get("/api/subatenciones/export/")
         self.assertEqual(response.status_code, 200)
-        self.assertIn("text/csv", response["Content-Type"])
-        self.assertIn("subatenciones_export.csv", response["Content-Disposition"])
-        content = response.content.decode("utf-8-sig")
-        self.assertIn("Tipo de Atención Padre", content)
+        self.assertIn(XLSX_MIME, response["Content-Type"])
+        self.assertIn("subatenciones_export.xlsx", response["Content-Disposition"])
+        cabeceras, _, _ = leer_xlsx(response)
+        self.assertIn("Tipo de Atención Padre", cabeceras)
 
     # =======================================================
     # Pruebas Específicas T16: CRUD Ítems y Metas
@@ -613,14 +635,14 @@ class PatronCRUDAPITestCase(TestCase):
         item.refresh_from_db()
         self.assertFalse(item.estado)
 
-    def test_item_meta_export_csv(self):
-        """T16: Verifica exportación a CSV de ítems y metas."""
+    def test_item_meta_export_xlsx(self):
+        """T16: Verifica exportación a XLSX real de ítems y metas (T12)."""
         response = self.client.get("/api/items-metas/export/")
         self.assertEqual(response.status_code, 200)
-        self.assertIn("text/csv", response["Content-Type"])
-        self.assertIn("items_metas_export.csv", response["Content-Disposition"])
-        content = response.content.decode("utf-8-sig")
-        self.assertIn("Nombre del Ítem", content)
+        self.assertIn(XLSX_MIME, response["Content-Type"])
+        self.assertIn("items_metas_export.xlsx", response["Content-Disposition"])
+        cabeceras, _, _ = leer_xlsx(response)
+        self.assertIn("Nombre del Ítem", cabeceras)
 
 
 class AtencionCiudadanaAPITestCase(TestCase):
@@ -658,7 +680,7 @@ class AtencionCiudadanaAPITestCase(TestCase):
             rol=self.rol,
             delegacion=self.delegacion
         )
-        self.client.force_login(self.usuario)
+        self.client.force_login(self.usuario)  # T08: la API exige sesión iniciada
 
         # Catálogo Tipo de Atención
         self.tipo_social = TipoAtencion.objects.create(
@@ -868,8 +890,8 @@ class AtencionCiudadanaAPITestCase(TestCase):
         final_count = Atencion.objects.count()
         self.assertEqual(initial_count, final_count)
 
-    def test_atencion_export_csv(self):
-        """T17: Verifica exportación a CSV de atenciones ciudadanas."""
+    def test_atencion_export_xlsx(self):
+        """T17: Verifica exportación a XLSX real de atenciones ciudadanas (T12)."""
         Atencion.objects.create(
             folio="AT-2026-0001",
             solicitante="Prueba Export",
@@ -882,9 +904,9 @@ class AtencionCiudadanaAPITestCase(TestCase):
         )
         response = self.client.get("/api/atenciones/export/")
         self.assertEqual(response.status_code, 200)
-        self.assertIn("text/csv", response["Content-Type"])
-        self.assertIn("atenciones_export.csv", response["Content-Disposition"])
-        content = response.content.decode("utf-8-sig")
+        self.assertIn(XLSX_MIME, response["Content-Type"])
+        self.assertIn("atenciones_export.xlsx", response["Content-Disposition"])
+        _, _, content = leer_xlsx(response)
         self.assertIn("Prueba Export", content)
         self.assertIn("AT-2026-0001", content)
 
@@ -940,7 +962,7 @@ class IntegridadIdempotenciaAtencionAPITestCase(TestCase):
             rol=self.rol,
             delegacion=self.delegacion_origen
         )
-        self.client.force_login(self.usuario)
+        self.client.force_login(self.usuario)  # T08: la API exige sesión iniciada
 
         # Catálogos
         self.tipo_social = TipoAtencion.objects.create(
@@ -1056,10 +1078,11 @@ class IntegridadIdempotenciaAtencionAPITestCase(TestCase):
             "sub_atencion": self.sub_social.pk,
             "descripcion": "Prueba usuario inactivo."
         }
-        # Sin usuario activo de respaldo
+        # T08: una cuenta desactivada pierde su sesión (401) o es rechazada como responsable (403)
         response = self.client.post("/api/atenciones/", data=json.dumps(payload), content_type="application/json")
-                # Con T08, una cuenta inactiva pierde la sesión: la API responde 401
-        self.assertEqual(response.status_code, 401)
+        self.assertIn(response.status_code, (401, 403))
+        self.assertIn(response.json()["error"]["code"], ("UNAUTHORIZED", "RESPONSABLE_NO_AUTORIZADO"))
+        self.assertEqual(Atencion.objects.filter(solicitante="Vecino Prueba").count(), 0)
 
         # Restaurar
         self.usuario.is_active = True
@@ -1395,7 +1418,7 @@ class ContextoGlobalAPITestCase(TestCase):
         # Consultar exportación con ?solo_activa=1
         res_export = self.client.get("/api/atenciones/export/?solo_activa=1")
         self.assertEqual(res_export.status_code, 200)
-        content = res_export.content.decode("utf-8-sig")
+        _, _, content = leer_xlsx(res_export)
         self.assertIn("AT-2026-9002", content)
         self.assertNotIn("AT-2026-9001", content)
 

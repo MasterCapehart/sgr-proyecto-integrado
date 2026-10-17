@@ -1,6 +1,7 @@
 import json
+import openpyxl
 from django.views import View
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.core.exceptions import ValidationError
@@ -37,8 +38,15 @@ def api_error(code="BAD_REQUEST", message="Ocurrió un error en la solicitud", d
 @method_decorator(csrf_exempt, name='dispatch')
 class BaseCRUDView(View):
     """
-    Clase base reusable para vistas CRUD.
-    Ahora incluye control de acceso centralizado (T08).
+    Clase base reusable para vistas CRUD según el Patrón Común de API (Tarea T04).
+    Incluye control de acceso centralizado (T08) y exportación a XLSX nativo (T12).
+
+    Provee soporte automático para:
+    - Listado paginado con búsqueda (?search=) y filtro de estado (?estado=activos|inactivos|todos).
+    - Creación (POST).
+    - Consulta de detalle (GET con pk).
+    - Actualización parcial/total (PUT / PATCH).
+    - Desactivación lógica (DELETE / toggle-estado).
     """
     model = None
     fields = []
@@ -148,6 +156,7 @@ class BaseCRUDView(View):
         return qs
 
     def get(self, request, pk=None, action=None, *args, **kwargs):
+        """Maneja listado paginado, detalle o exportación a Excel."""
         if action == "export":
             # Extra: Verificar rol para exportar (Opcional, según reglas de negocio)
             return self.export(request)
@@ -156,16 +165,16 @@ class BaseCRUDView(View):
         return self.list(request)
 
     def export(self, request):
-        import csv
-        from django.http import HttpResponse
-
+        """Exporta los registros filtrados a formato XLSX nativo compatible con Excel (Tarea T12)."""
         qs = self.filter_queryset(self.get_queryset())
-        filename = f"{self.model._meta.model_name}_export.csv"
+        model_name = self.model._meta.model_name
+        filename = f"{model_name}_export.xlsx"
 
-        response = HttpResponse(content_type="text/csv; charset=utf-8-sig")
-        response["Content-Disposition"] = f'attachment; filename="{filename}"'
+        # Crear el libro de Excel y la hoja activa
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        ws.title = model_name.capitalize()
 
-        writer = csv.writer(response)
         field_labels = {
             "codigo": "Código",
             "nombre": "Nombre",
@@ -174,9 +183,12 @@ class BaseCRUDView(View):
             "direccion": "Dirección",
             "comuna": "Comuna"
         }
+        
+        # Generar cabeceras basadas en los campos autorizados (self.fields)
         headers = ["ID"] + [field_labels.get(f, f.replace("_", " ").title()) for f in self.fields]
-        writer.writerow(headers)
+        ws.append(headers)
 
+        # Poblar filas completas ignorando la paginación
         for item in qs:
             row = [item.pk]
             for f in self.fields:
@@ -184,8 +196,13 @@ class BaseCRUDView(View):
                 if isinstance(val, bool):
                     val = "Activo" if val else "Inactivo"
                 row.append(str(val) if val is not None else "")
-            writer.writerow(row)
+            ws.append(row)
 
+        # Preparar la respuesta HTTP para la descarga del archivo Excel
+        response = HttpResponse(content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        response["Content-Disposition"] = f'attachment; filename="{filename}"'
+        wb.save(response)
+        
         return response
 
     def list(self, request):

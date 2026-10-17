@@ -1,7 +1,8 @@
 /**
- * Módulo reutilizable de lógica común para los Mantenedores CRUD (Actualizado T11)
+ * Módulo reutilizable de lógica común para los Mantenedores CRUD (Consolidado T11, T12, T09)
  * Conexión completa Frontend <-> Backend API REST
- * Controla: Paginación real del servidor, búsqueda dinámica, CSRF Token para seguridad.
+ * Controla: Paginación real del servidor, búsqueda dinámica, CSRF Token para seguridad,
+ * y renderizado adaptativo de columnas (Roles usa 4 columnas, el resto 5).
  */
 document.addEventListener('DOMContentLoaded', () => {
   const pageId = document.body.dataset.page;
@@ -114,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     } catch (err) {
-      console.warn('Modo offline:', err.message);
+      console.warn('Modo offline o error:', err.message);
       filterRowsFrontend();
     }
   }
@@ -156,12 +157,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // RENDERIZADO CONDICIONAL DE FILAS (Ajustado para Roles)
   function renderTableRows(items) {
     if (!tableBody) return;
     tableBody.innerHTML = '';
 
     if (items.length === 0) {
-      tableBody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 24px; color: var(--muted);">No se encontraron registros.</td></tr>`;
+      const colSpan = (pageId === 'roles') ? "4" : "5";
+      tableBody.innerHTML = `<tr><td colspan="${colSpan}" style="text-align: center; padding: 24px; color: var(--muted);">No se encontraron registros.</td></tr>`;
       return;
     }
 
@@ -173,21 +176,40 @@ document.addEventListener('DOMContentLoaded', () => {
       const badgeHtml = isActivo ? '<span class="badge green">Activo</span>' : '<span class="badge red">Inactivo</span>';
       const toggleActionText = isActivo ? 'Desactivar' : 'Activar';
 
-      let col3Content = '';
-      if (pageId === 'subatenciones') col3Content = escapeHtml(item.tipo_padre_display || (item.tipo_atencion_codigo ? `${item.tipo_atencion_codigo} · ${item.tipo_atencion_nombre}` : '-'));
-      else col3Content = escapeHtml(item.descripcion || item.direccion || '-');
+      // --- RENDERIZADO EXCLUSIVO PARA ROLES (4 COLUMNAS) ---
+      if (pageId === 'roles') {
+        tr.innerHTML = `
+          <td><strong>${escapeHtml(item.nombre || '-')}</strong></td>
+          <td>${escapeHtml(item.descripcion || '-')}</td>
+          <td>${badgeHtml}</td>
+          <td>
+            <button type="button" class="linkbtn" data-action="ver" data-id="${item.id}">Ver</button> · 
+            <button type="button" class="linkbtn" data-action="editar" data-id="${item.id}">Editar</button> · 
+            <button type="button" class="linkbtn" data-action="toggle-estado" data-id="${item.id}">${toggleActionText}</button>
+          </td>
+        `;
+      } 
+      // --- RENDERIZADO ESTÁNDAR (5 COLUMNAS) ---
+      else {
+        let col3Content = '';
+        if (pageId === 'subatenciones') {
+          col3Content = escapeHtml(item.tipo_padre_display || (item.tipo_atencion_codigo ? `${item.tipo_atencion_codigo} · ${item.tipo_atencion_nombre}` : '-'));
+        } else {
+          col3Content = escapeHtml(item.descripcion || item.direccion || '-');
+        }
 
-      tr.innerHTML = `
-        <td><strong>${escapeHtml(item.codigo || '-')}</strong></td>
-        <td>${escapeHtml(item.nombre || item.nombre_tipo || '-')}</td>
-        <td>${col3Content}</td>
-        <td>${badgeHtml}</td>
-        <td>
-          <button type="button" class="linkbtn" data-action="ver" data-id="${item.id}">Ver</button> · 
-          <button type="button" class="linkbtn" data-action="editar" data-id="${item.id}">Editar</button> · 
-          <button type="button" class="linkbtn" data-action="toggle-estado" data-id="${item.id}">${toggleActionText}</button>
-        </td>
-      `;
+        tr.innerHTML = `
+          <td><strong>${escapeHtml(item.codigo || '-')}</strong></td>
+          <td>${escapeHtml(item.nombre || item.nombre_tipo || '-')}</td>
+          <td>${col3Content}</td>
+          <td>${badgeHtml}</td>
+          <td>
+            <button type="button" class="linkbtn" data-action="ver" data-id="${item.id}">Ver</button> · 
+            <button type="button" class="linkbtn" data-action="editar" data-id="${item.id}">Editar</button> · 
+            <button type="button" class="linkbtn" data-action="toggle-estado" data-id="${item.id}">${toggleActionText}</button>
+          </td>
+        `;
+      }
       tableBody.appendChild(tr);
     });
   }
@@ -214,7 +236,10 @@ document.addEventListener('DOMContentLoaded', () => {
     btnNuevo.addEventListener('click', async () => {
       currentEditId = null;
       const isMasculine = (pageId === 'items-metas');
-      const singularName = pageId === 'subatenciones' ? 'Subatención' : pageId === 'tipos-atencion' ? 'Tipo de Atención' : pageId === 'items-metas' ? 'Ítem' : 'registro';
+      const singularName = pageId === 'subatenciones' ? 'Subatención' 
+         : pageId === 'tipos-atencion' ? 'Tipo de Atención' 
+         : pageId === 'items-metas' ? 'Ítem' 
+         : pageId === 'roles' ? 'Rol' : 'registro';
 
       if (modalTitle) modalTitle.textContent = `${isMasculine ? 'Nuevo' : 'Nueva'} ${singularName}`;
       if (formEditor) {
@@ -238,10 +263,12 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
 
       const payload = {
-        codigo: formEditor.elements['codigo']?.value?.trim(),
         nombre: formEditor.elements['nombre']?.value?.trim(),
         estado: (formEditor.elements['estado']?.value || 'Activo').toLowerCase() === 'activo'
       };
+      
+      const codigoVal = formEditor.elements['codigo']?.value?.trim();
+      if (codigoVal !== undefined) payload.codigo = codigoVal;
 
       const descVal = formEditor.elements['descripcion']?.value?.trim();
       if (descVal !== undefined) payload.descripcion = descVal;
@@ -279,7 +306,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 4. Acciones de Tabla Seguras (Toggle-estado y Editar)
+  // 4. Acciones de Tabla Seguras
   if (tableBody) {
     tableBody.addEventListener('click', async (e) => {
       const btn = e.target.closest('button[data-action]');
@@ -321,13 +348,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const item = data.data;
             if (action === 'ver') {
                 window.Swal?.fire({
-                  title: `Detalle: ${item.codigo}`,
-                  html: `<div style="text-align: left;"><p><strong>Nombre:</strong> ${item.nombre}</p><p><strong>Estado:</strong> ${item.estado ? 'Activo' : 'Inactivo'}</p></div>`,
-                  icon: 'info'
+                  title: `Detalle: ${escapeHtml(item.codigo || item.nombre || '')}`,
+                  html: `<div style="text-align: left;"><p><strong>Nombre:</strong> ${escapeHtml(item.nombre || '-')}</p><p><strong>Estado:</strong> ${item.estado ? 'Activo' : 'Inactivo'}</p></div>`,
+                  icon: 'info',
+                  confirmButtonColor: '#ad0000'
                 });
             } else {
                 currentEditId = id;
-                if (modalTitle) modalTitle.textContent = `Editar (${item.codigo})`;
+                if (modalTitle) modalTitle.textContent = `Editar (${item.codigo || item.nombre})`;
                 if (formEditor) {
                   if (formEditor.elements['codigo']) formEditor.elements['codigo'].value = item.codigo || '';
                   if (formEditor.elements['nombre']) formEditor.elements['nombre'].value = item.nombre || '';
@@ -352,6 +380,11 @@ document.addEventListener('DOMContentLoaded', () => {
       window.location.href = `${API_BASE}${endpointPath}export/?search=${encodeURIComponent(term)}&estado=${encodeURIComponent(estado)}`;
     });
   }
+
+  // Recargar datos cuando se cambia el ámbito territorial desde la cabecera
+  window.addEventListener('sgr:delegacion-cambiada', () => {
+    loadDataFromApi();
+  });
 
   loadDataFromApi();
 });

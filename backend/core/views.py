@@ -1,19 +1,20 @@
 import json
 import random
 import datetime
+import openpyxl
 from .models import Usuario, TipoAtencion, Delegacion, Rol
 from django.db import models, transaction
 from django.utils import timezone
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.core.mail import send_mail
 
 from .models import (
     Usuario, TipoAtencion, SubAtencion, Delegacion,
-    ItemMeta, ConfiguracionMeta, Atencion, AuditoriaDerivacion
+    ItemMeta, ConfiguracionMeta, Atencion, AuditoriaDerivacion, Rol
 )
 from .api import BaseCRUDView, api_error
 
@@ -304,40 +305,33 @@ class SubAtencionCRUDView(BaseCRUDView):
         return errors
 
     def export(self, request):
-        """Exporta subatenciones a CSV compatible con Excel."""
-        import csv
-        from django.http import HttpResponse
-
+        """Exporta subatenciones a XLSX real (Tarea T12)."""
         qs = self.filter_queryset(self.get_queryset())
-        filename = "subatenciones_export.csv"
-
-        response = HttpResponse(content_type="text/csv; charset=utf-8-sig")
-        response["Content-Disposition"] = f'attachment; filename="{filename}"'
-
-        writer = csv.writer(response)
-        writer.writerow(["ID", "Código", "Nombre de la Subatención", "Tipo de Atención Padre", "Estado"])
-
+        
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        ws.title = "Subatenciones"
+        
+        headers = ["ID", "Código", "Nombre de la Subatención", "Tipo de Atención Padre", "Estado"]
+        ws.append(headers)
+        
         for item in qs:
             padre_str = f"{item.tipo_atencion.codigo} · {item.tipo_atencion.nombre}" if item.tipo_atencion else ""
-            writer.writerow([
+            ws.append([
                 item.pk,
                 item.codigo,
                 item.nombre,
                 padre_str,
                 "Activo" if item.estado else "Inactivo"
             ])
-
+            
+        response = HttpResponse(content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        response["Content-Disposition"] = 'attachment; filename="subatenciones_export.xlsx"'
+        wb.save(response)
         return response
 
 
 class ItemMetaCRUDView(BaseCRUDView):
-    """
-    CRUD completo de Ítems y Metas (Tarea T16).
-    Gestiona los conceptos e indicadores medibles del SGR con:
-    - Validación de campos obligatorios y duplicados (código y nombre).
-    - Conservación de historia y validación de referencias hacia ConfiguracionMeta.
-    - Exportación a Excel/CSV.
-    """
     model = ItemMeta
     fields = ["codigo", "nombre", "descripcion", "unidad_medida", "estado"]
     search_fields = ["codigo", "nombre", "descripcion"]
@@ -404,21 +398,18 @@ class ItemMetaCRUDView(BaseCRUDView):
         return super().toggle_estado(request, pk)
 
     def export(self, request):
-        """Exporta ítems y metas a CSV compatible con Excel."""
-        import csv
-        from django.http import HttpResponse
-
+        """Exporta ítems y metas a XLSX real (Tarea T12)."""
         qs = self.filter_queryset(self.get_queryset())
-        filename = "items_metas_export.csv"
-
-        response = HttpResponse(content_type="text/csv; charset=utf-8-sig")
-        response["Content-Disposition"] = f'attachment; filename="{filename}"'
-
-        writer = csv.writer(response)
-        writer.writerow(["ID", "Código", "Nombre del Ítem", "Descripción Operativa", "Unidad de Medida", "Estado"])
-
+        
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        ws.title = "Items Metas"
+        
+        headers = ["ID", "Código", "Nombre del Ítem", "Descripción Operativa", "Unidad de Medida", "Estado"]
+        ws.append(headers)
+        
         for item in qs:
-            writer.writerow([
+            ws.append([
                 item.pk,
                 item.codigo,
                 item.nombre,
@@ -426,7 +417,10 @@ class ItemMetaCRUDView(BaseCRUDView):
                 item.unidad_medida,
                 "Activo" if item.estado else "Inactivo"
             ])
-
+            
+        response = HttpResponse(content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        response["Content-Disposition"] = 'attachment; filename="items_metas_export.xlsx"'
+        wb.save(response)
         return response
 
 
@@ -830,28 +824,21 @@ class AtencionCRUDView(BaseCRUDView):
                     motivo=str(data.get("motivo_derivacion") or "Derivación institucional autorizada").strip()
                 )
 
-        return api_success(
-            data=self.serialize_instance(atencion),
-            message=f"Atención ciudadana registrada exitosamente con folio {atencion.folio}.",
-            status=201
-        )
+        return api_success(data=self.serialize_instance(atencion), message=f"Atención registrada: {atencion.folio}", status=201)
 
     def export(self, request):
-        """Exporta atenciones ciudadanas a CSV compatible con Excel."""
-        import csv
-        from django.http import HttpResponse
-
+        """Exporta atenciones ciudadanas a XLSX real (Tarea T12)."""
         qs = self.filter_queryset(self.get_queryset())
-        filename = "atenciones_export.csv"
-
-        response = HttpResponse(content_type="text/csv; charset=utf-8-sig")
-        response["Content-Disposition"] = f'attachment; filename="{filename}"'
-
-        writer = csv.writer(response)
-        writer.writerow(["ID", "Folio", "Solicitante", "Tipo de Atención", "Subatención", "Delegación", "Funcionario", "Fecha Registro", "Caso Social", "Estado"])
-
+        
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        ws.title = "Atenciones"
+        
+        headers = ["ID", "Folio", "Solicitante", "Tipo de Atención", "Subatención", "Delegación", "Funcionario", "Fecha Registro", "Caso Social", "Estado"]
+        ws.append(headers)
+        
         for a in qs:
-            writer.writerow([
+            ws.append([
                 a.pk,
                 a.folio,
                 a.solicitante,
@@ -863,7 +850,10 @@ class AtencionCRUDView(BaseCRUDView):
                 a.caso_social or "",
                 "Activo" if a.estado else "Inactivo"
             ])
-
+            
+        response = HttpResponse(content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        response["Content-Disposition"] = 'attachment; filename="atenciones_export.xlsx"'
+        wb.save(response)
         return response
 
 
@@ -1155,3 +1145,29 @@ class UsuarioCRUDView(BaseCRUDView):
             msg = "Usuario creado exitosamente."
 
         return api_success(data=self.serialize_instance(instance), message=msg, status=201 if not pk else 200)
+
+    def export(self, request):
+        """Exporta usuarios a XLSX real (T12). Nunca incluye contraseñas ni hashes."""
+        qs = self.filter_queryset(self.get_queryset())
+
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        ws.title = "Usuarios"
+        ws.append(["ID", "Usuario", "Nombre y Apellidos", "Correo Institucional", "RUT", "Rol Asignado", "Delegación", "Estado"])
+
+        for item in qs:
+            ws.append([
+                item.pk,
+                item.username,
+                item.get_full_name() or item.username,
+                item.email or "",
+                item.rut or "",
+                item.rol.nombre if item.rol else "",
+                item.delegacion.nombre if item.delegacion else "",
+                "Activo" if item.is_active else "Inactivo",
+            ])
+
+        response = HttpResponse(content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        response["Content-Disposition"] = 'attachment; filename="usuarios_export.xlsx"'
+        wb.save(response)
+        return response

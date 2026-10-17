@@ -60,64 +60,17 @@
               </tr>
             </thead>
             <tbody id="table-body">
-              <tr data-status="activo">
-                <td><strong>Daniel Flores</strong></td>
-                <td>dflores@laserena.cl</td>
-                <td>Administrador</td>
-                <td>DEL01 · Las Compañías</td>
-                <td><span class="badge green">Activo</span></td>
-                <td>
-                  <button type="button" class="linkbtn" data-action="ver" data-id="dflores@laserena.cl">Ver</button> · 
-                  <button type="button" class="linkbtn" data-action="editar" data-id="dflores@laserena.cl">Editar</button> · 
-                  <button type="button" class="linkbtn" data-action="desactivar" data-id="dflores@laserena.cl">Desactivar</button>
-                </td>
-              </tr>
-              <tr data-status="activo">
-                <td><strong>María José Rojas</strong></td>
-                <td>mrojas@laserena.cl</td>
-                <td>Operador Territorial</td>
-                <td>DEL01 · Las Compañías</td>
-                <td><span class="badge green">Activo</span></td>
-                <td>
-                  <button type="button" class="linkbtn" data-action="ver" data-id="mrojas@laserena.cl">Ver</button> · 
-                  <button type="button" class="linkbtn" data-action="editar" data-id="mrojas@laserena.cl">Editar</button> · 
-                  <button type="button" class="linkbtn" data-action="desactivar" data-id="mrojas@laserena.cl">Desactivar</button>
-                </td>
-              </tr>
-              <tr data-status="activo">
-                <td><strong>Rodrigo Soto</strong></td>
-                <td>rsoto@laserena.cl</td>
-                <td>Consultor</td>
-                <td>DEL01 · Las Compañías</td>
-                <td><span class="badge green">Activo</span></td>
-                <td>
-                  <button type="button" class="linkbtn" data-action="ver" data-id="rsoto@laserena.cl">Ver</button> · 
-                  <button type="button" class="linkbtn" data-action="editar" data-id="rsoto@laserena.cl">Editar</button> · 
-                  <button type="button" class="linkbtn" data-action="desactivar" data-id="rsoto@laserena.cl">Desactivar</button>
-                </td>
-              </tr>
-              <tr data-status="inactivo">
-                <td><strong>Camila Vega</strong></td>
-                <td>cvega@laserena.cl</td>
-                <td>Operador Territorial</td>
-                <td>DEL02 · La Pampa</td>
-                <td><span class="badge red">Inactivo</span></td>
-                <td>
-                  <button type="button" class="linkbtn" data-action="ver" data-id="cvega@laserena.cl">Ver</button> · 
-                  <button type="button" class="linkbtn" data-action="editar" data-id="cvega@laserena.cl">Editar</button> · 
-                  <button type="button" class="linkbtn" data-action="activar" data-id="cvega@laserena.cl">Activar</button>
-                </td>
-              </tr>
+              <!-- Las filas se renderizan dinámicamente vía usuarios.js desde Django -->
             </tbody>
           </table>
         </div>
 
         <div class="pager">
-          <span id="page-info">Mostrando 4 registros</span>
+          <span id="page-info">Cargando registros...</span>
           <div class="pagebuttons">
-            <button type="button" class="button small secondary" disabled>Anterior</button>
-            <button type="button" class="button small">1</button>
-            <button type="button" class="button small secondary" disabled>Siguiente</button>
+            <button type="button" class="button small secondary" id="btn-prev" disabled>Anterior</button>
+            <button type="button" class="button small" id="page-number" disabled>1</button>
+            <button type="button" class="button small secondary" id="btn-next" disabled>Siguiente</button>
           </div>
         </div>
       </div>
@@ -126,32 +79,44 @@
       <dialog id="modal-editor">
         <form id="form-editor" method="dialog" novalidate>
           <div class="modalhead">
-            <h2 id="modal-title">Nuevo Usuario</h2>
-            <button type="button" class="linkbtn" id="modal-close" style="font-size: 16px;">✕</button>
+            <h2 id="modal-title">Nuevo usuario</h2>
+            <span class="badge" style="background: #fee2e2; color: var(--municipal-red);">Campos obligatorios *</span>
+            <button type="button" class="linkbtn" id="modal-close" style="font-size: 16px;" aria-label="Cerrar">✕</button>
           </div>
           <div class="modalbody grid">
             <div class="field">
               <label for="campo-nombre">Nombre completo <span class="required" aria-hidden="true">*</span></label>
-              <input type="text" id="campo-nombre" name="nombre" placeholder="ej. Andrés Pérez" required>
+              <input type="text" id="campo-nombre" name="nombre" placeholder="ej. Andrés Pérez" required aria-required="true">
+              <p class="help">Nombre y apellidos de la persona que usará la cuenta.</p>
             </div>
             <div class="field">
               <label for="campo-correo">Correo institucional <span class="required" aria-hidden="true">*</span></label>
-              <input type="email" id="campo-correo" name="correo" placeholder="ej. aperez@laserena.cl" required>
+              <input type="email" id="campo-correo" name="correo" placeholder="ej. aperez@laserena.cl" required aria-required="true">
+              <p class="help">Será también el nombre de usuario. Debe ser único.</p>
+            </div>
+            <div class="field">
+              <label for="campo-rut">RUT</label>
+              <input type="text" id="campo-rut" name="rut" placeholder="ej. 12.345.678-9" maxlength="12">
+              <p class="help">Opcional. Si se ingresa, no puede repetirse.</p>
+            </div>
+            <div class="field">
+              <label for="campo-password">Contraseña <span class="required" aria-hidden="true">*</span></label>
+              <input type="password" id="campo-password" name="password" autocomplete="new-password">
+              <p class="help" id="ayuda-password"></p>
             </div>
             <div class="field">
               <label for="campo-rol">Rol asignado <span class="required" aria-hidden="true">*</span></label>
-              <select id="campo-rol" name="rol" required>
-                <option value="Administrador">Administrador</option>
-                <option value="Operador Territorial">Operador Territorial</option>
-                <option value="Consultor">Consultor</option>
+              <select id="campo-rol" name="rol" required aria-required="true">
+                <option value="">Cargando roles...</option>
               </select>
+              <p class="help">Define los permisos de la cuenta.</p>
             </div>
             <div class="field">
               <label for="campo-delegacion">Delegación autorizada <span class="required" aria-hidden="true">*</span></label>
-              <select id="campo-delegacion" name="delegacion" required>
-                <option value="DEL01 · Las Compañías">DEL01 · Las Compañías</option>
-                <option value="DEL02 · La Pampa">DEL02 · La Pampa</option>
+              <select id="campo-delegacion" name="delegacion" required aria-required="true">
+                <option value="">Cargando delegaciones...</option>
               </select>
+              <p class="help">Ámbito territorial en el que podrá operar.</p>
             </div>
             <div class="field full">
               <label for="campo-estado">Estado de la cuenta</label>
@@ -159,6 +124,7 @@
                 <option value="Activo">Activo</option>
                 <option value="Inactivo">Inactivo</option>
               </select>
+              <p class="help">Una cuenta inactiva no puede iniciar sesión.</p>
             </div>
           </div>
           <div class="modalfoot">
@@ -174,7 +140,8 @@
 
   <script defer src="../assets/vendor/sweetalert2.min.js"></script>
   <script defer src="../assets/js/components/layout.js"></script>
-  <script defer src="../assets/js/modules/mantenedor-comun.js"></script>
+  <!-- Módulo propio de Usuarios (no usa mantenedor-comun.js) -->
+  <script defer src="../assets/js/modules/usuarios.js"></script>
   <script defer src="../assets/js/app.js"></script>
 </body>
 </html>

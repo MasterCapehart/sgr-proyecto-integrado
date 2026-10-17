@@ -8,10 +8,11 @@ urlpatterns = [
     path('recuperacion/', views.solicitar_recuperacion, name='recuperacion'),
     path('validar-recuperacion/', views.validar_y_cambiar_password, name='validar-recuperacion'),
 
-    # CRUD de Roles (T09)
+
 
     # CRUD de Usuarios (T10)
     path('usuarios/', views.UsuarioCRUDView.as_view(), name='usuarios-list'),
+    path('usuarios/export/', views.UsuarioCRUDView.as_view(), {'action': 'export'}, name='usuarios-export'),
     path('usuarios/<int:pk>/', views.UsuarioCRUDView.as_view(), name='usuarios-detail'),
     path('usuarios/<int:pk>/toggle-estado/', views.UsuarioCRUDView.as_view(), {'action': 'toggle-estado'}, name='usuarios-toggle'),
 
