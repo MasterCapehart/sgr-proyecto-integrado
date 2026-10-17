@@ -290,6 +290,12 @@ def validate_data(obj, data, resource, request, creating=False):
         if obj.estado and not obj.tipo_atencion.estado:raise ValidationError({'tipo_atencion':'No se puede activar una subatención cuyo tipo está inactivo.'})
     if isinstance(obj,ConfiguracionMeta):
         if obj.estado and obj.item_id and not obj.item.estado:raise ValidationError({'item':'No se puede activar una meta de un ítem inactivo.'})
+        if obj.item_id:
+            # Una misma fila de ítem serializa creaciones y cambios concurrentes.
+            # No altera ni elimina configuraciones históricas preexistentes.
+            ItemMeta.objects.select_for_update().get(pk=obj.item_id)
+            if ConfiguracionMeta.objects.filter(item_id=obj.item_id,periodo__iexact=obj.periodo).exclude(pk=obj.pk).exists():
+                raise ValidationError({'periodo':'Ya existe una meta para este ítem y período. Edita la configuración existente.'})
         if Decimal(str(obj.meta_esperada))<=0 or not 0<Decimal(str(obj.ponderacion))<=100: raise ValidationError('Meta positiva y ponderación entre 0 y 100.')
     if obj.pk and hasattr(obj,'estado') and not obj.estado:
         relations=[]
