@@ -1,0 +1,130 @@
+[
+  {
+    "caso": "login campos vacíos SweetAlert2",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Login real navegador",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Pantalla alertas.html",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Pantalla auditoria.html",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Pantalla cargos.html",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Pantalla casos-sociales.html",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Pantalla configuraciones-metas.html",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Pantalla delegaciones.html",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Pantalla desempeno.html",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Pantalla evidencias.html",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Pantalla gobierno.html",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Pantalla guia.html",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Pantalla ingreso-atencion.html",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Pantalla items-metas.html",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Pantalla reclamos.html",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Pantalla reportes.html",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Pantalla resumen-metas.html",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Pantalla roles.html",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Pantalla semaforo.html",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Pantalla subatenciones.html",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Pantalla tipos-atencion.html",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Pantalla tubo-trabajo.html",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Pantalla usuarios.html",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Pantalla validacion.html",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "CRUD visual delegaciones",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "CRUD visual roles",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "CRUD visual usuarios",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "CRUD visual items-metas",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "CRUD visual tipos-atencion",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "CRUD visual subatenciones",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Atención selector dependiente y guardar",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "Vista móvil sin desborde global",
+    "resultado": "PASS"
+  }
+]

@@ -1,0 +1,964 @@
+[
+  {
+    "caso": "contexto QA social",
+    "ruta": "/api/contexto/cambiar-delegacion/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "caso social etapa 1",
+    "ruta": "/api/atenciones/",
+    "esperado": [
+      200,
+      201
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "caso social etapa 2",
+    "ruta": "/api/atenciones/",
+    "esperado": [
+      200,
+      201
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "caso social etapa 3",
+    "ruta": "/api/atenciones/",
+    "esperado": [
+      200,
+      201
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "caso social rechaza cuarta etapa",
+    "ruta": "/api/atenciones/",
+    "esperado": [
+      409
+    ],
+    "obtenido": 409,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "casos sociales listado",
+    "ruta": "/api/casos-sociales/?search=Q1558d2b8",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "casos sociales Excel",
+    "ruta": "/api/casos-sociales/?export=1&search=Q1558d2b8",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "subatenciones crear",
+    "ruta": "/api/subatenciones/",
+    "esperado": [
+      201
+    ],
+    "obtenido": 201,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "subatenciones desactivar sin relaciones",
+    "ruta": "/api/subatenciones/5/toggle-estado/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "subatenciones inactivo persistido",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "subatenciones reactivar sin relaciones",
+    "ruta": "/api/subatenciones/5/toggle-estado/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "items-metas crear",
+    "ruta": "/api/items-metas/",
+    "esperado": [
+      201
+    ],
+    "obtenido": 201,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "items-metas desactivar sin relaciones",
+    "ruta": "/api/items-metas/5/toggle-estado/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "items-metas inactivo persistido",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "items-metas reactivar sin relaciones",
+    "ruta": "/api/items-metas/5/toggle-estado/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "admin.aws contexto conserva rol",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "admin.aws consulta delegaciones",
+    "ruta": "/api/delegaciones/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "admin.aws permiso crear delegaciones",
+    "ruta": "/api/delegaciones/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "admin.aws consulta roles",
+    "ruta": "/api/roles/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "admin.aws permiso crear roles",
+    "ruta": "/api/roles/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "admin.aws consulta usuarios",
+    "ruta": "/api/usuarios/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "admin.aws permiso crear usuarios",
+    "ruta": "/api/usuarios/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "admin.aws consulta items-metas",
+    "ruta": "/api/items-metas/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "admin.aws permiso crear items-metas",
+    "ruta": "/api/items-metas/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "admin.aws consulta tipos-atencion",
+    "ruta": "/api/tipos-atencion/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "admin.aws permiso crear tipos-atencion",
+    "ruta": "/api/tipos-atencion/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "admin.aws consulta subatenciones",
+    "ruta": "/api/subatenciones/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "admin.aws permiso crear subatenciones",
+    "ruta": "/api/subatenciones/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "admin.aws consulta atenciones",
+    "ruta": "/api/atenciones/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "admin.aws permiso crear atenciones",
+    "ruta": "/api/atenciones/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "admin.aws cierre sesión",
+    "ruta": "/api/logout/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "coordinador.aws contexto conserva rol",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "coordinador.aws consulta delegaciones",
+    "ruta": "/api/delegaciones/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "coordinador.aws permiso crear delegaciones",
+    "ruta": "/api/delegaciones/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "coordinador.aws consulta roles",
+    "ruta": "/api/roles/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "coordinador.aws permiso crear roles",
+    "ruta": "/api/roles/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "coordinador.aws consulta usuarios",
+    "ruta": "/api/usuarios/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "coordinador.aws permiso crear usuarios",
+    "ruta": "/api/usuarios/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "coordinador.aws consulta items-metas",
+    "ruta": "/api/items-metas/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "coordinador.aws permiso crear items-metas",
+    "ruta": "/api/items-metas/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "coordinador.aws consulta tipos-atencion",
+    "ruta": "/api/tipos-atencion/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "coordinador.aws permiso crear tipos-atencion",
+    "ruta": "/api/tipos-atencion/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "coordinador.aws consulta subatenciones",
+    "ruta": "/api/subatenciones/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "coordinador.aws permiso crear subatenciones",
+    "ruta": "/api/subatenciones/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "coordinador.aws consulta atenciones",
+    "ruta": "/api/atenciones/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "coordinador.aws permiso crear atenciones",
+    "ruta": "/api/atenciones/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "coordinador.aws cierre sesión",
+    "ruta": "/api/logout/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "delegado.aws contexto conserva rol",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "delegado.aws consulta delegaciones",
+    "ruta": "/api/delegaciones/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "delegado.aws permiso crear delegaciones",
+    "ruta": "/api/delegaciones/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "delegado.aws consulta roles",
+    "ruta": "/api/roles/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "delegado.aws permiso crear roles",
+    "ruta": "/api/roles/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "delegado.aws consulta usuarios",
+    "ruta": "/api/usuarios/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "delegado.aws permiso crear usuarios",
+    "ruta": "/api/usuarios/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "delegado.aws consulta items-metas",
+    "ruta": "/api/items-metas/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "delegado.aws permiso crear items-metas",
+    "ruta": "/api/items-metas/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "delegado.aws consulta tipos-atencion",
+    "ruta": "/api/tipos-atencion/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "delegado.aws permiso crear tipos-atencion",
+    "ruta": "/api/tipos-atencion/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "delegado.aws consulta subatenciones",
+    "ruta": "/api/subatenciones/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "delegado.aws permiso crear subatenciones",
+    "ruta": "/api/subatenciones/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "delegado.aws consulta atenciones",
+    "ruta": "/api/atenciones/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "delegado.aws permiso crear atenciones",
+    "ruta": "/api/atenciones/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "delegado.aws cierre sesión",
+    "ruta": "/api/logout/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "funcionario.aws contexto conserva rol",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "funcionario.aws consulta delegaciones",
+    "ruta": "/api/delegaciones/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "funcionario.aws permiso crear delegaciones",
+    "ruta": "/api/delegaciones/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "funcionario.aws consulta roles",
+    "ruta": "/api/roles/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "funcionario.aws permiso crear roles",
+    "ruta": "/api/roles/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "funcionario.aws consulta usuarios",
+    "ruta": "/api/usuarios/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "funcionario.aws permiso crear usuarios",
+    "ruta": "/api/usuarios/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "funcionario.aws consulta items-metas",
+    "ruta": "/api/items-metas/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "funcionario.aws permiso crear items-metas",
+    "ruta": "/api/items-metas/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "funcionario.aws consulta tipos-atencion",
+    "ruta": "/api/tipos-atencion/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "funcionario.aws permiso crear tipos-atencion",
+    "ruta": "/api/tipos-atencion/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "funcionario.aws consulta subatenciones",
+    "ruta": "/api/subatenciones/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "funcionario.aws permiso crear subatenciones",
+    "ruta": "/api/subatenciones/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "funcionario.aws consulta atenciones",
+    "ruta": "/api/atenciones/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "funcionario.aws permiso crear atenciones",
+    "ruta": "/api/atenciones/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "funcionario.aws cierre sesión",
+    "ruta": "/api/logout/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "verificador.aws contexto conserva rol",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "verificador.aws consulta delegaciones",
+    "ruta": "/api/delegaciones/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "verificador.aws permiso crear delegaciones",
+    "ruta": "/api/delegaciones/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "verificador.aws consulta roles",
+    "ruta": "/api/roles/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "verificador.aws permiso crear roles",
+    "ruta": "/api/roles/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "verificador.aws consulta usuarios",
+    "ruta": "/api/usuarios/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "verificador.aws permiso crear usuarios",
+    "ruta": "/api/usuarios/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "verificador.aws consulta items-metas",
+    "ruta": "/api/items-metas/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "verificador.aws permiso crear items-metas",
+    "ruta": "/api/items-metas/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "verificador.aws consulta tipos-atencion",
+    "ruta": "/api/tipos-atencion/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "verificador.aws permiso crear tipos-atencion",
+    "ruta": "/api/tipos-atencion/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "verificador.aws consulta subatenciones",
+    "ruta": "/api/subatenciones/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "verificador.aws permiso crear subatenciones",
+    "ruta": "/api/subatenciones/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "verificador.aws consulta atenciones",
+    "ruta": "/api/atenciones/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "verificador.aws permiso crear atenciones",
+    "ruta": "/api/atenciones/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "verificador.aws cierre sesión",
+    "ruta": "/api/logout/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "consulta.aws contexto conserva rol",
+    "resultado": "PASS"
+  },
+  {
+    "caso": "consulta.aws consulta delegaciones",
+    "ruta": "/api/delegaciones/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "consulta.aws permiso crear delegaciones",
+    "ruta": "/api/delegaciones/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "consulta.aws consulta roles",
+    "ruta": "/api/roles/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "consulta.aws permiso crear roles",
+    "ruta": "/api/roles/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "consulta.aws consulta usuarios",
+    "ruta": "/api/usuarios/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "consulta.aws permiso crear usuarios",
+    "ruta": "/api/usuarios/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "consulta.aws consulta items-metas",
+    "ruta": "/api/items-metas/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "consulta.aws permiso crear items-metas",
+    "ruta": "/api/items-metas/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "consulta.aws consulta tipos-atencion",
+    "ruta": "/api/tipos-atencion/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "consulta.aws permiso crear tipos-atencion",
+    "ruta": "/api/tipos-atencion/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "consulta.aws consulta subatenciones",
+    "ruta": "/api/subatenciones/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "consulta.aws permiso crear subatenciones",
+    "ruta": "/api/subatenciones/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "consulta.aws consulta atenciones",
+    "ruta": "/api/atenciones/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "consulta.aws permiso crear atenciones",
+    "ruta": "/api/atenciones/",
+    "esperado": [
+      403
+    ],
+    "obtenido": 403,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "consulta.aws cierre sesión",
+    "ruta": "/api/logout/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  }
+]
