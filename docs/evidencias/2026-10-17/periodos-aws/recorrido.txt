@@ -1,0 +1,9 @@
+PASS Crear período bisiesto de 91 días
+PASS Meta enlazada al calendario mediante selector
+PASS Cerrar con motivo auditable
+PASS Meta cerrada protegida en interfaz y servidor
+PASS Reabrir período con motivo
+PASS Editar meta tras reapertura
+PASS Consultar historial de cierre y reapertura
+PASS Exportar períodos filtrados
+PASS Vista móvil y JavaScript sin errores

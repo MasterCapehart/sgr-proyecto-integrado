@@ -36,9 +36,9 @@
 - [x] Verificación navegador y suite completa; documentar alcance sin cálculos.
 
 ### Task 4: AWS
-- [ ] Respaldo previo privado, migraciones con identidad de despliegue, volver a usuario limitado.
-- [ ] Desplegar versión, comprobar flujo y datos; conciliar solo si existen grupos resolubles.
-- [ ] Commits separados por módulo y datos/evidencias, sin PR ni pruebas de estrés.
+- [x] Respaldo previo privado, migraciones con identidad de despliegue, volver a usuario limitado.
+- [x] Desplegar versión, comprobar flujo y datos; conciliar solo si existen grupos resolubles.
+- [x] Commits separados por módulo y datos/evidencias, sin PR ni pruebas de estrés.
 
 ## Ledger
 - Ruling: no se concilian automáticamente configuraciones que ya tienen calendario FK; etiquetas antiguas iguales no prueban identidad de fechas. La unicidad nueva utiliza ID de calendario, no etiquetas históricas.
@@ -47,3 +47,5 @@
 
 - Verificación final secuencial: 344 tests, 343 aprobados y 1 fallo esperado heredado. Recorrido local de navegador: 9 pasos aprobados.
 - AWS pendiente: HTTPS no responde y EC2 devuelve UnauthorizedOperation. No se ejecutó migración remota; se pidió al usuario revisar Learner Lab.
+
+- AWS completado tras iniciar Learner Lab: respaldo RDS privado, migración 0017 aplicada, ejecución con usuario limitado, servicio activo y recorrido real de navegador 9/9. Conciliación remota sin grupos. Evidencias: docs/evidencias/2026-10-17/periodos-aws/. El control EC2 por API sigue denegado; SSH y RDS operativos. No se ejecutaron pruebas de estrés.

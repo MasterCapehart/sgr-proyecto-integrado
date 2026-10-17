@@ -1,0 +1,42 @@
+{
+  "tag": "PER80313954",
+  "results": [
+    "Crear período bisiesto de 91 días",
+    "Meta enlazada al calendario mediante selector",
+    "Cerrar con motivo auditable",
+    "Meta cerrada protegida en interfaz y servidor",
+    "Reabrir período con motivo",
+    "Editar meta tras reapertura",
+    "Consultar historial de cierre y reapertura",
+    "Exportar períodos filtrados",
+    "Vista móvil y JavaScript sin errores"
+  ],
+  "errors": [],
+  "period": {
+    "id": 1,
+    "version": 1,
+    "codigo": "PER80313954",
+    "nombre": "Calendario QA PER80313954",
+    "fecha_inicio": "2028-01-01",
+    "fecha_fin": "2028-03-31",
+    "estado": true,
+    "cerrado": false,
+    "situacion": "Abierto",
+    "duracion_dias": 91,
+    "parametros_cierre": {}
+  },
+  "meta": {
+    "id": 3,
+    "version": 1,
+    "item": 1,
+    "periodo": "PER80313954",
+    "periodo_gestion": 1,
+    "meta_esperada": "100",
+    "ponderacion": "20",
+    "estado": true,
+    "conciliada_con": null,
+    "periodo_cerrado": false,
+    "periodo_nombre": "Calendario QA PER80313954",
+    "historico_sin_calendario": false
+  }
+}
