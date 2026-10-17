@@ -71,7 +71,7 @@
 
     // 2. Consultar contexto en vivo desde el backend Django
     try {
-      const res = await fetch(`${API_BASE}/api/contexto/`);
+        const res = await fetch(`${API_BASE}/api/contexto/`, { credentials: 'include' });
       if (res.ok) {
         const json = await res.json();
         if (json.success && json.data) {
@@ -134,6 +134,7 @@
         try {
           const res = await fetch(`${API_BASE}/api/contexto/cambiar-delegacion/`, {
             method: 'POST',
+            credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ delegacion_id: parseInt(newId, 10) })
           });
