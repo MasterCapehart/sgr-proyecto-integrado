@@ -6,6 +6,7 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
     path('recuperacion/', views.solicitar_recuperacion, name='recuperacion'),
+    path('validar-recuperacion/', views.validar_y_cambiar_password, name='validar-recuperacion'),
 
     # CRUD de Roles (T09)
 
@@ -50,6 +51,11 @@ urlpatterns = [
     path('atenciones/export/', views.AtencionCRUDView.as_view(), {'action': 'export'}, name='atencion-export'),
     path('atenciones/<int:pk>/', views.AtencionCRUDView.as_view(), name='atencion-detail'),
     path('atenciones/<int:pk>/toggle-estado/', views.AtencionCRUDView.as_view(), {'action': 'toggle-estado'}, name='atencion-toggle'),
+
+    # Endpoints Contexto Global y Cambio de Ámbito Territorial (T19)
+    path('contexto/', views.ContextoView.as_view(), name='contexto-global'),
+    path('contexto/cambiar-delegacion/', views.CambiarDelegacionView.as_view(), name='cambiar-delegacion'),
+
 
     # Endpoints Contexto Global y Cambio de Ámbito Territorial (T19)
     path('contexto/', views.ContextoView.as_view(), name='contexto-global'),
