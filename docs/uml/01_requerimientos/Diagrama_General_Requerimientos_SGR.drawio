@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="Electron" agent="Codex">
+  <diagram id="sgr-requirements" name="Diagrama General">
+    <mxGraphModel dx="1632" dy="861" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1280" background="light-dark(#FFFFFF,#121212)" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=24;fontStyle=1;fontColor=#111111;" value="DIAGRAMA GENERAL DE REQUERIMIENTOS — SISTEMA SGR" vertex="1">
+          <mxGeometry height="45" width="1150" x="250" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="req000" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;fontSize=17;fontStyle=0;spacing=12;align=center;verticalAlign=middle;strokeWidth=1.8;shadow=0;" value="&lt;b&gt;REQ-000 · Sistema de Gestión de Resultados&lt;/b&gt;&lt;br&gt;&lt;br&gt;Centralizar el registro, seguimiento, validación, medición y consulta de la gestión de las Delegaciones Municipales de La Serena." vertex="1">
+          <mxGeometry height="120" width="720" x="420" y="85" as="geometry" />
+        </mxCell>
+        <mxCell id="functional" parent="1" style="swimlane;horizontal=1;startSize=60;rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#2F2F2F;fontColor=#111111;fontSize=17;spacing=10;strokeWidth=1.8;shadow=0;" value="&lt;b&gt;REQUERIMIENTOS FUNCIONALES&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#666666&quot;&gt;Ocho épicas originales + complementos de la segunda evaluación&lt;/font&gt;" vertex="1">
+          <mxGeometry height="850" width="1080" x="40" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="ep01" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;fontSize=14;spacing=10;align=left;verticalAlign=top;strokeWidth=1.5;shadow=0;" value="&lt;b&gt;EP-01 · Registro y gestión de actividades&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#555555&quot;&gt;HU-01 a HU-04&lt;/font&gt;&lt;br&gt;&lt;br&gt;Registrar actividades y atención: solicitante, tipo/subatención compatibles, descripción y contexto autorizado; fecha y responsable automáticos; sin duplicación." vertex="1">
+          <mxGeometry height="160" width="480" x="80" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="ep02" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;fontSize=14;spacing=10;align=left;verticalAlign=top;strokeWidth=1.5;shadow=0;" value="&lt;b&gt;EP-02 · Medición y desempeño&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#555555&quot;&gt;HU-05 a HU-08&lt;/font&gt;&lt;br&gt;&lt;br&gt;Administrar ítems, metas y ponderaciones; fórmulas y topes configurables; calcular avance aprobado y cumplimiento individual/colectivo." vertex="1">
+          <mxGeometry height="160" width="480" x="600" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="ep03" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;fontSize=14;spacing=10;align=left;verticalAlign=top;strokeWidth=1.5;shadow=0;" value="&lt;b&gt;EP-03 · Evidencias y verificación&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#555555&quot;&gt;HU-09 a HU-11&lt;/font&gt;&lt;br&gt;&lt;br&gt;Adjuntar, consultar y validar evidencias; conservar versiones y decisiones; evitar aportes duplicados y proteger los archivos." vertex="1">
+          <mxGeometry height="160" width="480" x="80" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="ep04" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;fontSize=14;spacing=10;align=left;verticalAlign=top;strokeWidth=1.5;shadow=0;" value="&lt;b&gt;EP-04 · Agenda colectiva y compromisos&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#555555&quot;&gt;HU-12 a HU-15&lt;/font&gt;&lt;br&gt;&lt;br&gt;Gestionar compromisos, responsables, plazos, estados e historial; reasignar y validar cierre; conservar conteos únicos." vertex="1">
+          <mxGeometry height="160" width="480" x="600" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="ep05" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;fontSize=14;spacing=10;align=left;verticalAlign=top;strokeWidth=1.5;shadow=0;" value="&lt;b&gt;EP-05 · Monitoreo y control&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#555555&quot;&gt;HU-16 a HU-19&lt;/font&gt;&lt;br&gt;&lt;br&gt;Mostrar semáforos, alertas, avances e históricos; aplicar calendario, umbrales y reglas vigentes aprobadas." vertex="1">
+          <mxGeometry height="160" width="480" x="80" y="730" as="geometry" />
+        </mxCell>
+        <mxCell id="ep06" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;fontSize=14;spacing=10;align=left;verticalAlign=top;strokeWidth=1.5;shadow=0;" value="&lt;b&gt;EP-06 · Reportabilidad y toma de decisiones&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#555555&quot;&gt;HU-20 a HU-22&lt;/font&gt;&lt;br&gt;&lt;br&gt;Buscar por coincidencia parcial, combinar filtros y paginar; exportar a Excel todo el conjunto autorizado filtrado." vertex="1">
+          <mxGeometry height="160" width="480" x="600" y="730" as="geometry" />
+        </mxCell>
+        <mxCell id="ep07" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;fontSize=14;spacing=10;align=left;verticalAlign=top;strokeWidth=1.5;shadow=0;" value="&lt;b&gt;EP-07 · Plataforma colaborativa&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#555555&quot;&gt;HU-23 a HU-25&lt;/font&gt;&lt;br&gt;&lt;br&gt;Acceso web y trabajo simultáneo; detectar conflictos de versión y conservar datos sin sobrescritura silenciosa." vertex="1">
+          <mxGeometry height="160" width="480" x="80" y="920" as="geometry" />
+        </mxCell>
+        <mxCell id="ep08" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;fontSize=14;spacing=10;align=left;verticalAlign=top;strokeWidth=1.5;shadow=0;" value="&lt;b&gt;EP-08 · Administración, seguridad y trazabilidad&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#555555&quot;&gt;HU-26 a HU-31&lt;/font&gt;&lt;br&gt;&lt;br&gt;Acceder y recuperar contraseña por código. CRUD de Delegaciones, Roles, Usuarios, Ítems/metas, Tipo y Sub Atención; permisos por delegación e historial." vertex="1">
+          <mxGeometry height="160" width="480" x="600" y="920" as="geometry" />
+        </mxCell>
+        <mxCell id="rnf" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;fontSize=14;spacing=14;align=left;verticalAlign=top;strokeWidth=1.6;shadow=0;" value="&lt;b&gt;&amp;nbsp; &amp;nbsp; RNF-00 · REQUERIMIENTOS NO FUNCIONALES&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#555555&quot;&gt;RNF-001 a RNF-018&lt;/font&gt;&lt;br&gt;&lt;br&gt;• Seguridad y privacidad&lt;br&gt;• Autenticación y autorización&lt;br&gt;• Disponibilidad y respaldo&lt;br&gt;• Rendimiento y concurrencia&lt;br&gt;• Usabilidad y accesibilidad&lt;br&gt;• Compatibilidad web responsive&lt;br&gt;• Auditoría y trazabilidad&lt;br&gt;&lt;div&gt;&lt;br/&gt;&lt;/div&gt;&lt;br&gt;&lt;b&gt;Complementos de la entrega (sin nuevos RNF)&lt;/b&gt;&lt;br&gt;• Búsqueda, paginación y Excel coherentes&lt;br&gt;• Validación en cliente y servidor&lt;br&gt;• Mensajes SweetAlert2 y contexto visible&lt;br&gt;• AWS, Git y evidencias de pruebas" vertex="1">
+          <mxGeometry height="550" width="410" x="1180" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="efunctional" edge="1" parent="1" source="req000" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=diamondThin;startFill=1;strokeColor=#9E7E61;strokeWidth=1.5;fontSize=12;fontStyle=1;fontColor=#333333;labelBackgroundColor=#FFFFFF;" target="functional" value="«containment»">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ernf" edge="1" parent="1" source="req000" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=diamondThin;startFill=1;strokeColor=#9E7E61;strokeWidth=1.5;fontSize=12;fontStyle=1;fontColor=#333333;labelBackgroundColor=#FFFFFF;" target="rnf" value="«containment»">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
