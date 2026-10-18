@@ -1,0 +1,216 @@
+{
+  "reference_document": "UML/Informe_Diagramas_y_Cuadros_Descriptivos_SGR.docx",
+  "diagrams": 15,
+  "files": [
+    {
+      "diagram": "Requerimientos",
+      "file": "01_requerimientos/Diagrama_General_Requerimientos_SGR.png",
+      "source": "UML/01_Requerimientos/Diagrama_General_Requerimientos_SGR.png",
+      "sha256": "e6865f71cf91851fdc3e8c06586f237c3631f4a4cef503ce0a5ee3699043b637",
+      "bytes": 240120
+    },
+    {
+      "diagram": "Requerimientos",
+      "file": "01_requerimientos/Diagrama_General_Requerimientos_SGR.drawio",
+      "source": "UML/01_Requerimientos/Diagrama_General_Requerimientos_SGR.drawio",
+      "sha256": "33cde6839f47a8ce676cd44e81f3a529dd2a784652b5b8dbeba63911b4a97e42",
+      "bytes": 8774
+    },
+    {
+      "diagram": "Caso de uso general",
+      "file": "02_casos_de_uso/01_general/Diagrama_Caso_Uso_Resumen_SGR.png",
+      "source": "UML/02_Casos_de_Uso/01_General/Diagrama_Caso_Uso_Resumen_SGR.png",
+      "sha256": "92c38ae5b7ee2fce9fad4a1f3375de48d0577b21a0fb03db1786e1e1d1a7367e",
+      "bytes": 189527
+    },
+    {
+      "diagram": "Caso de uso general",
+      "file": "02_casos_de_uso/01_general/Diagrama_Caso_Uso_Resumen_SGR.drawio",
+      "source": "UML/02_Casos_de_Uso/01_General/Diagrama_Caso_Uso_Resumen_SGR.drawio",
+      "sha256": "a95da857fa949296e4e1b4e3d5187e6b0d8e615e165e5ecef254eb67e4d7d13f",
+      "bytes": 14689
+    },
+    {
+      "diagram": "CU-01 registrar actividades y servicios",
+      "file": "02_casos_de_uso/02_especificos/CU01_registrar_actividades_y_servicios/Diagrama_Caso_Uso_Especifico_CU01_SGR.png",
+      "source": "UML/02_Casos_de_Uso/02_Especificos/CU-01: Registrar actividades y servicios/Diagrama_Caso_Uso_Especifico_CU01_SGR.png",
+      "sha256": "d4a6ab740ec5ac92a7aa2015eccd2b36ece721eb80ccabe22db7145498b6078a",
+      "bytes": 134124
+    },
+    {
+      "diagram": "CU-01 registrar actividades y servicios",
+      "file": "02_casos_de_uso/02_especificos/CU01_registrar_actividades_y_servicios/Diagrama_Caso_Uso_Especifico_CU01_SGR.drawio",
+      "source": "UML/02_Casos_de_Uso/02_Especificos/CU-01: Registrar actividades y servicios/Diagrama_Caso_Uso_Especifico_CU01_SGR.drawio",
+      "sha256": "f06a80dae1e23042b0c8b69284c35f794dce6daf6851bd430caa040a7ac5a941",
+      "bytes": 9914
+    },
+    {
+      "diagram": "CU-02 gestionar agenda y compromisos",
+      "file": "02_casos_de_uso/02_especificos/CU02_gestionar_agenda_y_compromisos/Diagrama_Caso_Uso_Especifico_CU02_SGR.png",
+      "source": "UML/02_Casos_de_Uso/02_Especificos/CU-02: Gestionar agenda y compromisos/Diagrama_Caso_Uso_Especifico_CU02_SGR.png",
+      "sha256": "e174181616a5300f52d7a04b49d8285f5ba8bd550d2ff307a02e41979593b282",
+      "bytes": 106415
+    },
+    {
+      "diagram": "CU-02 gestionar agenda y compromisos",
+      "file": "02_casos_de_uso/02_especificos/CU02_gestionar_agenda_y_compromisos/Diagrama_Caso_Uso_Especifico_CU02_SGR.drawio",
+      "source": "UML/02_Casos_de_Uso/02_Especificos/CU-02: Gestionar agenda y compromisos/Diagrama_Caso_Uso_Especifico_CU02_SGR.drawio",
+      "sha256": "e2d0e5f82ba69d76f3c3bd6c7ff21101030fd990cf6bf09a2b3a76ec84936945",
+      "bytes": 9586
+    },
+    {
+      "diagram": "CU-03 gestionar evidencias y codigos",
+      "file": "02_casos_de_uso/02_especificos/CU03_gestionar_evidencias_y_codigos/Diagrama_Caso_Uso_Especifico_CU03_SGR.png",
+      "source": "UML/02_Casos_de_Uso/02_Especificos/CU-03: Gestionar evidencias y códigos/Diagrama_Caso_Uso_Especifico_CU03_SGR.png",
+      "sha256": "b9a09a4f4b7a5aaffb57d2afb89e9268d8e4a516f57afbbcac782c3bdede5a43",
+      "bytes": 95079
+    },
+    {
+      "diagram": "CU-03 gestionar evidencias y codigos",
+      "file": "02_casos_de_uso/02_especificos/CU03_gestionar_evidencias_y_codigos/Diagrama_Caso_Uso_Especifico_CU03_SGR.drawio",
+      "source": "UML/02_Casos_de_Uso/02_Especificos/CU-03: Gestionar evidencias y códigos/Diagrama_Caso_Uso_Especifico_CU03_SGR.drawio",
+      "sha256": "eae3618ae84bcff4b17d05940d638ab50b2e2af35d63690914b970fe96dee632",
+      "bytes": 7475
+    },
+    {
+      "diagram": "CU-04 validar actividades y evidencias",
+      "file": "02_casos_de_uso/02_especificos/CU04_validar_actividades_y_evidencias/Diagrama_Caso_Uso_Especifico_CU04_SGR.png",
+      "source": "UML/02_Casos_de_Uso/02_Especificos/CU-04: Validar actividades y evidencias/Diagrama_Caso_Uso_Especifico_CU04_SGR.png",
+      "sha256": "74eb5da858f9337d0a8f8f7c545179671110a53f42f534d81f67f43066576825",
+      "bytes": 93127
+    },
+    {
+      "diagram": "CU-04 validar actividades y evidencias",
+      "file": "02_casos_de_uso/02_especificos/CU04_validar_actividades_y_evidencias/Diagrama_Caso_Uso_Especifico_CU04_SGR.drawio",
+      "source": "UML/02_Casos_de_Uso/02_Especificos/CU-04: Validar actividades y evidencias/Diagrama_Caso_Uso_Especifico_CU04_SGR.drawio",
+      "sha256": "a9ca1efeab62787e7b6679b228b427ef1230c0e5c95718f3543b4ea5152c0fb8",
+      "bytes": 7390
+    },
+    {
+      "diagram": "CU-05 configurar funciones metas y periodos",
+      "file": "02_casos_de_uso/02_especificos/CU05_configurar_funciones_metas_y_periodos/Diagrama_Caso_Uso_Especifico_CU05_SGR.png",
+      "source": "UML/02_Casos_de_Uso/02_Especificos/CU-05: Configurar funciones, metas y períodos/Diagrama_Caso_Uso_Especifico_CU05_SGR.png",
+      "sha256": "881548e44b031b8502d6acc49f50326b9b6314d8edb81501a2a03df3f41ad550",
+      "bytes": 103874
+    },
+    {
+      "diagram": "CU-05 configurar funciones metas y periodos",
+      "file": "02_casos_de_uso/02_especificos/CU05_configurar_funciones_metas_y_periodos/Diagrama_Caso_Uso_Especifico_CU05_SGR.drawio",
+      "source": "UML/02_Casos_de_Uso/02_Especificos/CU-05: Configurar funciones, metas y períodos/Diagrama_Caso_Uso_Especifico_CU05_SGR.drawio",
+      "sha256": "b16c69408b616857fd8237399fb605a7465f6146816d9bb0004e5f0cf124d426",
+      "bytes": 9158
+    },
+    {
+      "diagram": "CU-06 monitorear desempeno y alertas",
+      "file": "02_casos_de_uso/02_especificos/CU06_monitorear_desempeno_y_alertas/Diagrama_Caso_Uso_Especifico_CU06_SGR.png",
+      "source": "UML/02_Casos_de_Uso/02_Especificos/CU-06: Monitorear desempeño y alertas/Diagrama_Caso_Uso_Especifico_CU06_SGR.png",
+      "sha256": "84020caa13bbdfb1839e99a5663a57752bab15c0e1c3b8fac0fc430c031bed15",
+      "bytes": 133305
+    },
+    {
+      "diagram": "CU-06 monitorear desempeno y alertas",
+      "file": "02_casos_de_uso/02_especificos/CU06_monitorear_desempeno_y_alertas/Diagrama_Caso_Uso_Especifico_CU06_SGR.drawio",
+      "source": "UML/02_Casos_de_Uso/02_Especificos/CU-06: Monitorear desempeño y alertas/Diagrama_Caso_Uso_Especifico_CU06_SGR.drawio",
+      "sha256": "2e8841cfc8b41f37d941e2359846a22de8e4c0db85e974fb974704b3ea82c060",
+      "bytes": 11108
+    },
+    {
+      "diagram": "CU-07 generar informes y buscar informacion",
+      "file": "02_casos_de_uso/02_especificos/CU07_generar_informes_y_buscar_informacion/Diagrama_Caso_Uso_Especifico_CU07_SGR.png",
+      "source": "UML/02_Casos_de_Uso/02_Especificos/CU-07: Generar informes y buscar información/Diagrama_Caso_Uso_Especifico_CU07_SGR.png",
+      "sha256": "947ab54b3c04339723ed6253bae22201db6c2f49fd6ad2471c81af515bcc6816",
+      "bytes": 80766
+    },
+    {
+      "diagram": "CU-07 generar informes y buscar informacion",
+      "file": "02_casos_de_uso/02_especificos/CU07_generar_informes_y_buscar_informacion/Diagrama_Caso_Uso_Especifico_CU07_SGR.drawio",
+      "source": "UML/02_Casos_de_Uso/02_Especificos/CU-07: Generar informes y buscar información/Diagrama_Caso_Uso_Especifico_CU07_SGR.drawio",
+      "sha256": "b9325e45fffbccb9581a37ba4e655a138708f905e6a45360f1ac4d93a68e5eb4",
+      "bytes": 7427
+    },
+    {
+      "diagram": "CU-08 colaborar y registrar observaciones",
+      "file": "02_casos_de_uso/02_especificos/CU08_colaborar_y_registrar_observaciones/Diagrama_Caso_Uso_Especifico_CU08_SGR.png",
+      "source": "UML/02_Casos_de_Uso/02_Especificos/CU-08: Colaborar y registrar observaciones/Diagrama_Caso_Uso_Especifico_CU08_SGR.png",
+      "sha256": "dadc0daa5aa71f2957f53ed242e8e3f54bc4aa4e6b85d66817a312db566a35ac",
+      "bytes": 94021
+    },
+    {
+      "diagram": "CU-08 colaborar y registrar observaciones",
+      "file": "02_casos_de_uso/02_especificos/CU08_colaborar_y_registrar_observaciones/Diagrama_Caso_Uso_Especifico_CU08_SGR.drawio",
+      "source": "UML/02_Casos_de_Uso/02_Especificos/CU-08: Colaborar y registrar observaciones/Diagrama_Caso_Uso_Especifico_CU08_SGR.drawio",
+      "sha256": "57e07d60cef27b455aa9898292dcc0bc6cd52a5afa9ee571c593c30235005113",
+      "bytes": 8492
+    },
+    {
+      "diagram": "CU-09 administrar organizacion usuarios y catalogos",
+      "file": "02_casos_de_uso/02_especificos/CU09_administrar_organizacion_usuarios_y_catalogos/Diagrama_Caso_Uso_Especifico_CU09_SGR.png",
+      "source": "UML/02_Casos_de_Uso/02_Especificos/CU-09: Administrar organización, usuarios y catálogos/Diagrama_Caso_Uso_Especifico_CU09_SGR.png",
+      "sha256": "662e0ea9c4ca79e54df555993f4bb6fcc4f3736911ea657b883dbad20d1a01fe",
+      "bytes": 106301
+    },
+    {
+      "diagram": "CU-09 administrar organizacion usuarios y catalogos",
+      "file": "02_casos_de_uso/02_especificos/CU09_administrar_organizacion_usuarios_y_catalogos/Diagrama_Caso_Uso_Especifico_CU09_SGR.drawio",
+      "source": "UML/02_Casos_de_Uso/02_Especificos/CU-09: Administrar organización, usuarios y catálogos/Diagrama_Caso_Uso_Especifico_CU09_SGR.drawio",
+      "sha256": "a0af4492db1aa90fea8b0c1a5e1c0bd28a76f8e68112ba84588d99562b1617c7",
+      "bytes": 7301
+    },
+    {
+      "diagram": "CU-10 consultar trazabilidad y auditoria",
+      "file": "02_casos_de_uso/02_especificos/CU10_consultar_trazabilidad_y_auditoria/Diagrama_Caso_Uso_Especifico_CU10_SGR.png",
+      "source": "UML/02_Casos_de_Uso/02_Especificos/CU-10: Consultar trazabilidad y auditoría/Diagrama_Caso_Uso_Especifico_CU10_SGR.png",
+      "sha256": "0e4c21321fcfc224977dcfdb03d68aef35fdd8769f812d976db6719c9b354518",
+      "bytes": 116504
+    },
+    {
+      "diagram": "CU-10 consultar trazabilidad y auditoria",
+      "file": "02_casos_de_uso/02_especificos/CU10_consultar_trazabilidad_y_auditoria/Diagrama_Caso_Uso_Especifico_CU10_SGR.drawio",
+      "source": "UML/02_Casos_de_Uso/02_Especificos/CU-10: Consultar trazabilidad y auditoría/Diagrama_Caso_Uso_Especifico_CU10_SGR.drawio",
+      "sha256": "f10a261d414dfa7a2323a830ddd7968e7894f5c8392841a6a38b326d7efd8cd7",
+      "bytes": 8934
+    },
+    {
+      "diagram": "CU-11 acceder y recuperar contrasena",
+      "file": "02_casos_de_uso/02_especificos/CU11_acceder_y_recuperar_contrasena/Diagrama_Caso_Uso_Especifico_CU11_SGR.png",
+      "source": "UML/02_Casos_de_Uso/02_Especificos/CU-11: Acceder y recuperar contraseña/Diagrama_Caso_Uso_Especifico_CU11_SGR.png",
+      "sha256": "71816faa70371274f8d79e87991fd5bfed539d116ab5cedfe49783c02409ec14",
+      "bytes": 108899
+    },
+    {
+      "diagram": "CU-11 acceder y recuperar contrasena",
+      "file": "02_casos_de_uso/02_especificos/CU11_acceder_y_recuperar_contrasena/Diagrama_Caso_Uso_Especifico_CU11_SGR.drawio",
+      "source": "UML/02_Casos_de_Uso/02_Especificos/CU-11: Acceder y recuperar contraseña/Diagrama_Caso_Uso_Especifico_CU11_SGR.drawio",
+      "sha256": "ec4506c6be74d7717e88e2c2c1ef9eb0f0513c7bf7c2ec9a7f98e07cd09a1547",
+      "bytes": 7938
+    },
+    {
+      "diagram": "Clases",
+      "file": "03_clases/Diagrama_Clases_SGR.png",
+      "source": "UML/04_Diagrama_de_Clases/Diagrama_Clases_SGR.png",
+      "sha256": "0a60258a2266247aad4202f65c004a05e7328913a2cc090c8935f55924ca11d4",
+      "bytes": 1731922
+    },
+    {
+      "diagram": "Clases",
+      "file": "03_clases/Diagrama_Clases_SGR.drawio",
+      "source": "UML/04_Diagrama_de_Clases/Diagrama_Clases_SGR.drawio",
+      "sha256": "8e08645098764c61c7ba60159e078d40a6b5658e631848d680ef78bf61610218",
+      "bytes": 116287
+    },
+    {
+      "diagram": "Base de datos del informe",
+      "file": "04_base_de_datos/Modelo_Entidad_Relacion_SGR.png",
+      "source": "UML/03_Modelo_Entidad_Relacion/Modelo_Entidad_Relacion_SGR.png",
+      "sha256": "03367cf4ac3083825e2a7b5cebb725233b708af6e53f0cdf11cd24ba33c35f00",
+      "bytes": 1044825
+    },
+    {
+      "diagram": "Base de datos del informe",
+      "file": "04_base_de_datos/Modelo_Entidad_Relacion_SGR.drawio",
+      "source": "UML/03_Modelo_Entidad_Relacion/Modelo_Entidad_Relacion_SGR.drawio",
+      "sha256": "e861923cab1b6d664569a3b9ad99a8ba1f4494fba81d34d0fd05bea0038eb1ab",
+      "bytes": 77492
+    }
+  ]
+}
