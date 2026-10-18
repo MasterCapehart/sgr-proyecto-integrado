@@ -1,0 +1,19 @@
+Entorno: AWS personal, us-east-1
+Operación: renovacion-certificado
+Estado de esta invocación: Success
+
+SALIDA
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Processing /etc/letsencrypt/renewal/54.236.112.203.conf
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Account registered.
+Simulating renewal of an existing certificate for 54.236.112.203
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Congratulations, all simulated renewals succeeded:
+  /etc/letsencrypt/live/54.236.112.203/fullchain.pem (success)
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+DIAGNÓSTICO
+Saving debug log to /var/log/letsencrypt/letsencrypt.log

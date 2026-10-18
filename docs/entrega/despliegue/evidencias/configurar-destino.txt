@@ -1,0 +1,22 @@
+Entorno: AWS personal, us-east-1
+Operación: configurar-destino
+Estado de esta invocación: Failed
+
+SALIDA
+Tablas verificadas: 39 Todas coinciden: True
+active
+active
+
+DIAGNÓSTICO
+System check identified some issues:
+
+WARNINGS:
+?: (security.W005) You have not set the SECURE_HSTS_INCLUDE_SUBDOMAINS setting to True. Without this, your site is potentially vulnerable to attack via an insecure connection to a subdomain. Only set this to True if you are certain that all subdomains of your domain should be served exclusively via SSL.
+?: (security.W021) You have not set the SECURE_HSTS_PRELOAD setting to True. Without this, your site cannot be submitted to the browser preload list.
+
+System check identified 2 issues (0 silenced).
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+Created symlink /etc/systemd/system/multi-user.target.wants/sgr.service → /etc/systemd/system/sgr.service.
+curl: (22) The requested URL returned error: 502
+failed to run commands: exit status 22

@@ -1,0 +1,250 @@
+{
+  "base": "https://54.236.112.203",
+  "checks": [
+    {
+      "check": "/pages/login.html",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "/pages/recuperar-clave.html",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "/pages/validar-codigo.html",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "/api/health/",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "/api/version/",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Listado protegido sin sesi\u00f3n",
+      "ok": true,
+      "status": 401
+    },
+    {
+      "check": "Login admin.aws",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Contexto admin.aws",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Login coordinador.aws",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Contexto coordinador.aws",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Logout coordinador.aws",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Sesi\u00f3n cerrada coordinador.aws",
+      "ok": true,
+      "status": 401
+    },
+    {
+      "check": "Login delegado.aws",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Contexto delegado.aws",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Logout delegado.aws",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Sesi\u00f3n cerrada delegado.aws",
+      "ok": true,
+      "status": 401
+    },
+    {
+      "check": "Login funcionario.aws",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Contexto funcionario.aws",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Logout funcionario.aws",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Sesi\u00f3n cerrada funcionario.aws",
+      "ok": true,
+      "status": 401
+    },
+    {
+      "check": "Rechazo de verificador conservado inactivo",
+      "ok": true,
+      "status": 401
+    },
+    {
+      "check": "Login consulta.aws",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Contexto consulta.aws",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Logout consulta.aws",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Sesi\u00f3n cerrada consulta.aws",
+      "ok": true,
+      "status": 401
+    },
+    {
+      "check": "Consulta delegaciones",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Consulta roles",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Consulta usuarios",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Consulta items-metas",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Consulta tipos-atencion",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Consulta subatenciones",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Consulta atenciones",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Consulta configuraciones-metas",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Consulta periodos",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Consulta indicadores",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Consulta operacion/actividades",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Consulta operacion/evidencias",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Consulta operacion/compromisos",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Excel delegaciones",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Excel roles",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Excel usuarios",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Excel items-metas",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Excel tipos-atencion",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Excel subatenciones",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Descarga autorizada de evidencia",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Conversaci\u00f3n del compromiso",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Logout administrador",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "Origen conservado /api/health/",
+      "ok": true
+    },
+    {
+      "check": "Origen conservado /api/version/",
+      "ok": true
+    }
+  ],
+  "passed": 49,
+  "total": 49
+}

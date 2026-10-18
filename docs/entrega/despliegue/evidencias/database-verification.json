@@ -1,0 +1,200 @@
+{
+  "all_match": true,
+  "tables": {
+    "auth_group": {
+      "rows": 0,
+      "checksum": 0,
+      "matches": true
+    },
+    "auth_group_permissions": {
+      "rows": 0,
+      "checksum": 0,
+      "matches": true
+    },
+    "auth_permission": {
+      "rows": 132,
+      "checksum": 617467377,
+      "matches": true
+    },
+    "core_accesofallido": {
+      "rows": 4,
+      "checksum": 1461275414,
+      "matches": true
+    },
+    "core_actividad": {
+      "rows": 8,
+      "checksum": 1303539401,
+      "matches": true
+    },
+    "core_alertalocal": {
+      "rows": 2,
+      "checksum": 270377926,
+      "matches": true
+    },
+    "core_atencion": {
+      "rows": 10177,
+      "checksum": 3441989113,
+      "matches": true
+    },
+    "core_auditoriaderivacion": {
+      "rows": 0,
+      "checksum": 0,
+      "matches": true
+    },
+    "core_cargo": {
+      "rows": 4,
+      "checksum": 3442276400,
+      "matches": true
+    },
+    "core_casosocial": {
+      "rows": 1,
+      "checksum": 3507155681,
+      "matches": true
+    },
+    "core_cierrecompromiso": {
+      "rows": 3,
+      "checksum": 1904485908,
+      "matches": true
+    },
+    "core_compromiso": {
+      "rows": 4,
+      "checksum": 3211859136,
+      "matches": true
+    },
+    "core_configuracionmeta": {
+      "rows": 3,
+      "checksum": 3616477788,
+      "matches": true
+    },
+    "core_conversacion": {
+      "rows": 6,
+      "checksum": 2012232593,
+      "matches": true
+    },
+    "core_delegacion": {
+      "rows": 8,
+      "checksum": 3783050963,
+      "matches": true
+    },
+    "core_derivacionactividad": {
+      "rows": 0,
+      "checksum": 0,
+      "matches": true
+    },
+    "core_eventolocal": {
+      "rows": 444,
+      "checksum": 2036684380,
+      "matches": true
+    },
+    "core_evidencia": {
+      "rows": 6,
+      "checksum": 3943896153,
+      "matches": true
+    },
+    "core_itemmeta": {
+      "rows": 6,
+      "checksum": 365628815,
+      "matches": true
+    },
+    "core_itemmeta_cargos": {
+      "rows": 0,
+      "checksum": 0,
+      "matches": true
+    },
+    "core_mensaje": {
+      "rows": 6,
+      "checksum": 3930453845,
+      "matches": true
+    },
+    "core_periodogestion": {
+      "rows": 1,
+      "checksum": 10350574,
+      "matches": true
+    },
+    "core_politicaoperativa": {
+      "rows": 0,
+      "checksum": 0,
+      "matches": true
+    },
+    "core_reclamo": {
+      "rows": 3,
+      "checksum": 3878917866,
+      "matches": true
+    },
+    "core_recuperacionacceso": {
+      "rows": 1,
+      "checksum": 3160384562,
+      "matches": true
+    },
+    "core_revisionevidencia": {
+      "rows": 4,
+      "checksum": 1051035330,
+      "matches": true
+    },
+    "core_rol": {
+      "rows": 12,
+      "checksum": 1707154131,
+      "matches": true
+    },
+    "core_seguimientocompromiso": {
+      "rows": 6,
+      "checksum": 2896550595,
+      "matches": true
+    },
+    "core_subatencion": {
+      "rows": 7,
+      "checksum": 941043009,
+      "matches": true
+    },
+    "core_tipoatencion": {
+      "rows": 9,
+      "checksum": 2300511765,
+      "matches": true
+    },
+    "core_usuario": {
+      "rows": 66,
+      "checksum": 2671100867,
+      "matches": true
+    },
+    "core_usuario_delegaciones": {
+      "rows": 68,
+      "checksum": 3385203295,
+      "matches": true
+    },
+    "core_usuario_groups": {
+      "rows": 0,
+      "checksum": 0,
+      "matches": true
+    },
+    "core_usuario_user_permissions": {
+      "rows": 0,
+      "checksum": 0,
+      "matches": true
+    },
+    "core_versioncatalogo": {
+      "rows": 56,
+      "checksum": 1051362799,
+      "matches": true
+    },
+    "django_admin_log": {
+      "rows": 0,
+      "checksum": 0,
+      "matches": true
+    },
+    "django_content_type": {
+      "rows": 33,
+      "checksum": 1976207857,
+      "matches": true
+    },
+    "django_migrations": {
+      "rows": 37,
+      "checksum": 3839649743,
+      "matches": true
+    },
+    "django_session": {
+      "rows": 84,
+      "checksum": 2366961201,
+      "matches": true
+    }
+  }
+}

@@ -1,8 +1,7 @@
-# Documentación
+# Documentación del SGR
 
-- `requisitos/`: requisitos e historias de usuario vigentes.
-- [Diagramas UML](uml/README.md): requerimientos, caso general, once casos específicos, clases y base de datos; imágenes y archivos editables draw.io.
-- `base-de-datos/`: modelo de datos y diccionario.
-- `acuerdos/`: decisiones de tecnología, API y organización del equipo.
+- [Verificación documental de la entrega](entrega/README.md): resultados de carga, cálculos revisados, incidencias, regresiones, versión AWS y evidencias de instalación y recuperación, con pendientes explícitos.
+- [Diagramas UML](uml/README.md): requerimientos, caso general, once casos específicos, clases y base de datos; imágenes y archivos draw.io.
+- [Base de datos](base-de-datos/README.md): diseño, diccionario y scripts de referencia.
 
-Incorporar las versiones revisadas. Evitar respaldos duplicados, materiales de terceros y datos personales reales.
+Las evidencias distinguen LOCAL/QA, laboratorio AWS y cuenta AWS personal. Conservar esta distinción al preparar la entrega; un resultado histórico no acredita automáticamente una versión o un entorno nuevos.

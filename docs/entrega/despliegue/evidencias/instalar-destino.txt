@@ -1,0 +1,9 @@
+Entorno: AWS personal, us-east-1
+Operación: instalar-destino
+Estado de esta invocación: Success
+
+SALIDA
+No broken requirements found.
+Aplicación y dependencias instaladas
+
+DIAGNÓSTICO

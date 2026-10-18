@@ -1,0 +1,12 @@
+Entorno: AWS personal, us-east-1
+Operación: final-destino
+Estado de esta invocación: Success
+
+SALIDA
+active
+active
+enabled
+enabled
+enabled
+{"status": "ok"}{"service": "SGR", "version": "47358a26167f4efb0a4fe0638e78d815f821967a"}
+DIAGNÓSTICO
