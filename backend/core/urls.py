@@ -42,3 +42,6 @@ urlpatterns += [path("version/", deploy_api.version), path("health/", deploy_api
 
 from . import period_api
 urlpatterns += [path('periodos/<int:pk>/cerrar/',period_api.transition,{'action':'cerrar'}),path('periodos/<int:pk>/reabrir/',period_api.transition,{'action':'reabrir'})]
+
+from . import personal_progress
+urlpatterns += [path('mi-progreso/', personal_progress.overview)]
