@@ -1,0 +1,1691 @@
+{
+  "alcance": "Pruebas locales y laboratorio AWS; archivos originales copiados sin modificar",
+  "archivos": [
+    {
+      "archivo": "local/documentos/Ficha_Prueba_ACC01_Roles_Completa.docx",
+      "origen": "Pruebas/Fichas_SGR_Corregidas_con_Evidencias/documentos/Ficha_Prueba_ACC01_Roles_Completa.docx",
+      "sha256": "6e2dd8e055e6823982986b6764d14b837f413a51fd7ca4cb22ac0e3e5945b006",
+      "bytes": 1367918
+    },
+    {
+      "archivo": "local/documentos/Ficha_Prueba_ACC02_ACC03_Seguridad_Acceso.docx",
+      "origen": "Pruebas/Fichas_SGR_Corregidas_con_Evidencias/documentos/Ficha_Prueba_ACC02_ACC03_Seguridad_Acceso.docx",
+      "sha256": "09d34b303aee28b042bb6991ad5d08e6de99fa472662bc26cf412d7be60edc78",
+      "bytes": 690904
+    },
+    {
+      "archivo": "local/documentos/Ficha_Prueba_ACC04_ACC05_ACC06_Recuperacion.docx",
+      "origen": "Pruebas/Fichas_SGR_Corregidas_con_Evidencias/documentos/Ficha_Prueba_ACC04_ACC05_ACC06_Recuperacion.docx",
+      "sha256": "b3d5ad90afe1c79284462d13924f5ed760d4521f6e8e26d02d796c6f355f82dd",
+      "bytes": 433264
+    },
+    {
+      "archivo": "local/documentos/Ficha_Prueba_ADM06_Contexto_Delegacion.docx",
+      "origen": "Pruebas/Fichas_SGR_Corregidas_con_Evidencias/documentos/Ficha_Prueba_ADM06_Contexto_Delegacion.docx",
+      "sha256": "924bd8ab0bb17b97a1dee17f440980b993bf29b9cfb1f31f1a2c7275935eca12",
+      "bytes": 748711
+    },
+    {
+      "archivo": "local/documentos/Ficha_Prueba_CRUD_Delegaciones_ADM01_ADM02.docx",
+      "origen": "Pruebas/Fichas_SGR_Corregidas_con_Evidencias/documentos/Ficha_Prueba_CRUD_Delegaciones_ADM01_ADM02.docx",
+      "sha256": "970f66f4f1fe95c49f6db28d06f045c9bda1e2a84c31d88700e9756c1ccf5889",
+      "bytes": 1382035
+    },
+    {
+      "archivo": "local/documentos/Ficha_Prueba_CRUD_ItemsMetas_CAT01.docx",
+      "origen": "Pruebas/Fichas_SGR_Corregidas_con_Evidencias/documentos/Ficha_Prueba_CRUD_ItemsMetas_CAT01.docx",
+      "sha256": "a40306877ba04b089df63d95b1eab28771611ac45757fd4b17f4bc622f52fbb6",
+      "bytes": 2794842
+    },
+    {
+      "archivo": "local/documentos/Ficha_Prueba_CRUD_Roles_ADM04.docx",
+      "origen": "Pruebas/Fichas_SGR_Corregidas_con_Evidencias/documentos/Ficha_Prueba_CRUD_Roles_ADM04.docx",
+      "sha256": "d4c6681cdfcb3bcc45aa979af9a19858f53fdbc7f9fa3e66baae351dcaa74ac6",
+      "bytes": 1549533
+    },
+    {
+      "archivo": "local/documentos/Ficha_Prueba_CRUD_Tipos_Subatenciones_CAT02_CAT03.docx",
+      "origen": "Pruebas/Fichas_SGR_Corregidas_con_Evidencias/documentos/Ficha_Prueba_CRUD_Tipos_Subatenciones_CAT02_CAT03.docx",
+      "sha256": "9f8437f237911e7d44e8ea1fc7cdfc05862640ad476660d6aea2801882871084",
+      "bytes": 2753265
+    },
+    {
+      "archivo": "local/documentos/Ficha_Prueba_CRUD_Usuarios_ADM03.docx",
+      "origen": "Pruebas/Fichas_SGR_Corregidas_con_Evidencias/documentos/Ficha_Prueba_CRUD_Usuarios_ADM03.docx",
+      "sha256": "36a99e412f068a953e18161dece7406f9a4360bfbde4b5134599426874d6b128",
+      "bytes": 1532846
+    },
+    {
+      "archivo": "local/documentos/Ficha_Prueba_Ingreso_Atencion_ACT05_ACT06.docx",
+      "origen": "Pruebas/Fichas_SGR_Corregidas_con_Evidencias/documentos/Ficha_Prueba_Ingreso_Atencion_ACT05_ACT06.docx",
+      "sha256": "056c2401b96bbfbf9798381220d545626a3a8fe34d8e056715642d1fae61e3dd",
+      "bytes": 1111865
+    },
+    {
+      "archivo": "local/documentos/historico/Ficha_Prueba_Login_ACC01.docx",
+      "origen": "Pruebas/Fichas_SGR_Corregidas_con_Evidencias/documentos/Ficha_Prueba_Login_ACC01.docx",
+      "sha256": "5ec0c223198750b8e569e8d3f766b377156309c965c256e7489ef35c2905af28",
+      "bytes": 40933
+    },
+    {
+      "archivo": "local/documentos/Ficha_Prueba_Login_ACC01_Completa.docx",
+      "origen": "Pruebas/Fichas_SGR_Corregidas_con_Evidencias/documentos/Ficha_Prueba_Login_ACC01_Completa.docx",
+      "sha256": "894e95ab16a67cfab85725aa62398921b708bfcff5cef03d8c8c7fde0b18cab9",
+      "bytes": 316215
+    },
+    {
+      "archivo": "local/documentos/Informe_Pruebas_Pantallas_SGR.docx",
+      "origen": "Pruebas/Pruebas_Pantallas_SGR_Resultados_y_Evidencias/documentos/Informe_Pruebas_Pantallas_SGR.docx",
+      "sha256": "77855890c4298780fc1d42f365e6beca9c49180ec237d0e4103841bb9e3f01e6",
+      "bytes": 41363
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/B20_Registros_Individuales.html",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/B20_Registros_Individuales.html",
+      "sha256": "e7e83a2fcc744c5c046f205143f96573b44cdb05fac03e9c548f5584f78af7a1",
+      "bytes": 510650
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/B20_Registros_Individuales.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/B20_Registros_Individuales.json",
+      "sha256": "d5b15949274f10d08185ae6d1892c10e36d74961078dd83430bdd746f21e03e0",
+      "bytes": 607421
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/LEEME.txt",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/LEEME.txt",
+      "sha256": "a39555dab5e6924db4f858cc6b3f345477b1748c86dcdb40568ca7eab6e9d915",
+      "bytes": 1182
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/acceso/EV-ACC01-Administrador-01.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/acceso/EV-ACC01-Administrador-01.png",
+      "sha256": "ed85387be3fc96dd21cb16f17367369fe6b59e7659dfe71044a69420da2ed30a",
+      "bytes": 160230
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/acceso/EV-ACC01-Administrador-02.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/acceso/EV-ACC01-Administrador-02.png",
+      "sha256": "76989e0964a7c0c13e6dfb40ff5616d0a74c9b6700781a6c41b57df61f4b9262",
+      "bytes": 98910
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/acceso/EV-ACC01-Consulta-01.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/acceso/EV-ACC01-Consulta-01.png",
+      "sha256": "48f81566133a722137020e5d1bda28ff0d8eda41b0cc6a916c7eca8683da221c",
+      "bytes": 129008
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/acceso/EV-ACC01-Consulta-02.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/acceso/EV-ACC01-Consulta-02.png",
+      "sha256": "949fecd7075af6b15c072bd494eb5be0afe7b14eb2f01c017a921cdf5810c24e",
+      "bytes": 89564
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/acceso/EV-ACC01-Coordinador-01.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/acceso/EV-ACC01-Coordinador-01.png",
+      "sha256": "fd1511158292ea2a622da84a27d1977207dbb1495df7b38a16229e1fae01b848",
+      "bytes": 142258
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/acceso/EV-ACC01-Coordinador-02.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/acceso/EV-ACC01-Coordinador-02.png",
+      "sha256": "44e15cb802927880d8b15d4d0ebaaff06ba54aaa1ec6d25580cececa3ac96b28",
+      "bytes": 96235
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/acceso/EV-ACC01-Delegado-01.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/acceso/EV-ACC01-Delegado-01.png",
+      "sha256": "46b66982db7ce7c6ff98fd2417408b3a2543daea2e343ed98bf6e3d53117e93e",
+      "bytes": 140926
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/acceso/EV-ACC01-Delegado-02.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/acceso/EV-ACC01-Delegado-02.png",
+      "sha256": "41178d6e5eacc9a29891233bff1debfb9c707867b35e27523940e7c91c3ead26",
+      "bytes": 94622
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/acceso/EV-ACC01-Funcionario-01.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/acceso/EV-ACC01-Funcionario-01.png",
+      "sha256": "4a9e3fef7f33a8837f97da925d5c00fab9ea92ae42ec7df2fb210bf5dd78a42c",
+      "bytes": 140525
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/acceso/EV-ACC01-Funcionario-02.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/acceso/EV-ACC01-Funcionario-02.png",
+      "sha256": "2bd4599efe970828840a656709ee57d89b8e1205656ad5d4d4b1ee43904723b9",
+      "bytes": 83492
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/acceso/EV-ACC01-Verificador-01.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/acceso/EV-ACC01-Verificador-01.png",
+      "sha256": "1d930369fe8f7cc7cf241c1b95b8ebe70ddf87049e158fc862d2c4a9a46b23fa",
+      "bytes": 138822
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/acceso/EV-ACC01-Verificador-02.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/acceso/EV-ACC01-Verificador-02.png",
+      "sha256": "64723bdcd66bdc0494d6e5828425131c5f4d6aa16002618184f30eaf5c060caa",
+      "bytes": 95095
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/acceso/EV-ACC02-V01.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/acceso/EV-ACC02-V01.png",
+      "sha256": "f25be957a73fb848a6a1521333592a2891cca0e62239496f8246dff5e7833545",
+      "bytes": 94512
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/acceso/EV-ACC02-V02.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/acceso/EV-ACC02-V02.png",
+      "sha256": "dd43d637ec8223e982259abe737889a8233cd6612546dee019384cb114119dd3",
+      "bytes": 98066
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/acceso/EV-ACC02-V03.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/acceso/EV-ACC02-V03.png",
+      "sha256": "0b5c5a8744eab1bdc1ec38809a64354848ad69fc9221b3a401bf6d81d3c09a51",
+      "bytes": 96641
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/acceso/EV-ACC02-V04.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/acceso/EV-ACC02-V04.png",
+      "sha256": "02da82103cc45df7182fcdeb9795529cae8d16983fbe51a92bd678abcce47bae",
+      "bytes": 94418
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/acceso/EV-ACC02-V05.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/acceso/EV-ACC02-V05.png",
+      "sha256": "6f641814696c8fd2f4c6cff953a827aa49be656c487f141094bfe8b33b6b4956",
+      "bytes": 98387
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/acceso/EV-ACC03-01-SesionActiva.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/acceso/EV-ACC03-01-SesionActiva.png",
+      "sha256": "e09793635f274fb4fe3bb58ddd43e32d141d31db3415ab5aa5c533d37e7844bb",
+      "bytes": 123507
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/acceso/EV-ACC03-02-PostLogoutRechazo.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/acceso/EV-ACC03-02-PostLogoutRechazo.png",
+      "sha256": "4f03c6440d7cfb047f228599260ab155d33c3723b4d81097b61f1337fce43c17",
+      "bytes": 88788
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/acceso/resultados_acceso.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/acceso/resultados_acceso.json",
+      "sha256": "4742028f9d77be6b54311726b0ffa44d3f9fedd40fc9f3ae6d481c53f6b75649",
+      "bytes": 5373
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/acceso.cjs",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/acceso.cjs",
+      "sha256": "a31b55cfed1eb531bbec1da76a13bfeb7ec3023c464ab1d0cb1293f70e5a94a2",
+      "bytes": 13202
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/delegaciones-23-resultados.xlsx",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/delegaciones-23-resultados.xlsx",
+      "sha256": "ca6be712209473b32c85b36e8466f75981f62dab785320aed7eedee025ca408a",
+      "bytes": 5893
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/fichas_tests.py",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/fichas_tests.py",
+      "sha256": "3b5534ba206c8eef09421d48a75fbdd2f0f6c6a4fffbd5edb2c4612f8b95c7f0",
+      "bytes": 19675
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/indice-fichas.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/indice-fichas.json",
+      "sha256": "134e5a64fd9c2b9bbb23489466e4f0eb63f95296c3f10a26541b03b7d540820e",
+      "bytes": 4682
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/items-metas-23-resultados.xlsx",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/items-metas-23-resultados.xlsx",
+      "sha256": "6ada35cdb7b292a1ac95af6fbb74029d6de6b0c8e8f8cf1897161d2cbe77c426",
+      "bytes": 6004
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/manifest-entrega.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/manifest-entrega.json",
+      "sha256": "3d8c0936edbd984992487393f49ca88f0ae49f851a02d3613ef9e06881fb7394",
+      "bytes": 6734
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/roles-23-resultados.xlsx",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/roles-23-resultados.xlsx",
+      "sha256": "bb781f4232836f6e5386e0d697c9df0d01c38f34f4b7a76c2d7c111704b75b59",
+      "bytes": 5855
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/servidor-resultados-indexados.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/servidor-resultados-indexados.json",
+      "sha256": "942086a2f05d487a8c1f913b4a729ca17e1532b062ff86dd7fabdb5462a581b2",
+      "bytes": 71648
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/servidor-resultados.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/servidor-resultados.json",
+      "sha256": "45b13cb3e2f9825f37f3a7540cc914196401900525002f0b8ad202ad60fa752e",
+      "bytes": 64544
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/subatenciones-23-resultados.xlsx",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/subatenciones-23-resultados.xlsx",
+      "sha256": "1a3a812a3f53534ffc5c7446be129c5b51ba702d41d64977ae21610e865838e4",
+      "bytes": 5798
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/tipos-atencion-23-resultados.xlsx",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/tipos-atencion-23-resultados.xlsx",
+      "sha256": "b47ab8e7bc47f8b227e79119bd7eba298bf022184f8db4e8db90fde90d3eecd0",
+      "bytes": 5671
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/usuarios-23-resultados.xlsx",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/usuarios-23-resultados.xlsx",
+      "sha256": "0aea3f41ab4c609bc29f0635c72ab42fa8bee7c3bdad97601050387b4da1d963",
+      "bytes": 6345
+    },
+    {
+      "archivo": "local/evidencias_fichas_corregidas/version-archivos.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_fichas_corregidas/version-archivos.json",
+      "sha256": "69a05337501125673c3b937d95eca55d4d7c81be787d25a6599cb23cdbeb5bb5",
+      "bytes": 12046
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/GMAIL-01.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/GMAIL-01.png",
+      "sha256": "206845ff583f48c207d4185827142f8bd0abb406e37311b7503c344831411c3b",
+      "bytes": 89307
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/GMAIL-02.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/GMAIL-02.png",
+      "sha256": "206845ff583f48c207d4185827142f8bd0abb406e37311b7503c344831411c3b",
+      "bytes": 89307
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/GMAIL-03.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/GMAIL-03.png",
+      "sha256": "37ce3caf4c16347a44a2fb757cbdc6719b0c35c0e4c8c72d771b4e829a431bc0",
+      "bytes": 99786
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/GMAIL-04.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/GMAIL-04.png",
+      "sha256": "206845ff583f48c207d4185827142f8bd0abb406e37311b7503c344831411c3b",
+      "bytes": 89307
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/GMAIL-05.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/GMAIL-05.png",
+      "sha256": "950de20c55f52daf0f75f76db1536d4ec4c616d2f399612aaaaf6e3a3553af76",
+      "bytes": 99715
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/GMAIL-06.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/GMAIL-06.png",
+      "sha256": "206845ff583f48c207d4185827142f8bd0abb406e37311b7503c344831411c3b",
+      "bytes": 89307
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/GMAIL-07.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/GMAIL-07.png",
+      "sha256": "279b7d7286a5812cb6a48fc0120f72b8e421ea1f9be6ef7db3f20abfe24965f9",
+      "bytes": 90126
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/GMAIL-08.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/GMAIL-08.png",
+      "sha256": "a71878b65f40a9585f1ac40591e27c525538e5ce8a27e16ea6adb0778dd1774c",
+      "bytes": 92252
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/GMAIL-09.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/GMAIL-09.png",
+      "sha256": "279b7d7286a5812cb6a48fc0120f72b8e421ea1f9be6ef7db3f20abfe24965f9",
+      "bytes": 90126
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/GMAIL-10.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/GMAIL-10.png",
+      "sha256": "1b8b97cf4035721efff08013ec77b3b183fc68977af082c1e2b48ab37b6b33b3",
+      "bytes": 105070
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/GMAIL-11.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/GMAIL-11.png",
+      "sha256": "279b7d7286a5812cb6a48fc0120f72b8e421ea1f9be6ef7db3f20abfe24965f9",
+      "bytes": 90126
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/GMAIL-12.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/GMAIL-12.png",
+      "sha256": "6fe02c02df929161f216dad23c2bc77ab20281f10ffeebc2eca583f109137efc",
+      "bytes": 92002
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/GMAIL-13.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/GMAIL-13.png",
+      "sha256": "1d060e614d27f1cfedab5daa6ccbd8fa754743bdcc1813a649824c32dd7899cc",
+      "bytes": 86427
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/GMAIL-14.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/GMAIL-14.png",
+      "sha256": "c762f2ce3247cf3f9510167d5db6edbb926d34f84ac527640093e49fd2a3a814",
+      "bytes": 77980
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/GMAIL-15.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/GMAIL-15.png",
+      "sha256": "c762f2ce3247cf3f9510167d5db6edbb926d34f84ac527640093e49fd2a3a814",
+      "bytes": 77980
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/Informe_Pruebas_Pantallas_SGR.html",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/Informe_Pruebas_Pantallas_SGR.html",
+      "sha256": "e346762600ecc200e51c4b4107b46ce6188954e5b345ebd499e0b46b2b38735f",
+      "bytes": 226124
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/LEEME.txt",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/LEEME.txt",
+      "sha256": "4cdc81a17b485c64af6f3ae86f17d6175473882c8e094d0a02b9f7795978d8c3",
+      "bytes": 1494
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-001-delegacionescrearyguardarreal.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-001-delegacionescrearyguardarreal.png",
+      "sha256": "e9eba93f67bcf009daa455cb24cf8394b7df49e141c26a9d2cedab8f6060c4de",
+      "bytes": 215333
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-002-delegaciones-consulta.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-002-delegaciones-consulta.png",
+      "sha256": "0dc939d56f28167f0578c8d49024ae852104645d1fb24c273959cbb53b9f96f5",
+      "bytes": 132158
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-003-delegacionesconsultarsololectura.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-003-delegacionesconsultarsololectura.png",
+      "sha256": "9ab62225c53104268e64c760ac31700c675044f38822590e282d0413024f2ecb",
+      "bytes": 118995
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-004-delegacionescancelaredicinnomodifica.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-004-delegacionescancelaredicinnomodifica.png",
+      "sha256": "9ab62225c53104268e64c760ac31700c675044f38822590e282d0413024f2ecb",
+      "bytes": 118995
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-005-delegacioneseditarpersistedespusderecargar.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-005-delegacioneseditarpersistedespusderecargar.png",
+      "sha256": "efa4088887ce17a49d968dafbb58e2839592a154a7b8820e689448463630e496",
+      "bytes": 215497
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-006-delegacionescamposobligatoriosyformato.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-006-delegacionescamposobligatoriosyformato.png",
+      "sha256": "dc9efddb2f55f22f8ba9585c8ee8cbbb4364413ca0e5dbd256dc61a8eab2f0db",
+      "bytes": 215512
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-007-delegaciones-duplicado.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-007-delegaciones-duplicado.png",
+      "sha256": "03f05fea23eff1b5812ad671b1c2d89d321a0e00b87c5f4dc34c7744da6ff3d2",
+      "bytes": 223761
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-008-delegacionesduplicadorechazadoconservaformulario.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-008-delegacionesduplicadorechazadoconservaformulario.png",
+      "sha256": "dc9efddb2f55f22f8ba9585c8ee8cbbb4364413ca0e5dbd256dc61a8eab2f0db",
+      "bytes": 215512
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-009-delegacionesexportacinytotalfiltrado.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-009-delegacionesexportacinytotalfiltrado.png",
+      "sha256": "03842e2b486e302d3a4173ef512647ecbb3933e68e7bdc32c73fd44dc23c3b4e",
+      "bytes": 120201
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-010-delegacionescancelardesactivacinmantieneactivo.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-010-delegacionescancelardesactivacinmantieneactivo.png",
+      "sha256": "f76dc30e325df81584037b86aca2b457a82a1d35bb80c32b0728f44ec3815c5d",
+      "bytes": 143791
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-011-delegacionesdesactivaryconsultarfiltroinactivo.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-011-delegacionesdesactivaryconsultarfiltroinactivo.png",
+      "sha256": "7bcb1ad1fe44728ed0fc14d55307d90a1139988ad9cc6b9ad7bd56e8a331c916",
+      "bytes": 120135
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-012-rolescrearyguardarreal.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-012-rolescrearyguardarreal.png",
+      "sha256": "0e09c60c8f8341b709f5127aba10c2ef42742e13476ed0d46a80aba0aab008b4",
+      "bytes": 214639
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-013-roles-consulta.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-013-roles-consulta.png",
+      "sha256": "9324423ee942e8404131abd196d5e65690a20f02c036170c629622c72384d15c",
+      "bytes": 154367
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-013-rolesconsultarsololectura.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-013-rolesconsultarsololectura.png",
+      "sha256": "b06c4c0039cc2c23c5354d0310498256947232a42f7f775d38a8164e9986b3a4",
+      "bytes": 120513
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-014-rolescancelaredicinnomodifica.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-014-rolescancelaredicinnomodifica.png",
+      "sha256": "dcb24dfbbe00fc13d2ca4e3a23542176e04ad7ae280de62689d4e69f6d97d904",
+      "bytes": 119360
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-014-rolesconsultarsololectura.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-014-rolesconsultarsololectura.png",
+      "sha256": "6c9d7f38802b8d5290fc02ddda0488d166a56ad53c40763fa17ee5407fa9eb98",
+      "bytes": 119698
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-015-rolescancelaredicinnomodifica.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-015-rolescancelaredicinnomodifica.png",
+      "sha256": "6c9d7f38802b8d5290fc02ddda0488d166a56ad53c40763fa17ee5407fa9eb98",
+      "bytes": 119698
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-015-roleseditarpersistedespusderecargar.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-015-roleseditarpersistedespusderecargar.png",
+      "sha256": "b06c4c0039cc2c23c5354d0310498256947232a42f7f775d38a8164e9986b3a4",
+      "bytes": 120513
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-016-rolescamposobligatoriosyformato.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-016-rolescamposobligatoriosyformato.png",
+      "sha256": "dcb24dfbbe00fc13d2ca4e3a23542176e04ad7ae280de62689d4e69f6d97d904",
+      "bytes": 119360
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-016-roleseditarpersistedespusderecargar.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-016-roleseditarpersistedespusderecargar.png",
+      "sha256": "116b4bdc2769eab40e767cd8e0cf907e986c19cb272cca2c9aa5051f01715f34",
+      "bytes": 213331
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-017-rolescamposobligatoriosyformato.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-017-rolescamposobligatoriosyformato.png",
+      "sha256": "d669c2d0edc1e26fb222bee83fa25e5303a54f0feca3a643b7f9a5eb1c153df8",
+      "bytes": 213389
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-017-rolesduplicadorechazadoconservaformulario.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-017-rolesduplicadorechazadoconservaformulario.png",
+      "sha256": "c8ef1cb7de1ffe673924dac06d4f4d5bde8d5c43d66c072ecda7625fc1c2a1af",
+      "bytes": 154117
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-018-roles-duplicado.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-018-roles-duplicado.png",
+      "sha256": "78906c0f02a036a11aa083f5793ac4915448ece2d48e2d7b856f6196e44bffad",
+      "bytes": 231697
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-018-rolesduplicadorechazadoconservaformulario.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-018-rolesduplicadorechazadoconservaformulario.png",
+      "sha256": "f276c8c6e1b866d1ac16bda987ad9a63674e2ca6b641f36aa9bb320db0496e97",
+      "bytes": 233461
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-019-rolesduplicadorechazadoconservaformulario.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-019-rolesduplicadorechazadoconservaformulario.png",
+      "sha256": "d669c2d0edc1e26fb222bee83fa25e5303a54f0feca3a643b7f9a5eb1c153df8",
+      "bytes": 213389
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-019-rolesexportacinytotalfiltrado.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-019-rolesexportacinytotalfiltrado.png",
+      "sha256": "1805c10579b7c1a4a4ca7195be234306f10bf28f3baf23079202aeefa612c797",
+      "bytes": 112905
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-020-rolescancelardesactivacinmantieneactivo.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-020-rolescancelardesactivacinmantieneactivo.png",
+      "sha256": "1805c10579b7c1a4a4ca7195be234306f10bf28f3baf23079202aeefa612c797",
+      "bytes": 112905
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-020-rolesexportacinytotalfiltrado.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-020-rolesexportacinytotalfiltrado.png",
+      "sha256": "6d7c8c38ecf483bf7009dd3b6fd81d9d282f9d49c165b214ce57ff2696a96325",
+      "bytes": 119600
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-021-rolescancelardesactivacinmantieneactivo.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-021-rolescancelardesactivacinmantieneactivo.png",
+      "sha256": "03bbfd10b71e75eca11bbf2bfb503a8760accbcac18ce229c53e01b01c4fef0c",
+      "bytes": 142173
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-021-rolesdesactivaryconsultarfiltroinactivo.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-021-rolesdesactivaryconsultarfiltroinactivo.png",
+      "sha256": "1805c10579b7c1a4a4ca7195be234306f10bf28f3baf23079202aeefa612c797",
+      "bytes": 112905
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-022-rolesdesactivaryconsultarfiltroinactivo.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-022-rolesdesactivaryconsultarfiltroinactivo.png",
+      "sha256": "f64b9a0cf242f25c5e7ca38925c0f10cb61cf05c2c8c63ff03a507c6004330d3",
+      "bytes": 120086
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-022-usuarioscrearyguardarreal.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-022-usuarioscrearyguardarreal.png",
+      "sha256": "4f41b5d6f1b6083d104e1ae134e1a5e42e39768fb2dbd078df1af35c189b2e1c",
+      "bytes": 246860
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-023-usuarios-consulta.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-023-usuarios-consulta.png",
+      "sha256": "3cd46910ddfdb09a366e94e8c7bd0e4f01dd3c02ec78fdceae9b68715da3ebb0",
+      "bytes": 156448
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-023-usuarioscrearyguardarreal.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-023-usuarioscrearyguardarreal.png",
+      "sha256": "5fcbc977e3e3d2235dc4128d3db7de9c94a8689688e773e2fa54ae3d80617190",
+      "bytes": 253912
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-024-usuarios-consulta.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-024-usuarios-consulta.png",
+      "sha256": "7dc6cfb35192b866f701c240de0b25032e59e5324c60e7707a1c9da32335cdeb",
+      "bytes": 156688
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-024-usuariosconsultarsololectura.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-024-usuariosconsultarsololectura.png",
+      "sha256": "c97ae90ddd647e83766990e488a58f70042d82dfdb281836ef4085ebee8aac79",
+      "bytes": 127568
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-025-usuarioscancelaredicinnomodifica.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-025-usuarioscancelaredicinnomodifica.png",
+      "sha256": "c97ae90ddd647e83766990e488a58f70042d82dfdb281836ef4085ebee8aac79",
+      "bytes": 127568
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-025-usuariosconsultarsololectura.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-025-usuariosconsultarsololectura.png",
+      "sha256": "eb1a665291f12a967fc4c3e6a40191f00de352829601550dfccbea7527027e00",
+      "bytes": 127612
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-026-usuarioscancelaredicinnomodifica.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-026-usuarioscancelaredicinnomodifica.png",
+      "sha256": "eb1a665291f12a967fc4c3e6a40191f00de352829601550dfccbea7527027e00",
+      "bytes": 127612
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-026-usuarioseditarpersistedespusderecargar.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-026-usuarioseditarpersistedespusderecargar.png",
+      "sha256": "89656ddc9eb2a8d16470c1674c7bfa8275e621f1079ad12afa76cc0405eac331",
+      "bytes": 246762
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-027-usuarioscamposobligatoriosyformato.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-027-usuarioscamposobligatoriosyformato.png",
+      "sha256": "f9d60159569b0da74343b9cb53ed8be538fbe289c2ebc3c2cb24a2fb82a82369",
+      "bytes": 247201
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-027-usuarioseditarpersistedespusderecargar.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-027-usuarioseditarpersistedespusderecargar.png",
+      "sha256": "6d3ffb27c22ad7004e7d9983bb36a3dd260c6155519e2385e8ac8f91084ebe58",
+      "bytes": 253982
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-028-usuarios-duplicado.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-028-usuarios-duplicado.png",
+      "sha256": "05ef084b54f016fd79a10305a435e2ca579739e668251606694fb38a49b2233c",
+      "bytes": 256669
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-028-usuarioscamposobligatoriosyformato.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-028-usuarioscamposobligatoriosyformato.png",
+      "sha256": "780734db3308cc9fe227cab3c01afa5f1ae1425821302cdfcbcbdfa283b5a7c6",
+      "bytes": 254286
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-029-usuarios-duplicado.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-029-usuarios-duplicado.png",
+      "sha256": "7820fb21cc18d6d867934b72a54803e75507cfe56507fd9222bcca7283879806",
+      "bytes": 267908
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-029-usuariosduplicadorechazadoconservaformulario.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-029-usuariosduplicadorechazadoconservaformulario.png",
+      "sha256": "f9d60159569b0da74343b9cb53ed8be538fbe289c2ebc3c2cb24a2fb82a82369",
+      "bytes": 247201
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-030-usuariosduplicadorechazadoconservaformulario.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-030-usuariosduplicadorechazadoconservaformulario.png",
+      "sha256": "780734db3308cc9fe227cab3c01afa5f1ae1425821302cdfcbcbdfa283b5a7c6",
+      "bytes": 254286
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-030-usuariosexportacinytotalfiltrado.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-030-usuariosexportacinytotalfiltrado.png",
+      "sha256": "1d3a95b2d194937d1b8827794e4079ee2a0abff1ec48c2ddf3afff5a78eef0d4",
+      "bytes": 127801
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-031-usuarioscancelardesactivacinmantieneactivo.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-031-usuarioscancelardesactivacinmantieneactivo.png",
+      "sha256": "51b34a2a24d596dd4ad7115559888ccff374bec8e66c47472be961b27c7b5890",
+      "bytes": 151936
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-031-usuariosexportacinytotalfiltrado.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-031-usuariosexportacinytotalfiltrado.png",
+      "sha256": "c42b1aa4900ca57ef10ffbd3848e54ea7a987c3d77d810184046c6234d7ae51c",
+      "bytes": 127960
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-032-usuarioscancelardesactivacinmantieneactivo.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-032-usuarioscancelardesactivacinmantieneactivo.png",
+      "sha256": "0d920b0a550edb3903f4b7f5111069bfaee08a9407048211e064f6e7777a6d47",
+      "bytes": 152142
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-032-usuariosdesactivaryconsultarfiltroinactivo.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-032-usuariosdesactivaryconsultarfiltroinactivo.png",
+      "sha256": "cb379d41dcb28865a64caa31105632a4563270879dbbd88fb4be8d4c8f9542e9",
+      "bytes": 127711
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-033-items-metascrearyguardarreal.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-033-items-metascrearyguardarreal.png",
+      "sha256": "0b67965530223d73138510135cefd8ed7c37902b0f58c9ddefe2005d0f4c3e98",
+      "bytes": 239810
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-033-usuariosdesactivaryconsultarfiltroinactivo.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-033-usuariosdesactivaryconsultarfiltroinactivo.png",
+      "sha256": "f5fb59c5cdddfeaf6f0b1c632230e1dd23ba7b455fd545189745779edc357a44",
+      "bytes": 127866
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-034-items-metas-consulta.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-034-items-metas-consulta.png",
+      "sha256": "a7bd5bfc32a327389f3ddca6a03c719b3486361952575e33a37012171c6b722d",
+      "bytes": 146169
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-034-items-metascrearyguardarreal.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-034-items-metascrearyguardarreal.png",
+      "sha256": "34b00f1d6c9c867f6cfd6f2738e550e3eb185fc6dbf569d6547ca0f3d0d61fe6",
+      "bytes": 241694
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-035-items-metas-consulta.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-035-items-metas-consulta.png",
+      "sha256": "928d28b682d469d0b3434f2c3093a7f407269d5c703c6d61b33a8bd514903993",
+      "bytes": 146240
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-035-items-metasconsultarsololectura.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-035-items-metasconsultarsololectura.png",
+      "sha256": "5b47350fbf1c47e8891ada53302741b909100e075292fc1ad00471dd272192d1",
+      "bytes": 126451
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-036-items-metascancelaredicinnomodifica.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-036-items-metascancelaredicinnomodifica.png",
+      "sha256": "bcbceb090fe21f038eb9c1624baabe46c4f180c2fb5297bd22a10d013d42e6cb",
+      "bytes": 126462
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-036-items-metasconsultarsololectura.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-036-items-metasconsultarsololectura.png",
+      "sha256": "bc3111a0b01b84bb41408be6c843132586b0db97c158980abfd8375b08a295c6",
+      "bytes": 126498
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-037-items-metascancelaredicinnomodifica.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-037-items-metascancelaredicinnomodifica.png",
+      "sha256": "d4d38cfff460509e35588b4d4378ed4d84eebe5914b0d5ab002a9d5ebd4fdfad",
+      "bytes": 126509
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-038-items-metaseditarpersistedespusderecargar.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-038-items-metaseditarpersistedespusderecargar.png",
+      "sha256": "c88614bc707630e2c9ddaaae437a2651dd88ec3366cc92ce21b2b22f96e09b59",
+      "bytes": 168628
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-039-items-metascamposobligatoriosyformato.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-039-items-metascamposobligatoriosyformato.png",
+      "sha256": "a12dbfc5db08d945bbcfce2c637942aaa5c0c6edf0cca311ebe9ae9845ad1e86",
+      "bytes": 241649
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-040-items-metas-duplicado.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-040-items-metas-duplicado.png",
+      "sha256": "a5d887162abe68486c58a88d7bcb0cbe93b930a60af9935af033d739aaf5404f",
+      "bytes": 258994
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-041-items-metasduplicadorechazadoconservaformulario.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-041-items-metasduplicadorechazadoconservaformulario.png",
+      "sha256": "a12dbfc5db08d945bbcfce2c637942aaa5c0c6edf0cca311ebe9ae9845ad1e86",
+      "bytes": 241649
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-042-items-metasexportacinytotalfiltrado.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-042-items-metasexportacinytotalfiltrado.png",
+      "sha256": "303c48abacb3607d710812bf1918d8483c3e4517667741735600f379ef7afb14",
+      "bytes": 126775
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-043-items-metascancelardesactivacinmantieneactivo.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-043-items-metascancelardesactivacinmantieneactivo.png",
+      "sha256": "e65bcd302b91af0078bd91aa838015535e3823a11dee576c9603188b08d7643f",
+      "bytes": 149936
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-044-items-metasdesactivaryconsultarfiltroinactivo.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-044-items-metasdesactivaryconsultarfiltroinactivo.png",
+      "sha256": "0a556b900554b86a925ae4597d02c4e2f5171e6f44298c4478b6115f90557963",
+      "bytes": 126581
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-045-tipos-atencioncrearyguardarreal.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-045-tipos-atencioncrearyguardarreal.png",
+      "sha256": "a818514b5b4e7fc704b79ed5c336d44fae5ae3ba5b42e0f829b53029a11ea2b6",
+      "bytes": 216208
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-046-tipos-atencion-consulta.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-046-tipos-atencion-consulta.png",
+      "sha256": "c927530c11dcf35c514fef81fd5c89793fd1b5ee34a91a63388ff7335d3526f2",
+      "bytes": 131482
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-047-tipos-atencionconsultarsololectura.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-047-tipos-atencionconsultarsololectura.png",
+      "sha256": "7ef7b13c56e6ebe1e3796dd12ea112367af2fc96b541da00e2a63b466381cffa",
+      "bytes": 120398
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-048-tipos-atencioncancelaredicinnomodifica.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-048-tipos-atencioncancelaredicinnomodifica.png",
+      "sha256": "7ef7b13c56e6ebe1e3796dd12ea112367af2fc96b541da00e2a63b466381cffa",
+      "bytes": 120398
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-049-tipos-atencioneditarpersistedespusderecargar.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-049-tipos-atencioneditarpersistedespusderecargar.png",
+      "sha256": "58d7305c8dfc48fe3cbf318acaf109242db9070e0e0e0557f7902c3394c034ff",
+      "bytes": 216241
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-050-tipos-atencioncamposobligatoriosyformato.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-050-tipos-atencioncamposobligatoriosyformato.png",
+      "sha256": "7e462de4233ec6e2a3ab712c0ba928a3641ac79b17d96d2c06c2a6665be6c559",
+      "bytes": 216255
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-051-tipos-atencion-duplicado.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-051-tipos-atencion-duplicado.png",
+      "sha256": "17687da902aa8c9434e8a919bc5de7d5b3bb0a174bb8b4040fae96696c9617ab",
+      "bytes": 231771
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-052-tipos-atencionduplicadorechazadoconservaformulario.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-052-tipos-atencionduplicadorechazadoconservaformulario.png",
+      "sha256": "7e462de4233ec6e2a3ab712c0ba928a3641ac79b17d96d2c06c2a6665be6c559",
+      "bytes": 216255
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-053-tipos-atencionexportacinytotalfiltrado.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-053-tipos-atencionexportacinytotalfiltrado.png",
+      "sha256": "d73c5da0853697b7b2e8285f7749f8208c077ecc76bd126d8802f10d75bcf28d",
+      "bytes": 120275
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-054-tipos-atencioncancelardesactivacinmantieneactivo.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-054-tipos-atencioncancelardesactivacinmantieneactivo.png",
+      "sha256": "29b174f6501b0534b325e039b20fcda1073c871ee7d3653e1b4140406739ae60",
+      "bytes": 143762
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-055-tipos-atenciondesactivaryconsultarfiltroinactivo.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-055-tipos-atenciondesactivaryconsultarfiltroinactivo.png",
+      "sha256": "d44e97e94556a7be02f7b46b198ff74b37913d1a8937080acdd5ca3e0052ff31",
+      "bytes": 120314
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-056-subatencionescrearyguardarreal.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-056-subatencionescrearyguardarreal.png",
+      "sha256": "12dfc079c6769f5e35166e4b1a4dc679e897a871904c3f2cc580aff5d4d65ec2",
+      "bytes": 234490
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-057-subatenciones-consulta.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-057-subatenciones-consulta.png",
+      "sha256": "0d3932ea52e892ecec53a59f79efa04ceffd354647bf4dea606b7f2d82e20056",
+      "bytes": 136196
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-058-subatencionesconsultarsololectura.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-058-subatencionesconsultarsololectura.png",
+      "sha256": "d96f3eb271d54647c1f79728679c3e8feff2caff6688a477b52568b4402ab220",
+      "bytes": 122355
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-059-subatencionescancelaredicinnomodifica.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-059-subatencionescancelaredicinnomodifica.png",
+      "sha256": "d96f3eb271d54647c1f79728679c3e8feff2caff6688a477b52568b4402ab220",
+      "bytes": 122355
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-060-subatencioneseditarpersistedespusderecargar.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-060-subatencioneseditarpersistedespusderecargar.png",
+      "sha256": "3cf566bf83f6caa9384a0a32ec92a01a78336830117f8033a4a160af9531d97d",
+      "bytes": 182084
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-061-subatencionescamposobligatoriosyformato.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-061-subatencionescamposobligatoriosyformato.png",
+      "sha256": "594a5cc3efb5f21caa074d5d549b1c09080fa51bbe914f4b1079ba5a31064bff",
+      "bytes": 234188
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-062-subatenciones-duplicado.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-062-subatenciones-duplicado.png",
+      "sha256": "af818e00afd17ef7901eefa792e17d5db44e1db8c5d43b64e3379ac61819d927",
+      "bytes": 245317
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-063-subatencionesduplicadorechazadoconservaformulario.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-063-subatencionesduplicadorechazadoconservaformulario.png",
+      "sha256": "594a5cc3efb5f21caa074d5d549b1c09080fa51bbe914f4b1079ba5a31064bff",
+      "bytes": 234188
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-064-subatencionesexportacinytotalfiltrado.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-064-subatencionesexportacinytotalfiltrado.png",
+      "sha256": "66f43ddeed540c8d544125ca4227c7588445b75a0ef8bac28d3ca4c9e3ea8130",
+      "bytes": 123442
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-065-subatencionescancelardesactivacinmantieneactivo.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-065-subatencionescancelardesactivacinmantieneactivo.png",
+      "sha256": "f2f5391b7ac654c0ca346d2f5861791f69e58ad3de74a87a391d8cf1b12bd482",
+      "bytes": 147232
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-066-subatencionesdesactivaryconsultarfiltroinactivo.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-066-subatencionesdesactivaryconsultarfiltroinactivo.png",
+      "sha256": "fd8755a7aff79d9e9f3263df1451d40bdf552694ae76c00be1ea307bafac8302",
+      "bytes": 123222
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-067-configuraciones-metascrearyguardarreal.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-067-configuraciones-metascrearyguardarreal.png",
+      "sha256": "060ff0d2260d55f3687692b8937becf149b1caf47c057b26ecffb477ab7ab422",
+      "bytes": 129729
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-068-configuraciones-metas-consulta.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-068-configuraciones-metas-consulta.png",
+      "sha256": "089ed07e5e13fdfbd6209225de95ab4969275382e66fd5cb056785443c01c044",
+      "bytes": 131797
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-069-configuraciones-metasconsultarsololectura.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-069-configuraciones-metasconsultarsololectura.png",
+      "sha256": "9ee20921bd15212fb3da62b9530996827e73ed4e06d76521699a116d0415e550",
+      "bytes": 120079
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-070-configuraciones-metascancelaredicinnomodifica.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-070-configuraciones-metascancelaredicinnomodifica.png",
+      "sha256": "9ee20921bd15212fb3da62b9530996827e73ed4e06d76521699a116d0415e550",
+      "bytes": 120079
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-071-configuraciones-metaseditarpersistedespusderecargar.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-071-configuraciones-metaseditarpersistedespusderecargar.png",
+      "sha256": "2618a7e9d2763c9785aa00fe9eb2cd7119a5e6883b8a5990a78ac1899a012171",
+      "bytes": 129839
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-072-configuraciones-metascamposobligatoriosyformato.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-072-configuraciones-metascamposobligatoriosyformato.png",
+      "sha256": "b74996c270605bddcc21c543221b0e8b17a5cc73f5f4605545ddae1659731e7b",
+      "bytes": 129854
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-073-configuraciones-metasduplicadorechazadoconservaformulario.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-073-configuraciones-metasduplicadorechazadoconservaformulario.png",
+      "sha256": "7ad3332c746666905f05e56261c415f683d99aa99ade29e9e8f8eabf34a35074",
+      "bytes": 141621
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-074-configuraciones-metasexportacinytotalfiltrado.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-074-configuraciones-metasexportacinytotalfiltrado.png",
+      "sha256": "296299041d4ba94b50acfbdef8868f86ab79506ac606a6713e2fc505e9678683",
+      "bytes": 130305
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-075-configuraciones-metascancelardesactivacinmantieneactivo.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-075-configuraciones-metascancelardesactivacinmantieneactivo.png",
+      "sha256": "8d986dd64e5afe915459b7f5ac3b00ca7220847c84f0f5bb120b43db6da3a32a",
+      "bytes": 152042
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-076-configuraciones-metasdesactivaryconsultarfiltroinactivo.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-076-configuraciones-metasdesactivaryconsultarfiltroinactivo.png",
+      "sha256": "42df73e186ed96a4521747cf16919f6d5163c8a0a34023b40b260b996b86500a",
+      "bytes": 129230
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-077-selectortiposubatencindependiente.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-077-selectortiposubatencindependiente.png",
+      "sha256": "bd3db15497543ba12b9f855676891ffe74fee6bea9cd53960aa7a8bd8d5021cb",
+      "bytes": 163430
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-078-cancelacinatencinconservaodescartaborrador.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-078-cancelacinatencinconservaodescartaborrador.png",
+      "sha256": "422f7fbaa19205fd649449ef900f43d163a477698e8427728e6efa92e8aaed25",
+      "bytes": 182110
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-079-atencion-folio.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-079-atencion-folio.png",
+      "sha256": "f5bc60107012cc0e2164955206b3efae092d09f18daf414f8fc33a8e952b96ab",
+      "bytes": 178220
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-080-dobleclicrealconredlentageneraunfolio.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-080-dobleclicrealconredlentageneraunfolio.png",
+      "sha256": "a2ac4de75b4c132e94aabf5a39610e1e99ac221584780c36951c211e0ca174f0",
+      "bytes": 171152
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-081-error-simulado.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-081-error-simulado.png",
+      "sha256": "0d7eb6a42d2259c18fb01ae4e46af642500be3b013090ab99f89947a14c4f1ee",
+      "bytes": 179935
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-082-errorservidorcontroladonoinformaxitonipierdeborrador.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-082-errorservidorcontroladonoinformaxitonipierdeborrador.png",
+      "sha256": "3c1cc0098f8ed0877428583b74aef734219bbc398c94288fe1661d883c614b2d",
+      "bytes": 169026
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-083-selectorsolodosdelegacionesautorizadas.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-083-selectorsolodosdelegacionesautorizadas.png",
+      "sha256": "2d1ad3055e78b71406b0b725f174d0bd52c7def39591c56c6bc7ede6f018e53d",
+      "bytes": 139421
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-084-borradoralcambiarcontextomantenerydescartar.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-084-borradoralcambiarcontextomantenerydescartar.png",
+      "sha256": "f556c4ed779099db5494ef1ea6786ab97fa7b5904d18341b443a3531df9c6e97",
+      "bytes": 161908
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-085-aislamientolistadosyrechazodedelegacinajena.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-085-aislamientolistadosyrechazodedelegacinajena.png",
+      "sha256": "f556c4ed779099db5494ef1ea6786ab97fa7b5904d18341b443a3531df9c6e97",
+      "bytes": 161908
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-086-consultasincrearniexportarycontextofijo.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-086-consultasincrearniexportarycontextofijo.png",
+      "sha256": "4064dbe57dedf6a7894c8169e39d3ca940c0960afec2288317c8c13652067eca",
+      "bytes": 186736
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-1001-selectorsolodosdelegacionesautorizadas.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-1001-selectorsolodosdelegacionesautorizadas.png",
+      "sha256": "15b9f16f64d8f268427c70548dcb3f15ecc939b49835857d149277df37f7789e",
+      "bytes": 139619
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-1002-borradoralcambiarcontextomantenerydescartar.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-1002-borradoralcambiarcontextomantenerydescartar.png",
+      "sha256": "f556c4ed779099db5494ef1ea6786ab97fa7b5904d18341b443a3531df9c6e97",
+      "bytes": 161908
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-1003-aislamientolistadosyrechazodedelegacinajena.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-1003-aislamientolistadosyrechazodedelegacinajena.png",
+      "sha256": "f556c4ed779099db5494ef1ea6786ab97fa7b5904d18341b443a3531df9c6e97",
+      "bytes": 161908
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-1004-consultasincrearniexportarycontextofijo.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-1004-consultasincrearniexportarycontextofijo.png",
+      "sha256": "4064dbe57dedf6a7894c8169e39d3ca940c0960afec2288317c8c13652067eca",
+      "bytes": 186736
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-1005-metascreareditarfiltrarexportarydesactivardesdepantalla.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-1005-metascreareditarfiltrarexportarydesactivardesdepantalla.png",
+      "sha256": "5b2c2f8d8e91f768615b7c2a176771c615545536dd8ea509f202e7c6aa604ae3",
+      "bytes": 120036
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-1006-metaslmitesnumricoseninterfazyservidor.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-1006-metaslmitesnumricoseninterfazyservidor.png",
+      "sha256": "801b478338950cdb8d237efaf94fa0ed05682b791b521db8e7f2ec583367dfab",
+      "bytes": 147257
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-1007-historial-tipo.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-1007-historial-tipo.png",
+      "sha256": "e7a1d127e230570a1adc9488155711e17c0be79ff72993a0ebec565f9d496048",
+      "bytes": 156608
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-1008-historiaatencinpreservaetiquetasdespusdeeditarcatlogos.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-1008-historiaatencinpreservaetiquetasdespusdeeditarcatlogos.png",
+      "sha256": "af630fd6664584b127c7d5d923c6b6754f7ad67f927d2c114555090b53ed222a",
+      "bytes": 120823
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-1009-historiadeactividadconservatemycargooriginales.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-1009-historiadeactividadconservatemycargooriginales.png",
+      "sha256": "af630fd6664584b127c7d5d923c6b6754f7ad67f927d2c114555090b53ed222a",
+      "bytes": 120823
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-1010-paginacintotalfiltroscombinadosyexportacindevariaspginas.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-1010-paginacintotalfiltroscombinadosyexportacindevariaspginas.png",
+      "sha256": "7f730ef4599db23c9801db28bb72c7810e09de55108ef6982568e8104e2f5865",
+      "bytes": 114599
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-1011-nuevadelegacindisponibleenasignacindeusuarioybajavinculadabl.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-1011-nuevadelegacindisponibleenasignacindeusuarioybajavinculadabl.png",
+      "sha256": "c0dc40dcd3529c75fcfaa4707de2ae7a7ac61107cf334c6123afa2772dd82434",
+      "bytes": 146486
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-1012-duplicadodeconfiguracinportemyperodo.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-1012-duplicadodeconfiguracinportemyperodo.png",
+      "sha256": "6771cf24011736c9cec9557cc720deb8e8ea5ab0f0b3e876141333ce19ef9d7e",
+      "bytes": 142866
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-1013-reutilizacindecdigoconsumidoconCSRFvlido.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-1013-reutilizacindecdigoconsumidoconCSRFvlido.png",
+      "sha256": "e879240ae6f65734cb30b780c49201ef8aca7f20477403325eb5da25a17c0ade",
+      "bytes": 78193
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-2001-relaciones-rechazadas.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-2001-relaciones-rechazadas.png",
+      "sha256": "3ecb0ac80612b2b232684c8cae6adcbbbdb68743a818b55e4c8cbb1a2ba64fd4",
+      "bytes": 142761
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-2002-bajavinculadarechazadaconrespuestaymensajeverificados.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-2002-bajavinculadarechazadaconrespuestaymensajeverificados.png",
+      "sha256": "7c35e764e58a5bd03cae0e906f07f672c1a8c72a3bb3fd8b7f18d88fda0c0347",
+      "bytes": 122775
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-2003-rol-asignado-limitado.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-2003-rol-asignado-limitado.png",
+      "sha256": "ab963ef1c2f03cad2897411272175f82f5a45f7f90196f9c0a9b6c86384ec345",
+      "bytes": 164887
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-2004-asignarrollimitadoenusuarioycomprobaraccesoreal.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-2004-asignarrollimitadoenusuarioycomprobaraccesoreal.png",
+      "sha256": "7dd32c200890e440de589031d07d6997a0f1c309820fa41ae91604418feac25c",
+      "bytes": 128197
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-2005-delegacindesolicitudyautorseconservantrascambiodecontexto.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-2005-delegacindesolicitudyautorseconservantrascambiodecontexto.png",
+      "sha256": "7dd32c200890e440de589031d07d6997a0f1c309820fa41ae91604418feac25c",
+      "bytes": 128197
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/UI-3001-cuartagestinsocialbloqueadadesdeformulario.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/UI-3001-cuartagestinsocialbloqueadadesdeformulario.png",
+      "sha256": "89119dd670275b3790102dee13e783c549c4666f9b107b37432993721ceb478f",
+      "bytes": 273523
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/delegaciones-ui.xlsx",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/delegaciones-ui.xlsx",
+      "sha256": "55171677ad871ded6d4394f6e3ed9b5d35987a818165cc8a42f9fb73ccc9f971",
+      "bytes": 5205
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/ejecucion.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/ejecucion.json",
+      "sha256": "eef8434db1c89904ab570819bda6439497c1b2a17a9e90a295cc77589fc269e7",
+      "bytes": 11232
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/exportaciones-verificadas.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/exportaciones-verificadas.json",
+      "sha256": "427e3c170a088d1d782f058b38ab35935ae610555a4938f3be5cd184e3b955a1",
+      "bytes": 999
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/gmail-recepcion.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/gmail-recepcion.json",
+      "sha256": "eb9c4b6b72e2e2ccabf97ae3d045a14f38887042120594806fdfb290ee628732",
+      "bytes": 170
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/gmail-solicitado.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/gmail-solicitado.json",
+      "sha256": "5131372d25ef535d36cc7d08e86a0de07f19859c23d33b92e1c1847d0edc83bc",
+      "bytes": 83
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/items-metas-ui.xlsx",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/items-metas-ui.xlsx",
+      "sha256": "2095c7759b4399701bf0c0cf29f642fe52b581a630c55f0deb5c0470cfe68959",
+      "bytes": 5252
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/manifest-paquete.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/manifest-paquete.json",
+      "sha256": "7ed33dcf317338e2786ddec97e903c727353f3d4c68a2c06ddf2734cfd9e2fdc",
+      "bytes": 26271
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/metas-foco-ui.xlsx",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/metas-foco-ui.xlsx",
+      "sha256": "987f84d8f4fc59233965498570bc68d000efef16db0349a4d175f442f0290b57",
+      "bytes": 5180
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/registros-consolidados.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/registros-consolidados.json",
+      "sha256": "ed66247d78e14224b38615f7019fe3efee3efcc12bb906a9b279c0d1f1a3466a",
+      "bytes": 226288
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/resultados-complementarios.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/resultados-complementarios.json",
+      "sha256": "52c02a944986216b634abf99ea432e233bc2a735ff439393179d090e9721592e",
+      "bytes": 11451
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/resultados-finales.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/resultados-finales.json",
+      "sha256": "3697bb5fa403e63fd0884bc1d4f7b9a8a047b2e914aa3c93a248e34db9769313",
+      "bytes": 5314
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/resultados-gmail.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/resultados-gmail.json",
+      "sha256": "4ddecab7b2e2915e59f6a6ee4fe3106fadde1f4400b44a42233ce360a539c6c8",
+      "bytes": 3222
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/resultados-social.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/resultados-social.json",
+      "sha256": "962bcf72b417b065e0614da03f990fe92ff84f1dab1b92818072742f3d969cf4",
+      "bytes": 586
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/resultados-ui.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/resultados-ui.json",
+      "sha256": "be258c7ab180e8a521051c53a5945503b1bdd1d3dd822c65dd3db5ce51d813d2",
+      "bytes": 30768
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/resumen-verificado.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/resumen-verificado.json",
+      "sha256": "62b2813d88baaac5c50e8f3d7e7748ff13e2b9d513b724c2e210cef012ca9a75",
+      "bytes": 1210
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/roles-ui.xlsx",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/roles-ui.xlsx",
+      "sha256": "87113348d8100690f279930152eb9b9de5bc3cd75af7c96f69dffefb87bd8eb7",
+      "bytes": 5221
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/subatenciones-ui.xlsx",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/subatenciones-ui.xlsx",
+      "sha256": "2487afda57a2b333efcc4f70ce2d68702735f1ab57c588ee8e9a4c3559e93585",
+      "bytes": 5217
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/tipos-23-paginacion-ui.xlsx",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/tipos-23-paginacion-ui.xlsx",
+      "sha256": "4af33385f2951ddf9bbbc2f57ba0baad686e96865be0f252c0c2662b93f89710",
+      "bytes": 5702
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/tipos-atencion-ui.xlsx",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/tipos-atencion-ui.xlsx",
+      "sha256": "2e742e76bc362abc6e3f22b1bb1cb78ec7bfa5674af22bb63dbb3f1b61ccdc9c",
+      "bytes": 5177
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/ui-intento-inicial.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/ui-intento-inicial.json",
+      "sha256": "739b5f9e48dea4d766b229fd1f0e97d9c423b886ab2833f8ebfb5f93a494ff98",
+      "bytes": 6387
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/usuarios-ui.xlsx",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/usuarios-ui.xlsx",
+      "sha256": "9ef993b35de86c88ab3d794727efddee77e6c1437bf1537fe606614359887c46",
+      "bytes": 5304
+    },
+    {
+      "archivo": "local/evidencias_pantallas_completas/verificacion-persistencia.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/evidencias_pantallas_completas/verificacion-persistencia.json",
+      "sha256": "321099179e8fb4fe76215722cb150f7a92e9bada385240c56f5c0e7820c230bf",
+      "bytes": 494
+    },
+    {
+      "archivo": "local/periodos-local/README.md",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/periodos-local/README.md",
+      "sha256": "039e68df759bae6dd2fefa02ab10b73dbbae98781f83a30e4a0edc5f294cff2d",
+      "bytes": 2620
+    },
+    {
+      "archivo": "local/periodos-local/conciliacion-historica.txt",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/periodos-local/conciliacion-historica.txt",
+      "sha256": "2222839f65468fd663dc03afc64826d1223e11fb099fdb6844e3e3bad04a2057",
+      "bytes": 374
+    },
+    {
+      "archivo": "local/periodos-local/historial.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/periodos-local/historial.png",
+      "sha256": "fb1e817d47b69ede2f07d115471ffc1b87eab977b489f42002a3f6d475f0e731",
+      "bytes": 257143
+    },
+    {
+      "archivo": "local/periodos-local/movil.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/periodos-local/movil.png",
+      "sha256": "efe1c93b5de9cf4b3547fa4d5d6b9df28162ff880df2c0317c2d6f393032a33b",
+      "bytes": 106068
+    },
+    {
+      "archivo": "local/periodos-local/recorrido-navegador.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/periodos-local/recorrido-navegador.json",
+      "sha256": "f5ab38a8c9164c8b5fd730526599da1076fe4e126ac45193d2c5853de5f92e0a",
+      "bytes": 1095
+    },
+    {
+      "archivo": "local/periodos-local/regresion-344.txt",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/periodos-local/regresion-344.txt",
+      "sha256": "b891d0fa23d6ce4dd7f89ee887d17d709a353ebb8dcb473efc5114bb196c55e6",
+      "bytes": 628
+    },
+    {
+      "archivo": "local/regresion/pruebas-servidor-traslado.txt",
+      "origen": "sgr-proyecto-integrado/docs/integracion/pruebas-servidor-traslado.txt",
+      "sha256": "c0265a09f5196c788ada8b473a4dd46419d17b44beb5e8715388a94a23d7eb5b",
+      "bytes": 600
+    },
+    {
+      "archivo": "aws/Informe_Pruebas_Ejecutadas_AWS_SGR.docx",
+      "origen": "Pruebas/Informe_Pruebas_Ejecutadas_AWS_SGR.docx",
+      "sha256": "551ba0f7fd5bcc69522047696a8f68b86e3759b5c3a2c8ba9d513b7ba0c8f6c0",
+      "bytes": 57893
+    },
+    {
+      "archivo": "aws/rendimiento/INCIDENCIAS.md",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/rendimiento-aws/INCIDENCIAS.md",
+      "sha256": "222de1fd66e8298f6044a01a548fd8249dd9987fad49520816310faa62a50849",
+      "bytes": 3329
+    },
+    {
+      "archivo": "aws/rendimiento/INFORME.md",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/rendimiento-aws/INFORME.md",
+      "sha256": "09f7d06beb98f648f4b5b0bae3333617f6c4537ede682069f1a2e95536b3ad11",
+      "bytes": 7218
+    },
+    {
+      "archivo": "aws/rendimiento/PROTOCOLO.md",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/rendimiento-aws/PROTOCOLO.md",
+      "sha256": "f1c16c8e5c9bbaacd2b8e490fd05b24fb6f7fa6bfaf10d2357d9aee7b52bda48",
+      "bytes": 3129
+    },
+    {
+      "archivo": "aws/rendimiento/README.md",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/rendimiento-aws/README.md",
+      "sha256": "8cad48a33728491f746125d0302f6baaf9d127017e7474c3fed289eb79ebc213",
+      "bytes": 2448
+    },
+    {
+      "archivo": "aws/rendimiento/SHA256.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/rendimiento-aws/SHA256.json",
+      "sha256": "de688ebecc37bad705becfe0999cba68beee406a5257cff27d1c754673f589ca",
+      "bytes": 2917
+    },
+    {
+      "archivo": "aws/rendimiento/cleanup-resultado.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/rendimiento-aws/cleanup-resultado.json",
+      "sha256": "5e8c583b2bdfafc37298ff73e04be547c4c43d32715fa4532a022cac44e5152c",
+      "bytes": 226
+    },
+    {
+      "archivo": "aws/rendimiento/conciliacion.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/rendimiento-aws/conciliacion.json",
+      "sha256": "fe8189a3aac7b2bf294a54e63786b8d101c23d5a6b3e6c5f1cc1260ff43e63a6",
+      "bytes": 131
+    },
+    {
+      "archivo": "aws/rendimiento/ejecucion.txt",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/rendimiento-aws/ejecucion.txt",
+      "sha256": "ee48f2c90b7caeeb9f8301631d1a6bdafd100b91f33c4ae901b03ff4e81d4e63",
+      "bytes": 337
+    },
+    {
+      "archivo": "aws/rendimiento/estado-verificador-anterior.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/rendimiento-aws/estado-verificador-anterior.json",
+      "sha256": "febbf17d8fd2283c72d1878eb637bea875e9a003e99a3f7707f69f7746ede54e",
+      "bytes": 201
+    },
+    {
+      "archivo": "aws/rendimiento/funcional-continuacion.txt",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/rendimiento-aws/funcional-continuacion.txt",
+      "sha256": "abb04c26710834c631649df0d8c94f93a727e98f57b3bd90707d3edc05000099",
+      "bytes": 44
+    },
+    {
+      "archivo": "aws/rendimiento/funcional-intento-inicial.txt",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/rendimiento-aws/funcional-intento-inicial.txt",
+      "sha256": "4ff356d9b73a9d69115a5a87db6889f3874778f4cace178bbc2756f51bdaf9ef",
+      "bytes": 1934
+    },
+    {
+      "archivo": "aws/rendimiento/funcional-posterior.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/rendimiento-aws/funcional-posterior.json",
+      "sha256": "75562f5ae167c1d16a9727f79c720f8680a9d15515abb25e2bfca536b6498de9",
+      "bytes": 34898
+    },
+    {
+      "archivo": "aws/rendimiento/integridad-resultado.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/rendimiento-aws/integridad-resultado.json",
+      "sha256": "7709303f41915c4d86c6233f997f10b5e590e07d9b2d0d7fc691fcf5f63691be",
+      "bytes": 311
+    },
+    {
+      "archivo": "aws/rendimiento/metricas.csv",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/rendimiento-aws/metricas.csv",
+      "sha256": "472a1457bfa8b03db6dc6e1772116f7c8f668bccdf5938fb39d590fc1cd51ab1",
+      "bytes": 1305
+    },
+    {
+      "archivo": "aws/rendimiento/post-reinicio.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/rendimiento-aws/post-reinicio.json",
+      "sha256": "8ba873bb3028a8f7a1cde88a26bebb887f5751cef1124655fc03fdcdbe0fa5f8",
+      "bytes": 618
+    },
+    {
+      "archivo": "aws/rendimiento/post-reinicio.txt",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/rendimiento-aws/post-reinicio.txt",
+      "sha256": "700baeed5877f008f0f587cf8ff6c2b3ed4a8d33c33f9b0632e22fd4116caa18",
+      "bytes": 46
+    },
+    {
+      "archivo": "aws/rendimiento/recursos-resumen.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/rendimiento-aws/recursos-resumen.json",
+      "sha256": "df9f55b3fa4eb7b5bfb13e2aeebc08356dc810a3593242fb6ba26320029862f1",
+      "bytes": 153
+    },
+    {
+      "archivo": "aws/rendimiento/recursos.jsonl",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/rendimiento-aws/recursos.jsonl",
+      "sha256": "a0fd53c0ea3aba47580a1014ad75fe29f0b8e4874508f4f77513a099c79e9d9a",
+      "bytes": 8882
+    },
+    {
+      "archivo": "aws/rendimiento/restauracion.txt",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/rendimiento-aws/restauracion.txt",
+      "sha256": "12d11d9095697a6cddf2dbf619ee21bb6096039d9d739597da6ced99b11cd95e",
+      "bytes": 319
+    },
+    {
+      "archivo": "aws/rendimiento/restore-resultado.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/rendimiento-aws/restore-resultado.json",
+      "sha256": "eec7964947806d5884a923e21b3b9a2661d5aa0eabed7323116e3aebe31c1e6e",
+      "bytes": 3322
+    },
+    {
+      "archivo": "aws/rendimiento/resumen-ejecutor-original.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/rendimiento-aws/resumen-ejecutor-original.json",
+      "sha256": "18901307a9551d67240a3dc431d6dc59eab4bad9afb03d01dfce624c8d3b5ae7",
+      "bytes": 4587
+    },
+    {
+      "archivo": "aws/rendimiento/resumen.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/rendimiento-aws/resumen.json",
+      "sha256": "1d24c943297966b8771d2a06e7375ffbdc46454c8f356565d451bcf96a42c7cd",
+      "bytes": 4836
+    },
+    {
+      "archivo": "aws/rendimiento/salud-final.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/rendimiento-aws/salud-final.json",
+      "sha256": "d5168af86bc4e28bcbecdc14f2d773bc03c86b0d0f902f066ad5793f19c18737",
+      "bytes": 58
+    },
+    {
+      "archivo": "aws/rendimiento/salud-version.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/rendimiento-aws/salud-version.json",
+      "sha256": "ceff64c6d68df316a0c164f5ada98284fbb091626506c0a2029c71f451699fa0",
+      "bytes": 220
+    },
+    {
+      "archivo": "aws/rendimiento/scripts/carga-ejecutada.py",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/rendimiento-aws/scripts/carga-ejecutada.py",
+      "sha256": "7a46b360a78c89f03a70ad7d29c82e9bbd9390323a83477dcc494a8bdef83707",
+      "bytes": 6960
+    },
+    {
+      "archivo": "aws/rendimiento/scripts/cerrar-cuentas-qa.py",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/rendimiento-aws/scripts/cerrar-cuentas-qa.py",
+      "sha256": "ee481c8c62ba875ff191c8a52710b80f6c7a3af7fd36ad670fc7639f5da9f135",
+      "bytes": 979
+    },
+    {
+      "archivo": "aws/rendimiento/scripts/monitor.py",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/rendimiento-aws/scripts/monitor.py",
+      "sha256": "cded74513627fef96f6dfb16c2bdf95027b7d169b75ed5069b540b607493e9a8",
+      "bytes": 650
+    },
+    {
+      "archivo": "aws/rendimiento/scripts/preparar-datos.py",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/rendimiento-aws/scripts/preparar-datos.py",
+      "sha256": "16161dc94bb56445cfb60b14c78bbef60f00519577294dd21dad2edf06ea97d7",
+      "bytes": 1800
+    },
+    {
+      "archivo": "aws/rendimiento/scripts/restaurar-qa.py",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/rendimiento-aws/scripts/restaurar-qa.py",
+      "sha256": "598bcb66e0d5982651f68a28381e3806596f32e981392b5c4aa5631462026ddc",
+      "bytes": 3762
+    },
+    {
+      "archivo": "aws/rendimiento/scripts/verificar-integridad.py",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/rendimiento-aws/scripts/verificar-integridad.py",
+      "sha256": "b2713023f6e5c4faa6d78b586e87645123f439b5385148230dc642968c5a00f3",
+      "bytes": 1567
+    },
+    {
+      "archivo": "aws/rendimiento/servidor-incidencias.txt",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/rendimiento-aws/servidor-incidencias.txt",
+      "sha256": "2f046869dd92ace813569fbcaae3754413e9cc68d44ff84ab3362d010216b5c3",
+      "bytes": 895
+    },
+    {
+      "archivo": "aws/rendimiento/solicitudes.jsonl",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/rendimiento-aws/solicitudes.jsonl",
+      "sha256": "4cabf8fc85ffab38ef77f9c2b5d851a62041c1104684443ababd4c3b17f08761",
+      "bytes": 52473
+    },
+    {
+      "archivo": "aws/aceptacion-funcional-local-aws/INFORME.md",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/aceptacion-funcional-local-aws/INFORME.md",
+      "sha256": "59fd9dba2e85aad96daa4b889a357da116d66d885a63dec8e01016ae9bc9d286",
+      "bytes": 7435
+    },
+    {
+      "archivo": "aws/aceptacion-funcional-local-aws/atencion-guardada.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/aceptacion-funcional-local-aws/atencion-guardada.png",
+      "sha256": "fa2eea6ee6425ebb79f9e0479fe1d7fd1bcc37abce8f08c3f5151c69d03062b4",
+      "bytes": 88828
+    },
+    {
+      "archivo": "aws/aceptacion-funcional-local-aws/compromiso-conversacion.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/aceptacion-funcional-local-aws/compromiso-conversacion.png",
+      "sha256": "b8746e8fc703ec8056c0807222d806fdefda556ef917ac055eb19227d34f7f30",
+      "bytes": 138452
+    },
+    {
+      "archivo": "aws/aceptacion-funcional-local-aws/delegaciones.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/aceptacion-funcional-local-aws/delegaciones.png",
+      "sha256": "37d2cfd21a9276b6df2d1be717a1cddd7ef54659e144f230df83648a2967a515",
+      "bytes": 116759
+    },
+    {
+      "archivo": "aws/aceptacion-funcional-local-aws/items-metas.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/aceptacion-funcional-local-aws/items-metas.png",
+      "sha256": "355ae559eb07eef0ff0d945c56fb4526f9bbb026e00393f0f362f925a9f9301b",
+      "bytes": 122849
+    },
+    {
+      "archivo": "aws/aceptacion-funcional-local-aws/local-resultados-ui.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/aceptacion-funcional-local-aws/local-resultados-ui.json",
+      "sha256": "c3631651ae1763fbe2e5cf29643adeff61bcd65a0ec8a71118efcdbfce3b215e",
+      "bytes": 2363
+    },
+    {
+      "archivo": "aws/aceptacion-funcional-local-aws/matriz-ejecucion.csv",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/aceptacion-funcional-local-aws/matriz-ejecucion.csv",
+      "sha256": "04aaa9b83dc9052068200b28fda9f43c995036d37292561bef521cbec3446b1d",
+      "bytes": 35386
+    },
+    {
+      "archivo": "aws/aceptacion-funcional-local-aws/movil.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/aceptacion-funcional-local-aws/movil.png",
+      "sha256": "c3204bbe1693085a4c6d2e7628130f19e2038e236a7c7d18c9d9bff9f313c206",
+      "bytes": 90224
+    },
+    {
+      "archivo": "aws/aceptacion-funcional-local-aws/recuperacion-finalizada.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/aceptacion-funcional-local-aws/recuperacion-finalizada.png",
+      "sha256": "a8d1183af6892a349613b2abbcc694ca8a29483b28a5c8515f7440cc0c35d59a",
+      "bytes": 91028
+    },
+    {
+      "archivo": "aws/aceptacion-funcional-local-aws/regresion-django-325.log",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/aceptacion-funcional-local-aws/regresion-django-325.log",
+      "sha256": "40a40718b515a91458d2a2d2b7d2ebeea76af171785b935ca7491da09d747951",
+      "bytes": 609
+    },
+    {
+      "archivo": "aws/aceptacion-funcional-local-aws/reproduccion-defecto-metas.log",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/aceptacion-funcional-local-aws/reproduccion-defecto-metas.log",
+      "sha256": "135e10ab9871019ba3accdffeaa295953e5cd1d49452358208d0b472099bffbf",
+      "bytes": 1933
+    },
+    {
+      "archivo": "aws/aceptacion-funcional-local-aws/resultados-ampliacion.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/aceptacion-funcional-local-aws/resultados-ampliacion.json",
+      "sha256": "532f16f4521b6623583050a730b3c59988102ea95e839a987393b336c67dfaeb",
+      "bytes": 18489
+    },
+    {
+      "archivo": "aws/aceptacion-funcional-local-aws/resultados-api.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/aceptacion-funcional-local-aws/resultados-api.json",
+      "sha256": "e09b7ccd7e1bf6fdb42b3cb14db58d5ac2c3a2a8ff40e34041fa65ad0c759c67",
+      "bytes": 23206
+    },
+    {
+      "archivo": "aws/aceptacion-funcional-local-aws/resultados-metas-local.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/aceptacion-funcional-local-aws/resultados-metas-local.json",
+      "sha256": "ed8e26ad7da72ea358469069dcb6cdfa5d86e81f9bdce20eb4a1856f6c034a61",
+      "bytes": 721
+    },
+    {
+      "archivo": "aws/aceptacion-funcional-local-aws/resultados-metas.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/aceptacion-funcional-local-aws/resultados-metas.json",
+      "sha256": "86d706da85daf6084feea14cb0bb0b9b702a9b6850e8524a81ec71d393442c0a",
+      "bytes": 1687
+    },
+    {
+      "archivo": "aws/aceptacion-funcional-local-aws/resultados-operacion-ui.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/aceptacion-funcional-local-aws/resultados-operacion-ui.json",
+      "sha256": "b66be0081183412192904fbb399fb5780e2eebdd920e788bdde17103d5a3ffd2",
+      "bytes": 550
+    },
+    {
+      "archivo": "aws/aceptacion-funcional-local-aws/resultados-recuperacion-ui.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/aceptacion-funcional-local-aws/resultados-recuperacion-ui.json",
+      "sha256": "1fb986a8250a2393b49b278798a7f38e0cb96f7c4b958e81174a9e071e5927c3",
+      "bytes": 610
+    },
+    {
+      "archivo": "aws/aceptacion-funcional-local-aws/resultados-recuperacion.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/aceptacion-funcional-local-aws/resultados-recuperacion.json",
+      "sha256": "52c78b67780fd73b73424afa6b853d031f1cba7227f6a10030ad5238045da5cd",
+      "bytes": 492
+    },
+    {
+      "archivo": "aws/aceptacion-funcional-local-aws/resultados-ui.json",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/aceptacion-funcional-local-aws/resultados-ui.json",
+      "sha256": "c3631651ae1763fbe2e5cf29643adeff61bcd65a0ec8a71118efcdbfce3b215e",
+      "bytes": 2363
+    },
+    {
+      "archivo": "aws/aceptacion-funcional-local-aws/roles.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/aceptacion-funcional-local-aws/roles.png",
+      "sha256": "c564c038755b9d742eeaaa8fddcf0f67f54e40fd1ebcbc09597d2dfbdc86459c",
+      "bytes": 116168
+    },
+    {
+      "archivo": "aws/aceptacion-funcional-local-aws/subatenciones.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/aceptacion-funcional-local-aws/subatenciones.png",
+      "sha256": "45b137196e212aec19f3695d927b5d5bddf9d960fef678a927e5c106c1d60baf",
+      "bytes": 119370
+    },
+    {
+      "archivo": "aws/aceptacion-funcional-local-aws/tipos-atencion.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/aceptacion-funcional-local-aws/tipos-atencion.png",
+      "sha256": "ba2f0f727b0d0dac34bb7a3a4f243f24bf9bb406409d7f8fb371d0144a03043a",
+      "bytes": 117513
+    },
+    {
+      "archivo": "aws/aceptacion-funcional-local-aws/usuarios.png",
+      "origen": "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/evidencias/aceptacion-funcional-local-aws/usuarios.png",
+      "sha256": "1905daaae92e13082d24bf8a32502f86a8c780b525b59f80764e782e4e1b4a3a",
+      "bytes": 122287
+    },
+    {
+      "archivo": "Informe_Cierre_Pruebas_SGR (1).docx",
+      "origen": "Pruebas/Informe_Cierre_Pruebas_SGR (1).docx",
+      "sha256": "7707de1de492076046cc45cc74702f62e8cb7ad5890ddd3ef7de27cdad0f79b5",
+      "bytes": 24906
+    }
+  ]
+}
