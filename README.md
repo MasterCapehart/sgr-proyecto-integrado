@@ -8,7 +8,18 @@ Seguir [backend/README.md](backend/README.md). Cada integrante mantiene su propi
 
 ## Módulos integrados
 
-Acceso y recuperación por código; usuario, rol y delegación activa; delegaciones, roles, usuarios, ítems, configuraciones de metas, tipos y subatenciones; registro de atención; actividades, evidencias y revisión; compromisos, seguimientos, conversación, alertas y auditoría; planillas y exportación Excel; períodos de gestión, cierre y reapertura auditados, y conciliación histórica de metas.
+- **Acceso y recuperación de contraseña:** inicio de sesión y recuperación mediante código de verificación.
+- **Usuario y contexto activo:** identificación del usuario, su rol y la delegación activa.
+- **Administración:** mantenedores de delegaciones, roles y usuarios.
+- **Ítems y metas:** administración de ítems y configuraciones de metas.
+- **Tipos y subatenciones:** administración de ambos catálogos y sus asociaciones.
+- **Atención ciudadana:** registro de atenciones con selección de tipo y subatención.
+- **Actividades y evidencias:** registro de actividades, carga de archivos y revisión de evidencias.
+- **Compromisos y seguimiento:** gestión de compromisos, avances y conversación.
+- **Alertas y auditoría:** consulta de alertas y registro de operaciones.
+- **Planillas y exportación:** consulta de planillas y exportación a Excel.
+- **Períodos de gestión:** administración de períodos, cierre y reapertura auditados.
+- **Conciliación histórica:** vinculación y conciliación de metas históricas.
 
 Los permisos deben asignarse explícitamente y los catálogos deben validarse con el equipo. Los indicadores incluidos son vistas del avance disponible, no una certificación del motor de cálculo definitivo.
 
