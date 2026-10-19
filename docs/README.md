@@ -1,5 +1,7 @@
 # Documentación del SGR
 
+- [Plan de tareas del equipo](Plan_Tareas_Equipo_SGR%20%282%29.xlsx): documento actualizado de organización y distribución de tareas.
+
 - [Pruebas locales y AWS](pruebas/README.md): fichas Word, capturas, resultados originales e informe de cierre.
 
 - [Verificación documental de la entrega](entrega/README.md): resultados de carga, cálculos revisados, incidencias, regresiones, versión AWS y evidencias de instalación y recuperación, con pendientes explícitos.
