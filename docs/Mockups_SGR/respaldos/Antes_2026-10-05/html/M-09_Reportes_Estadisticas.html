@@ -1,0 +1,721 @@
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>M-09: Reportes Estadísticos y Exportación - SGR Municipalidad de La Serena</title>
+  <style>
+    :root {
+      --primary: #7A1C28; /* Granate La Serena */
+      --primary-dark: #58121B;
+      --primary-light: #9B2C3B;
+      --secondary: #1E293B;
+      --accent: #2563EB;
+      --bg-main: #F1F5F9;
+      --bg-card: #FFFFFF;
+      --text-dark: #0F172A;
+      --text-muted: #64748B;
+      --border: #CBD5E1;
+      --border-light: #E2E8F0;
+      
+      --excel-green-bg: #DCFCE7;
+      --excel-green-text: #166534;
+      --excel-green-border: #86EFAC;
+      
+      --excel-yellow-bg: #FEF9C3;
+      --excel-yellow-text: #854D0E;
+      --excel-yellow-border: #FDE047;
+      
+      --excel-red-bg: #FEE2E2;
+      --excel-red-text: #991B1B;
+      --excel-red-border: #FCA5A5;
+      
+      --excel-blue-bg: #DBEAFE;
+      --excel-blue-text: #1E40AF;
+      --excel-blue-border: #93C5FD;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-dark);
+      font-size: 12px;
+      line-height: 1.4;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Municipal Top Bar */
+    .top-nav {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+      color: white;
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    .top-nav .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .shield-badge {
+      width: 36px;
+      height: 36px;
+      background: white;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-weight: 900;
+      font-size: 11px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      border: 1px solid #E2E8F0;
+      line-height: 1;
+    }
+
+    .shield-badge span:first-child {
+      font-size: 14px;
+    }
+
+    .top-nav .titles h1 {
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .top-nav .titles p {
+      font-size: 11px;
+      color: #F1F5F9;
+      opacity: 0.9;
+    }
+
+    .top-nav .nav-tabs {
+      display: flex;
+      gap: 5px;
+    }
+
+    .top-nav .nav-tab {
+      padding: 6px 12px;
+      border-radius: 4px;
+      color: #F8FAFC;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 11px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .top-nav .nav-tab.active {
+      background: white;
+      color: var(--primary);
+      border-color: white;
+    }
+
+    .top-nav .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-text {
+      text-align: right;
+    }
+
+    .user-text .u-name {
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .user-text .u-role {
+      font-size: 10px;
+      color: #E2E8F0;
+    }
+
+    .u-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 12px;
+      border: 2px solid #F1F5F9;
+    }
+
+    /* Sub-header Breadcrumb & Actions Bar */
+    .sub-bar {
+      background: white;
+      border-bottom: 1px solid var(--border-light);
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .breadcrumb strong {
+      color: var(--text-dark);
+    }
+
+    .badge-period {
+      background: #EFF6FF;
+      color: #1D4ED8;
+      border: 1px solid #BFDBFE;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    /* Main Container */
+    .container {
+      padding: 16px 24px;
+      max-width: 1560px;
+      margin: 0 auto;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 10px 16px;
+      background: #F8FAFC;
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--secondary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-body {
+      padding: 14px 16px;
+    }
+
+    /* Tables styled like Excel */
+    .table-container {
+      overflow-x: auto;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+
+    table.excel-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11.5px;
+      background: white;
+    }
+
+    table.excel-table th {
+      background: #F1F5F9;
+      color: #334155;
+      font-weight: 700;
+      padding: 8px 10px;
+      border: 1px solid #CBD5E1;
+      text-transform: uppercase;
+      font-size: 10.5px;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+    }
+
+    table.excel-table th.th-primary {
+      background: #FDF2F4;
+      color: var(--primary);
+      border-color: #F87171;
+    }
+
+    table.excel-table td {
+      padding: 7px 10px;
+      border: 1px solid #E2E8F0;
+      color: #1E293B;
+      vertical-align: middle;
+    }
+
+    table.excel-table tr:hover td {
+      background-color: #F8FAFC !important;
+    }
+
+    /* Excel row colors */
+    .row-done td {
+      background-color: #F0FDF4;
+    }
+
+    .row-process td {
+      background-color: #FFFBEB;
+    }
+
+    .row-pending td {
+      background-color: #FEF2F2;
+    }
+
+    .strike {
+      text-decoration: line-through;
+      color: #64748B;
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+      white-space: nowrap;
+    }
+
+    .badge-pending {
+      background: var(--excel-red-bg);
+      color: var(--excel-red-text);
+      border: 1px solid var(--excel-red-border);
+    }
+
+    .badge-process {
+      background: var(--excel-yellow-bg);
+      color: var(--excel-yellow-text);
+      border: 1px solid var(--excel-yellow-border);
+    }
+
+    .badge-done {
+      background: var(--excel-green-bg);
+      color: var(--excel-green-text);
+      border: 1px solid var(--excel-green-border);
+    }
+
+    .badge-blue {
+      background: var(--excel-blue-bg);
+      color: var(--excel-blue-text);
+      border: 1px solid var(--excel-blue-border);
+    }
+
+    .badge-gray {
+      background: #F1F5F9;
+      color: #475569;
+      border: 1px solid #CBD5E1;
+    }
+
+    .badge-purple {
+      background: #F3E8FF;
+      color: #6B21A8;
+      border: 1px solid #D8B4FE;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #334155;
+      border-color: #CBD5E1;
+    }
+
+    .btn-success {
+      background: #059669;
+      color: white;
+    }
+
+    .btn-danger {
+      background: #DC2626;
+      color: white;
+    }
+
+    .btn-sm {
+      padding: 3px 8px;
+      font-size: 10.5px;
+    }
+
+    /* KPIs */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .kpi-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px 14px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    }
+
+    .kpi-title {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .kpi-value {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--secondary);
+      margin-top: 3px;
+    }
+
+    .kpi-sub {
+      font-size: 10.5px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Semáforo circle indicator */
+    .semaforo-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      display: inline-block;
+      vertical-align: middle;
+      border: 2px solid rgba(0,0,0,0.15);
+    }
+    .dot-green { background: #10B981; box-shadow: 0 0 6px #10B981; }
+    .dot-yellow { background: #F59E0B; box-shadow: 0 0 6px #F59E0B; }
+    .dot-red { background: #EF4444; box-shadow: 0 0 6px #EF4444; }
+
+    /* Filters bar */
+    .filters-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: white;
+      padding: 10px 14px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .form-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #475569;
+    }
+
+    .form-control {
+      padding: 5px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      font-size: 11.5px;
+      background: white;
+    }
+
+    /* Mockup stamp watermark */
+    .mockup-stamp {
+      position: fixed;
+      bottom: 12px;
+      right: 18px;
+      background: rgba(15, 23, 42, 0.85);
+      color: white;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      z-index: 9999;
+      pointer-events: none;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+  </style>
+</head>
+<body>
+
+<div class="mockup-stamp">SGR MOCKUP M-09 | MÓDULO DE REPORTES Y EXPORTACIÓN DE DATOS</div>
+
+<nav class="top-nav">
+  <div class="brand">
+    <div class="shield-badge">
+      <span>🏛️</span>
+      <span style="font-size: 8px;">SERENA</span>
+    </div>
+    <div class="titles">
+      <h1>SGR - GESTIÓN DE RESULTADOS</h1>
+      <p>Delegación Las Compañías | Ilustre Municipalidad de La Serena</p>
+    </div>
+  </div>
+
+  <div class="nav-tabs">
+    <a href="#" class="nav-tab">Mi Desempeño</a>
+    <a href="#" class="nav-tab">Tubo de Trabajo</a>
+    <a href="#" class="nav-tab">Semáforo General</a>
+    <a href="#" class="nav-tab active">Reportes y Estadísticas</a>
+  </div>
+
+  <div class="user-info">
+    <div class="user-text">
+      <div class="u-name">Felipe Morales</div>
+      <div class="u-role">Planificación y Control</div>
+    </div>
+    <div class="u-avatar">FM</div>
+  </div>
+</nav>
+
+<div class="sub-bar">
+  <div class="breadcrumb">
+    <span>Inicio</span> &gt; <span>Informes</span> &gt; <strong>Generador de Reportes y Estadísticas</strong>
+  </div>
+  <div style="display: flex; gap: 8px;">
+    <button class="btn btn-secondary btn-sm">🖨️ Imprimir Resumen</button>
+    <button class="btn btn-success btn-sm">📥 Descargar Planilla Excel (.xlsx)</button>
+    <button class="btn btn-primary btn-sm">📄 Generar Informe PDF Oficial</button>
+  </div>
+</div>
+
+<div class="container">
+  <!-- Filters Bar -->
+  <div class="filters-bar">
+    <div class="form-group">
+      <label>Período de Análisis:</label>
+      <select class="form-control">
+        <option selected>Trimestre III (Julio - Septiembre 2026)</option>
+        <option>Trimestre II (Abril - Junio 2026)</option>
+        <option>Trimestre I (Enero - Marzo 2026)</option>
+        <option>Consolidado Anual 2026</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Territorio Específico:</label>
+      <select class="form-control">
+        <option selected>Toda la Delegación Las Compañías</option>
+        <option>Territorio 1: Latorre</option>
+        <option>Territorio 2: El Toqui</option>
+        <option>Territorio 3: Vicente Zorrilla</option>
+        <option>Territorio 4: Pinamar</option>
+        <option>Territorio 5: Rural (Lambert / Ceres)</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Visual Analytics Grid -->
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+    
+    <!-- Chart 1: Bar Chart Simulation -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <span>📊</span> CUMPLIMIENTO POR ÁREA VS META ESPERADA (56.04%)
+        </div>
+      </div>
+      <div class="card-body">
+        <div style="display: flex; flex-direction: column; gap: 14px; font-size: 11.5px;">
+          <div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+              <strong>Seguridad Ciudadana</strong>
+              <span style="font-weight: 700; color: #166534;">67.14%</span>
+            </div>
+            <div style="height: 16px; background: #E2E8F0; border-radius: 4px; overflow: hidden; position: relative;">
+              <div style="width: 67.14%; height: 100%; background: #10B981;"></div>
+            </div>
+          </div>
+
+          <div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+              <strong>Planificación y Control</strong>
+              <span style="font-weight: 700; color: #166534;">60.74%</span>
+            </div>
+            <div style="height: 16px; background: #E2E8F0; border-radius: 4px; overflow: hidden; position: relative;">
+              <div style="width: 60.74%; height: 100%; background: #10B981;"></div>
+            </div>
+          </div>
+
+          <div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+              <strong>Área Social y Familia</strong>
+              <span style="font-weight: 700; color: #166534;">59.17%</span>
+            </div>
+            <div style="height: 16px; background: #E2E8F0; border-radius: 4px; overflow: hidden; position: relative;">
+              <div style="width: 59.17%; height: 100%; background: #10B981;"></div>
+            </div>
+          </div>
+
+          <div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+              <strong>Territorial OO.CC</strong>
+              <span style="font-weight: 700; color: #166534;">59.09%</span>
+            </div>
+            <div style="height: 16px; background: #E2E8F0; border-radius: 4px; overflow: hidden; position: relative;">
+              <div style="width: 59.09%; height: 100%; background: #10B981;"></div>
+            </div>
+          </div>
+
+          <div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+              <strong>DISERCO / Operaciones</strong>
+              <span style="font-weight: 700; color: #854D0E;">54.44% (Bajo Meta Diaria)</span>
+            </div>
+            <div style="height: 16px; background: #E2E8F0; border-radius: 4px; overflow: hidden; position: relative;">
+              <div style="width: 54.44%; height: 100%; background: #F59E0B;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart 2: Resolution Status Donut simulation -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <span>🎯</span> ESTADO DE RESOLUCIÓN EN TUBO DE TRABAJO (48 CASOS)
+        </div>
+      </div>
+      <div class="card-body" style="display: flex; align-items: center; justify-content: space-around;">
+        <div style="width: 140px; height: 140px; border-radius: 50%; background: conic-gradient(#10B981 0% 60.4%, #F59E0B 60.4% 85.4%, #EF4444 85.4% 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+          <div style="width: 80px; height: 80px; background: white; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <span style="font-size: 16px; font-weight: 800; color: #1E293B;">48</span>
+            <span style="font-size: 9.5px; color: #64748B;">Total Casos</span>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 11.5px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div style="width: 12px; height: 12px; background: #10B981; border-radius: 2px;"></div>
+            <strong>Realizados:</strong> 29 casos (60.4%)
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div style="width: 12px; height: 12px; background: #F59E0B; border-radius: 2px;"></div>
+            <strong>En Proceso:</strong> 12 casos (25.0%)
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div style="width: 12px; height: 12px; background: #EF4444; border-radius: 2px;"></div>
+            <strong>Pendientes / Alerta:</strong> 7 casos (14.6%)
+          </div>
+          <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #E2E8F0; color: #64748B;">
+            ⏱️ Tiempo promedio de cierre: <strong>4.8 días hábiles</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Excel Structure Table for Export -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">
+        <span>📑</span> VISTA PREVIA DEL FORMATO DE EXPORTACIÓN EXCEL (.XLSX)
+      </div>
+      <span class="badge badge-done">Compatibilidad 100% con Plantilla Original</span>
+    </div>
+    <div class="card-body" style="padding: 0;">
+      <div class="table-container">
+        <table class="excel-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>TERRITORIO</th>
+              <th>SOLICITANTE</th>
+              <th>REQUERIMIENTO</th>
+              <th>RESPONSABLE</th>
+              <th style="text-align: center;">FECHA INGRESO</th>
+              <th style="text-align: center;">FECHA CIERRE</th>
+              <th style="text-align: center;">ESTADO</th>
+              <th style="text-align: center;">EVIDENCIA HASH</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>TB-101</td>
+              <td>Latorre</td>
+              <td>JJ.VV Villa El Romero</td>
+              <td>Retiro microbasural y escombros</td>
+              <td>DISERCO (M. Bravo)</td>
+              <td style="text-align: center;">12-09-2026</td>
+              <td style="text-align: center;">18-09-2026</td>
+              <td style="text-align: center;"><span class="badge badge-done">REALIZADO</span></td>
+              <td style="font-family: monospace; font-size: 10px;">e3b0c442...855</td>
+            </tr>
+            <tr>
+              <td>TB-102</td>
+              <td>El Toqui</td>
+              <td>Línea 21 Colectivos</td>
+              <td>Bacheo de calzada calle Lautaro</td>
+              <td>OO.CC (R. Tapia)</td>
+              <td style="text-align: center;">15-09-2026</td>
+              <td style="text-align: center;">-</td>
+              <td style="text-align: center;"><span class="badge badge-process">EN PROCESO</span></td>
+              <td style="font-family: monospace; font-size: 10px;">7c3d19f8...bc8</td>
+            </tr>
+            <tr>
+              <td>TB-104</td>
+              <td>Pinamar</td>
+              <td>Club Unión Compañías</td>
+              <td>Demarcación y lomos de toro</td>
+              <td>Tránsito / OO.CC</td>
+              <td style="text-align: center;">16-09-2026</td>
+              <td style="text-align: center;">25-09-2026</td>
+              <td style="text-align: center;"><span class="badge badge-done">REALIZADO</span></td>
+              <td style="font-family: monospace; font-size: 10px;">f482a901...12a</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+

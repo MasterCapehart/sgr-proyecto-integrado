@@ -2,6 +2,32 @@
 
 Proyecto académico de un Sistema de Gestión de Resultados para delegaciones municipales, desarrollado con Django, MySQL e interfaz HTML/CSS/JavaScript. El backend sirve las pantallas y la API desde un mismo origen.
 
+## Índice del proyecto
+
+### Documentación y entrega
+
+| Contenido | Qué encontrarás |
+|---|---|
+| [Documentación general](docs/README.md) | Índice de documentos y materiales de la entrega. |
+| [Plan de tareas del equipo](docs/Plan_Tareas_Equipo_SGR%20%282%29.xlsx) | Organización y distribución de tareas. |
+| [Diagramas UML](docs/uml/README.md) | Requerimientos, caso de uso general, casos específicos, clases y modelo de datos; imágenes y draw.io. |
+| [Base de datos](docs/base-de-datos/README.md) | Diseño, diccionario y scripts de referencia. |
+| [Mockups](docs/Mockups_SGR/README.md) | Catálogo de 20 pantallas, HTML navegables e imágenes de referencia. |
+| [Pruebas locales y AWS](docs/pruebas/README.md) | Fichas Word, evidencias y el informe de cierre; separadas en [local](docs/pruebas/local/) y [AWS](docs/pruebas/aws/). |
+| [Resultados y evidencias de entrega](docs/entrega/README.md) | Resultados, incidencias, cálculos revisados y estado documental. |
+| [Instalación y recuperación en AWS](docs/entrega/despliegue/README.md) | Configuración, despliegue, respaldo y recuperación documentados. |
+| [Aplicación en AWS](https://54.236.112.203/pages/login.html) | Acceso al sistema desplegado. |
+
+### Código y colaboración
+
+| Recurso | Qué encontrarás |
+|---|---|
+| [Backend](backend/) · [Guía de ejecución](backend/README.md) | Modelos, migraciones, API, configuración y pruebas. |
+| [Frontend](frontend/) | Pantallas y componentes compartidos. |
+| [Archivos de despliegue](deploy/aws/) | Configuración y procedimientos de despliegue. |
+| [Plan de integración](docs/integracion/PLAN_TRASLADO_LOCAL.md) | Organización del traslado e integración de cambios. |
+| [Trabajo en equipo](CONTRIBUTING.md) | Ramas, commits por tarea y revisión antes de integrar a main. |
+
 ## Ejecutar en local
 
 Seguir [backend/README.md](backend/README.md). Cada integrante mantiene su propio `.env` y su base MySQL; Git comparte código y migraciones, no contraseñas ni datos locales.
@@ -23,18 +49,6 @@ Seguir [backend/README.md](backend/README.md). Cada integrante mantiene su propi
 - **Conciliación histórica:** vinculación y conciliación de metas históricas.
 
 Los permisos deben asignarse explícitamente y los catálogos deben validarse con el equipo. Los indicadores incluidos son vistas del avance disponible, no una certificación del motor de cálculo definitivo.
-
-## Organización y colaboración
-
-- `backend/`: modelos, migraciones, API y pruebas.
-- `frontend/`: pantallas y componentes compartidos.
-- `deploy/aws/`: configuración y procedimientos de despliegue.
-- [Documentación de entrega](docs/README.md): diagramas, evidencias y revisión de pendientes.
-- [Plan de tareas del equipo](docs/Plan_Tareas_Equipo_SGR%20%282%29.xlsx).
-- [Diagramas UML](docs/uml/README.md): requerimientos, casos de uso, clases y modelo de datos.
-- [Pruebas locales y AWS](docs/pruebas/README.md): fichas, evidencias e informe de cierre.
-- [Plan de integración](docs/integracion/PLAN_TRASLADO_LOCAL.md).
-- [Trabajo en equipo](CONTRIBUTING.md): ramas, commits por tarea y revisión antes de integrar a main.
 
 ## Despliegue y versión evaluada
 

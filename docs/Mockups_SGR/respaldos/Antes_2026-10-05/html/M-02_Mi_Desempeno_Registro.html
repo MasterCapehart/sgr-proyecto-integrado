@@ -1,0 +1,748 @@
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>M-02: Mi Desempeño y Registro Territorial - SGR Municipalidad de La Serena</title>
+  <style>
+    :root {
+      --primary: #7A1C28; /* Granate La Serena */
+      --primary-dark: #58121B;
+      --primary-light: #9B2C3B;
+      --secondary: #1E293B;
+      --accent: #2563EB;
+      --bg-main: #F1F5F9;
+      --bg-card: #FFFFFF;
+      --text-dark: #0F172A;
+      --text-muted: #64748B;
+      --border: #CBD5E1;
+      --border-light: #E2E8F0;
+      
+      --excel-green-bg: #DCFCE7;
+      --excel-green-text: #166534;
+      --excel-green-border: #86EFAC;
+      
+      --excel-yellow-bg: #FEF9C3;
+      --excel-yellow-text: #854D0E;
+      --excel-yellow-border: #FDE047;
+      
+      --excel-red-bg: #FEE2E2;
+      --excel-red-text: #991B1B;
+      --excel-red-border: #FCA5A5;
+      
+      --excel-blue-bg: #DBEAFE;
+      --excel-blue-text: #1E40AF;
+      --excel-blue-border: #93C5FD;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-dark);
+      font-size: 12px;
+      line-height: 1.4;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Municipal Top Bar */
+    .top-nav {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+      color: white;
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    .top-nav .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .shield-badge {
+      width: 36px;
+      height: 36px;
+      background: white;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-weight: 900;
+      font-size: 11px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      border: 1px solid #E2E8F0;
+      line-height: 1;
+    }
+
+    .shield-badge span:first-child {
+      font-size: 14px;
+    }
+
+    .top-nav .titles h1 {
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .top-nav .titles p {
+      font-size: 11px;
+      color: #F1F5F9;
+      opacity: 0.9;
+    }
+
+    .top-nav .nav-tabs {
+      display: flex;
+      gap: 5px;
+    }
+
+    .top-nav .nav-tab {
+      padding: 6px 12px;
+      border-radius: 4px;
+      color: #F8FAFC;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 11px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .top-nav .nav-tab.active {
+      background: white;
+      color: var(--primary);
+      border-color: white;
+    }
+
+    .top-nav .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-text {
+      text-align: right;
+    }
+
+    .user-text .u-name {
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .user-text .u-role {
+      font-size: 10px;
+      color: #E2E8F0;
+    }
+
+    .u-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 12px;
+      border: 2px solid #F1F5F9;
+    }
+
+    /* Sub-header Breadcrumb & Actions Bar */
+    .sub-bar {
+      background: white;
+      border-bottom: 1px solid var(--border-light);
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .breadcrumb strong {
+      color: var(--text-dark);
+    }
+
+    .badge-period {
+      background: #EFF6FF;
+      color: #1D4ED8;
+      border: 1px solid #BFDBFE;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    /* Main Container */
+    .container {
+      padding: 16px 24px;
+      max-width: 1560px;
+      margin: 0 auto;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 10px 16px;
+      background: #F8FAFC;
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--secondary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-body {
+      padding: 14px 16px;
+    }
+
+    /* Tables styled like Excel */
+    .table-container {
+      overflow-x: auto;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+
+    table.excel-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11.5px;
+      background: white;
+    }
+
+    table.excel-table th {
+      background: #F1F5F9;
+      color: #334155;
+      font-weight: 700;
+      padding: 8px 10px;
+      border: 1px solid #CBD5E1;
+      text-transform: uppercase;
+      font-size: 10.5px;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+    }
+
+    table.excel-table th.th-primary {
+      background: #FDF2F4;
+      color: var(--primary);
+      border-color: #F87171;
+    }
+
+    table.excel-table td {
+      padding: 7px 10px;
+      border: 1px solid #E2E8F0;
+      color: #1E293B;
+      vertical-align: middle;
+    }
+
+    table.excel-table tr:hover td {
+      background-color: #F8FAFC !important;
+    }
+
+    /* Excel row colors */
+    .row-done td {
+      background-color: #F0FDF4;
+    }
+
+    .row-process td {
+      background-color: #FFFBEB;
+    }
+
+    .row-pending td {
+      background-color: #FEF2F2;
+    }
+
+    .strike {
+      text-decoration: line-through;
+      color: #64748B;
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+      white-space: nowrap;
+    }
+
+    .badge-pending {
+      background: var(--excel-red-bg);
+      color: var(--excel-red-text);
+      border: 1px solid var(--excel-red-border);
+    }
+
+    .badge-process {
+      background: var(--excel-yellow-bg);
+      color: var(--excel-yellow-text);
+      border: 1px solid var(--excel-yellow-border);
+    }
+
+    .badge-done {
+      background: var(--excel-green-bg);
+      color: var(--excel-green-text);
+      border: 1px solid var(--excel-green-border);
+    }
+
+    .badge-blue {
+      background: var(--excel-blue-bg);
+      color: var(--excel-blue-text);
+      border: 1px solid var(--excel-blue-border);
+    }
+
+    .badge-gray {
+      background: #F1F5F9;
+      color: #475569;
+      border: 1px solid #CBD5E1;
+    }
+
+    .badge-purple {
+      background: #F3E8FF;
+      color: #6B21A8;
+      border: 1px solid #D8B4FE;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #334155;
+      border-color: #CBD5E1;
+    }
+
+    .btn-success {
+      background: #059669;
+      color: white;
+    }
+
+    .btn-danger {
+      background: #DC2626;
+      color: white;
+    }
+
+    .btn-sm {
+      padding: 3px 8px;
+      font-size: 10.5px;
+    }
+
+    /* KPIs */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .kpi-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px 14px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    }
+
+    .kpi-title {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .kpi-value {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--secondary);
+      margin-top: 3px;
+    }
+
+    .kpi-sub {
+      font-size: 10.5px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Semáforo circle indicator */
+    .semaforo-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      display: inline-block;
+      vertical-align: middle;
+      border: 2px solid rgba(0,0,0,0.15);
+    }
+    .dot-green { background: #10B981; box-shadow: 0 0 6px #10B981; }
+    .dot-yellow { background: #F59E0B; box-shadow: 0 0 6px #F59E0B; }
+    .dot-red { background: #EF4444; box-shadow: 0 0 6px #EF4444; }
+
+    /* Filters bar */
+    .filters-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: white;
+      padding: 10px 14px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .form-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #475569;
+    }
+
+    .form-control {
+      padding: 5px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      font-size: 11.5px;
+      background: white;
+    }
+
+    /* Mockup stamp watermark */
+    .mockup-stamp {
+      position: fixed;
+      bottom: 12px;
+      right: 18px;
+      background: rgba(15, 23, 42, 0.85);
+      color: white;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      z-index: 9999;
+      pointer-events: none;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+  </style>
+</head>
+<body>
+
+<div class="mockup-stamp">SGR MOCKUP M-02 | VISTA FUNCIONARIO - BITÁCORA Y METAS (EXCEL REPLICA)</div>
+
+<nav class="top-nav">
+  <div class="brand">
+    <div class="shield-badge">
+      <span>🏛️</span>
+      <span style="font-size: 8px;">SERENA</span>
+    </div>
+    <div class="titles">
+      <h1>SGR - GESTIÓN DE RESULTADOS</h1>
+      <p>Delegación Las Compañías | Ilustre Municipalidad de La Serena</p>
+    </div>
+  </div>
+
+  <div class="nav-tabs">
+    <a href="#" class="nav-tab active">Mi Desempeño</a>
+    <a href="#" class="nav-tab">Tubo de Trabajo</a>
+    <a href="#" class="nav-tab">Semáforo General</a>
+    <a href="#" class="nav-tab">Reportes</a>
+  </div>
+
+  <div class="user-info">
+    <div class="user-text">
+      <div class="u-name">Carlos Gómez V.</div>
+      <div class="u-role">Gestor Social | Territorio Latorre</div>
+    </div>
+    <div class="u-avatar">CG</div>
+  </div>
+</nav>
+
+<div class="sub-bar">
+  <div class="breadcrumb">
+    <span>Inicio</span> &gt; <span>Funcionarios</span> &gt; <strong>Mi Registro Operativo y Metas</strong>
+  </div>
+  <div style="display: flex; gap: 8px; align-items: center;">
+    <span class="badge-period">📅 Período Trimestre III (Julio - Septiembre 2026)</span>
+    <button class="btn btn-primary btn-sm">+ Registrar Nueva Gestión</button>
+  </div>
+</div>
+
+<div class="container">
+  <!-- Top KPI Cards -->
+  <div class="kpi-row">
+    <div class="kpi-card" style="border-left: 4px solid #10B981;">
+      <div class="kpi-title">Cumplimiento Ponderado</div>
+      <div class="kpi-value" style="color: #065F46;">58.42%</div>
+      <div class="kpi-sub"><span class="semaforo-dot dot-green"></span> <strong>AL DÍA</strong> (Meta esperada: 56.04%)</div>
+    </div>
+    <div class="kpi-card" style="border-left: 4px solid #2563EB;">
+      <div class="kpi-title">Días Hábiles del Trimestre</div>
+      <div class="kpi-value">38 / 65</div>
+      <div class="kpi-sub">58.46% de tiempo transcurrido</div>
+    </div>
+    <div class="kpi-card" style="border-left: 4px solid #F59E0B;">
+      <div class="kpi-title">Casos Operativos Atendidos</div>
+      <div class="kpi-value">72</div>
+      <div class="kpi-sub">56 concluidos | 16 en seguimiento</div>
+    </div>
+    <div class="kpi-card" style="border-left: 4px solid #7A1C28;">
+      <div class="kpi-title">Derivados a Tubo Colectivo</div>
+      <div class="kpi-value">14</div>
+      <div class="kpi-sub">Coordinados con DISERCO / OO.CC</div>
+    </div>
+  </div>
+
+  <!-- TABLA 1: CUADRO DE METAS Y PONDERACIÓN TRIMESTRAL (EXACTA AL EXCEL) -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">
+        <span>📊</span> METAS TRIMESTRALES INDIVIDUALES Y FACTOR DE PONDERACIÓN (CÁLCULO AUTOMÁTICO)
+      </div>
+      <span class="badge badge-done">Estado Funcionario: CUMPLIENDO REQUERIMIENTOS</span>
+    </div>
+    <div class="card-body" style="padding: 0;">
+      <div class="table-container">
+        <table class="excel-table">
+          <thead>
+            <tr>
+              <th style="width: 50px; text-align: center;">N°</th>
+              <th>LÍNEA ESTRATÉGICA / INDICADOR</th>
+              <th style="text-align: center;">% PONDERACIÓN</th>
+              <th style="text-align: center;">META CANTIDAD</th>
+              <th style="text-align: center;">REALIZADO AL DÍA</th>
+              <th style="text-align: center;">% CUMPLIMIENTO</th>
+              <th style="text-align: center;">BONIFICACIÓN (+)</th>
+              <th style="text-align: center;">PENALIZACIÓN (-)</th>
+              <th style="text-align: center; background: #FEF3C7; color: #92400E;">AVANCE PONDERADO NETO</th>
+              <th style="text-align: center;">ESTADO</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="text-align: center; font-weight: 700;">1</td>
+              <td><strong>Atención y Fichaje Social en Terreno (Sector Latorre)</strong></td>
+              <td style="text-align: center; font-weight: 700;">35%</td>
+              <td style="text-align: center;">45 visitas</td>
+              <td style="text-align: center; font-weight: 700;">28</td>
+              <td style="text-align: center; font-weight: 700; color: #166534;">62.22%</td>
+              <td style="text-align: center; color: #166534;">+2.00%</td>
+              <td style="text-align: center; color: #991B1B;">0.00%</td>
+              <td style="text-align: center; font-weight: 800; background: #FEF9C3;">23.77%</td>
+              <td style="text-align: center;"><span class="badge badge-done">Meta Cumplida</span></td>
+            </tr>
+            <tr>
+              <td style="text-align: center; font-weight: 700;">2</td>
+              <td><strong>Gestión y Entrega de Ayudas Sociales de Emergencia</strong></td>
+              <td style="text-align: center; font-weight: 700;">25%</td>
+              <td style="text-align: center;">30 casos</td>
+              <td style="text-align: center; font-weight: 700;">18</td>
+              <td style="text-align: center; font-weight: 700; color: #166534;">60.00%</td>
+              <td style="text-align: center; color: #166534;">0.00%</td>
+              <td style="text-align: center; color: #991B1B;">0.00%</td>
+              <td style="text-align: center; font-weight: 800; background: #FEF9C3;">15.00%</td>
+              <td style="text-align: center;"><span class="badge badge-done">Meta Cumplida</span></td>
+            </tr>
+            <tr>
+              <td style="text-align: center; font-weight: 700;">3</td>
+              <td><strong>Derivación y Cierre en Tubo Colectivo (Agenda Multi-Área)</strong></td>
+              <td style="text-align: center; font-weight: 700;">20%</td>
+              <td style="text-align: center;">20 derivaciones</td>
+              <td style="text-align: center; font-weight: 700;">11</td>
+              <td style="text-align: center; font-weight: 700; color: #854D0E;">55.00%</td>
+              <td style="text-align: center; color: #166534;">0.00%</td>
+              <td style="text-align: center; color: #991B1B;">-0.50%</td>
+              <td style="text-align: center; font-weight: 800; background: #FEF9C3;">10.50%</td>
+              <td style="text-align: center;"><span class="badge badge-process">En Tolerancia</span></td>
+            </tr>
+            <tr>
+              <td style="text-align: center; font-weight: 700;">4</td>
+              <td><strong>Validación de Evidencias Fotográficas con Georreferencia</strong></td>
+              <td style="text-align: center; font-weight: 700;">20%</td>
+              <td style="text-align: center;">95 evidencias</td>
+              <td style="text-align: center; font-weight: 700;">44</td>
+              <td style="text-align: center; font-weight: 700; color: #854D0E;">46.31%</td>
+              <td style="text-align: center; color: #166534;">0.00%</td>
+              <td style="text-align: center; color: #991B1B;">0.00%</td>
+              <td style="text-align: center; font-weight: 800; background: #FEF9C3;">9.26%</td>
+              <td style="text-align: center;"><span class="badge badge-process">Seguimiento</span></td>
+            </tr>
+            <tr style="background: #F8FAFC; font-weight: 800; border-top: 2px solid #CBD5E1;">
+              <td colspan="2" style="text-align: right; text-transform: uppercase;">TOTALES PONDERADOS DE GESTIÓN:</td>
+              <td style="text-align: center;">100%</td>
+              <td style="text-align: center;">190 un.</td>
+              <td style="text-align: center;">101 un.</td>
+              <td style="text-align: center; font-size: 13px; color: #1E40AF;">55.88%</td>
+              <td style="text-align: center; color: #166534;">+2.00%</td>
+              <td style="text-align: center; color: #991B1B;">-0.50%</td>
+              <td style="text-align: center; font-size: 14px; background: #FEF08A; color: #854D0E;">58.42%</td>
+              <td style="text-align: center;"><span class="badge badge-done" style="background:#10B981; color:white;">SEMÁFORO VERDE</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLA 2: BITÁCORA DE GESTIÓN TERRITORIAL Y REGISTRO OPERATIVO -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">
+        <span>📝</span> BITÁCORA DE REGISTRO OPERATIVO EN TERRENO (SECTOR LATORRE / LAS COMPAÑÍAS)
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <input type="text" class="form-control" placeholder="🔍 Buscar por código, vecino o calle..." style="width: 260px;">
+        <button class="btn btn-secondary btn-sm">Filtrar Estado</button>
+        <button class="btn btn-primary btn-sm">+ Nuevo Folio</button>
+      </div>
+    </div>
+    <div class="card-body" style="padding: 0;">
+      <div class="table-container">
+        <table class="excel-table">
+          <thead>
+            <tr>
+              <th style="width: 40px; text-align: center;">N°</th>
+              <th style="width: 80px;">FECHA</th>
+              <th style="width: 85px;">CÓDIGO CASO</th>
+              <th>VECINO / ORGANIZACIÓN</th>
+              <th style="width: 100px;">TERRITORIO</th>
+              <th>1RA GESTIÓN (RECEPCIÓN / VISITA)</th>
+              <th>2DA GESTIÓN (INFORME SOCIAL)</th>
+              <th>3RA GESTIÓN (ENTREGA / CIERRE)</th>
+              <th style="text-align: center; width: 120px;">EVIDENCIA FOTO</th>
+              <th style="text-align: center; width: 90px;">TUBO COLECTIVO</th>
+              <th style="text-align: center; width: 100px;">ESTADO</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="row-done">
+              <td style="text-align: center; font-weight: 700;">1</td>
+              <td>24-09-2026</td>
+              <td><strong style="color: #7A1C28;">SOC-711</strong></td>
+              <td><strong>María Rojas Pastén</strong> (Pasaje Las Violetas #412)</td>
+              <td>Latorre</td>
+              <td class="strike">Visita domiciliaria aplicada</td>
+              <td class="strike">Ficha RSH calificada tramo 40%</td>
+              <td class="strike">Entrega canasta alimentos emergencia</td>
+              <td style="text-align: center;"><span class="badge badge-done">📷 2 FOTOS (OK)</span></td>
+              <td style="text-align: center;"><span class="badge badge-gray">NO</span></td>
+              <td style="text-align: center;"><span class="badge badge-done">REALIZADO</span></td>
+            </tr>
+            <tr class="row-process">
+              <td style="text-align: center; font-weight: 700;">2</td>
+              <td>25-09-2026</td>
+              <td><strong style="color: #7A1C28;">SOC-712</strong></td>
+              <td><strong>Comité Allegados Nueva Esperanza</strong> (Sede Social)</td>
+              <td>Latorre</td>
+              <td>Reunión directiva diagnóstica</td>
+              <td>Catastro de 18 familias derivado a Vivienda</td>
+              <td style="color: #94A3B8;"><em>Pendiente respuesta Serviu</em></td>
+              <td style="text-align: center;"><span class="badge badge-process">📷 1 FOTO (PEND)</span></td>
+              <td style="text-align: center;"><span class="badge badge-purple">SÍ (TB-184)</span></td>
+              <td style="text-align: center;"><span class="badge badge-process">EN PROCESO</span></td>
+            </tr>
+            <tr class="row-pending">
+              <td style="text-align: center; font-weight: 700;">3</td>
+              <td>26-09-2026</td>
+              <td><strong style="color: #7A1C28;">SOC-713</strong></td>
+              <td><strong>Juan Barraza Cortés</strong> (Av. Islón #890)</td>
+              <td>Latorre</td>
+              <td>Recepción requerimiento salud postrado</td>
+              <td style="color: #94A3B8;"><em>En coordinación con CESFAM</em></td>
+              <td style="color: #94A3B8;"><em>Sin iniciar</em></td>
+              <td style="text-align: center;"><span class="badge badge-pending">⚠️ SIN FOTO</span></td>
+              <td style="text-align: center;"><span class="badge badge-gray">NO</span></td>
+              <td style="text-align: center;"><span class="badge badge-pending">PENDIENTE</span></td>
+            </tr>
+            <tr class="row-done">
+              <td style="text-align: center; font-weight: 700;">4</td>
+              <td>22-09-2026</td>
+              <td><strong style="color: #7A1C28;">SOC-708</strong></td>
+              <td><strong>Patricia Aguilera M.</strong> (Calle México #125)</td>
+              <td>Latorre</td>
+              <td class="strike">Inspección techumbre por filtración</td>
+              <td class="strike">Informe social emitido de urgencia</td>
+              <td class="strike">Entrega planchas de zinc y nylon</td>
+              <td style="text-align: center;"><span class="badge badge-done">📷 3 FOTOS (OK)</span></td>
+              <td style="text-align: center;"><span class="badge badge-gray">NO</span></td>
+              <td style="text-align: center;"><span class="badge badge-done">REALIZADO</span></td>
+            </tr>
+            <tr class="row-process">
+              <td style="text-align: center; font-weight: 700;">5</td>
+              <td>26-09-2026</td>
+              <td><strong style="color: #7A1C28;">SOC-714</strong></td>
+              <td><strong>JJ.VV Villa El Romero</strong> (Plaza Central)</td>
+              <td>Latorre</td>
+              <td>Levantamiento necesidad operativo social</td>
+              <td>Coordinación con Registro Social y OMIL</td>
+              <td style="color: #94A3B8;"><em>Fecha fijada: 05 de Octubre</em></td>
+              <td style="text-align: center;"><span class="badge badge-done">📷 2 FOTOS (OK)</span></td>
+              <td style="text-align: center;"><span class="badge badge-purple">SÍ (TB-189)</span></td>
+              <td style="text-align: center;"><span class="badge badge-process">EN PROCESO</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+

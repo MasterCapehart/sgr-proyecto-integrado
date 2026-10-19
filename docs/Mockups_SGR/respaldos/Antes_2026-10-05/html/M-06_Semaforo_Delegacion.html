@@ -1,0 +1,707 @@
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>M-06: Semáforo General de la Delegación - SGR Municipalidad de La Serena</title>
+  <style>
+    :root {
+      --primary: #7A1C28; /* Granate La Serena */
+      --primary-dark: #58121B;
+      --primary-light: #9B2C3B;
+      --secondary: #1E293B;
+      --accent: #2563EB;
+      --bg-main: #F1F5F9;
+      --bg-card: #FFFFFF;
+      --text-dark: #0F172A;
+      --text-muted: #64748B;
+      --border: #CBD5E1;
+      --border-light: #E2E8F0;
+      
+      --excel-green-bg: #DCFCE7;
+      --excel-green-text: #166534;
+      --excel-green-border: #86EFAC;
+      
+      --excel-yellow-bg: #FEF9C3;
+      --excel-yellow-text: #854D0E;
+      --excel-yellow-border: #FDE047;
+      
+      --excel-red-bg: #FEE2E2;
+      --excel-red-text: #991B1B;
+      --excel-red-border: #FCA5A5;
+      
+      --excel-blue-bg: #DBEAFE;
+      --excel-blue-text: #1E40AF;
+      --excel-blue-border: #93C5FD;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-dark);
+      font-size: 12px;
+      line-height: 1.4;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Municipal Top Bar */
+    .top-nav {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+      color: white;
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    .top-nav .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .shield-badge {
+      width: 36px;
+      height: 36px;
+      background: white;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-weight: 900;
+      font-size: 11px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      border: 1px solid #E2E8F0;
+      line-height: 1;
+    }
+
+    .shield-badge span:first-child {
+      font-size: 14px;
+    }
+
+    .top-nav .titles h1 {
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .top-nav .titles p {
+      font-size: 11px;
+      color: #F1F5F9;
+      opacity: 0.9;
+    }
+
+    .top-nav .nav-tabs {
+      display: flex;
+      gap: 5px;
+    }
+
+    .top-nav .nav-tab {
+      padding: 6px 12px;
+      border-radius: 4px;
+      color: #F8FAFC;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 11px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .top-nav .nav-tab.active {
+      background: white;
+      color: var(--primary);
+      border-color: white;
+    }
+
+    .top-nav .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-text {
+      text-align: right;
+    }
+
+    .user-text .u-name {
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .user-text .u-role {
+      font-size: 10px;
+      color: #E2E8F0;
+    }
+
+    .u-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 12px;
+      border: 2px solid #F1F5F9;
+    }
+
+    /* Sub-header Breadcrumb & Actions Bar */
+    .sub-bar {
+      background: white;
+      border-bottom: 1px solid var(--border-light);
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .breadcrumb strong {
+      color: var(--text-dark);
+    }
+
+    .badge-period {
+      background: #EFF6FF;
+      color: #1D4ED8;
+      border: 1px solid #BFDBFE;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    /* Main Container */
+    .container {
+      padding: 16px 24px;
+      max-width: 1560px;
+      margin: 0 auto;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 10px 16px;
+      background: #F8FAFC;
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--secondary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-body {
+      padding: 14px 16px;
+    }
+
+    /* Tables styled like Excel */
+    .table-container {
+      overflow-x: auto;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+
+    table.excel-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11.5px;
+      background: white;
+    }
+
+    table.excel-table th {
+      background: #F1F5F9;
+      color: #334155;
+      font-weight: 700;
+      padding: 8px 10px;
+      border: 1px solid #CBD5E1;
+      text-transform: uppercase;
+      font-size: 10.5px;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+    }
+
+    table.excel-table th.th-primary {
+      background: #FDF2F4;
+      color: var(--primary);
+      border-color: #F87171;
+    }
+
+    table.excel-table td {
+      padding: 7px 10px;
+      border: 1px solid #E2E8F0;
+      color: #1E293B;
+      vertical-align: middle;
+    }
+
+    table.excel-table tr:hover td {
+      background-color: #F8FAFC !important;
+    }
+
+    /* Excel row colors */
+    .row-done td {
+      background-color: #F0FDF4;
+    }
+
+    .row-process td {
+      background-color: #FFFBEB;
+    }
+
+    .row-pending td {
+      background-color: #FEF2F2;
+    }
+
+    .strike {
+      text-decoration: line-through;
+      color: #64748B;
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+      white-space: nowrap;
+    }
+
+    .badge-pending {
+      background: var(--excel-red-bg);
+      color: var(--excel-red-text);
+      border: 1px solid var(--excel-red-border);
+    }
+
+    .badge-process {
+      background: var(--excel-yellow-bg);
+      color: var(--excel-yellow-text);
+      border: 1px solid var(--excel-yellow-border);
+    }
+
+    .badge-done {
+      background: var(--excel-green-bg);
+      color: var(--excel-green-text);
+      border: 1px solid var(--excel-green-border);
+    }
+
+    .badge-blue {
+      background: var(--excel-blue-bg);
+      color: var(--excel-blue-text);
+      border: 1px solid var(--excel-blue-border);
+    }
+
+    .badge-gray {
+      background: #F1F5F9;
+      color: #475569;
+      border: 1px solid #CBD5E1;
+    }
+
+    .badge-purple {
+      background: #F3E8FF;
+      color: #6B21A8;
+      border: 1px solid #D8B4FE;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #334155;
+      border-color: #CBD5E1;
+    }
+
+    .btn-success {
+      background: #059669;
+      color: white;
+    }
+
+    .btn-danger {
+      background: #DC2626;
+      color: white;
+    }
+
+    .btn-sm {
+      padding: 3px 8px;
+      font-size: 10.5px;
+    }
+
+    /* KPIs */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .kpi-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px 14px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    }
+
+    .kpi-title {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .kpi-value {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--secondary);
+      margin-top: 3px;
+    }
+
+    .kpi-sub {
+      font-size: 10.5px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Semáforo circle indicator */
+    .semaforo-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      display: inline-block;
+      vertical-align: middle;
+      border: 2px solid rgba(0,0,0,0.15);
+    }
+    .dot-green { background: #10B981; box-shadow: 0 0 6px #10B981; }
+    .dot-yellow { background: #F59E0B; box-shadow: 0 0 6px #F59E0B; }
+    .dot-red { background: #EF4444; box-shadow: 0 0 6px #EF4444; }
+
+    /* Filters bar */
+    .filters-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: white;
+      padding: 10px 14px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .form-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #475569;
+    }
+
+    .form-control {
+      padding: 5px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      font-size: 11.5px;
+      background: white;
+    }
+
+    /* Mockup stamp watermark */
+    .mockup-stamp {
+      position: fixed;
+      bottom: 12px;
+      right: 18px;
+      background: rgba(15, 23, 42, 0.85);
+      color: white;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      z-index: 9999;
+      pointer-events: none;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+  </style>
+</head>
+<body>
+
+<div class="mockup-stamp">SGR MOCKUP M-06 | SEMÁFORO DE CUMPLIMIENTO INSTITUCIONAL (EXCEL REPLICA)</div>
+
+<nav class="top-nav">
+  <div class="brand">
+    <div class="shield-badge">
+      <span>🏛️</span>
+      <span style="font-size: 8px;">SERENA</span>
+    </div>
+    <div class="titles">
+      <h1>SGR - GESTIÓN DE RESULTADOS</h1>
+      <p>Delegación Las Compañías | Ilustre Municipalidad de La Serena</p>
+    </div>
+  </div>
+
+  <div class="nav-tabs">
+    <a href="#" class="nav-tab">Mi Desempeño</a>
+    <a href="#" class="nav-tab">Tubo de Trabajo</a>
+    <a href="#" class="nav-tab active">Semáforo General</a>
+    <a href="#" class="nav-tab">Reportes</a>
+  </div>
+
+  <div class="user-info">
+    <div class="user-text">
+      <div class="u-name">Dirección Delegacional</div>
+      <div class="u-role">Delegado Municipal Las Compañías</div>
+    </div>
+    <div class="u-avatar">DM</div>
+  </div>
+</nav>
+
+<div class="sub-bar">
+  <div class="breadcrumb">
+    <span>Inicio</span> &gt; <span>Supervisión Directiva</span> &gt; <strong>Semáforo de Cumplimiento Trimestre III</strong>
+  </div>
+  <div style="display: flex; gap: 8px; align-items: center;">
+    <span class="badge-period">📅 Corte al Día 38 de 65 Hábiles (Julio - Septiembre 2026)</span>
+    <button class="btn btn-secondary btn-sm">📥 Exportar Reporte</button>
+  </div>
+</div>
+
+<div class="container">
+  <!-- Top Executive Bar with Excel Target Formulas -->
+  <div class="kpi-row">
+    <div class="kpi-card" style="border-left: 4px solid #7A1C28; background: #FFF5F5;">
+      <div class="kpi-title">META DIARIA ESPERADA AL DÍA</div>
+      <div class="kpi-value" style="color: #7A1C28;">56.04%</div>
+      <div class="kpi-sub">Fórmula: (Días Transcurridos 38 / 65 Días Totales)</div>
+    </div>
+    <div class="kpi-card" style="border-left: 4px solid #F59E0B;">
+      <div class="kpi-title">UMBRAL DE ADVERTENCIA</div>
+      <div class="kpi-value" style="color: #B45309;">60.00%</div>
+      <div class="kpi-sub">Mínimo para Semáforo Verde</div>
+    </div>
+    <div class="kpi-card" style="border-left: 4px solid #10B981;">
+      <div class="kpi-title">PROMEDIO DELEGACIÓN AL DÍA</div>
+      <div class="kpi-value" style="color: #065F46;">58.92%</div>
+      <div class="kpi-sub"><span class="semaforo-dot dot-yellow"></span> <strong>ALERTA AMARILLA</strong> (-1.08% vs umbral)</div>
+    </div>
+    <div class="kpi-card" style="border-left: 4px solid #2563EB;">
+      <div class="kpi-title">TOTAL FUNCIONARIOS ACTIVOS</div>
+      <div class="kpi-value">12</div>
+      <div class="kpi-sub">6 en Verde | 4 en Amarillo | 2 en Rojo</div>
+    </div>
+  </div>
+
+  <!-- Main Excel Matrix Table -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">
+        <span>🚦</span> MATRIZ DE RENDIMIENTO POR FUNCIONARIO Y SEMÁFORO DE CONTROL OPERATIVO
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <span class="badge badge-done">Verde: &ge; 60%</span>
+        <span class="badge badge-process">Amarillo: 50% - 59.9%</span>
+        <span class="badge badge-pending">Rojo: &lt; 50%</span>
+      </div>
+    </div>
+    <div class="card-body" style="padding: 0;">
+      <div class="table-container">
+        <table class="excel-table">
+          <thead>
+            <tr>
+              <th style="width: 45px; text-align: center;">N°</th>
+              <th>FUNCIONARIO / OPERADOR</th>
+              <th>CARGO / ÁREA TERRITORIAL</th>
+              <th style="text-align: center;">META ASIGNADA</th>
+              <th style="text-align: center;">CASOS CERRADOS</th>
+              <th style="text-align: center;">EN PROCESO</th>
+              <th style="text-align: center;">DÍAS TRABAJADOS</th>
+              <th style="text-align: center; background: #FEF9C3; color: #854D0E;">% AVANCE REAL</th>
+              <th style="text-align: center;">DESVIACIÓN VS META DIARIA (56.04%)</th>
+              <th style="text-align: center; width: 120px;">ESTADO SEMÁFORO</th>
+              <th style="text-align: center;">ACCIONES</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="text-align: center; font-weight: 700;">1</td>
+              <td><strong>Carlos Gómez V.</strong></td>
+              <td>Gestor Social (Territorio Latorre)</td>
+              <td style="text-align: center;">120</td>
+              <td style="text-align: center; font-weight: 700;">72</td>
+              <td style="text-align: center;">16</td>
+              <td style="text-align: center;">38</td>
+              <td style="text-align: center; font-weight: 800; color: #166534; background: #DCFCE7;">60.00%</td>
+              <td style="text-align: center; color: #166534; font-weight: 700;">+3.96%</td>
+              <td style="text-align: center;"><span class="badge badge-done"><span class="semaforo-dot dot-green"></span> VERDE</span></td>
+              <td style="text-align: center;"><button class="btn btn-secondary btn-sm">Ver Detalle</button></td>
+            </tr>
+            <tr>
+              <td style="text-align: center; font-weight: 700;">2</td>
+              <td><strong>Roberto Tapia S.</strong></td>
+              <td>Territorial OO.CC (Territorio El Toqui)</td>
+              <td style="text-align: center;">95</td>
+              <td style="text-align: center; font-weight: 700;">56</td>
+              <td style="text-align: center;">12</td>
+              <td style="text-align: center;">38</td>
+              <td style="text-align: center; font-weight: 800; color: #854D0E; background: #FEF9C3;">58.95%</td>
+              <td style="text-align: center; color: #166534; font-weight: 700;">+2.91%</td>
+              <td style="text-align: center;"><span class="badge badge-process"><span class="semaforo-dot dot-yellow"></span> AMARILLO</span></td>
+              <td style="text-align: center;"><button class="btn btn-secondary btn-sm">Ver Detalle</button></td>
+            </tr>
+            <tr>
+              <td style="text-align: center; font-weight: 700;">3</td>
+              <td><strong>Marcelo Bravo L.</strong></td>
+              <td>Coordinador DISERCO / Operaciones</td>
+              <td style="text-align: center;">150</td>
+              <td style="text-align: center; font-weight: 700;">78</td>
+              <td style="text-align: center;">24</td>
+              <td style="text-align: center;">36 (2 lic.)</td>
+              <td style="text-align: center; font-weight: 800; color: #991B1B; background: #FEE2E2;">52.00%</td>
+              <td style="text-align: center; color: #991B1B; font-weight: 700;">-4.04%</td>
+              <td style="text-align: center;"><span class="badge badge-pending"><span class="semaforo-dot dot-red"></span> ROJO</span></td>
+              <td style="text-align: center;"><button class="btn btn-secondary btn-sm">Ver Detalle</button></td>
+            </tr>
+            <tr>
+              <td style="text-align: center; font-weight: 700;">4</td>
+              <td><strong>Andrea Cortés M.</strong></td>
+              <td>Gestora Seguridad Ciudadana</td>
+              <td style="text-align: center;">80</td>
+              <td style="text-align: center; font-weight: 700;">52</td>
+              <td style="text-align: center;">8</td>
+              <td style="text-align: center;">38</td>
+              <td style="text-align: center; font-weight: 800; color: #166534; background: #DCFCE7;">65.00%</td>
+              <td style="text-align: center; color: #166534; font-weight: 700;">+8.96%</td>
+              <td style="text-align: center;"><span class="badge badge-done"><span class="semaforo-dot dot-green"></span> VERDE</span></td>
+              <td style="text-align: center;"><button class="btn btn-secondary btn-sm">Ver Detalle</button></td>
+            </tr>
+            <tr>
+              <td style="text-align: center; font-weight: 700;">5</td>
+              <td><strong>Lorena Soto R.</strong></td>
+              <td>Apoyo Administrativo y Atención Público</td>
+              <td style="text-align: center;">210</td>
+              <td style="text-align: center; font-weight: 700;">132</td>
+              <td style="text-align: center;">18</td>
+              <td style="text-align: center;">38</td>
+              <td style="text-align: center; font-weight: 800; color: #166534; background: #DCFCE7;">62.86%</td>
+              <td style="text-align: center; color: #166534; font-weight: 700;">+6.82%</td>
+              <td style="text-align: center;"><span class="badge badge-done"><span class="semaforo-dot dot-green"></span> VERDE</span></td>
+              <td style="text-align: center;"><button class="btn btn-secondary btn-sm">Ver Detalle</button></td>
+            </tr>
+            <tr>
+              <td style="text-align: center; font-weight: 700;">6</td>
+              <td><strong>Felipe Morales P.</strong></td>
+              <td>Planificación y Control de Gestión</td>
+              <td style="text-align: center;">50</td>
+              <td style="text-align: center; font-weight: 700;">31</td>
+              <td style="text-align: center;">6</td>
+              <td style="text-align: center;">38</td>
+              <td style="text-align: center; font-weight: 800; color: #166534; background: #DCFCE7;">62.00%</td>
+              <td style="text-align: center; color: #166534; font-weight: 700;">+5.96%</td>
+              <td style="text-align: center;"><span class="badge badge-done"><span class="semaforo-dot dot-green"></span> VERDE</span></td>
+              <td style="text-align: center;"><button class="btn btn-secondary btn-sm">Ver Detalle</button></td>
+            </tr>
+            <tr>
+              <td style="text-align: center; font-weight: 700;">7</td>
+              <td><strong>Patricia Venegas G.</strong></td>
+              <td>Gestora Social (Territorio Zorrilla)</td>
+              <td style="text-align: center;">120</td>
+              <td style="text-align: center; font-weight: 700;">68</td>
+              <td style="text-align: center;">15</td>
+              <td style="text-align: center;">38</td>
+              <td style="text-align: center; font-weight: 800; color: #854D0E; background: #FEF9C3;">56.67%</td>
+              <td style="text-align: center; color: #166534; font-weight: 700;">+0.63%</td>
+              <td style="text-align: center;"><span class="badge badge-process"><span class="semaforo-dot dot-yellow"></span> AMARILLO</span></td>
+              <td style="text-align: center;"><button class="btn btn-secondary btn-sm">Ver Detalle</button></td>
+            </tr>
+            <tr>
+              <td style="text-align: center; font-weight: 700;">8</td>
+              <td><strong>Mauricio Rivera C.</strong></td>
+              <td>Territorial OO.CC (Territorio Rural Lambert)</td>
+              <td style="text-align: center;">90</td>
+              <td style="text-align: center; font-weight: 700;">44</td>
+              <td style="text-align: center;">11</td>
+              <td style="text-align: center;">35 (3 fer.)</td>
+              <td style="text-align: center; font-weight: 800; color: #991B1B; background: #FEE2E2;">48.89%</td>
+              <td style="text-align: center; color: #991B1B; font-weight: 700;">-7.15%</td>
+              <td style="text-align: center;"><span class="badge badge-pending"><span class="semaforo-dot dot-red"></span> ROJO</span></td>
+              <td style="text-align: center;"><button class="btn btn-secondary btn-sm">Ver Detalle</button></td>
+            </tr>
+            <tr style="background: #F8FAFC; font-weight: 800; border-top: 2px solid #CBD5E1;">
+              <td colspan="3" style="text-align: right; text-transform: uppercase;">PROMEDIO GENERAL DE LA DELEGACIÓN:</td>
+              <td style="text-align: center;">915</td>
+              <td style="text-align: center;">539</td>
+              <td style="text-align: center;">102</td>
+              <td style="text-align: center;">38 prom.</td>
+              <td style="text-align: center; font-size: 13.5px; background: #FEF08A; color: #854D0E;">58.92%</td>
+              <td style="text-align: center; color: #166534; font-weight: 700;">+2.88% vs diaria</td>
+              <td style="text-align: center;"><span class="badge badge-process"><span class="semaforo-dot dot-yellow"></span> AMARILLO</span></td>
+              <td style="text-align: center;"><button class="btn btn-primary btn-sm">Auditar</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+

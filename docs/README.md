@@ -1,5 +1,7 @@
 # Documentación del SGR
 
+- [Mockups del sistema](Mockups_SGR/README.md): catálogo de 20 pantallas, HTML, capturas y recursos de referencia.
+
 - [Plan de tareas del equipo](Plan_Tareas_Equipo_SGR%20%282%29.xlsx): documento actualizado de organización y distribución de tareas.
 
 - [Pruebas locales y AWS](pruebas/README.md): fichas Word, capturas, resultados originales e informe de cierre.

@@ -1,0 +1,666 @@
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>M-05: Detalle de Compromiso y Coordinación - SGR Municipalidad de La Serena</title>
+  <style>
+    :root {
+      --primary: #7A1C28; /* Granate La Serena */
+      --primary-dark: #58121B;
+      --primary-light: #9B2C3B;
+      --secondary: #1E293B;
+      --accent: #2563EB;
+      --bg-main: #F1F5F9;
+      --bg-card: #FFFFFF;
+      --text-dark: #0F172A;
+      --text-muted: #64748B;
+      --border: #CBD5E1;
+      --border-light: #E2E8F0;
+      
+      --excel-green-bg: #DCFCE7;
+      --excel-green-text: #166534;
+      --excel-green-border: #86EFAC;
+      
+      --excel-yellow-bg: #FEF9C3;
+      --excel-yellow-text: #854D0E;
+      --excel-yellow-border: #FDE047;
+      
+      --excel-red-bg: #FEE2E2;
+      --excel-red-text: #991B1B;
+      --excel-red-border: #FCA5A5;
+      
+      --excel-blue-bg: #DBEAFE;
+      --excel-blue-text: #1E40AF;
+      --excel-blue-border: #93C5FD;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-dark);
+      font-size: 12px;
+      line-height: 1.4;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Municipal Top Bar */
+    .top-nav {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+      color: white;
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    .top-nav .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .shield-badge {
+      width: 36px;
+      height: 36px;
+      background: white;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-weight: 900;
+      font-size: 11px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      border: 1px solid #E2E8F0;
+      line-height: 1;
+    }
+
+    .shield-badge span:first-child {
+      font-size: 14px;
+    }
+
+    .top-nav .titles h1 {
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .top-nav .titles p {
+      font-size: 11px;
+      color: #F1F5F9;
+      opacity: 0.9;
+    }
+
+    .top-nav .nav-tabs {
+      display: flex;
+      gap: 5px;
+    }
+
+    .top-nav .nav-tab {
+      padding: 6px 12px;
+      border-radius: 4px;
+      color: #F8FAFC;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 11px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .top-nav .nav-tab.active {
+      background: white;
+      color: var(--primary);
+      border-color: white;
+    }
+
+    .top-nav .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-text {
+      text-align: right;
+    }
+
+    .user-text .u-name {
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .user-text .u-role {
+      font-size: 10px;
+      color: #E2E8F0;
+    }
+
+    .u-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 12px;
+      border: 2px solid #F1F5F9;
+    }
+
+    /* Sub-header Breadcrumb & Actions Bar */
+    .sub-bar {
+      background: white;
+      border-bottom: 1px solid var(--border-light);
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .breadcrumb strong {
+      color: var(--text-dark);
+    }
+
+    .badge-period {
+      background: #EFF6FF;
+      color: #1D4ED8;
+      border: 1px solid #BFDBFE;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    /* Main Container */
+    .container {
+      padding: 16px 24px;
+      max-width: 1560px;
+      margin: 0 auto;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 10px 16px;
+      background: #F8FAFC;
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--secondary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-body {
+      padding: 14px 16px;
+    }
+
+    /* Tables styled like Excel */
+    .table-container {
+      overflow-x: auto;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+
+    table.excel-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11.5px;
+      background: white;
+    }
+
+    table.excel-table th {
+      background: #F1F5F9;
+      color: #334155;
+      font-weight: 700;
+      padding: 8px 10px;
+      border: 1px solid #CBD5E1;
+      text-transform: uppercase;
+      font-size: 10.5px;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+    }
+
+    table.excel-table th.th-primary {
+      background: #FDF2F4;
+      color: var(--primary);
+      border-color: #F87171;
+    }
+
+    table.excel-table td {
+      padding: 7px 10px;
+      border: 1px solid #E2E8F0;
+      color: #1E293B;
+      vertical-align: middle;
+    }
+
+    table.excel-table tr:hover td {
+      background-color: #F8FAFC !important;
+    }
+
+    /* Excel row colors */
+    .row-done td {
+      background-color: #F0FDF4;
+    }
+
+    .row-process td {
+      background-color: #FFFBEB;
+    }
+
+    .row-pending td {
+      background-color: #FEF2F2;
+    }
+
+    .strike {
+      text-decoration: line-through;
+      color: #64748B;
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+      white-space: nowrap;
+    }
+
+    .badge-pending {
+      background: var(--excel-red-bg);
+      color: var(--excel-red-text);
+      border: 1px solid var(--excel-red-border);
+    }
+
+    .badge-process {
+      background: var(--excel-yellow-bg);
+      color: var(--excel-yellow-text);
+      border: 1px solid var(--excel-yellow-border);
+    }
+
+    .badge-done {
+      background: var(--excel-green-bg);
+      color: var(--excel-green-text);
+      border: 1px solid var(--excel-green-border);
+    }
+
+    .badge-blue {
+      background: var(--excel-blue-bg);
+      color: var(--excel-blue-text);
+      border: 1px solid var(--excel-blue-border);
+    }
+
+    .badge-gray {
+      background: #F1F5F9;
+      color: #475569;
+      border: 1px solid #CBD5E1;
+    }
+
+    .badge-purple {
+      background: #F3E8FF;
+      color: #6B21A8;
+      border: 1px solid #D8B4FE;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #334155;
+      border-color: #CBD5E1;
+    }
+
+    .btn-success {
+      background: #059669;
+      color: white;
+    }
+
+    .btn-danger {
+      background: #DC2626;
+      color: white;
+    }
+
+    .btn-sm {
+      padding: 3px 8px;
+      font-size: 10.5px;
+    }
+
+    /* KPIs */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .kpi-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px 14px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    }
+
+    .kpi-title {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .kpi-value {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--secondary);
+      margin-top: 3px;
+    }
+
+    .kpi-sub {
+      font-size: 10.5px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Semáforo circle indicator */
+    .semaforo-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      display: inline-block;
+      vertical-align: middle;
+      border: 2px solid rgba(0,0,0,0.15);
+    }
+    .dot-green { background: #10B981; box-shadow: 0 0 6px #10B981; }
+    .dot-yellow { background: #F59E0B; box-shadow: 0 0 6px #F59E0B; }
+    .dot-red { background: #EF4444; box-shadow: 0 0 6px #EF4444; }
+
+    /* Filters bar */
+    .filters-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: white;
+      padding: 10px 14px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .form-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #475569;
+    }
+
+    .form-control {
+      padding: 5px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      font-size: 11.5px;
+      background: white;
+    }
+
+    /* Mockup stamp watermark */
+    .mockup-stamp {
+      position: fixed;
+      bottom: 12px;
+      right: 18px;
+      background: rgba(15, 23, 42, 0.85);
+      color: white;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      z-index: 9999;
+      pointer-events: none;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+  </style>
+</head>
+<body>
+
+<div class="mockup-stamp">SGR MOCKUP M-05 | FICHA DETALLE DE COMPROMISO Y CHAT MULTI-ÁREA</div>
+
+<nav class="top-nav">
+  <div class="brand">
+    <div class="shield-badge">
+      <span>🏛️</span>
+      <span style="font-size: 8px;">SERENA</span>
+    </div>
+    <div class="titles">
+      <h1>SGR - GESTIÓN DE RESULTADOS</h1>
+      <p>Delegación Las Compañías | Ilustre Municipalidad de La Serena</p>
+    </div>
+  </div>
+  <div class="user-info">
+    <div class="user-text">
+      <div class="u-name">Marcelo Bravo</div>
+      <div class="u-role">Coordinador DISERCO</div>
+    </div>
+    <div class="u-avatar">MB</div>
+  </div>
+</nav>
+
+<div class="sub-bar">
+  <div class="breadcrumb">
+    <span>Inicio</span> &gt; <span>Tubo de Trabajo</span> &gt; <strong>Folio #102: Reparación de Calzada El Toqui</strong>
+  </div>
+  <div style="display: flex; gap: 8px;">
+    <span class="badge badge-process" style="padding: 6px 12px; font-size: 11px;">ESTADO: EN PROCESO DE CUADRILLA</span>
+    <button class="btn btn-success btn-sm">✓ Marcar como Realizado</button>
+  </div>
+</div>
+
+<div class="container" style="display: grid; grid-template-columns: 2fr 1fr; gap: 16px;">
+  <!-- Left Side: Detail & Timeline -->
+  <div>
+    <!-- Detail Card -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <span>📋</span> DATOS GENERALES DEL COMPROMISO EN TUBO
+        </div>
+        <span class="badge badge-purple">Origen: Vecinal Directo</span>
+      </div>
+      <div class="card-body">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 12px;">
+          <div>
+            <div style="color: #64748B; font-weight: 700; font-size: 10.5px; text-transform: uppercase;">Requerimiento / Asunto</div>
+            <div style="font-size: 14px; font-weight: 700; color: #1E293B; margin-top: 2px;">
+              Bacheo y reparación de calzada en acceso principal
+            </div>
+          </div>
+          <div>
+            <div style="color: #64748B; font-weight: 700; font-size: 10.5px; text-transform: uppercase;">Territorio y Ubicación</div>
+            <div style="font-size: 13px; font-weight: 600; margin-top: 2px;">
+              Sector El Toqui (Calle Lautaro esquina Colo Colo)
+            </div>
+          </div>
+          <div>
+            <div style="color: #64748B; font-weight: 700; font-size: 10.5px; text-transform: uppercase;">Solicitante</div>
+            <div style="margin-top: 2px;">Línea 21 Colectivos y Junta de Vecinos El Toqui</div>
+          </div>
+          <div>
+            <div style="color: #64748B; font-weight: 700; font-size: 10.5px; text-transform: uppercase;">Plazo Límite de Ejecución</div>
+            <div style="margin-top: 2px; font-weight: 700; color: #854D0E;">30-09-2026 (Faltan 4 días)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline of Gestiones -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <span>⏱️</span> HISTORIAL Y TRAZABILIDAD DE GESTIONES (CADENA DE RESOLUCIÓN)
+        </div>
+        <button class="btn btn-secondary btn-sm">+ Agregar Gestión</button>
+      </div>
+      <div class="card-body">
+        <div style="border-left: 2px solid #CBD5E1; margin-left: 10px; padding-left: 18px; display: flex; flex-direction: column; gap: 18px;">
+          
+          <div style="position: relative;">
+            <div style="position: absolute; left: -25px; top: 0; width: 12px; height: 12px; border-radius: 50%; background: #10B981; border: 2px solid white;"></div>
+            <div style="display: flex; justify-content: space-between; font-size: 11px; color: #64748B;">
+              <strong>1ra Gestión: Inspección Técnica en Terreno</strong>
+              <span>15-09-2026 10:15 hrs</span>
+            </div>
+            <p style="margin-top: 4px; font-size: 12px;">
+              Territorial OO.CC (Roberto Tapia) realiza cubicación: Se constata bache de 3.2m x 1.8m con profundidad de 8cm. Requiere retiro de material suelto y asfalto frío.
+            </p>
+            <span class="badge badge-done" style="margin-top: 4px;">📷 2 Fotos Adjuntas (Hash Validado)</span>
+          </div>
+
+          <div style="position: relative;">
+            <div style="position: absolute; left: -25px; top: 0; width: 12px; height: 12px; border-radius: 50%; background: #2563EB; border: 2px solid white;"></div>
+            <div style="display: flex; justify-content: space-between; font-size: 11px; color: #64748B;">
+              <strong>2da Gestión: Solicitud de Insumos y Cuadrilla</strong>
+              <span>20-09-2026 14:30 hrs</span>
+            </div>
+            <p style="margin-top: 4px; font-size: 12px;">
+              DISERCO (Marcelo Bravo) ingresa solicitud de 15 sacos de asfalto en frío a bodega central. Programada cuadrilla municipal para día 28-09.
+            </p>
+            <span class="badge badge-blue" style="margin-top: 4px;">Documento #SOL-891-2026</span>
+          </div>
+
+          <div style="position: relative;">
+            <div style="position: absolute; left: -25px; top: 0; width: 12px; height: 12px; border-radius: 50%; background: #F59E0B; border: 2px solid white;"></div>
+            <div style="display: flex; justify-content: space-between; font-size: 11px; color: #64748B;">
+              <strong>3ra Gestión: Coordinación con Tránsito y Cierre</strong>
+              <span>25-09-2026 09:00 hrs</span>
+            </div>
+            <p style="margin-top: 4px; font-size: 12px;">
+              Seguridad Ciudadana confirma patrulla para corte preventivo de pista durante los trabajos de bacheo.
+            </p>
+            <span class="badge badge-process" style="margin-top: 4px;">En Ejecución</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Side: Inter-department Chat -->
+  <div>
+    <div class="card" style="display: flex; flex-direction: column; height: 580px;">
+      <div class="card-header" style="background: #1E293B; color: white;">
+        <div style="font-weight: 700; font-size: 12.5px; display: flex; align-items: center; gap: 6px;">
+          <span>💬</span> CHAT DE COORDINACIÓN ENTRE ÁREAS
+        </div>
+        <span style="font-size: 10px; background: #334155; padding: 2px 6px; border-radius: 10px;">3 Participantes</span>
+      </div>
+      
+      <!-- Messages Container -->
+      <div style="flex: 1; padding: 14px; overflow-y: auto; background: #F8FAFC; display: flex; flex-direction: column; gap: 12px;">
+        
+        <!-- Msg 1 -->
+        <div style="align-self: flex-start; max-width: 85%;">
+          <div style="font-size: 10px; font-weight: 700; color: #475569; margin-bottom: 2px;">Roberto Tapia (OO.CC) - 15/09 10:20</div>
+          <div style="background: white; border: 1px solid #E2E8F0; padding: 8px 10px; border-radius: 6px; font-size: 11.5px;">
+            Marcelo, el bache está peligroso para los colectivos. ¿Tienen cuadrilla disponible para esta semana?
+          </div>
+        </div>
+
+        <!-- Msg 2 -->
+        <div style="align-self: flex-end; max-width: 85%;">
+          <div style="font-size: 10px; font-weight: 700; color: #7A1C28; margin-bottom: 2px; text-align: right;">Marcelo Bravo (DISERCO) - 15/09 11:05</div>
+          <div style="background: #FEE2E2; border: 1px solid #FCA5A5; padding: 8px 10px; border-radius: 6px; font-size: 11.5px; color: #991B1B;">
+            Estamos esperando que nos llegue asfalto en frío el jueves desde La Cantera. Lo agendo de inmediato para el lunes a primera hora.
+          </div>
+        </div>
+
+        <!-- Msg 3 -->
+        <div style="align-self: flex-start; max-width: 85%;">
+          <div style="font-size: 10px; font-weight: 700; color: #2563EB; margin-bottom: 2px;">Andrea Cortés (Seguridad) - 25/09 09:12</div>
+          <div style="background: #EFF6FF; border: 1px solid #BFDBFE; padding: 8px 10px; border-radius: 6px; font-size: 11.5px;">
+            Coordinado con el móvil 4 de Seguridad para resguardo vial el lunes entre 09:00 y 13:00 hrs.
+          </div>
+        </div>
+
+        <!-- Msg 4 -->
+        <div style="align-self: flex-end; max-width: 85%;">
+          <div style="font-size: 10px; font-weight: 700; color: #7A1C28; margin-bottom: 2px; text-align: right;">Marcelo Bravo (DISERCO) - 25/09 10:30</div>
+          <div style="background: #FEE2E2; border: 1px solid #FCA5A5; padding: 8px 10px; border-radius: 6px; font-size: 11.5px; color: #991B1B;">
+            Excelente, con eso cumplimos antes del plazo límite del 30 de septiembre.
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Chat Input -->
+      <div style="padding: 10px; border-top: 1px solid #E2E8F0; background: white; display: flex; gap: 6px;">
+        <input type="text" class="form-control" placeholder="Escriba un mensaje para el equipo..." style="flex: 1;">
+        <button class="btn btn-primary btn-sm">Enviar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+

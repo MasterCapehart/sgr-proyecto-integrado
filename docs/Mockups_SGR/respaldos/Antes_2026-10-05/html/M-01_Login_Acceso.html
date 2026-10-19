@@ -1,0 +1,564 @@
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>M-01: Acceso al Sistema - SGR Municipalidad de La Serena</title>
+  <style>
+    :root {
+      --primary: #7A1C28; /* Granate La Serena */
+      --primary-dark: #58121B;
+      --primary-light: #9B2C3B;
+      --secondary: #1E293B;
+      --accent: #2563EB;
+      --bg-main: #F1F5F9;
+      --bg-card: #FFFFFF;
+      --text-dark: #0F172A;
+      --text-muted: #64748B;
+      --border: #CBD5E1;
+      --border-light: #E2E8F0;
+      
+      --excel-green-bg: #DCFCE7;
+      --excel-green-text: #166534;
+      --excel-green-border: #86EFAC;
+      
+      --excel-yellow-bg: #FEF9C3;
+      --excel-yellow-text: #854D0E;
+      --excel-yellow-border: #FDE047;
+      
+      --excel-red-bg: #FEE2E2;
+      --excel-red-text: #991B1B;
+      --excel-red-border: #FCA5A5;
+      
+      --excel-blue-bg: #DBEAFE;
+      --excel-blue-text: #1E40AF;
+      --excel-blue-border: #93C5FD;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-dark);
+      font-size: 12px;
+      line-height: 1.4;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Municipal Top Bar */
+    .top-nav {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+      color: white;
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    .top-nav .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .shield-badge {
+      width: 36px;
+      height: 36px;
+      background: white;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-weight: 900;
+      font-size: 11px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      border: 1px solid #E2E8F0;
+      line-height: 1;
+    }
+
+    .shield-badge span:first-child {
+      font-size: 14px;
+    }
+
+    .top-nav .titles h1 {
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .top-nav .titles p {
+      font-size: 11px;
+      color: #F1F5F9;
+      opacity: 0.9;
+    }
+
+    .top-nav .nav-tabs {
+      display: flex;
+      gap: 5px;
+    }
+
+    .top-nav .nav-tab {
+      padding: 6px 12px;
+      border-radius: 4px;
+      color: #F8FAFC;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 11px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .top-nav .nav-tab.active {
+      background: white;
+      color: var(--primary);
+      border-color: white;
+    }
+
+    .top-nav .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-text {
+      text-align: right;
+    }
+
+    .user-text .u-name {
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .user-text .u-role {
+      font-size: 10px;
+      color: #E2E8F0;
+    }
+
+    .u-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 12px;
+      border: 2px solid #F1F5F9;
+    }
+
+    /* Sub-header Breadcrumb & Actions Bar */
+    .sub-bar {
+      background: white;
+      border-bottom: 1px solid var(--border-light);
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .breadcrumb strong {
+      color: var(--text-dark);
+    }
+
+    .badge-period {
+      background: #EFF6FF;
+      color: #1D4ED8;
+      border: 1px solid #BFDBFE;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    /* Main Container */
+    .container {
+      padding: 16px 24px;
+      max-width: 1560px;
+      margin: 0 auto;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 10px 16px;
+      background: #F8FAFC;
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--secondary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-body {
+      padding: 14px 16px;
+    }
+
+    /* Tables styled like Excel */
+    .table-container {
+      overflow-x: auto;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+
+    table.excel-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11.5px;
+      background: white;
+    }
+
+    table.excel-table th {
+      background: #F1F5F9;
+      color: #334155;
+      font-weight: 700;
+      padding: 8px 10px;
+      border: 1px solid #CBD5E1;
+      text-transform: uppercase;
+      font-size: 10.5px;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+    }
+
+    table.excel-table th.th-primary {
+      background: #FDF2F4;
+      color: var(--primary);
+      border-color: #F87171;
+    }
+
+    table.excel-table td {
+      padding: 7px 10px;
+      border: 1px solid #E2E8F0;
+      color: #1E293B;
+      vertical-align: middle;
+    }
+
+    table.excel-table tr:hover td {
+      background-color: #F8FAFC !important;
+    }
+
+    /* Excel row colors */
+    .row-done td {
+      background-color: #F0FDF4;
+    }
+
+    .row-process td {
+      background-color: #FFFBEB;
+    }
+
+    .row-pending td {
+      background-color: #FEF2F2;
+    }
+
+    .strike {
+      text-decoration: line-through;
+      color: #64748B;
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+      white-space: nowrap;
+    }
+
+    .badge-pending {
+      background: var(--excel-red-bg);
+      color: var(--excel-red-text);
+      border: 1px solid var(--excel-red-border);
+    }
+
+    .badge-process {
+      background: var(--excel-yellow-bg);
+      color: var(--excel-yellow-text);
+      border: 1px solid var(--excel-yellow-border);
+    }
+
+    .badge-done {
+      background: var(--excel-green-bg);
+      color: var(--excel-green-text);
+      border: 1px solid var(--excel-green-border);
+    }
+
+    .badge-blue {
+      background: var(--excel-blue-bg);
+      color: var(--excel-blue-text);
+      border: 1px solid var(--excel-blue-border);
+    }
+
+    .badge-gray {
+      background: #F1F5F9;
+      color: #475569;
+      border: 1px solid #CBD5E1;
+    }
+
+    .badge-purple {
+      background: #F3E8FF;
+      color: #6B21A8;
+      border: 1px solid #D8B4FE;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #334155;
+      border-color: #CBD5E1;
+    }
+
+    .btn-success {
+      background: #059669;
+      color: white;
+    }
+
+    .btn-danger {
+      background: #DC2626;
+      color: white;
+    }
+
+    .btn-sm {
+      padding: 3px 8px;
+      font-size: 10.5px;
+    }
+
+    /* KPIs */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .kpi-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px 14px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    }
+
+    .kpi-title {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .kpi-value {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--secondary);
+      margin-top: 3px;
+    }
+
+    .kpi-sub {
+      font-size: 10.5px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Semáforo circle indicator */
+    .semaforo-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      display: inline-block;
+      vertical-align: middle;
+      border: 2px solid rgba(0,0,0,0.15);
+    }
+    .dot-green { background: #10B981; box-shadow: 0 0 6px #10B981; }
+    .dot-yellow { background: #F59E0B; box-shadow: 0 0 6px #F59E0B; }
+    .dot-red { background: #EF4444; box-shadow: 0 0 6px #EF4444; }
+
+    /* Filters bar */
+    .filters-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: white;
+      padding: 10px 14px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .form-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #475569;
+    }
+
+    .form-control {
+      padding: 5px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      font-size: 11.5px;
+      background: white;
+    }
+
+    /* Mockup stamp watermark */
+    .mockup-stamp {
+      position: fixed;
+      bottom: 12px;
+      right: 18px;
+      background: rgba(15, 23, 42, 0.85);
+      color: white;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      z-index: 9999;
+      pointer-events: none;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+  </style>
+</head>
+<body>
+
+<div class="mockup-stamp">SGR MOCKUP M-01 | PORTAL DE ACCESO Y AUTENTICACIÓN</div>
+
+<div style="min-height: 100vh; display: flex; flex-direction: column; background: linear-gradient(135deg, #2C3E50 0%, #1A2530 100%);">
+  <div style="padding: 20px 40px; display: flex; align-items: center; gap: 14px;">
+    <div class="shield-badge" style="width: 44px; height: 44px;">
+      <span>🏛️</span>
+      <span style="font-size: 9px; font-weight: 900;">SERENA</span>
+    </div>
+    <div style="color: white;">
+      <h2 style="font-size: 16px; font-weight: 800; letter-spacing: 0.5px;">ILUSTRE MUNICIPALIDAD DE LA SERENA</h2>
+      <p style="font-size: 12px; color: #CBD5E1;">Sistema de Gestión de Resultados (SGR) - Delegaciones Territoriales</p>
+    </div>
+  </div>
+
+  <div style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: white; width: 440px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); overflow: hidden; border: 1px solid #E2E8F0;">
+      
+      <div style="background: linear-gradient(135deg, #7A1C28 0%, #58121B 100%); color: white; padding: 24px; text-align: center;">
+        <div style="display: inline-flex; width: 48px; height: 48px; background: rgba(255,255,255,0.15); border-radius: 50%; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 8px;">
+          🔐
+        </div>
+        <h3 style="font-size: 18px; font-weight: 800;">Iniciar Sesión</h3>
+        <p style="font-size: 12px; color: #FEE2E2; margin-top: 4px;">Ingrese sus credenciales municipales autorizadas</p>
+      </div>
+
+      <div style="padding: 24px;">
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; font-size: 11.5px; font-weight: 700; color: #334155; margin-bottom: 6px;">Delegación Municipal Asignada</label>
+          <select class="form-control" style="width: 100%; padding: 8px 10px; font-weight: 600; border-color: #94A3B8;">
+            <option selected>Delegación Municipal Las Compañías (Jurisdicción Principal)</option>
+            <option>Delegación Municipal La Antena / San Joaquín</option>
+            <option>Delegación Municipal Rural (Lambert / Ceres)</option>
+            <option>Delegación Municipal La Pampa</option>
+            <option>Edificio Consistorial Central</option>
+          </select>
+        </div>
+
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; font-size: 11.5px; font-weight: 700; color: #334155; margin-bottom: 6px;">RUT o Correo Institucional</label>
+          <input type="text" class="form-control" value="16.892.441-3" style="width: 100%; padding: 8px 10px;" placeholder="ej. 12.345.678-9">
+        </div>
+
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; font-size: 11.5px; font-weight: 700; color: #334155; margin-bottom: 6px;">Contraseña de Seguridad</label>
+          <input type="password" class="form-control" value="••••••••••••" style="width: 100%; padding: 8px 10px;">
+        </div>
+
+        <div style="margin-bottom: 18px;">
+          <label style="display: block; font-size: 11.5px; font-weight: 700; color: #334155; margin-bottom: 6px;">Perfil de Operación / Rol</label>
+          <select class="form-control" style="width: 100%; padding: 8px 10px; font-weight: 600;">
+            <option selected>Funcionario Operativo (Gestor Social / Territorial)</option>
+            <option>Supervisor / Jefe de Delegación (Validador)</option>
+            <option>Coordinador DISERCO / Operaciones</option>
+            <option>Administrador del Sistema (TI Municipal)</option>
+          </select>
+        </div>
+
+        <button class="btn btn-primary" style="width: 100%; padding: 10px; justify-content: center; font-size: 13px; font-weight: 700; background: #7A1C28;">
+          INGRESAR AL SISTEMA SGR ➔
+        </button>
+
+        <div style="margin-top: 16px; padding: 10px; background: #F8FAFC; border-radius: 6px; border: 1px solid #E2E8F0; text-align: center;">
+          <span style="font-size: 10.5px; color: #64748B;">
+            🛡️ Conexión segura TLS 1.3 | Registro de acceso auditado según Ley N° 19.628 de Protección de Datos.
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align: center; padding: 14px; color: #94A3B8; font-size: 11px;">
+    Ilustre Municipalidad de La Serena © 2026 - Sistema de Gestión de Resultados v2.4 - Delegación Las Compañías
+  </div>
+</div>
+
+</body>
+</html>
+

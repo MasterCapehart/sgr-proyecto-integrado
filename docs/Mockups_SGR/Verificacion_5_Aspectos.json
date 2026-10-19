@@ -1,0 +1,166 @@
+{
+  "date": "2026-10-05",
+  "checks": [
+    {
+      "file": "M-01_Login_Acceso.html",
+      "overflow": false,
+      "fields": true,
+      "red": "#AD0000",
+      "imgs": true
+    },
+    {
+      "file": "M-02_Mi_Desempeno_Registro.html",
+      "overflow": false,
+      "fields": true,
+      "red": "#AD0000",
+      "imgs": true
+    },
+    {
+      "file": "M-03_Carga_Evidencias.html",
+      "overflow": false,
+      "fields": true,
+      "red": "#AD0000",
+      "imgs": true
+    },
+    {
+      "file": "M-04_Tubo_Trabajo_Agenda.html",
+      "overflow": false,
+      "fields": true,
+      "red": "#AD0000",
+      "imgs": true
+    },
+    {
+      "file": "M-05_Detalle_Compromiso_Chat.html",
+      "overflow": false,
+      "fields": true,
+      "red": "#AD0000",
+      "imgs": true
+    },
+    {
+      "file": "M-06_Semaforo_Delegacion.html",
+      "overflow": false,
+      "fields": true,
+      "red": "#AD0000",
+      "imgs": true
+    },
+    {
+      "file": "M-07_Resumen_Delegacion_Metas.html",
+      "overflow": false,
+      "fields": true,
+      "red": "#AD0000",
+      "imgs": true
+    },
+    {
+      "file": "M-08_Bandeja_Validacion.html",
+      "overflow": false,
+      "fields": true,
+      "red": "#AD0000",
+      "imgs": true
+    },
+    {
+      "file": "M-09_Reportes_Estadisticas.html",
+      "overflow": false,
+      "fields": true,
+      "red": "#AD0000",
+      "imgs": true
+    },
+    {
+      "file": "M-10_Auditoria_Trazabilidad.html",
+      "overflow": false,
+      "fields": true,
+      "red": "#AD0000",
+      "imgs": true
+    },
+    {
+      "file": "M-11_Recuperar_Contrasena.html",
+      "overflow": false,
+      "fields": true,
+      "red": "#AD0000",
+      "imgs": true
+    },
+    {
+      "file": "M-12_Validar_Codigo.html",
+      "overflow": false,
+      "fields": true,
+      "red": "#AD0000",
+      "imgs": true
+    },
+    {
+      "file": "M-13_Nueva_Contrasena.html",
+      "overflow": false,
+      "fields": true,
+      "red": "#AD0000",
+      "imgs": true
+    },
+    {
+      "file": "M-14_Delegaciones.html",
+      "overflow": false,
+      "fields": true,
+      "red": "#AD0000",
+      "imgs": true
+    },
+    {
+      "file": "M-15_Roles.html",
+      "overflow": false,
+      "fields": true,
+      "red": "#AD0000",
+      "imgs": true
+    },
+    {
+      "file": "M-16_Usuarios.html",
+      "overflow": false,
+      "fields": true,
+      "red": "#AD0000",
+      "imgs": true
+    },
+    {
+      "file": "M-17_Items_Metas.html",
+      "overflow": false,
+      "fields": true,
+      "red": "#AD0000",
+      "imgs": true
+    },
+    {
+      "file": "M-18_Tipo_Atencion.html",
+      "overflow": false,
+      "fields": true,
+      "red": "#AD0000",
+      "imgs": true
+    },
+    {
+      "file": "M-19_Sub_Atencion.html",
+      "overflow": false,
+      "fields": true,
+      "red": "#AD0000",
+      "imgs": true
+    },
+    {
+      "file": "M-20_Ingreso_Atencion.html",
+      "overflow": false,
+      "fields": true,
+      "red": "#AD0000",
+      "imgs": true
+    },
+    {
+      "test": "búsqueda parcial y paginación",
+      "passed": true
+    },
+    {
+      "test": "tipo/subatención dependientes",
+      "passed": true
+    },
+    {
+      "test": "verificación y coincidencia contraseña",
+      "passed": true
+    },
+    {
+      "test": "seis formularios crear/editar/consultar y consulta sin guardar",
+      "passed": true
+    },
+    {
+      "test": "tres vistas móviles sin desbordes exteriores",
+      "passed": true
+    }
+  ],
+  "errors": []
+}
