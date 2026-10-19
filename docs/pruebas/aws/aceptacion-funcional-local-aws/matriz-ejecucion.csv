@@ -1,0 +1,353 @@
+﻿entorno,caso,resultado,ruta,esperado,obtenido,detalle,evidencia
+AWS API,contexto completo,PASS,/api/contexto/,[200],200,,resultados-api.json
+AWS API,usuario rol y delegación identificados,PASS,,,,,resultados-api.json
+AWS API,delegaciones crear,PASS,/api/delegaciones/,[201],201,,resultados-api.json
+AWS API,roles crear,PASS,/api/roles/,[201],201,,resultados-api.json
+AWS API,usuarios crear,PASS,/api/usuarios/,[201],201,,resultados-api.json
+AWS API,cargos crear,PASS,/api/cargos/,[201],201,,resultados-api.json
+AWS API,tipos-atencion crear,PASS,/api/tipos-atencion/,[201],201,,resultados-api.json
+AWS API,tipos-atencion crear,PASS,/api/tipos-atencion/,[201],201,,resultados-api.json
+AWS API,subatenciones crear,PASS,/api/subatenciones/,[201],201,,resultados-api.json
+AWS API,items-metas crear,PASS,/api/items-metas/,[201],201,,resultados-api.json
+AWS API,delegaciones consultar,PASS,/api/delegaciones/5/,[200],200,,resultados-api.json
+AWS API,delegaciones editar,PASS,/api/delegaciones/5/,[200],200,,resultados-api.json
+AWS API,delegaciones conflicto versión,PASS,/api/delegaciones/5/,[409],409,,resultados-api.json
+AWS API,delegaciones versión obligatoria,PASS,/api/delegaciones/5/,[428],428,,resultados-api.json
+AWS API,delegaciones buscar paginar contar,PASS,/api/delegaciones/?search=Q1558d2b8&page_size=1&estado=todos,[200],200,,resultados-api.json
+AWS API,delegaciones filtro conserva registro,PASS,,,,,resultados-api.json
+AWS API,delegaciones exportar filtro,PASS,/api/delegaciones/export/?search=Q1558d2b8&estado=todos,[200],200,,resultados-api.json
+AWS API,delegaciones Excel válido y sin contraseñas,PASS,,,,,resultados-api.json
+AWS API,delegaciones rechaza creación vacía,PASS,/api/delegaciones/,[400],400,,resultados-api.json
+AWS API,delegaciones rechaza exceso longitud,PASS,/api/delegaciones/5/,[400],400,,resultados-api.json
+AWS API,delegaciones rechaza duplicados,PASS,/api/delegaciones/,"[400, 409]",400,,resultados-api.json
+AWS API,roles consultar,PASS,/api/roles/9/,[200],200,,resultados-api.json
+AWS API,roles editar,PASS,/api/roles/9/,[200],200,,resultados-api.json
+AWS API,roles conflicto versión,PASS,/api/roles/9/,[409],409,,resultados-api.json
+AWS API,roles versión obligatoria,PASS,/api/roles/9/,[428],428,,resultados-api.json
+AWS API,roles buscar paginar contar,PASS,/api/roles/?search=Q1558d2b8&page_size=1&estado=todos,[200],200,,resultados-api.json
+AWS API,roles filtro conserva registro,PASS,,,,,resultados-api.json
+AWS API,roles exportar filtro,PASS,/api/roles/export/?search=Q1558d2b8&estado=todos,[200],200,,resultados-api.json
+AWS API,roles Excel válido y sin contraseñas,PASS,,,,,resultados-api.json
+AWS API,roles rechaza creación vacía,PASS,/api/roles/,[400],400,,resultados-api.json
+AWS API,roles rechaza exceso longitud,PASS,/api/roles/9/,[400],400,,resultados-api.json
+AWS API,roles rechaza duplicados,PASS,/api/roles/,"[400, 409]",400,,resultados-api.json
+AWS API,usuarios consultar,PASS,/api/usuarios/11/,[200],200,,resultados-api.json
+AWS API,usuarios editar,PASS,/api/usuarios/11/,[200],200,,resultados-api.json
+AWS API,usuarios conflicto versión,PASS,/api/usuarios/11/,[409],409,,resultados-api.json
+AWS API,usuarios versión obligatoria,PASS,/api/usuarios/11/,[428],428,,resultados-api.json
+AWS API,usuarios buscar paginar contar,PASS,/api/usuarios/?search=Q1558d2b8&page_size=1&estado=todos,[200],200,,resultados-api.json
+AWS API,usuarios filtro conserva registro,PASS,,,,,resultados-api.json
+AWS API,usuarios exportar filtro,PASS,/api/usuarios/export/?search=Q1558d2b8&estado=todos,[200],200,,resultados-api.json
+AWS API,usuarios Excel válido y sin contraseñas,PASS,,,,,resultados-api.json
+AWS API,usuarios rechaza creación vacía,PASS,/api/usuarios/,[400],400,,resultados-api.json
+AWS API,usuarios rechaza exceso longitud,PASS,/api/usuarios/11/,[400],400,,resultados-api.json
+AWS API,usuarios rechaza duplicados,PASS,/api/usuarios/,"[400, 409]",400,,resultados-api.json
+AWS API,cargos consultar,PASS,/api/cargos/3/,[200],200,,resultados-api.json
+AWS API,cargos editar,PASS,/api/cargos/3/,[200],200,,resultados-api.json
+AWS API,cargos conflicto versión,PASS,/api/cargos/3/,[409],409,,resultados-api.json
+AWS API,cargos versión obligatoria,PASS,/api/cargos/3/,[428],428,,resultados-api.json
+AWS API,cargos buscar paginar contar,PASS,/api/cargos/?search=Q1558d2b8&page_size=1&estado=todos,[200],200,,resultados-api.json
+AWS API,cargos filtro conserva registro,PASS,,,,,resultados-api.json
+AWS API,cargos exportar filtro,PASS,/api/cargos/export/?search=Q1558d2b8&estado=todos,[200],200,,resultados-api.json
+AWS API,cargos Excel válido y sin contraseñas,PASS,,,,,resultados-api.json
+AWS API,cargos rechaza creación vacía,PASS,/api/cargos/,[400],400,,resultados-api.json
+AWS API,cargos rechaza exceso longitud,PASS,/api/cargos/3/,[400],400,,resultados-api.json
+AWS API,cargos rechaza duplicados,PASS,/api/cargos/,"[400, 409]",400,,resultados-api.json
+AWS API,tipos-atencion consultar,PASS,/api/tipos-atencion/5/,[200],200,,resultados-api.json
+AWS API,tipos-atencion editar,PASS,/api/tipos-atencion/5/,[200],200,,resultados-api.json
+AWS API,tipos-atencion conflicto versión,PASS,/api/tipos-atencion/5/,[409],409,,resultados-api.json
+AWS API,tipos-atencion versión obligatoria,PASS,/api/tipos-atencion/5/,[428],428,,resultados-api.json
+AWS API,tipos-atencion buscar paginar contar,PASS,/api/tipos-atencion/?search=Q1558d2b8&page_size=1&estado=todos,[200],200,,resultados-api.json
+AWS API,tipos-atencion filtro conserva registro,PASS,,,,,resultados-api.json
+AWS API,tipos-atencion exportar filtro,PASS,/api/tipos-atencion/export/?search=Q1558d2b8&estado=todos,[200],200,,resultados-api.json
+AWS API,tipos-atencion Excel válido y sin contraseñas,PASS,,,,,resultados-api.json
+AWS API,tipos-atencion rechaza creación vacía,PASS,/api/tipos-atencion/,[400],400,,resultados-api.json
+AWS API,tipos-atencion rechaza exceso longitud,PASS,/api/tipos-atencion/5/,[400],400,,resultados-api.json
+AWS API,tipos-atencion rechaza duplicados,PASS,/api/tipos-atencion/,"[400, 409]",400,,resultados-api.json
+AWS API,subatenciones consultar,PASS,/api/subatenciones/4/,[200],200,,resultados-api.json
+AWS API,subatenciones editar,PASS,/api/subatenciones/4/,[200],200,,resultados-api.json
+AWS API,subatenciones conflicto versión,PASS,/api/subatenciones/4/,[409],409,,resultados-api.json
+AWS API,subatenciones versión obligatoria,PASS,/api/subatenciones/4/,[428],428,,resultados-api.json
+AWS API,subatenciones buscar paginar contar,PASS,/api/subatenciones/?search=Q1558d2b8&page_size=1&estado=todos,[200],200,,resultados-api.json
+AWS API,subatenciones filtro conserva registro,PASS,,,,,resultados-api.json
+AWS API,subatenciones exportar filtro,PASS,/api/subatenciones/export/?search=Q1558d2b8&estado=todos,[200],200,,resultados-api.json
+AWS API,subatenciones Excel válido y sin contraseñas,PASS,,,,,resultados-api.json
+AWS API,subatenciones rechaza creación vacía,PASS,/api/subatenciones/,[400],400,,resultados-api.json
+AWS API,subatenciones rechaza exceso longitud,PASS,/api/subatenciones/4/,[400],400,,resultados-api.json
+AWS API,subatenciones rechaza duplicados,PASS,/api/subatenciones/,"[400, 409]",400,,resultados-api.json
+AWS API,items-metas consultar,PASS,/api/items-metas/4/,[200],200,,resultados-api.json
+AWS API,items-metas editar,PASS,/api/items-metas/4/,[200],200,,resultados-api.json
+AWS API,items-metas conflicto versión,PASS,/api/items-metas/4/,[409],409,,resultados-api.json
+AWS API,items-metas versión obligatoria,PASS,/api/items-metas/4/,[428],428,,resultados-api.json
+AWS API,items-metas buscar paginar contar,PASS,/api/items-metas/?search=Q1558d2b8&page_size=1&estado=todos,[200],200,,resultados-api.json
+AWS API,items-metas filtro conserva registro,PASS,,,,,resultados-api.json
+AWS API,items-metas exportar filtro,PASS,/api/items-metas/export/?search=Q1558d2b8&estado=todos,[200],200,,resultados-api.json
+AWS API,items-metas Excel válido y sin contraseñas,PASS,,,,,resultados-api.json
+AWS API,items-metas rechaza creación vacía,PASS,/api/items-metas/,[400],400,,resultados-api.json
+AWS API,items-metas rechaza exceso longitud,PASS,/api/items-metas/4/,[400],400,,resultados-api.json
+AWS API,items-metas rechaza duplicados,PASS,/api/items-metas/,"[400, 409]",400,,resultados-api.json
+AWS API,usuario correo inválido,PASS,/api/usuarios/11/,[400],400,,resultados-api.json
+AWS API,subatención padre inexistente,PASS,/api/subatenciones/,[400],400,,resultados-api.json
+AWS API,delegación vinculada no desactivar,PASS,/api/delegaciones/5/toggle-estado/,[400],400,,resultados-api.json
+AWS API,rol vinculado no desactivar,PASS,/api/roles/9/toggle-estado/,[400],400,,resultados-api.json
+AWS API,tipo vinculado no desactivar,PASS,/api/tipos-atencion/5/toggle-estado/,[400],400,,resultados-api.json
+AWS API,cambiar contexto autorizado,PASS,/api/contexto/cambiar-delegacion/,[200],200,,resultados-api.json
+AWS API,atención crear,PASS,/api/atenciones/,[201],201,,resultados-api.json
+AWS API,atención doble envío,PASS,/api/atenciones/,"[200, 201]",200,,resultados-api.json
+AWS API,atención sin duplicado,PASS,,,,,resultados-api.json
+AWS API,atención subtipo incompatible,PASS,/api/atenciones/,[400],400,,resultados-api.json
+AWS API,atención sin obligatorios,PASS,/api/atenciones/,[400],400,,resultados-api.json
+AWS API,atención usuario automático,PASS,/api/atenciones/4/,[200],200,,resultados-api.json
+AWS API,atención autor y contexto persistidos,PASS,,,,,resultados-api.json
+AWS API,actividad crear,PASS,/api/operacion/actividades/,[201],201,,resultados-api.json
+AWS API,actividad editar,PASS,/api/operacion/actividades/3/,[200],200,,resultados-api.json
+AWS API,actividad conflicto,PASS,/api/operacion/actividades/3/,[409],409,,resultados-api.json
+AWS API,evidencia S3 subir,PASS,/api/operacion/evidencias/,[201],201,,resultados-api.json
+AWS API,evidencia descarga autorizada,PASS,/api/operacion/evidencias/3/archivo/,[200],200,,resultados-api.json
+AWS API,evidencia descarga íntegra,PASS,,,,,resultados-api.json
+AWS API,evidencia no autoaprobar,PASS,/api/operacion/evidencias/3/revisar/,[400],400,,resultados-api.json
+AWS API,evidencia ajena a delegación denegada,PASS,/api/operacion/evidencias/3/archivo/,[404],404,,resultados-api.json
+AWS API,usuarios crear,PASS,/api/usuarios/,[201],201,,resultados-api.json
+AWS API,evidencia revisión por otro usuario,PASS,/api/operacion/evidencias/3/revisar/,[200],200,,resultados-api.json
+AWS API,actividad validada tras revisión,PASS,,,,,resultados-api.json
+AWS API,compromiso crear,PASS,/api/operacion/compromisos/,[201],201,,resultados-api.json
+AWS API,compromiso conversación,PASS,/api/operacion/compromisos/2/mensajes/,[201],201,,resultados-api.json
+AWS API,compromiso cerrar,PASS,/api/operacion/compromisos/2/,[200],200,,resultados-api.json
+AWS API,compromiso reabrir autorizado,PASS,/api/operacion/compromisos/2/reabrir/,[200],200,,resultados-api.json
+AWS API,reclamo crear,PASS,/api/reclamos/,[201],201,,resultados-api.json
+AWS API,reclamo editar,PASS,/api/reclamos/2/,[200],200,,resultados-api.json
+AWS API,módulo operacion/actividades/export/,PASS,/api/operacion/actividades/export/,[200],200,,resultados-api.json
+AWS API,módulo operacion/compromisos/export/,PASS,/api/operacion/compromisos/export/,[200],200,,resultados-api.json
+AWS API,módulo reclamos/export/,PASS,/api/reclamos/export/,[200],200,,resultados-api.json
+AWS API,módulo alertas/,PASS,/api/alertas/,[200],200,,resultados-api.json
+AWS API,módulo auditoria/,PASS,/api/auditoria/,[200],200,,resultados-api.json
+AWS API,módulo gobierno/,PASS,/api/gobierno/,[200],200,,resultados-api.json
+AWS API,módulo indicadores/,PASS,/api/indicadores/,[200],200,,resultados-api.json
+AWS API,módulo planillas/,PASS,/api/planillas/,[200],200,,resultados-api.json
+AWS API,módulo casos-sociales/,PASS,/api/casos-sociales/,[200],200,,resultados-api.json
+AWS API,rol consulta no crea atención,PASS,/api/atenciones/,[403],403,,resultados-api.json
+AWS API,no cambiar delegación ajena,PASS,/api/contexto/cambiar-delegacion/,[403],403,,resultados-api.json
+AWS API,no administrar usuarios,PASS,/api/usuarios/,[403],403,,resultados-api.json
+AWS API,consulta no modifica actividad,PASS,/api/operacion/actividades/3/,[403],403,,resultados-api.json
+AWS API,volver contexto inicial,PASS,/api/contexto/cambiar-delegacion/,[200],200,,resultados-api.json
+AWS API,atención fuera contexto no visible,PASS,/api/atenciones/4/,[404],404,,resultados-api.json
+AWS API,evidencia fuera contexto no visible,PASS,/api/operacion/evidencias/3/archivo/,[404],404,,resultados-api.json
+AWS API,usuarios desactivar,PASS,/api/usuarios/11/toggle-estado/,[200],200,,resultados-api.json
+AWS API,usuarios persistencia estado,PASS,/api/usuarios/11/,[200],200,,resultados-api.json
+AWS API,usuarios estado inactivo,PASS,,,,,resultados-api.json
+AWS API,roles desactivar,PASS,/api/roles/9/toggle-estado/,[200],200,,resultados-api.json
+AWS API,roles persistencia estado,PASS,/api/roles/9/,[200],200,,resultados-api.json
+AWS API,roles estado inactivo,PASS,,,,,resultados-api.json
+AWS API,cargos desactivar,PASS,/api/cargos/3/toggle-estado/,[200],200,,resultados-api.json
+AWS API,cargos persistencia estado,PASS,/api/cargos/3/,[200],200,,resultados-api.json
+AWS API,cargos estado inactivo,PASS,,,,,resultados-api.json
+AWS API,tipos-atencion desactivar,PASS,/api/tipos-atencion/6/toggle-estado/,[200],200,,resultados-api.json
+AWS API,tipos-atencion persistencia estado,PASS,/api/tipos-atencion/6/,[200],200,,resultados-api.json
+AWS API,tipos-atencion estado inactivo,PASS,,,,,resultados-api.json
+AWS API,cerrar sesión,PASS,/api/logout/,[200],200,,resultados-api.json
+AWS API,API sin sesión,PASS,/api/contexto/,[401],401,,resultados-api.json
+AWS roles y gestión social,contexto QA social,PASS,/api/contexto/cambiar-delegacion/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,caso social etapa 1,PASS,/api/atenciones/,"[200, 201]",200,,resultados-ampliacion.json
+AWS roles y gestión social,caso social etapa 2,PASS,/api/atenciones/,"[200, 201]",200,,resultados-ampliacion.json
+AWS roles y gestión social,caso social etapa 3,PASS,/api/atenciones/,"[200, 201]",200,,resultados-ampliacion.json
+AWS roles y gestión social,caso social rechaza cuarta etapa,PASS,/api/atenciones/,[409],409,,resultados-ampliacion.json
+AWS roles y gestión social,casos sociales listado,PASS,/api/casos-sociales/?search=Q1558d2b8,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,casos sociales Excel,PASS,/api/casos-sociales/?export=1&search=Q1558d2b8,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,subatenciones crear,PASS,/api/subatenciones/,[201],201,,resultados-ampliacion.json
+AWS roles y gestión social,subatenciones desactivar sin relaciones,PASS,/api/subatenciones/5/toggle-estado/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,subatenciones inactivo persistido,PASS,,,,,resultados-ampliacion.json
+AWS roles y gestión social,subatenciones reactivar sin relaciones,PASS,/api/subatenciones/5/toggle-estado/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,items-metas crear,PASS,/api/items-metas/,[201],201,,resultados-ampliacion.json
+AWS roles y gestión social,items-metas desactivar sin relaciones,PASS,/api/items-metas/5/toggle-estado/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,items-metas inactivo persistido,PASS,,,,,resultados-ampliacion.json
+AWS roles y gestión social,items-metas reactivar sin relaciones,PASS,/api/items-metas/5/toggle-estado/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,admin.aws contexto conserva rol,PASS,,,,,resultados-ampliacion.json
+AWS roles y gestión social,admin.aws consulta delegaciones,PASS,/api/delegaciones/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,admin.aws permiso crear delegaciones,PASS,/api/delegaciones/,[400],400,,resultados-ampliacion.json
+AWS roles y gestión social,admin.aws consulta roles,PASS,/api/roles/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,admin.aws permiso crear roles,PASS,/api/roles/,[400],400,,resultados-ampliacion.json
+AWS roles y gestión social,admin.aws consulta usuarios,PASS,/api/usuarios/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,admin.aws permiso crear usuarios,PASS,/api/usuarios/,[400],400,,resultados-ampliacion.json
+AWS roles y gestión social,admin.aws consulta items-metas,PASS,/api/items-metas/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,admin.aws permiso crear items-metas,PASS,/api/items-metas/,[400],400,,resultados-ampliacion.json
+AWS roles y gestión social,admin.aws consulta tipos-atencion,PASS,/api/tipos-atencion/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,admin.aws permiso crear tipos-atencion,PASS,/api/tipos-atencion/,[400],400,,resultados-ampliacion.json
+AWS roles y gestión social,admin.aws consulta subatenciones,PASS,/api/subatenciones/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,admin.aws permiso crear subatenciones,PASS,/api/subatenciones/,[400],400,,resultados-ampliacion.json
+AWS roles y gestión social,admin.aws consulta atenciones,PASS,/api/atenciones/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,admin.aws permiso crear atenciones,PASS,/api/atenciones/,[400],400,,resultados-ampliacion.json
+AWS roles y gestión social,admin.aws cierre sesión,PASS,/api/logout/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,coordinador.aws contexto conserva rol,PASS,,,,,resultados-ampliacion.json
+AWS roles y gestión social,coordinador.aws consulta delegaciones,PASS,/api/delegaciones/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,coordinador.aws permiso crear delegaciones,PASS,/api/delegaciones/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,coordinador.aws consulta roles,PASS,/api/roles/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,coordinador.aws permiso crear roles,PASS,/api/roles/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,coordinador.aws consulta usuarios,PASS,/api/usuarios/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,coordinador.aws permiso crear usuarios,PASS,/api/usuarios/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,coordinador.aws consulta items-metas,PASS,/api/items-metas/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,coordinador.aws permiso crear items-metas,PASS,/api/items-metas/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,coordinador.aws consulta tipos-atencion,PASS,/api/tipos-atencion/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,coordinador.aws permiso crear tipos-atencion,PASS,/api/tipos-atencion/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,coordinador.aws consulta subatenciones,PASS,/api/subatenciones/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,coordinador.aws permiso crear subatenciones,PASS,/api/subatenciones/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,coordinador.aws consulta atenciones,PASS,/api/atenciones/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,coordinador.aws permiso crear atenciones,PASS,/api/atenciones/,[400],400,,resultados-ampliacion.json
+AWS roles y gestión social,coordinador.aws cierre sesión,PASS,/api/logout/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,delegado.aws contexto conserva rol,PASS,,,,,resultados-ampliacion.json
+AWS roles y gestión social,delegado.aws consulta delegaciones,PASS,/api/delegaciones/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,delegado.aws permiso crear delegaciones,PASS,/api/delegaciones/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,delegado.aws consulta roles,PASS,/api/roles/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,delegado.aws permiso crear roles,PASS,/api/roles/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,delegado.aws consulta usuarios,PASS,/api/usuarios/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,delegado.aws permiso crear usuarios,PASS,/api/usuarios/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,delegado.aws consulta items-metas,PASS,/api/items-metas/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,delegado.aws permiso crear items-metas,PASS,/api/items-metas/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,delegado.aws consulta tipos-atencion,PASS,/api/tipos-atencion/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,delegado.aws permiso crear tipos-atencion,PASS,/api/tipos-atencion/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,delegado.aws consulta subatenciones,PASS,/api/subatenciones/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,delegado.aws permiso crear subatenciones,PASS,/api/subatenciones/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,delegado.aws consulta atenciones,PASS,/api/atenciones/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,delegado.aws permiso crear atenciones,PASS,/api/atenciones/,[400],400,,resultados-ampliacion.json
+AWS roles y gestión social,delegado.aws cierre sesión,PASS,/api/logout/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,funcionario.aws contexto conserva rol,PASS,,,,,resultados-ampliacion.json
+AWS roles y gestión social,funcionario.aws consulta delegaciones,PASS,/api/delegaciones/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,funcionario.aws permiso crear delegaciones,PASS,/api/delegaciones/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,funcionario.aws consulta roles,PASS,/api/roles/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,funcionario.aws permiso crear roles,PASS,/api/roles/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,funcionario.aws consulta usuarios,PASS,/api/usuarios/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,funcionario.aws permiso crear usuarios,PASS,/api/usuarios/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,funcionario.aws consulta items-metas,PASS,/api/items-metas/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,funcionario.aws permiso crear items-metas,PASS,/api/items-metas/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,funcionario.aws consulta tipos-atencion,PASS,/api/tipos-atencion/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,funcionario.aws permiso crear tipos-atencion,PASS,/api/tipos-atencion/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,funcionario.aws consulta subatenciones,PASS,/api/subatenciones/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,funcionario.aws permiso crear subatenciones,PASS,/api/subatenciones/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,funcionario.aws consulta atenciones,PASS,/api/atenciones/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,funcionario.aws permiso crear atenciones,PASS,/api/atenciones/,[400],400,,resultados-ampliacion.json
+AWS roles y gestión social,funcionario.aws cierre sesión,PASS,/api/logout/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,verificador.aws contexto conserva rol,PASS,,,,,resultados-ampliacion.json
+AWS roles y gestión social,verificador.aws consulta delegaciones,PASS,/api/delegaciones/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,verificador.aws permiso crear delegaciones,PASS,/api/delegaciones/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,verificador.aws consulta roles,PASS,/api/roles/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,verificador.aws permiso crear roles,PASS,/api/roles/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,verificador.aws consulta usuarios,PASS,/api/usuarios/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,verificador.aws permiso crear usuarios,PASS,/api/usuarios/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,verificador.aws consulta items-metas,PASS,/api/items-metas/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,verificador.aws permiso crear items-metas,PASS,/api/items-metas/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,verificador.aws consulta tipos-atencion,PASS,/api/tipos-atencion/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,verificador.aws permiso crear tipos-atencion,PASS,/api/tipos-atencion/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,verificador.aws consulta subatenciones,PASS,/api/subatenciones/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,verificador.aws permiso crear subatenciones,PASS,/api/subatenciones/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,verificador.aws consulta atenciones,PASS,/api/atenciones/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,verificador.aws permiso crear atenciones,PASS,/api/atenciones/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,verificador.aws cierre sesión,PASS,/api/logout/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,consulta.aws contexto conserva rol,PASS,,,,,resultados-ampliacion.json
+AWS roles y gestión social,consulta.aws consulta delegaciones,PASS,/api/delegaciones/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,consulta.aws permiso crear delegaciones,PASS,/api/delegaciones/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,consulta.aws consulta roles,PASS,/api/roles/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,consulta.aws permiso crear roles,PASS,/api/roles/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,consulta.aws consulta usuarios,PASS,/api/usuarios/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,consulta.aws permiso crear usuarios,PASS,/api/usuarios/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,consulta.aws consulta items-metas,PASS,/api/items-metas/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,consulta.aws permiso crear items-metas,PASS,/api/items-metas/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,consulta.aws consulta tipos-atencion,PASS,/api/tipos-atencion/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,consulta.aws permiso crear tipos-atencion,PASS,/api/tipos-atencion/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,consulta.aws consulta subatenciones,PASS,/api/subatenciones/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,consulta.aws permiso crear subatenciones,PASS,/api/subatenciones/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,consulta.aws consulta atenciones,PASS,/api/atenciones/,[200],200,,resultados-ampliacion.json
+AWS roles y gestión social,consulta.aws permiso crear atenciones,PASS,/api/atenciones/,[403],403,,resultados-ampliacion.json
+AWS roles y gestión social,consulta.aws cierre sesión,PASS,/api/logout/,[200],200,,resultados-ampliacion.json
+AWS metas corregidas,configuraciones-metas crear,PASS,/api/configuraciones-metas/,[201],201,,resultados-metas.json
+AWS metas corregidas,meta duplicada rechazada en AWS,PASS,/api/configuraciones-metas/,[400],400,,resultados-metas.json
+AWS metas corregidas,meta cero rechazada,PASS,/api/configuraciones-metas/,[400],400,,resultados-metas.json
+AWS metas corregidas,ponderación inválida rechazada,PASS,/api/configuraciones-metas/,[400],400,,resultados-metas.json
+AWS metas corregidas,configuraciones-metas editar,PASS,/api/configuraciones-metas/1/,[200],200,,resultados-metas.json
+AWS metas corregidas,configuraciones-metas crear,PASS,/api/configuraciones-metas/,[201],201,,resultados-metas.json
+AWS metas corregidas,meta edición duplicada rechazada,PASS,/api/configuraciones-metas/2/,[400],400,,resultados-metas.json
+AWS metas corregidas,meta desactivar,PASS,/api/configuraciones-metas/1/toggle-estado/,[200],200,,resultados-metas.json
+AWS metas corregidas,meta exportar,PASS,/api/configuraciones-metas/export/?search=Q04cd9e04&estado=todos,[200],200,,resultados-metas.json
+AWS metas corregidas,sin duplicado guardado,PASS,,,,,resultados-metas.json
+AWS navegador,login campos vacíos SweetAlert2,PASS,,,,,resultados-ui.json
+AWS navegador,Login real navegador,PASS,,,,,resultados-ui.json
+AWS navegador,Pantalla alertas.html,PASS,,,,,resultados-ui.json
+AWS navegador,Pantalla auditoria.html,PASS,,,,,resultados-ui.json
+AWS navegador,Pantalla cargos.html,PASS,,,,,resultados-ui.json
+AWS navegador,Pantalla casos-sociales.html,PASS,,,,,resultados-ui.json
+AWS navegador,Pantalla configuraciones-metas.html,PASS,,,,,resultados-ui.json
+AWS navegador,Pantalla delegaciones.html,PASS,,,,,resultados-ui.json
+AWS navegador,Pantalla desempeno.html,PASS,,,,,resultados-ui.json
+AWS navegador,Pantalla evidencias.html,PASS,,,,,resultados-ui.json
+AWS navegador,Pantalla gobierno.html,PASS,,,,,resultados-ui.json
+AWS navegador,Pantalla guia.html,PASS,,,,,resultados-ui.json
+AWS navegador,Pantalla ingreso-atencion.html,PASS,,,,,resultados-ui.json
+AWS navegador,Pantalla items-metas.html,PASS,,,,,resultados-ui.json
+AWS navegador,Pantalla reclamos.html,PASS,,,,,resultados-ui.json
+AWS navegador,Pantalla reportes.html,PASS,,,,,resultados-ui.json
+AWS navegador,Pantalla resumen-metas.html,PASS,,,,,resultados-ui.json
+AWS navegador,Pantalla roles.html,PASS,,,,,resultados-ui.json
+AWS navegador,Pantalla semaforo.html,PASS,,,,,resultados-ui.json
+AWS navegador,Pantalla subatenciones.html,PASS,,,,,resultados-ui.json
+AWS navegador,Pantalla tipos-atencion.html,PASS,,,,,resultados-ui.json
+AWS navegador,Pantalla tubo-trabajo.html,PASS,,,,,resultados-ui.json
+AWS navegador,Pantalla usuarios.html,PASS,,,,,resultados-ui.json
+AWS navegador,Pantalla validacion.html,PASS,,,,,resultados-ui.json
+AWS navegador,CRUD visual delegaciones,PASS,,,,,resultados-ui.json
+AWS navegador,CRUD visual roles,PASS,,,,,resultados-ui.json
+AWS navegador,CRUD visual usuarios,PASS,,,,,resultados-ui.json
+AWS navegador,CRUD visual items-metas,PASS,,,,,resultados-ui.json
+AWS navegador,CRUD visual tipos-atencion,PASS,,,,,resultados-ui.json
+AWS navegador,CRUD visual subatenciones,PASS,,,,,resultados-ui.json
+AWS navegador,Atención selector dependiente y guardar,PASS,,,,,resultados-ui.json
+AWS navegador,Vista móvil sin desborde global,PASS,,,,,resultados-ui.json
+AWS recuperación Gmail navegador,Código se muestra un dígito por casilla,PASS,,,,,resultados-recuperacion-ui.json
+AWS recuperación Gmail navegador,Código real recibido por Gmail válido,PASS,,,,,resultados-recuperacion-ui.json
+AWS recuperación Gmail navegador,Confirmación diferente rechazada,PASS,,,,,resultados-recuperacion-ui.json
+AWS recuperación Gmail navegador,Nueva contraseña guardada y retorno al login,PASS,,,,,resultados-recuperacion-ui.json
+AWS recuperación Gmail navegador,Contraseña anterior rechazada,PASS,,,,,resultados-recuperacion-ui.json
+AWS recuperación Gmail navegador,Ingreso con nueva contraseña,PASS,,,,,resultados-recuperacion-ui.json
+AWS recuperación Gmail navegador,Verificación consumida tras cambiar contraseña,PASS,,,,,resultados-recuperacion-ui.json
+AWS operación navegador,Actividad creada desde formulario y detalle real,PASS,,,,,resultados-operacion-ui.json
+AWS operación navegador,Conversación actividad enviada y leída,PASS,,,,,resultados-operacion-ui.json
+AWS operación navegador,Evidencia subida a S3 desde formulario,PASS,,,,,resultados-operacion-ui.json
+AWS operación navegador,Verificador aprueba evidencia desde bandeja,PASS,,,,,resultados-operacion-ui.json
+AWS operación navegador,Compromiso creado desde tubo de trabajo,PASS,,,,,resultados-operacion-ui.json
+AWS operación navegador,Ficha de compromiso y conversación persistida,PASS,,,,,resultados-operacion-ui.json
+AWS solicitud recuperación,usuarios crear,PASS,/api/usuarios/,[201],201,,resultados-recuperacion.json
+AWS solicitud recuperación,nueva contraseña exige verificación,PASS,/api/recuperacion/estado/,[403],403,,resultados-recuperacion.json
+AWS solicitud recuperación,solicitud SMTP real,PASS,/api/recuperacion/,[200],200,,resultados-recuperacion.json
+Local navegador,login campos vacíos SweetAlert2,PASS,,,,,local-resultados-ui.json
+Local navegador,Login real navegador,PASS,,,,,local-resultados-ui.json
+Local navegador,Pantalla alertas.html,PASS,,,,,local-resultados-ui.json
+Local navegador,Pantalla auditoria.html,PASS,,,,,local-resultados-ui.json
+Local navegador,Pantalla cargos.html,PASS,,,,,local-resultados-ui.json
+Local navegador,Pantalla casos-sociales.html,PASS,,,,,local-resultados-ui.json
+Local navegador,Pantalla configuraciones-metas.html,PASS,,,,,local-resultados-ui.json
+Local navegador,Pantalla delegaciones.html,PASS,,,,,local-resultados-ui.json
+Local navegador,Pantalla desempeno.html,PASS,,,,,local-resultados-ui.json
+Local navegador,Pantalla evidencias.html,PASS,,,,,local-resultados-ui.json
+Local navegador,Pantalla gobierno.html,PASS,,,,,local-resultados-ui.json
+Local navegador,Pantalla guia.html,PASS,,,,,local-resultados-ui.json
+Local navegador,Pantalla ingreso-atencion.html,PASS,,,,,local-resultados-ui.json
+Local navegador,Pantalla items-metas.html,PASS,,,,,local-resultados-ui.json
+Local navegador,Pantalla reclamos.html,PASS,,,,,local-resultados-ui.json
+Local navegador,Pantalla reportes.html,PASS,,,,,local-resultados-ui.json
+Local navegador,Pantalla resumen-metas.html,PASS,,,,,local-resultados-ui.json
+Local navegador,Pantalla roles.html,PASS,,,,,local-resultados-ui.json
+Local navegador,Pantalla semaforo.html,PASS,,,,,local-resultados-ui.json
+Local navegador,Pantalla subatenciones.html,PASS,,,,,local-resultados-ui.json
+Local navegador,Pantalla tipos-atencion.html,PASS,,,,,local-resultados-ui.json
+Local navegador,Pantalla tubo-trabajo.html,PASS,,,,,local-resultados-ui.json
+Local navegador,Pantalla usuarios.html,PASS,,,,,local-resultados-ui.json
+Local navegador,Pantalla validacion.html,PASS,,,,,local-resultados-ui.json
+Local navegador,CRUD visual delegaciones,PASS,,,,,local-resultados-ui.json
+Local navegador,CRUD visual roles,PASS,,,,,local-resultados-ui.json
+Local navegador,CRUD visual usuarios,PASS,,,,,local-resultados-ui.json
+Local navegador,CRUD visual items-metas,PASS,,,,,local-resultados-ui.json
+Local navegador,CRUD visual tipos-atencion,PASS,,,,,local-resultados-ui.json
+Local navegador,CRUD visual subatenciones,PASS,,,,,local-resultados-ui.json
+Local navegador,Atención selector dependiente y guardar,PASS,,,,,local-resultados-ui.json
+Local navegador,Vista móvil sin desborde global,PASS,,,,,local-resultados-ui.json
+Local metas corregidas,configuraciones-metas crear,PASS,/api/configuraciones-metas/,[201],201,,resultados-metas-local.json
+Local metas corregidas,meta duplicada rechazada en local,PASS,/api/configuraciones-metas/,[400],400,,resultados-metas-local.json
+Local metas corregidas,configuraciones-metas editar,PASS,/api/configuraciones-metas/7/,[200],200,,resultados-metas-local.json
+Local metas corregidas,meta desactivar local,PASS,/api/configuraciones-metas/7/toggle-estado/,[200],200,,resultados-metas-local.json

@@ -1,0 +1,38 @@
+[
+  {
+    "caso": "configuraciones-metas crear",
+    "ruta": "/api/configuraciones-metas/",
+    "esperado": [
+      201
+    ],
+    "obtenido": 201,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "meta duplicada rechazada en local",
+    "ruta": "/api/configuraciones-metas/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "configuraciones-metas editar",
+    "ruta": "/api/configuraciones-metas/7/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "meta desactivar local",
+    "ruta": "/api/configuraciones-metas/7/toggle-estado/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  }
+]

@@ -1,0 +1,8 @@
+{
+  "esperado_d01": 10067,
+  "obtenido_d01": 10067,
+  "coincide": true,
+  "incidencias": [
+    "Idempotencia incorrecta VU 2"
+  ]
+}

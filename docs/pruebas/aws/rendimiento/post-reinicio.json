@@ -1,0 +1,34 @@
+[
+  {
+    "caso": "Inicio de sesión tras reinicio",
+    "aprobado": true
+  },
+  {
+    "caso": "Contexto autorizado tras reinicio",
+    "aprobado": true
+  },
+  {
+    "caso": "Atención conservada",
+    "aprobado": true
+  },
+  {
+    "caso": "Aprobación de actividad conservada",
+    "aprobado": true
+  },
+  {
+    "caso": "Evidencia S3 conservada íntegra",
+    "aprobado": true
+  },
+  {
+    "caso": "10.067 registros D01 tras reinicio",
+    "aprobado": true
+  },
+  {
+    "caso": "D02 conserva aislamiento y 100 registros",
+    "aprobado": true
+  },
+  {
+    "caso": "Salud RDS tras reinicio",
+    "aprobado": true
+  }
+]

@@ -1,0 +1,87 @@
+[
+  {
+    "caso": "configuraciones-metas crear",
+    "ruta": "/api/configuraciones-metas/",
+    "esperado": [
+      201
+    ],
+    "obtenido": 201,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "meta duplicada rechazada en AWS",
+    "ruta": "/api/configuraciones-metas/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "meta cero rechazada",
+    "ruta": "/api/configuraciones-metas/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "ponderación inválida rechazada",
+    "ruta": "/api/configuraciones-metas/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "configuraciones-metas editar",
+    "ruta": "/api/configuraciones-metas/1/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "configuraciones-metas crear",
+    "ruta": "/api/configuraciones-metas/",
+    "esperado": [
+      201
+    ],
+    "obtenido": 201,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "meta edición duplicada rechazada",
+    "ruta": "/api/configuraciones-metas/2/",
+    "esperado": [
+      400
+    ],
+    "obtenido": 400,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "meta desactivar",
+    "ruta": "/api/configuraciones-metas/1/toggle-estado/",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "meta exportar",
+    "ruta": "/api/configuraciones-metas/export/?search=Q04cd9e04&estado=todos",
+    "esperado": [
+      200
+    ],
+    "obtenido": 200,
+    "resultado": "PASS"
+  },
+  {
+    "caso": "sin duplicado guardado",
+    "resultado": "PASS"
+  }
+]
