@@ -1,0 +1,212 @@
+{
+  "fecha": "2026-10-17T14:59:19.248Z",
+  "entorno": "http://127.0.0.1:8010",
+  "tag": "92248949",
+  "variantes": [
+    {
+      "id": "UI-1",
+      "caso": "ADM-01 ADM-02",
+      "variante": "delegaciones crear y guardar real",
+      "fecha": "2026-10-17T14:57:46.698Z",
+      "obtenido": {
+        "http": 201,
+        "id": 24,
+        "persistido": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-001-delegacionescrearyguardarreal.png"
+    },
+    {
+      "id": "UI-2",
+      "caso": "ADM-01 ADM-02",
+      "variante": "delegaciones consultar solo lectura",
+      "fecha": "2026-10-17T14:57:47.672Z",
+      "obtenido": {
+        "guardado_oculto": true,
+        "campos_editables": 0
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-003-delegacionesconsultarsololectura.png"
+    },
+    {
+      "id": "UI-3",
+      "caso": "ADM-01 ADM-02",
+      "variante": "delegaciones cancelar edición no modifica",
+      "fecha": "2026-10-17T14:57:48.160Z",
+      "obtenido": {
+        "continuar_editando": true,
+        "descartado_sin_mutacion": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-004-delegacionescancelaredicinnomodifica.png"
+    },
+    {
+      "id": "UI-4",
+      "caso": "ADM-01 ADM-02",
+      "variante": "delegaciones editar persiste después de recargar",
+      "fecha": "2026-10-17T14:57:49.382Z",
+      "obtenido": {
+        "http": 200,
+        "campo": "nombre",
+        "valor": "QA Editado 92248949 1"
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-005-delegacioneseditarpersistedespusderecargar.png"
+    },
+    {
+      "id": "UI-5",
+      "caso": "ADM-01 ADM-02",
+      "variante": "delegaciones campos obligatorios y formato",
+      "fecha": "2026-10-17T14:57:50.385Z",
+      "obtenido": {
+        "guardado_rechazado": true,
+        "advertencia": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-006-delegacionescamposobligatoriosyformato.png"
+    },
+    {
+      "id": "UI-6",
+      "caso": "ADM-01 ADM-02",
+      "variante": "delegaciones duplicado rechazado conserva formulario",
+      "fecha": "2026-10-17T14:57:51.705Z",
+      "obtenido": {
+        "http": 400,
+        "registros": 1,
+        "mensaje": "Revisa los campos. codigo: Ya existe un registro con ese valor."
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-008-delegacionesduplicadorechazadoconservaformulario.png"
+    },
+    {
+      "id": "UI-7",
+      "caso": "ADM-01 ADM-02",
+      "variante": "delegaciones exportación y total filtrado",
+      "fecha": "2026-10-17T14:57:52.410Z",
+      "obtenido": {
+        "archivo": "delegaciones-ui.xlsx",
+        "total_filtrado": 1
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-009-delegacionesexportacinytotalfiltrado.png"
+    },
+    {
+      "id": "UI-8",
+      "caso": "ADM-01 ADM-02",
+      "variante": "delegaciones cancelar desactivación mantiene activo",
+      "fecha": "2026-10-17T14:57:52.979Z",
+      "obtenido": {
+        "estado_activo": true,
+        "operacion_cancelada": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-010-delegacionescancelardesactivacinmantieneactivo.png"
+    },
+    {
+      "id": "UI-9",
+      "caso": "ADM-01 ADM-02",
+      "variante": "delegaciones desactivar y consultar filtro inactivo",
+      "fecha": "2026-10-17T14:57:53.819Z",
+      "obtenido": {
+        "estado_inactivo": true,
+        "filtro_muestra_registro": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-011-delegacionesdesactivaryconsultarfiltroinactivo.png"
+    },
+    {
+      "id": "UI-10",
+      "caso": "ADM-04",
+      "variante": "roles crear y guardar real",
+      "fecha": "2026-10-17T14:57:55.419Z",
+      "obtenido": {
+        "http": 201,
+        "id": 40,
+        "persistido": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-012-rolescrearyguardarreal.png"
+    },
+    {
+      "id": "UI-11",
+      "caso": "ADM-04",
+      "variante": "roles consultar solo lectura",
+      "fecha": "2026-10-17T14:57:56.410Z",
+      "estado": "Fallido",
+      "obtenido": "page.waitForResponse: Timeout 30000ms exceeded while waiting for event \"response\"",
+      "evidencia": "UI-013-rolesconsultarsololectura.png"
+    },
+    {
+      "id": "UI-12",
+      "caso": "ADM-04",
+      "variante": "roles cancelar edición no modifica",
+      "fecha": "2026-10-17T14:58:26.484Z",
+      "obtenido": {
+        "continuar_editando": true,
+        "descartado_sin_mutacion": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-014-rolescancelaredicinnomodifica.png"
+    },
+    {
+      "id": "UI-13",
+      "caso": "ADM-04",
+      "variante": "roles editar persiste después de recargar",
+      "fecha": "2026-10-17T14:58:27.690Z",
+      "estado": "Fallido",
+      "obtenido": "page.waitForResponse: Timeout 30000ms exceeded while waiting for event \"response\"",
+      "evidencia": "UI-015-roleseditarpersistedespusderecargar.png"
+    },
+    {
+      "id": "UI-14",
+      "caso": "ADM-04",
+      "variante": "roles campos obligatorios y formato",
+      "fecha": "2026-10-17T14:58:57.766Z",
+      "obtenido": {
+        "guardado_rechazado": true,
+        "advertencia": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-016-rolescamposobligatoriosyformato.png"
+    },
+    {
+      "id": "UI-15",
+      "caso": "ADM-04",
+      "variante": "roles duplicado rechazado conserva formulario",
+      "fecha": "2026-10-17T14:58:58.712Z",
+      "estado": "Fallido",
+      "obtenido": "page.fill: value: expected string, got undefined",
+      "evidencia": "UI-017-rolesduplicadorechazadoconservaformulario.png"
+    },
+    {
+      "id": "UI-16",
+      "caso": "ADM-04",
+      "variante": "roles exportación y total filtrado",
+      "fecha": "2026-10-17T14:58:58.877Z",
+      "estado": "Fallido",
+      "obtenido": "page.waitForResponse: Target page, context or browser has been closed"
+    }
+  ],
+  "creados": {
+    "delegaciones": {
+      "id": 24,
+      "version": 1,
+      "codigo": "P92248949X1",
+      "nombre": "QA Pantalla 92248949 1",
+      "direccion": "Dirección ficticia",
+      "comuna": "La Serena",
+      "estado": true
+    },
+    "roles": {
+      "id": 40,
+      "version": 1,
+      "nombre": "QA Pantalla 92248949 2",
+      "descripcion": "Ensayo de interfaz",
+      "alcance": "delegacion",
+      "permisos": [
+        "tipos-atencion.ver"
+      ],
+      "estado": true
+    }
+  }
+}

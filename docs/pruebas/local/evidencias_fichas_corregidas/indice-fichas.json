@@ -1,0 +1,98 @@
+[
+  {
+    "archivo": "Ficha_Prueba_ACC01_Roles_Completa.docx",
+    "casos": [
+      "ACC-01"
+    ],
+    "estado": "Aprobado en las variantes ejecutadas",
+    "comprobaciones_servidor": 0,
+    "pendiente": "No acredita que la matriz de permisos haya sido aceptada por el municipio; comprueba las asignaciones de las cuentas QA."
+  },
+  {
+    "archivo": "Ficha_Prueba_ACC02_ACC03_Seguridad_Acceso.docx",
+    "casos": [
+      "ACC-02",
+      "ACC-03"
+    ],
+    "estado": "Aprobado en las variantes ejecutadas",
+    "comprobaciones_servidor": 14,
+    "pendiente": "Las variantes de usuario vacío y contraseña vacía se ejecutaron por separado en el servidor; la captura del formulario corresponde a ambos campos vacíos."
+  },
+  {
+    "archivo": "Ficha_Prueba_ACC04_ACC05_ACC06_Recuperacion.docx",
+    "casos": [
+      "ACC-04",
+      "ACC-05",
+      "ACC-06"
+    ],
+    "estado": "Aprobado en servidor controlado y pendiente de aceptación integral",
+    "comprobaciones_servidor": 25,
+    "pendiente": "Falta repetir y registrar el recorrido completo en navegador con un correo real recibido por Gmail y la confirmación SweetAlert2 del cambio. La recepción anterior informada por el usuario no sustituye esa evidencia integral. El servidor bloquea el reenvío anticipado con HTTP 429; no se afirma que el botón permanezca deshabilitado durante la espera."
+  },
+  {
+    "archivo": "Ficha_Prueba_ADM06_Contexto_Delegacion.docx",
+    "casos": [
+      "ADM-06"
+    ],
+    "estado": "Cobertura parcial del caso",
+    "comprobaciones_servidor": 5,
+    "pendiente": "Se comprobaron selector y cambio de contexto por servidor. Falta registrar el cambio autorizado en la cabecera y el aislamiento de datos de cada listado, además del tratamiento de un formulario con cambios sin guardar."
+  },
+  {
+    "archivo": "Ficha_Prueba_CRUD_Delegaciones_ADM01_ADM02.docx",
+    "casos": [
+      "ADM-01",
+      "ADM-02"
+    ],
+    "estado": "Cobertura parcial de los casos",
+    "comprobaciones_servidor": 27,
+    "pendiente": "CRUD, duplicados, relaciones, búsqueda, paginación y Excel aprobados en servidor. Falta comprobar la aparición inmediata en todos los selectores de asignación y la cancelación de desactivación desde la interfaz. La baja con relaciones se bloqueó; no se declara aprobada una desactivación de D01 con actividades."
+  },
+  {
+    "archivo": "Ficha_Prueba_CRUD_Usuarios_ADM03.docx",
+    "casos": [
+      "ADM-03"
+    ],
+    "estado": "Aprobado en servidor y pendiente de interfaz completa",
+    "comprobaciones_servidor": 32,
+    "pendiente": "CRUD, asignaciones y rechazo de cuenta inactiva comprobados. Falta registrar el ciclo visual completo y la cancelación de operaciones; esta ficha no presenta las capturas históricas como ejecución nueva."
+  },
+  {
+    "archivo": "Ficha_Prueba_CRUD_Roles_ADM04.docx",
+    "casos": [
+      "ADM-04"
+    ],
+    "estado": "Aprobado en servidor y pendiente de interfaz completa",
+    "comprobaciones_servidor": 29,
+    "pendiente": "CRUD, lectura permitida, escritura denegada y protección de roles vinculados comprobados. Falta registrar el ciclo visual completo y sus confirmaciones."
+  },
+  {
+    "archivo": "Ficha_Prueba_CRUD_ItemsMetas_CAT01.docx",
+    "casos": [
+      "CAT-01"
+    ],
+    "estado": "Cobertura parcial del caso",
+    "comprobaciones_servidor": 25,
+    "pendiente": "Se probó el CRUD del ítem y la restricción por configuración activa. Falta comprobar vigencia temporal y conservación de referencias de períodos cerrados. No se ejecutó el CRUD de configuraciones de metas ni cálculos; no se declara cobertura de ambos por haber probado el catálogo."
+  },
+  {
+    "archivo": "Ficha_Prueba_CRUD_Tipos_Subatenciones_CAT02_CAT03.docx",
+    "casos": [
+      "CAT-02",
+      "CAT-03"
+    ],
+    "estado": "Aprobado en servidor y pendiente de interfaz completa",
+    "comprobaciones_servidor": 52,
+    "pendiente": "Se probó cada catálogo, el cambio de tipo padre y el rechazo de relaciones inválidas o inactivas. Falta registrar la actualización visual del selector dependiente y verificar específicamente la conservación de atenciones históricas al cambiar el catálogo."
+  },
+  {
+    "archivo": "Ficha_Prueba_Ingreso_Atencion_ACT05_ACT06.docx",
+    "casos": [
+      "ACT-05",
+      "ACT-06"
+    ],
+    "estado": "Aprobado en servidor y pendiente de interfaz completa",
+    "comprobaciones_servidor": 13,
+    "pendiente": "La cuarta gestión se rechazó con HTTP 409 y el reintento conservó un solo folio. Falta registrar doble clic real en navegador, cancelación del formulario y visualización final del folio y contexto. Un envío simple no se considera evidencia de doble clic."
+  }
+]

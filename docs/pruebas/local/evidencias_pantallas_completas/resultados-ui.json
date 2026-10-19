@@ -1,0 +1,1012 @@
+{
+  "fecha": "2026-10-17T15:01:53.590Z",
+  "entorno": "http://127.0.0.1:8010",
+  "tag": "92248949",
+  "variantes": [
+    {
+      "id": "UI-1",
+      "caso": "ADM-01 ADM-02",
+      "variante": "delegaciones crear y guardar real",
+      "fecha": "2026-10-17T15:00:34.325Z",
+      "obtenido": {
+        "http": 201,
+        "id": 26,
+        "persistido": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-001-delegacionescrearyguardarreal.png"
+    },
+    {
+      "id": "UI-2",
+      "caso": "ADM-01 ADM-02",
+      "variante": "delegaciones consultar solo lectura",
+      "fecha": "2026-10-17T15:00:35.937Z",
+      "obtenido": {
+        "guardado_oculto": true,
+        "campos_editables": 0
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-003-delegacionesconsultarsololectura.png"
+    },
+    {
+      "id": "UI-3",
+      "caso": "ADM-01 ADM-02",
+      "variante": "delegaciones cancelar edición no modifica",
+      "fecha": "2026-10-17T15:00:36.484Z",
+      "obtenido": {
+        "continuar_editando": true,
+        "descartado_sin_mutacion": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-004-delegacionescancelaredicinnomodifica.png"
+    },
+    {
+      "id": "UI-4",
+      "caso": "ADM-01 ADM-02",
+      "variante": "delegaciones editar persiste después de recargar",
+      "fecha": "2026-10-17T15:00:37.917Z",
+      "obtenido": {
+        "http": 200,
+        "campo": "nombre",
+        "valor": "QA Editado 92248949 201"
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-005-delegacioneseditarpersistedespusderecargar.png"
+    },
+    {
+      "id": "UI-5",
+      "caso": "ADM-01 ADM-02",
+      "variante": "delegaciones campos obligatorios y formato",
+      "fecha": "2026-10-17T15:00:39.341Z",
+      "obtenido": {
+        "guardado_rechazado": true,
+        "advertencia": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-006-delegacionescamposobligatoriosyformato.png"
+    },
+    {
+      "id": "UI-6",
+      "caso": "ADM-01 ADM-02",
+      "variante": "delegaciones duplicado rechazado conserva formulario",
+      "fecha": "2026-10-17T15:00:40.419Z",
+      "obtenido": {
+        "http": 400,
+        "registros": 1,
+        "mensaje": "Revisa los campos. codigo: Ya existe un registro con ese valor."
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-008-delegacionesduplicadorechazadoconservaformulario.png"
+    },
+    {
+      "id": "UI-7",
+      "caso": "ADM-01 ADM-02",
+      "variante": "delegaciones exportación y total filtrado",
+      "fecha": "2026-10-17T15:00:41.359Z",
+      "obtenido": {
+        "archivo": "delegaciones-ui.xlsx",
+        "total_filtrado": 1
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-009-delegacionesexportacinytotalfiltrado.png"
+    },
+    {
+      "id": "UI-8",
+      "caso": "ADM-01 ADM-02",
+      "variante": "delegaciones cancelar desactivación mantiene activo",
+      "fecha": "2026-10-17T15:00:41.892Z",
+      "obtenido": {
+        "estado_activo": true,
+        "operacion_cancelada": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-010-delegacionescancelardesactivacinmantieneactivo.png"
+    },
+    {
+      "id": "UI-9",
+      "caso": "ADM-01 ADM-02",
+      "variante": "delegaciones desactivar y consultar filtro inactivo",
+      "fecha": "2026-10-17T15:00:42.926Z",
+      "obtenido": {
+        "estado_inactivo": true,
+        "filtro_muestra_registro": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-011-delegacionesdesactivaryconsultarfiltroinactivo.png"
+    },
+    {
+      "id": "UI-10",
+      "caso": "ADM-04",
+      "variante": "roles crear y guardar real",
+      "fecha": "2026-10-17T15:00:44.793Z",
+      "obtenido": {
+        "http": 201,
+        "id": 42,
+        "persistido": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-012-rolescrearyguardarreal.png"
+    },
+    {
+      "id": "UI-11",
+      "caso": "ADM-04",
+      "variante": "roles consultar solo lectura",
+      "fecha": "2026-10-17T15:00:45.958Z",
+      "obtenido": {
+        "guardado_oculto": true,
+        "campos_editables": 0
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-014-rolesconsultarsololectura.png"
+    },
+    {
+      "id": "UI-12",
+      "caso": "ADM-04",
+      "variante": "roles cancelar edición no modifica",
+      "fecha": "2026-10-17T15:00:46.660Z",
+      "obtenido": {
+        "continuar_editando": true,
+        "descartado_sin_mutacion": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-015-rolescancelaredicinnomodifica.png"
+    },
+    {
+      "id": "UI-13",
+      "caso": "ADM-04",
+      "variante": "roles editar persiste después de recargar",
+      "fecha": "2026-10-17T15:00:48.207Z",
+      "obtenido": {
+        "http": 200,
+        "campo": "nombre",
+        "valor": "QA Editado 92248949 202"
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-016-roleseditarpersistedespusderecargar.png"
+    },
+    {
+      "id": "UI-14",
+      "caso": "ADM-04",
+      "variante": "roles campos obligatorios y formato",
+      "fecha": "2026-10-17T15:00:49.640Z",
+      "obtenido": {
+        "guardado_rechazado": true,
+        "advertencia": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-017-rolescamposobligatoriosyformato.png"
+    },
+    {
+      "id": "UI-15",
+      "caso": "ADM-04",
+      "variante": "roles duplicado rechazado conserva formulario",
+      "fecha": "2026-10-17T15:00:50.679Z",
+      "obtenido": {
+        "http": 400,
+        "registros": 1,
+        "mensaje": "Revisa los campos. nombre: Ya existe un registro con ese valor."
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-019-rolesduplicadorechazadoconservaformulario.png"
+    },
+    {
+      "id": "UI-16",
+      "caso": "ADM-04",
+      "variante": "roles exportación y total filtrado",
+      "fecha": "2026-10-17T15:00:51.815Z",
+      "obtenido": {
+        "archivo": "roles-ui.xlsx",
+        "total_filtrado": 1
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-020-rolesexportacinytotalfiltrado.png"
+    },
+    {
+      "id": "UI-17",
+      "caso": "ADM-04",
+      "variante": "roles cancelar desactivación mantiene activo",
+      "fecha": "2026-10-17T15:00:52.476Z",
+      "obtenido": {
+        "estado_activo": true,
+        "operacion_cancelada": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-021-rolescancelardesactivacinmantieneactivo.png"
+    },
+    {
+      "id": "UI-18",
+      "caso": "ADM-04",
+      "variante": "roles desactivar y consultar filtro inactivo",
+      "fecha": "2026-10-17T15:00:53.562Z",
+      "obtenido": {
+        "estado_inactivo": true,
+        "filtro_muestra_registro": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-022-rolesdesactivaryconsultarfiltroinactivo.png"
+    },
+    {
+      "id": "UI-19",
+      "caso": "ADM-03",
+      "variante": "usuarios crear y guardar real",
+      "fecha": "2026-10-17T15:00:55.462Z",
+      "obtenido": {
+        "http": 201,
+        "id": 37,
+        "persistido": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-023-usuarioscrearyguardarreal.png"
+    },
+    {
+      "id": "UI-20",
+      "caso": "ADM-03",
+      "variante": "usuarios consultar solo lectura",
+      "fecha": "2026-10-17T15:00:56.671Z",
+      "obtenido": {
+        "guardado_oculto": true,
+        "campos_editables": 0
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-025-usuariosconsultarsololectura.png"
+    },
+    {
+      "id": "UI-21",
+      "caso": "ADM-03",
+      "variante": "usuarios cancelar edición no modifica",
+      "fecha": "2026-10-17T15:00:57.242Z",
+      "obtenido": {
+        "continuar_editando": true,
+        "descartado_sin_mutacion": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-026-usuarioscancelaredicinnomodifica.png"
+    },
+    {
+      "id": "UI-22",
+      "caso": "ADM-03",
+      "variante": "usuarios editar persiste después de recargar",
+      "fecha": "2026-10-17T15:00:58.775Z",
+      "obtenido": {
+        "http": 200,
+        "campo": "first_name",
+        "valor": "QA Editado 92248949 203"
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-027-usuarioseditarpersistedespusderecargar.png"
+    },
+    {
+      "id": "UI-23",
+      "caso": "ADM-03",
+      "variante": "usuarios campos obligatorios y formato",
+      "fecha": "2026-10-17T15:01:00.207Z",
+      "obtenido": {
+        "guardado_rechazado": true,
+        "advertencia": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-028-usuarioscamposobligatoriosyformato.png"
+    },
+    {
+      "id": "UI-24",
+      "caso": "ADM-03",
+      "variante": "usuarios duplicado rechazado conserva formulario",
+      "fecha": "2026-10-17T15:01:01.271Z",
+      "obtenido": {
+        "http": 400,
+        "registros": 1,
+        "mensaje": "Revisa los campos. email: El correo ya está registrado."
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-030-usuariosduplicadorechazadoconservaformulario.png"
+    },
+    {
+      "id": "UI-25",
+      "caso": "ADM-03",
+      "variante": "usuarios exportación y total filtrado",
+      "fecha": "2026-10-17T15:01:02.355Z",
+      "obtenido": {
+        "archivo": "usuarios-ui.xlsx",
+        "total_filtrado": 1
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-031-usuariosexportacinytotalfiltrado.png"
+    },
+    {
+      "id": "UI-26",
+      "caso": "ADM-03",
+      "variante": "usuarios cancelar desactivación mantiene activo",
+      "fecha": "2026-10-17T15:01:02.980Z",
+      "obtenido": {
+        "estado_activo": true,
+        "operacion_cancelada": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-032-usuarioscancelardesactivacinmantieneactivo.png"
+    },
+    {
+      "id": "UI-27",
+      "caso": "ADM-03",
+      "variante": "usuarios desactivar y consultar filtro inactivo",
+      "fecha": "2026-10-17T15:01:04.047Z",
+      "obtenido": {
+        "estado_inactivo": true,
+        "filtro_muestra_registro": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-033-usuariosdesactivaryconsultarfiltroinactivo.png"
+    },
+    {
+      "id": "UI-28",
+      "caso": "CAT-01",
+      "variante": "items-metas crear y guardar real",
+      "fecha": "2026-10-17T15:01:05.911Z",
+      "obtenido": {
+        "http": 201,
+        "id": 343,
+        "persistido": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-034-items-metascrearyguardarreal.png"
+    },
+    {
+      "id": "UI-29",
+      "caso": "CAT-01",
+      "variante": "items-metas consultar solo lectura",
+      "fecha": "2026-10-17T15:01:06.943Z",
+      "obtenido": {
+        "guardado_oculto": true,
+        "campos_editables": 0
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-036-items-metasconsultarsololectura.png"
+    },
+    {
+      "id": "UI-30",
+      "caso": "CAT-01",
+      "variante": "items-metas cancelar edición no modifica",
+      "fecha": "2026-10-17T15:01:07.511Z",
+      "obtenido": {
+        "continuar_editando": true,
+        "descartado_sin_mutacion": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-037-items-metascancelaredicinnomodifica.png"
+    },
+    {
+      "id": "UI-31",
+      "caso": "CAT-01",
+      "variante": "items-metas editar persiste después de recargar",
+      "fecha": "2026-10-17T15:01:09.057Z",
+      "obtenido": {
+        "http": 200,
+        "campo": "nombre",
+        "valor": "QA Editado 92248949 204"
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-038-items-metaseditarpersistedespusderecargar.png"
+    },
+    {
+      "id": "UI-32",
+      "caso": "CAT-01",
+      "variante": "items-metas campos obligatorios y formato",
+      "fecha": "2026-10-17T15:01:10.469Z",
+      "obtenido": {
+        "guardado_rechazado": true,
+        "advertencia": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-039-items-metascamposobligatoriosyformato.png"
+    },
+    {
+      "id": "UI-33",
+      "caso": "CAT-01",
+      "variante": "items-metas duplicado rechazado conserva formulario",
+      "fecha": "2026-10-17T15:01:11.518Z",
+      "obtenido": {
+        "http": 400,
+        "registros": 1,
+        "mensaje": "Revisa los campos. codigo: Ya existe un registro con ese valor."
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-041-items-metasduplicadorechazadoconservaformulario.png"
+    },
+    {
+      "id": "UI-34",
+      "caso": "CAT-01",
+      "variante": "items-metas exportación y total filtrado",
+      "fecha": "2026-10-17T15:01:12.544Z",
+      "obtenido": {
+        "archivo": "items-metas-ui.xlsx",
+        "total_filtrado": 1
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-042-items-metasexportacinytotalfiltrado.png"
+    },
+    {
+      "id": "UI-35",
+      "caso": "CAT-01",
+      "variante": "items-metas cancelar desactivación mantiene activo",
+      "fecha": "2026-10-17T15:01:13.079Z",
+      "obtenido": {
+        "estado_activo": true,
+        "operacion_cancelada": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-043-items-metascancelardesactivacinmantieneactivo.png"
+    },
+    {
+      "id": "UI-36",
+      "caso": "CAT-01",
+      "variante": "items-metas desactivar y consultar filtro inactivo",
+      "fecha": "2026-10-17T15:01:14.162Z",
+      "obtenido": {
+        "estado_inactivo": true,
+        "filtro_muestra_registro": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-044-items-metasdesactivaryconsultarfiltroinactivo.png"
+    },
+    {
+      "id": "UI-37",
+      "caso": "CAT-02",
+      "variante": "tipos-atencion crear y guardar real",
+      "fecha": "2026-10-17T15:01:16.096Z",
+      "obtenido": {
+        "http": 201,
+        "id": 46,
+        "persistido": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-045-tipos-atencioncrearyguardarreal.png"
+    },
+    {
+      "id": "UI-38",
+      "caso": "CAT-02",
+      "variante": "tipos-atencion consultar solo lectura",
+      "fecha": "2026-10-17T15:01:17.237Z",
+      "obtenido": {
+        "guardado_oculto": true,
+        "campos_editables": 0
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-047-tipos-atencionconsultarsololectura.png"
+    },
+    {
+      "id": "UI-39",
+      "caso": "CAT-02",
+      "variante": "tipos-atencion cancelar edición no modifica",
+      "fecha": "2026-10-17T15:01:17.851Z",
+      "obtenido": {
+        "continuar_editando": true,
+        "descartado_sin_mutacion": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-048-tipos-atencioncancelaredicinnomodifica.png"
+    },
+    {
+      "id": "UI-40",
+      "caso": "CAT-02",
+      "variante": "tipos-atencion editar persiste después de recargar",
+      "fecha": "2026-10-17T15:01:19.393Z",
+      "obtenido": {
+        "http": 200,
+        "campo": "nombre",
+        "valor": "QA Editado 92248949 205"
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-049-tipos-atencioneditarpersistedespusderecargar.png"
+    },
+    {
+      "id": "UI-41",
+      "caso": "CAT-02",
+      "variante": "tipos-atencion campos obligatorios y formato",
+      "fecha": "2026-10-17T15:01:20.822Z",
+      "obtenido": {
+        "guardado_rechazado": true,
+        "advertencia": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-050-tipos-atencioncamposobligatoriosyformato.png"
+    },
+    {
+      "id": "UI-42",
+      "caso": "CAT-02",
+      "variante": "tipos-atencion duplicado rechazado conserva formulario",
+      "fecha": "2026-10-17T15:01:21.902Z",
+      "obtenido": {
+        "http": 400,
+        "registros": 1,
+        "mensaje": "Revisa los campos. codigo: Ya existe un registro con ese valor."
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-052-tipos-atencionduplicadorechazadoconservaformulario.png"
+    },
+    {
+      "id": "UI-43",
+      "caso": "CAT-02",
+      "variante": "tipos-atencion exportación y total filtrado",
+      "fecha": "2026-10-17T15:01:22.948Z",
+      "obtenido": {
+        "archivo": "tipos-atencion-ui.xlsx",
+        "total_filtrado": 1
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-053-tipos-atencionexportacinytotalfiltrado.png"
+    },
+    {
+      "id": "UI-44",
+      "caso": "CAT-02",
+      "variante": "tipos-atencion cancelar desactivación mantiene activo",
+      "fecha": "2026-10-17T15:01:23.606Z",
+      "obtenido": {
+        "estado_activo": true,
+        "operacion_cancelada": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-054-tipos-atencioncancelardesactivacinmantieneactivo.png"
+    },
+    {
+      "id": "UI-45",
+      "caso": "CAT-02",
+      "variante": "tipos-atencion desactivar y consultar filtro inactivo",
+      "fecha": "2026-10-17T15:01:24.692Z",
+      "obtenido": {
+        "estado_inactivo": true,
+        "filtro_muestra_registro": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-055-tipos-atenciondesactivaryconsultarfiltroinactivo.png"
+    },
+    {
+      "id": "UI-46",
+      "caso": "CAT-03",
+      "variante": "subatenciones crear y guardar real",
+      "fecha": "2026-10-17T15:01:26.591Z",
+      "obtenido": {
+        "http": 201,
+        "id": 39,
+        "persistido": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-056-subatencionescrearyguardarreal.png"
+    },
+    {
+      "id": "UI-47",
+      "caso": "CAT-03",
+      "variante": "subatenciones consultar solo lectura",
+      "fecha": "2026-10-17T15:01:27.674Z",
+      "obtenido": {
+        "guardado_oculto": true,
+        "campos_editables": 0
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-058-subatencionesconsultarsololectura.png"
+    },
+    {
+      "id": "UI-48",
+      "caso": "CAT-03",
+      "variante": "subatenciones cancelar edición no modifica",
+      "fecha": "2026-10-17T15:01:28.283Z",
+      "obtenido": {
+        "continuar_editando": true,
+        "descartado_sin_mutacion": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-059-subatencionescancelaredicinnomodifica.png"
+    },
+    {
+      "id": "UI-49",
+      "caso": "CAT-03",
+      "variante": "subatenciones editar persiste después de recargar",
+      "fecha": "2026-10-17T15:01:29.808Z",
+      "obtenido": {
+        "http": 200,
+        "campo": "nombre",
+        "valor": "QA Editado 92248949 206"
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-060-subatencioneseditarpersistedespusderecargar.png"
+    },
+    {
+      "id": "UI-50",
+      "caso": "CAT-03",
+      "variante": "subatenciones campos obligatorios y formato",
+      "fecha": "2026-10-17T15:01:31.193Z",
+      "obtenido": {
+        "guardado_rechazado": true,
+        "advertencia": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-061-subatencionescamposobligatoriosyformato.png"
+    },
+    {
+      "id": "UI-51",
+      "caso": "CAT-03",
+      "variante": "subatenciones duplicado rechazado conserva formulario",
+      "fecha": "2026-10-17T15:01:32.215Z",
+      "obtenido": {
+        "http": 400,
+        "registros": 1,
+        "mensaje": "Revisa los campos. codigo: Ya existe un registro con ese valor."
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-063-subatencionesduplicadorechazadoconservaformulario.png"
+    },
+    {
+      "id": "UI-52",
+      "caso": "CAT-03",
+      "variante": "subatenciones exportación y total filtrado",
+      "fecha": "2026-10-17T15:01:33.316Z",
+      "obtenido": {
+        "archivo": "subatenciones-ui.xlsx",
+        "total_filtrado": 1
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-064-subatencionesexportacinytotalfiltrado.png"
+    },
+    {
+      "id": "UI-53",
+      "caso": "CAT-03",
+      "variante": "subatenciones cancelar desactivación mantiene activo",
+      "fecha": "2026-10-17T15:01:33.977Z",
+      "obtenido": {
+        "estado_activo": true,
+        "operacion_cancelada": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-065-subatencionescancelardesactivacinmantieneactivo.png"
+    },
+    {
+      "id": "UI-54",
+      "caso": "CAT-03",
+      "variante": "subatenciones desactivar y consultar filtro inactivo",
+      "fecha": "2026-10-17T15:01:35.060Z",
+      "obtenido": {
+        "estado_inactivo": true,
+        "filtro_muestra_registro": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-066-subatencionesdesactivaryconsultarfiltroinactivo.png"
+    },
+    {
+      "id": "UI-55",
+      "caso": "PAR-01",
+      "variante": "configuraciones-metas crear y guardar real",
+      "fecha": "2026-10-17T15:01:36.961Z",
+      "obtenido": {
+        "http": 201,
+        "id": 2,
+        "persistido": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-067-configuraciones-metascrearyguardarreal.png"
+    },
+    {
+      "id": "UI-56",
+      "caso": "PAR-01",
+      "variante": "configuraciones-metas consultar solo lectura",
+      "fecha": "2026-10-17T15:01:38.091Z",
+      "obtenido": {
+        "guardado_oculto": true,
+        "campos_editables": 0
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-069-configuraciones-metasconsultarsololectura.png"
+    },
+    {
+      "id": "UI-57",
+      "caso": "PAR-01",
+      "variante": "configuraciones-metas cancelar edición no modifica",
+      "fecha": "2026-10-17T15:01:38.702Z",
+      "obtenido": {
+        "continuar_editando": true,
+        "descartado_sin_mutacion": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-070-configuraciones-metascancelaredicinnomodifica.png"
+    },
+    {
+      "id": "UI-58",
+      "caso": "PAR-01",
+      "variante": "configuraciones-metas editar persiste después de recargar",
+      "fecha": "2026-10-17T15:01:40.238Z",
+      "obtenido": {
+        "http": 200,
+        "campo": "meta_esperada",
+        "valor": "135.00"
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-071-configuraciones-metaseditarpersistedespusderecargar.png"
+    },
+    {
+      "id": "UI-59",
+      "caso": "PAR-01",
+      "variante": "configuraciones-metas campos obligatorios y formato",
+      "fecha": "2026-10-17T15:01:41.679Z",
+      "obtenido": {
+        "guardado_rechazado": true,
+        "advertencia": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-072-configuraciones-metascamposobligatoriosyformato.png"
+    },
+    {
+      "id": "UI-60",
+      "caso": "PAR-01",
+      "variante": "configuraciones-metas duplicado rechazado conserva formulario",
+      "fecha": "2026-10-17T15:01:42.722Z",
+      "estado": "Fallido",
+      "obtenido": "Expected values to be strictly equal:\n\n201 !== 400\n",
+      "evidencia": "UI-073-configuraciones-metasduplicadorechazadoconservaformulario.png"
+    },
+    {
+      "id": "UI-61",
+      "caso": "PAR-01",
+      "variante": "configuraciones-metas exportación y total filtrado",
+      "fecha": "2026-10-17T15:01:43.024Z",
+      "estado": "Fallido",
+      "obtenido": "The expression evaluated to a falsy value:\n\n  assert.ok((await page.locator('#page-info').innerText()).includes('1 resultados'))\n",
+      "evidencia": "UI-074-configuraciones-metasexportacinytotalfiltrado.png"
+    },
+    {
+      "id": "UI-62",
+      "caso": "PAR-01",
+      "variante": "configuraciones-metas cancelar desactivación mantiene activo",
+      "fecha": "2026-10-17T15:01:43.468Z",
+      "obtenido": {
+        "estado_activo": true,
+        "operacion_cancelada": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-075-configuraciones-metascancelardesactivacinmantieneactivo.png"
+    },
+    {
+      "id": "UI-63",
+      "caso": "PAR-01",
+      "variante": "configuraciones-metas desactivar y consultar filtro inactivo",
+      "fecha": "2026-10-17T15:01:44.559Z",
+      "estado": "Fallido",
+      "obtenido": "Expected values to be strictly equal:\n\ntrue !== false\n",
+      "evidencia": "UI-076-configuraciones-metasdesactivaryconsultarfiltroinactivo.png"
+    },
+    {
+      "id": "UI-64",
+      "caso": "ACT-05",
+      "variante": "selector tipo subatención dependiente",
+      "fecha": "2026-10-17T15:01:46.310Z",
+      "obtenido": {
+        "seleccion_anterior_limpiada": true,
+        "opcion_incoherente_excluida": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-077-selectortiposubatencindependiente.png"
+    },
+    {
+      "id": "UI-65",
+      "caso": "ACT-06",
+      "variante": "cancelación atención conserva o descarta borrador",
+      "fecha": "2026-10-17T15:01:46.517Z",
+      "obtenido": {
+        "continuar_conserva": true,
+        "descartar_limpia": true,
+        "sin_registro": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-078-cancelacinatencinconservaodescartaborrador.png"
+    },
+    {
+      "id": "UI-66",
+      "caso": "ACT-06",
+      "variante": "doble clic real con red lenta genera un folio",
+      "fecha": "2026-10-17T15:01:47.955Z",
+      "obtenido": {
+        "http": 201,
+        "peticiones_post": 1,
+        "registros": 1,
+        "folio": "AT-82B68EAC185F4550A49F29AC3FA0A8D3",
+        "responsable_servidor": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-080-dobleclicrealconredlentageneraunfolio.png"
+    },
+    {
+      "id": "UI-67",
+      "caso": "UX-03",
+      "variante": "error servidor controlado no informa éxito ni pierde borrador",
+      "fecha": "2026-10-17T15:01:49.923Z",
+      "obtenido": {
+        "simulacion_explicita": true,
+        "mensaje": "Error de servidor simulado QA",
+        "borrador_conservado": true,
+        "sin_exito_falso": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-082-errorservidorcontroladonoinformaxitonipierdeborrador.png"
+    },
+    {
+      "id": "UI-68",
+      "caso": "ADM-06",
+      "variante": "selector solo dos delegaciones autorizadas",
+      "fecha": "2026-10-17T15:01:51.472Z",
+      "obtenido": {
+        "delegaciones": [
+          21,
+          22
+        ]
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-083-selectorsolodosdelegacionesautorizadas.png"
+    },
+    {
+      "id": "UI-69",
+      "caso": "ADM-06",
+      "variante": "borrador al cambiar contexto mantener y descartar",
+      "fecha": "2026-10-17T15:01:51.609Z",
+      "obtenido": {
+        "mantener_borrador": true,
+        "cambiar_limpia": true,
+        "cabecera_y_formulario_correctos": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-084-borradoralcambiarcontextomantenerydescartar.png"
+    },
+    {
+      "id": "UI-70",
+      "caso": "ADM-06",
+      "variante": "aislamiento listados y rechazo de delegación ajena",
+      "fecha": "2026-10-17T15:01:52.925Z",
+      "estado": "Fallido",
+      "obtenido": "page.evaluate: SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+      "evidencia": "UI-085-aislamientolistadosyrechazodedelegacinajena.png"
+    },
+    {
+      "id": "UI-71",
+      "caso": "ADM-04 ADM-06",
+      "variante": "consulta sin crear ni exportar y contexto fijo",
+      "fecha": "2026-10-17T15:01:53.443Z",
+      "estado": "Fallido",
+      "obtenido": "page.evaluate: SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+      "evidencia": "UI-086-consultasincrearniexportarycontextofijo.png"
+    }
+  ],
+  "creados": {
+    "delegaciones": {
+      "id": 26,
+      "version": 1,
+      "codigo": "P92248949X201",
+      "nombre": "QA Pantalla 92248949 201",
+      "direccion": "Dirección ficticia",
+      "comuna": "La Serena",
+      "estado": true
+    },
+    "roles": {
+      "id": 42,
+      "version": 1,
+      "nombre": "QA Pantalla 92248949 202",
+      "descripcion": "Ensayo de interfaz",
+      "alcance": "delegacion",
+      "permisos": [
+        "tipos-atencion.ver"
+      ],
+      "estado": true
+    },
+    "usuarios": {
+      "id": 37,
+      "version": 1,
+      "username": "uipersona.92248949.203",
+      "first_name": "Persona QA 92248949",
+      "last_name": "Prueba",
+      "email": "ui.92248949.203@example.test",
+      "rut": null,
+      "rol": 38,
+      "cargo": 23,
+      "delegacion": 21,
+      "delegaciones": [
+        21
+      ],
+      "is_active": true,
+      "estado": true,
+      "nombre": "Persona QA 92248949 Prueba"
+    },
+    "items-metas": {
+      "id": 343,
+      "version": 1,
+      "codigo": "P92248949X204",
+      "nombre": "QA Pantalla 92248949 204",
+      "descripcion": "Ensayo de interfaz",
+      "unidad_medida": "Atención",
+      "cargos": [
+        23
+      ],
+      "estado": true
+    },
+    "tipos-atencion": {
+      "id": 46,
+      "version": 1,
+      "codigo": "P92248949X205",
+      "nombre": "QA Pantalla 92248949 205",
+      "descripcion": "Ensayo de interfaz",
+      "estado": true
+    },
+    "subatenciones": {
+      "id": 39,
+      "version": 1,
+      "codigo": "P92248949X206",
+      "nombre": "QA Pantalla 92248949 206",
+      "descripcion": "Ensayo de interfaz",
+      "tipo_atencion": 44,
+      "estado": true,
+      "tipo_padre_display": "P92248949T1 · Tipo QA 92248949 1"
+    },
+    "configuraciones-metas": {
+      "id": 2,
+      "version": 1,
+      "item": 341,
+      "periodo": "QA 92248949 207",
+      "meta_esperada": "120",
+      "ponderacion": "25",
+      "estado": true
+    },
+    "atencion": {
+      "id": 35,
+      "folio": "AT-82B68EAC185F4550A49F29AC3FA0A8D3",
+      "solicitante": "QA Doble 92248949",
+      "tipo_atencion": 44,
+      "sub_atencion": 37,
+      "descripcion": "Ensayo de doble clic con respuesta demorada",
+      "delegacion": 21,
+      "delegacion_responsable": 21,
+      "usuario": 32,
+      "fecha_registro": "2026-10-17T15:01:49.053Z",
+      "caso_social": null,
+      "numero_gestion": 1,
+      "rut_solicitante": "",
+      "telefono_solicitante": "",
+      "requiere_visita": false,
+      "fecha_visita": null,
+      "fecha_entrega_informe": null,
+      "fecha_entrega_beneficio": null,
+      "gestion_realizada": "",
+      "fecha_visita_programada": null,
+      "fecha_visita_realizada": null,
+      "tipo_gestion": "",
+      "compromiso": null,
+      "estado": true,
+      "usuario_nombre": "Administrador QA 92248949",
+      "tipo_nombre": "Tipo QA 92248949 1",
+      "subatencion_nombre": "Sub QA 92248949 1",
+      "catalogos_snapshot": {
+        "tipo_atencion": {
+          "id": 44,
+          "version": 1,
+          "codigo": "P92248949T1",
+          "nombre": "Tipo QA 92248949 1",
+          "descripcion": null,
+          "estado": true
+        },
+        "sub_atencion": {
+          "id": 37,
+          "version": 1,
+          "codigo": "P92248949S1",
+          "nombre": "Sub QA 92248949 1",
+          "descripcion": null,
+          "estado": true,
+          "tipo_atencion_id": 44
+        },
+        "delegacion": {
+          "id": 21,
+          "version": 1,
+          "codigo": "P92248949D1",
+          "nombre": "Delegación QA 92248949 1",
+          "comuna": "La Serena",
+          "direccion": "Domicilio ficticio QA",
+          "estado": true
+        },
+        "capturado_en": "2026-10-17T15:01:49.049888+00:00",
+        "observada": false
+      },
+      "historia_catalogos": "Captura al registrar"
+    }
+  }
+}

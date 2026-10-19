@@ -1,0 +1,50 @@
+[
+  {
+    "archivo": "items-metas-ui.xlsx",
+    "filas": 1,
+    "sin_columnas_sensibles": true,
+    "estado": "Aprobado"
+  },
+  {
+    "archivo": "subatenciones-ui.xlsx",
+    "filas": 1,
+    "sin_columnas_sensibles": true,
+    "estado": "Aprobado"
+  },
+  {
+    "archivo": "delegaciones-ui.xlsx",
+    "filas": 1,
+    "sin_columnas_sensibles": true,
+    "estado": "Aprobado"
+  },
+  {
+    "archivo": "usuarios-ui.xlsx",
+    "filas": 1,
+    "sin_columnas_sensibles": true,
+    "estado": "Aprobado"
+  },
+  {
+    "archivo": "metas-foco-ui.xlsx",
+    "filas": 1,
+    "sin_columnas_sensibles": true,
+    "estado": "Aprobado"
+  },
+  {
+    "archivo": "tipos-23-paginacion-ui.xlsx",
+    "filas": 23,
+    "sin_columnas_sensibles": true,
+    "estado": "Aprobado"
+  },
+  {
+    "archivo": "tipos-atencion-ui.xlsx",
+    "filas": 1,
+    "sin_columnas_sensibles": true,
+    "estado": "Aprobado"
+  },
+  {
+    "archivo": "roles-ui.xlsx",
+    "filas": 1,
+    "sin_columnas_sensibles": true,
+    "estado": "Aprobado"
+  }
+]

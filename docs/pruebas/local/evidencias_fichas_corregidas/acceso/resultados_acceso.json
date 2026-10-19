@@ -1,0 +1,167 @@
+{
+  "fecha": "2026-10-17T14:30:51.824Z",
+  "navegador": "Google Chrome for Testing 155.0.8059.84",
+  "entorno": "LOCAL/QA",
+  "servidor": "http://127.0.0.1:8010",
+  "casos": {
+    "ACC-01": {
+      "nombre": "Inicio de sesión por cada rol activo",
+      "variantes": [
+        {
+          "perfil": "Administrador",
+          "usuario": "admin.qa",
+          "identidad_visible_verificada": true,
+          "delegacion": "D01 · Centro — prueba",
+          "total_links": 20,
+          "estado": "Aprobado",
+          "evidencias": [
+            "EV-ACC01-Administrador-01.png",
+            "EV-ACC01-Administrador-02.png"
+          ],
+          "erroresJS": []
+        },
+        {
+          "perfil": "Coordinador",
+          "usuario": "coordinador.qa",
+          "identidad_visible_verificada": true,
+          "delegacion": "D01 · Centro — prueba",
+          "total_links": 13,
+          "estado": "Aprobado",
+          "evidencias": [
+            "EV-ACC01-Coordinador-01.png",
+            "EV-ACC01-Coordinador-02.png"
+          ],
+          "erroresJS": []
+        },
+        {
+          "perfil": "Delegado",
+          "usuario": "delegado.qa",
+          "identidad_visible_verificada": true,
+          "delegacion": "D01 · Centro — prueba",
+          "total_links": 12,
+          "estado": "Aprobado",
+          "evidencias": [
+            "EV-ACC01-Delegado-01.png",
+            "EV-ACC01-Delegado-02.png"
+          ],
+          "erroresJS": []
+        },
+        {
+          "perfil": "Funcionario",
+          "usuario": "funcionario1.qa",
+          "identidad_visible_verificada": true,
+          "delegacion": "D01 · Centro — prueba",
+          "total_links": 12,
+          "estado": "Aprobado",
+          "evidencias": [
+            "EV-ACC01-Funcionario-01.png",
+            "EV-ACC01-Funcionario-02.png"
+          ],
+          "erroresJS": []
+        },
+        {
+          "perfil": "Verificador",
+          "usuario": "verificador.qa",
+          "identidad_visible_verificada": true,
+          "delegacion": "D01 · Centro — prueba",
+          "total_links": 12,
+          "estado": "Aprobado",
+          "evidencias": [
+            "EV-ACC01-Verificador-01.png",
+            "EV-ACC01-Verificador-02.png"
+          ],
+          "erroresJS": []
+        },
+        {
+          "perfil": "Consulta",
+          "usuario": "consulta.qa",
+          "identidad_visible_verificada": true,
+          "delegacion": "D01 · Centro — prueba",
+          "total_links": 11,
+          "estado": "Aprobado",
+          "evidencias": [
+            "EV-ACC01-Consulta-01.png",
+            "EV-ACC01-Consulta-02.png"
+          ],
+          "erroresJS": []
+        }
+      ]
+    },
+    "ACC-03": {
+      "nombre": "Cierre de sesión, botón Atrás y rechazo de rutas protegidas",
+      "estado": "Aprobado",
+      "evidencias": [
+        "EV-ACC03-01-SesionActiva.png",
+        "EV-ACC03-02-PostLogoutRechazo.png"
+      ],
+      "observado": "Sesión finalizada mediante logout. Al pulsar botón Atrás y recargar o solicitar contexto, el servidor respondió HTTP 401 y la interfaz redirigió automáticamente a login.html."
+    },
+    "ACC-02": {
+      "nombre": "Rechazo de accesos inválidos",
+      "variantes": [
+        {
+          "variante": "V01",
+          "descripcion": "Contraseña incorrecta",
+          "usuario_probado": "funcionario1.qa",
+          "http_status": 401,
+          "mensaje_observado": [
+            "Revisa la información",
+            "Credenciales incorrectas o cuenta sin acceso."
+          ],
+          "sin_sesion_verificado": true,
+          "estado": "Aprobado",
+          "evidencia": "EV-ACC02-V01.png"
+        },
+        {
+          "variante": "V02",
+          "descripcion": "Usuario inexistente",
+          "usuario_probado": "usuario_fantasma_no_existe",
+          "http_status": 401,
+          "mensaje_observado": [
+            "Revisa la información",
+            "Credenciales incorrectas o cuenta sin acceso."
+          ],
+          "sin_sesion_verificado": true,
+          "estado": "Aprobado",
+          "evidencia": "EV-ACC02-V02.png"
+        },
+        {
+          "variante": "V03",
+          "descripcion": "Cuenta inactiva (is_active=False)",
+          "usuario_probado": "inactivo.qa",
+          "http_status": 401,
+          "mensaje_observado": [
+            "Revisa la información",
+            "Credenciales incorrectas o cuenta sin acceso."
+          ],
+          "sin_sesion_verificado": true,
+          "estado": "Aprobado",
+          "evidencia": "EV-ACC02-V03.png"
+        },
+        {
+          "variante": "V04",
+          "descripcion": "Rol inactivo (estado=False)",
+          "usuario_probado": "rol_inactivo.qa",
+          "http_status": 401,
+          "mensaje_observado": [
+            "Revisa la información",
+            "Credenciales incorrectas o cuenta sin acceso."
+          ],
+          "sin_sesion_verificado": true,
+          "estado": "Aprobado",
+          "evidencia": "EV-ACC02-V04.png"
+        },
+        {
+          "variante": "V05",
+          "descripcion": "Campos vacíos",
+          "usuario_probado": "",
+          "http_status": "Cliente",
+          "mensaje_observado": "Validación HTML5: Completa este campo",
+          "sin_sesion_verificado": true,
+          "estado": "Aprobado",
+          "evidencia": "EV-ACC02-V05.png"
+        }
+      ]
+    }
+  }
+}

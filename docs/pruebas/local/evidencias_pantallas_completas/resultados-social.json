@@ -1,0 +1,22 @@
+{
+  "fecha": "2026-10-17T15:08:55.137Z",
+  "entorno": "http://127.0.0.1:8010",
+  "tag": "92248949",
+  "variantes": [
+    {
+      "id": "UI-1",
+      "caso": "ACT-05",
+      "variante": "cuarta gestión social bloqueada desde formulario",
+      "fecha": "2026-10-17T15:08:54.726Z",
+      "obtenido": {
+        "http": 409,
+        "gestiones_conservadas": 3,
+        "mensaje": "El caso ya tiene tres gestiones.",
+        "sin_falso_exito": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-3001-cuartagestinsocialbloqueadadesdeformulario.png"
+    }
+  ],
+  "creados": {}
+}

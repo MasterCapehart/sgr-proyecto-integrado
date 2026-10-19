@@ -1,0 +1,113 @@
+{
+  "entorno": "LOCAL/QA con Gmail SMTP real y lectura del buzón del usuario",
+  "fecha": "2026-10-17T15:01:49.911Z",
+  "tag": "92248949",
+  "variantes": [
+    {
+      "caso": "ACC-04 ACC-05 ACC-06",
+      "variante": "Nueva contraseña requiere verificación previa",
+      "fecha": "2026-10-17T14:59:37.497Z",
+      "obtenido": {
+        "redireccion": "validar-codigo.html"
+      },
+      "estado": "Aprobado",
+      "evidencia": "GMAIL-01.png"
+    },
+    {
+      "caso": "ACC-04 ACC-05 ACC-06",
+      "variante": "Solicitud real mediante Gmail",
+      "fecha": "2026-10-17T14:59:37.618Z",
+      "obtenido": {
+        "http": 200,
+        "esperando_buzon_real": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "GMAIL-02.png"
+    },
+    {
+      "caso": "ACC-04 ACC-05 ACC-06",
+      "variante": "Reenvío anticipado bloqueado visualmente",
+      "fecha": "2026-10-17T14:59:42.536Z",
+      "obtenido": {
+        "http": 429,
+        "mensaje": "Espera 60 segundos para reenviar."
+      },
+      "estado": "Aprobado",
+      "evidencia": "GMAIL-04.png"
+    },
+    {
+      "caso": "ACC-04 ACC-05 ACC-06",
+      "variante": "Código incorrecto rechazado en pantalla",
+      "fecha": "2026-10-17T14:59:43.390Z",
+      "obtenido": {
+        "http": 400,
+        "sin_acceso_a_cambio": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "GMAIL-06.png"
+    },
+    {
+      "caso": "ACC-04 ACC-05 ACC-06",
+      "variante": "Código recibido en buzón Gmail autoriza cambio",
+      "fecha": "2026-10-17T14:59:44.455Z",
+      "obtenido": {
+        "recibido_gmail": true,
+        "http": 200,
+        "codigo_no_publicado": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "GMAIL-07.png"
+    },
+    {
+      "caso": "ACC-04 ACC-05 ACC-06",
+      "variante": "Confirmación diferente muestra advertencia",
+      "fecha": "2026-10-17T15:01:46.061Z",
+      "obtenido": {
+        "advertencia": "Las contraseñas no coinciden."
+      },
+      "estado": "Aprobado",
+      "evidencia": "GMAIL-09.png"
+    },
+    {
+      "caso": "ACC-04 ACC-05 ACC-06",
+      "variante": "Contraseña débil rechazada por servidor",
+      "fecha": "2026-10-17T15:01:46.909Z",
+      "obtenido": {
+        "http": 400
+      },
+      "estado": "Aprobado",
+      "evidencia": "GMAIL-11.png"
+    },
+    {
+      "caso": "ACC-04 ACC-05 ACC-06",
+      "variante": "Guardar clave válida y SweetAlert2 de éxito",
+      "fecha": "2026-10-17T15:01:47.872Z",
+      "obtenido": {
+        "http": 200,
+        "confirmacion_success": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "GMAIL-13.png"
+    },
+    {
+      "caso": "ACC-04 ACC-05 ACC-06",
+      "variante": "Clave antigua rechazada y nueva aceptada",
+      "fecha": "2026-10-17T15:01:48.653Z",
+      "obtenido": {
+        "anterior": 401,
+        "nueva": 200,
+        "cuenta_correcta": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "GMAIL-14.png"
+    },
+    {
+      "caso": "ACC-04 ACC-05 ACC-06",
+      "variante": "Código consumido no reutilizable",
+      "fecha": "2026-10-17T15:01:49.842Z",
+      "estado": "Fallido",
+      "obtenido": "Expected values to be strictly equal:\n\n403 !== 400\n",
+      "evidencia": "GMAIL-15.png"
+    }
+  ]
+}

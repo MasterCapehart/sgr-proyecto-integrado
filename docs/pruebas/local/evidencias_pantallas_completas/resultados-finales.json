@@ -1,0 +1,185 @@
+{
+  "fecha": "2026-10-17T15:07:59.930Z",
+  "entorno": "http://127.0.0.1:8010",
+  "tag": "92248949",
+  "variantes": [
+    {
+      "id": "UI-1",
+      "caso": "ADM-01 ADM-02",
+      "variante": "baja vinculada rechazada con respuesta y mensaje verificados",
+      "fecha": "2026-10-17T15:07:55.769Z",
+      "obtenido": {
+        "http": 400,
+        "mensaje": "Revisa los campos. campos: No se puede desactivar: existen registros relacionados.",
+        "activo": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-2002-bajavinculadarechazadaconrespuestaymensajeverificados.png"
+    },
+    {
+      "id": "UI-2",
+      "caso": "ADM-03 ADM-04",
+      "variante": "asignar rol limitado en usuario y comprobar acceso real",
+      "fecha": "2026-10-17T15:07:57.669Z",
+      "obtenido": {
+        "rol_asignado": 42,
+        "login": 200,
+        "creacion_no_autorizada": 403,
+        "evidencia_perfil": "UI-2003-rol-asignado-limitado.png"
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-2004-asignarrollimitadoenusuarioycomprobaraccesoreal.png"
+    },
+    {
+      "id": "UI-3",
+      "caso": "ADM-06",
+      "variante": "delegación de solicitud y autor se conservan tras cambio de contexto",
+      "fecha": "2026-10-17T15:07:59.755Z",
+      "obtenido": {
+        "origen_conservado": true,
+        "otro_contexto_sin_atencion": true
+      },
+      "estado": "Aprobado",
+      "evidencia": "UI-2005-delegacindesolicitudyautorseconservantrascambiodecontexto.png"
+    }
+  ],
+  "creados": {
+    "delegaciones": {
+      "id": 26,
+      "version": 1,
+      "codigo": "P92248949X201",
+      "nombre": "QA Pantalla 92248949 201",
+      "direccion": "Dirección ficticia",
+      "comuna": "La Serena",
+      "estado": true
+    },
+    "roles": {
+      "id": 42,
+      "version": 1,
+      "nombre": "QA Pantalla 92248949 202",
+      "descripcion": "Ensayo de interfaz",
+      "alcance": "delegacion",
+      "permisos": [
+        "tipos-atencion.ver"
+      ],
+      "estado": true
+    },
+    "usuarios": {
+      "id": 37,
+      "version": 1,
+      "username": "uipersona.92248949.203",
+      "first_name": "Persona QA 92248949",
+      "last_name": "Prueba",
+      "email": "ui.92248949.203@example.test",
+      "rut": null,
+      "rol": 38,
+      "cargo": 23,
+      "delegacion": 21,
+      "delegaciones": [
+        21
+      ],
+      "is_active": true,
+      "estado": true,
+      "nombre": "Persona QA 92248949 Prueba"
+    },
+    "items-metas": {
+      "id": 343,
+      "version": 1,
+      "codigo": "P92248949X204",
+      "nombre": "QA Pantalla 92248949 204",
+      "descripcion": "Ensayo de interfaz",
+      "unidad_medida": "Atención",
+      "cargos": [
+        23
+      ],
+      "estado": true
+    },
+    "tipos-atencion": {
+      "id": 46,
+      "version": 1,
+      "codigo": "P92248949X205",
+      "nombre": "QA Pantalla 92248949 205",
+      "descripcion": "Ensayo de interfaz",
+      "estado": true
+    },
+    "subatenciones": {
+      "id": 39,
+      "version": 1,
+      "codigo": "P92248949X206",
+      "nombre": "QA Pantalla 92248949 206",
+      "descripcion": "Ensayo de interfaz",
+      "tipo_atencion": 44,
+      "estado": true,
+      "tipo_padre_display": "P92248949T1 · Tipo QA 92248949 1"
+    },
+    "configuraciones-metas": {
+      "id": 2,
+      "version": 1,
+      "item": 341,
+      "periodo": "QA 92248949 207",
+      "meta_esperada": "120",
+      "ponderacion": "25",
+      "estado": true
+    },
+    "atencion": {
+      "id": 35,
+      "folio": "AT-82B68EAC185F4550A49F29AC3FA0A8D3",
+      "solicitante": "QA Doble 92248949",
+      "tipo_atencion": 44,
+      "sub_atencion": 37,
+      "descripcion": "Ensayo de doble clic con respuesta demorada",
+      "delegacion": 21,
+      "delegacion_responsable": 21,
+      "usuario": 32,
+      "fecha_registro": "2026-10-17T15:01:49.053Z",
+      "caso_social": null,
+      "numero_gestion": 1,
+      "rut_solicitante": "",
+      "telefono_solicitante": "",
+      "requiere_visita": false,
+      "fecha_visita": null,
+      "fecha_entrega_informe": null,
+      "fecha_entrega_beneficio": null,
+      "gestion_realizada": "",
+      "fecha_visita_programada": null,
+      "fecha_visita_realizada": null,
+      "tipo_gestion": "",
+      "compromiso": null,
+      "estado": true,
+      "usuario_nombre": "Administrador QA 92248949",
+      "tipo_nombre": "Tipo QA 92248949 1",
+      "subatencion_nombre": "Sub QA 92248949 1",
+      "catalogos_snapshot": {
+        "tipo_atencion": {
+          "id": 44,
+          "version": 1,
+          "codigo": "P92248949T1",
+          "nombre": "Tipo QA 92248949 1",
+          "descripcion": null,
+          "estado": true
+        },
+        "sub_atencion": {
+          "id": 37,
+          "version": 1,
+          "codigo": "P92248949S1",
+          "nombre": "Sub QA 92248949 1",
+          "descripcion": null,
+          "estado": true,
+          "tipo_atencion_id": 44
+        },
+        "delegacion": {
+          "id": 21,
+          "version": 1,
+          "codigo": "P92248949D1",
+          "nombre": "Delegación QA 92248949 1",
+          "comuna": "La Serena",
+          "direccion": "Domicilio ficticio QA",
+          "estado": true
+        },
+        "capturado_en": "2026-10-17T15:01:49.049888+00:00",
+        "observada": false
+      },
+      "historia_catalogos": "Captura al registrar"
+    }
+  }
+}
