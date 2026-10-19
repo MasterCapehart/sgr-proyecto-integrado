@@ -1,0 +1,280 @@
+{
+  "environment": "AWS personal",
+  "release": "2af785be26883ef336941651a5665d1e31a6bb3e",
+  "checks": [
+    {
+      "check": "Rechazo sin sesi\u00f3n",
+      "ok": true
+    },
+    {
+      "check": "Versi\u00f3n desplegada",
+      "ok": true
+    },
+    {
+      "check": "Ingreso admin.aws",
+      "ok": true
+    },
+    {
+      "check": "Resumen personal admin.aws",
+      "ok": true
+    },
+    {
+      "check": "Semanas coherentes admin.aws",
+      "ok": true
+    },
+    {
+      "check": "Revisi\u00f3n condicionada al permiso admin.aws",
+      "ok": true
+    },
+    {
+      "check": "Sin porcentajes simulados admin.aws",
+      "ok": true
+    },
+    {
+      "check": "Mes inv\u00e1lido rechazado admin.aws",
+      "ok": true
+    },
+    {
+      "check": "Mes anterior conserva pendientes admin.aws",
+      "ok": true
+    },
+    {
+      "check": "Enlace local v\u00e1lido admin.aws",
+      "ok": true
+    },
+    {
+      "check": "Acceso autorizado al pendiente admin.aws",
+      "ok": true
+    },
+    {
+      "check": "Enlace local v\u00e1lido admin.aws",
+      "ok": true
+    },
+    {
+      "check": "Acceso autorizado al pendiente admin.aws",
+      "ok": true
+    },
+    {
+      "check": "Enlace local v\u00e1lido admin.aws",
+      "ok": true
+    },
+    {
+      "check": "Acceso autorizado al pendiente admin.aws",
+      "ok": true
+    },
+    {
+      "check": "Cierre de sesi\u00f3n admin.aws",
+      "ok": true
+    },
+    {
+      "check": "Resumen protegido tras salir admin.aws",
+      "ok": true
+    },
+    {
+      "check": "Ingreso coordinador.aws",
+      "ok": true
+    },
+    {
+      "check": "Resumen personal coordinador.aws",
+      "ok": true
+    },
+    {
+      "check": "Semanas coherentes coordinador.aws",
+      "ok": true
+    },
+    {
+      "check": "Revisi\u00f3n condicionada al permiso coordinador.aws",
+      "ok": true
+    },
+    {
+      "check": "Sin porcentajes simulados coordinador.aws",
+      "ok": true
+    },
+    {
+      "check": "Mes inv\u00e1lido rechazado coordinador.aws",
+      "ok": true
+    },
+    {
+      "check": "Mes anterior conserva pendientes coordinador.aws",
+      "ok": true
+    },
+    {
+      "check": "Cierre de sesi\u00f3n coordinador.aws",
+      "ok": true
+    },
+    {
+      "check": "Resumen protegido tras salir coordinador.aws",
+      "ok": true
+    },
+    {
+      "check": "Ingreso delegado.aws",
+      "ok": true
+    },
+    {
+      "check": "Resumen personal delegado.aws",
+      "ok": true
+    },
+    {
+      "check": "Semanas coherentes delegado.aws",
+      "ok": true
+    },
+    {
+      "check": "Revisi\u00f3n condicionada al permiso delegado.aws",
+      "ok": true
+    },
+    {
+      "check": "Sin porcentajes simulados delegado.aws",
+      "ok": true
+    },
+    {
+      "check": "Mes inv\u00e1lido rechazado delegado.aws",
+      "ok": true
+    },
+    {
+      "check": "Mes anterior conserva pendientes delegado.aws",
+      "ok": true
+    },
+    {
+      "check": "Cierre de sesi\u00f3n delegado.aws",
+      "ok": true
+    },
+    {
+      "check": "Resumen protegido tras salir delegado.aws",
+      "ok": true
+    },
+    {
+      "check": "Ingreso funcionario.aws",
+      "ok": true
+    },
+    {
+      "check": "Resumen personal funcionario.aws",
+      "ok": true
+    },
+    {
+      "check": "Semanas coherentes funcionario.aws",
+      "ok": true
+    },
+    {
+      "check": "Revisi\u00f3n condicionada al permiso funcionario.aws",
+      "ok": true
+    },
+    {
+      "check": "Sin porcentajes simulados funcionario.aws",
+      "ok": true
+    },
+    {
+      "check": "Mes inv\u00e1lido rechazado funcionario.aws",
+      "ok": true
+    },
+    {
+      "check": "Mes anterior conserva pendientes funcionario.aws",
+      "ok": true
+    },
+    {
+      "check": "Cierre de sesi\u00f3n funcionario.aws",
+      "ok": true
+    },
+    {
+      "check": "Resumen protegido tras salir funcionario.aws",
+      "ok": true
+    },
+    {
+      "check": "Ingreso verificador.aws",
+      "ok": true
+    },
+    {
+      "check": "Resumen personal verificador.aws",
+      "ok": true
+    },
+    {
+      "check": "Semanas coherentes verificador.aws",
+      "ok": true
+    },
+    {
+      "check": "Revisi\u00f3n condicionada al permiso verificador.aws",
+      "ok": true
+    },
+    {
+      "check": "Sin porcentajes simulados verificador.aws",
+      "ok": true
+    },
+    {
+      "check": "Mes inv\u00e1lido rechazado verificador.aws",
+      "ok": true
+    },
+    {
+      "check": "Mes anterior conserva pendientes verificador.aws",
+      "ok": true
+    },
+    {
+      "check": "Enlace local v\u00e1lido verificador.aws",
+      "ok": true
+    },
+    {
+      "check": "Acceso autorizado al pendiente verificador.aws",
+      "ok": true
+    },
+    {
+      "check": "Sin auto revisi\u00f3n verificador.aws",
+      "ok": true
+    },
+    {
+      "check": "Enlace local v\u00e1lido verificador.aws",
+      "ok": true
+    },
+    {
+      "check": "Acceso autorizado al pendiente verificador.aws",
+      "ok": true
+    },
+    {
+      "check": "Sin auto revisi\u00f3n verificador.aws",
+      "ok": true
+    },
+    {
+      "check": "Cierre de sesi\u00f3n verificador.aws",
+      "ok": true
+    },
+    {
+      "check": "Resumen protegido tras salir verificador.aws",
+      "ok": true
+    },
+    {
+      "check": "Ingreso consulta.aws",
+      "ok": true
+    },
+    {
+      "check": "Resumen personal consulta.aws",
+      "ok": true
+    },
+    {
+      "check": "Semanas coherentes consulta.aws",
+      "ok": true
+    },
+    {
+      "check": "Revisi\u00f3n condicionada al permiso consulta.aws",
+      "ok": true
+    },
+    {
+      "check": "Sin porcentajes simulados consulta.aws",
+      "ok": true
+    },
+    {
+      "check": "Mes inv\u00e1lido rechazado consulta.aws",
+      "ok": true
+    },
+    {
+      "check": "Mes anterior conserva pendientes consulta.aws",
+      "ok": true
+    },
+    {
+      "check": "Cierre de sesi\u00f3n consulta.aws",
+      "ok": true
+    },
+    {
+      "check": "Resumen protegido tras salir consulta.aws",
+      "ok": true
+    }
+  ],
+  "passed": 68,
+  "total": 68
+}

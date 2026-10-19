@@ -10,6 +10,7 @@ Seguir [backend/README.md](backend/README.md). Cada integrante mantiene su propi
 
 - **Acceso y recuperación de contraseña:** inicio de sesión y recuperación mediante código de verificación.
 - **Usuario y contexto activo:** identificación del usuario, su rol y la delegación activa.
+- **Mi progreso y pendientes:** resumen personal por mes, compromisos asignados, correcciones, revisiones autorizadas y actividad semanal.
 - **Administración:** mantenedores de delegaciones, roles y usuarios.
 - **Ítems y metas:** administración de ítems y configuraciones de metas.
 - **Tipos y subatenciones:** administración de ambos catálogos y sus asociaciones.
@@ -38,7 +39,7 @@ Los permisos deben asignarse explícitamente y los catálogos deben validarse co
 ## Despliegue y versión evaluada
 
 - [SGR en AWS personal](https://54.236.112.203/pages/login.html), última verificación registrada el 18/10/2026.
-- Versión de aplicación evaluada: `47358a26167f4efb0a4fe0638e78d815f821967a`; consultar [/api/version/](https://54.236.112.203/api/version/).
+- Versión de aplicación evaluada: `2af785be26883ef336941651a5665d1e31a6bb3e`; consultar [/api/version/](https://54.236.112.203/api/version/).
 - [Instalación, configuración y recuperación AWS](docs/entrega/despliegue/README.md).
 - [Resultados, incidencias y estado del paquete de evidencias](docs/entrega/README.md).
 

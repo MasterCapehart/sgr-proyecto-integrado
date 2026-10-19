@@ -1,0 +1,14 @@
+{
+  "environment": "AWS personal",
+  "release": "2af785be26883ef336941651a5665d1e31a6bb3e",
+  "checks": [
+    "Ingreso funcionario",
+    "Panel con datos reales",
+    "Sin cifras NaN",
+    "Cambio de mes conserva pendientes",
+    "Escritorio 1440 px",
+    "Móvil 390 px sin desbordamiento",
+    "Sin errores JavaScript"
+  ],
+  "passed": 7
+}
