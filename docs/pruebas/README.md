@@ -18,4 +18,4 @@ El informe de cierre se encuentra directamente en esta carpeta, fuera de `local/
 - Las verificaciones del traslado a la cuenta personal permanecen diferenciadas en [docs/entrega/despliegue](../entrega/despliegue/README.md). No se presentan como nuevas pruebas de carga del laboratorio.
 - [docs/entrega](../entrega/README.md) conserva la revisión de cobertura y pendientes. Esta recopilación no significa aprobación al 100 % ni aceptación del docente.
 
-`manifest.json` registra el origen, tamaño y SHA-256 de los 281 archivos copiados. No se incluyen entornos privados, contraseñas, cookies de navegador, volcados SQL ni credenciales AWS.
+`manifest.json` registra el origen, tamaño y SHA-256 de los 281 archivos copiados. El campo `origen` conserva la ruta de la fecha de copia; `reubicacion_fuentes` indica la ubicación actual del archivo histórico fuera de docs. No se incluyen entornos privados, contraseñas, cookies de navegador, volcados SQL ni credenciales AWS.

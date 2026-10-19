@@ -1687,5 +1687,8 @@
       "sha256": "7707de1de492076046cc45cc74702f62e8cb7ad5890ddd3ef7de27cdad0f79b5",
       "bytes": 24906
     }
-  ]
+  ],
+  "reubicacion_fuentes": {
+    "sgr-proyecto-integrado/docs/.archivo/interno/2026-10-17/": "sgr-proyecto-integrado/.archivo/interno/2026-10-17/"
+  }
 }

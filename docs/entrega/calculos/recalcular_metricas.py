@@ -8,7 +8,7 @@ from collections import defaultdict
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-SOURCE = HERE.parents[1] / '.archivo/interno/2026-10-17/evidencias/rendimiento-aws'
+SOURCE = HERE.parents[2] / '.archivo/interno/2026-10-17/evidencias/rendimiento-aws'
 
 def main():
     trace = SOURCE / 'solicitudes.jsonl'

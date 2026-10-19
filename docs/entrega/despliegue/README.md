@@ -57,7 +57,7 @@ Este procedimiento documentado queda pendiente de un ensayo completo desde clon 
 
 ## Recuperación acreditada y límites
 
-- Laboratorio: [restauración SQL aislada](../../.archivo/interno/2026-10-17/evidencias/rendimiento-aws/restore-resultado.json), 39 tablas con conteos y checksums coincidentes; la base operativa no fue reemplazada.
+- Laboratorio: [restauración SQL aislada](../../../.archivo/interno/2026-10-17/evidencias/rendimiento-aws/restore-resultado.json), 39 tablas con conteos y checksums coincidentes; la base operativa no fue reemplazada.
 - Cuenta personal: restauración inicial de un respaldo posterior, 39 tablas y 11.201 filas, más recuperación automática tras reiniciar el servidor. Las sesiones y auditorías posteriores generan cambios normales respecto del respaldo.
 - No se ensayó una recuperación desde snapshot RDS ante desastre ni un rollback completo de código y esquema en la cuenta personal.
 - Los SQL, las contraseñas y el estado privado de infraestructura se mantienen fuera de Git. No publicar esos archivos para aportar evidencia: utilizar resultados sanitizados y sus identificadores de versión.
