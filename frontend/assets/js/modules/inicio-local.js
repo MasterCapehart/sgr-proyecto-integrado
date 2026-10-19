@@ -30,6 +30,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     target.before(actions);
 
+    SGRProgress.mount(target);
+
     const indicators = SGRKpis.mount(target);
     SGRApi.request('/api/indicadores/')
       .then(r => SGRKpis.update(indicators, r.data))
