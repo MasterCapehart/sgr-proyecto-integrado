@@ -44,7 +44,7 @@ assert(password, 'Configura SGR_TEST_PASSWORD con una clave ficticia local');
   await form.locator('input[type=file]').setInputFiles({name:'respaldo-qa.png',mimeType:'image/png',buffer:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScLbtAAAAABJRU5ErkJggg==','base64')});
   await form.getByLabel('Descripción del respaldo').fill('Evidencia ficticia del recorrido local');
   await form.getByRole('button',{name:'Guardar registro',exact:true}).click();await page.locator('.swal2-confirm').click();
-  detail=page.getByRole('dialog',{name:'Detalle del registro',exact:true});await detail.waitFor();assert((await detail.innerText()).includes('respaldo-qa.png'));
+  detail=page.getByRole('dialog',{name:'Detalle del registro',exact:true});await detail.waitFor();await detail.getByRole('link',{name:/respaldo-qa\.png/}).waitFor();
   let data=(await(await owner.c.request.get(base+'/api/operacion/actividades/'+item.id+'/')).json()).data;assert.equal(data.estado,'Pendiente');
   let ev=(await(await owner.c.request.get(base+'/api/operacion/evidencias/')).json()).results.find(e=>e.actividad===item.id);assert(ev,'Evidencia asociada a la actividad exacta');
   const reviewer=await login(process.env.SGR_TEST_REVIEWER||'otro_progreso');

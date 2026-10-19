@@ -1,0 +1,45 @@
+{
+  "environment": "AWS personal",
+  "release": "cc7c093325e79b7c104aa8e280ae23574ec613b3",
+  "checks": [
+    {
+      "check": "Acceso autorizado",
+      "ok": true
+    },
+    {
+      "check": "Versión vigente",
+      "ok": true
+    },
+    {
+      "check": "Acciones visibles desde el registro",
+      "ok": true
+    },
+    {
+      "check": "Editor precargado con actividad correcta",
+      "ok": true
+    },
+    {
+      "check": "Carga de evidencia vinculada y fijada al registro",
+      "ok": true
+    },
+    {
+      "check": "Detalle móvil sin desbordamiento",
+      "ok": true
+    },
+    {
+      "check": "Seguimiento accesible desde ficha de compromiso",
+      "ok": true
+    },
+    {
+      "check": "Actividad y versión conservadas sin escritura",
+      "ok": true
+    },
+    {
+      "check": "Sin errores JavaScript",
+      "ok": true
+    }
+  ],
+  "passed": 9,
+  "total": 9,
+  "business_records_modified": false
+}
