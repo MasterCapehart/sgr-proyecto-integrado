@@ -1,0 +1,10 @@
+{
+  "version": "4a2555d025a248a82e350221f6537f88016eaac6",
+  "health": "ok",
+  "areas": 12,
+  "items": 22,
+  "verified_relations": 73,
+  "import_button_removed": true,
+  "environment": "AWS personal",
+  "writes": "solo inicio de sesi\u00f3n; consultas de verificaci\u00f3n"
+}

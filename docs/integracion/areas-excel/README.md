@@ -47,4 +47,4 @@ La segunda etapa ya está configurada en local: [matriz de ítems, procedencia y
 
 ## Alcance pendiente
 
-La unificación de atención, actividad y tubo corresponde a una etapa posterior. No se importan trabajadores ni se asignan áreas a personas automáticamente. El despliegue en AWS debe efectuarse expresamente; las verificaciones anteriores son locales.
+La unificación de atención, actividad y tubo corresponde a una etapa posterior. No se importan trabajadores ni se asignan áreas a personas automáticamente. La etapa de áreas e ítems ya fue desplegada en AWS: [respaldo, incidencia resuelta y verificaciones del 20/10/2026](aws-2026-10-20/README.md). Las verificaciones locales y remotas se distinguen en ese registro.
