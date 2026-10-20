@@ -23,7 +23,7 @@ Los prefijos de áreas siguen lo encontrado en el Excel, incluido SOC/SCO. Si un
 ## Conservación y compatibilidad
 
 - Se conservan los códigos anteriores; editar un registro, su nombre o su fecha no recalcula su código.
-- Los seis formularios de catálogos muestran «Se genera al guardar» en un campo de solo lectura. La creación por API sin código o con código vacío lo genera; se mantiene compatibilidad con integraciones que proporcionan códigos explícitos. Los formatos inválidos y duplicados explícitos siguen rechazándose.
+- Los seis formularios de catálogos muestran el código ya reservado al abrir, en un campo de solo lectura; ese mismo código se conserva al guardar. La creación por API sin código o con código vacío lo genera; se mantiene compatibilidad con integraciones que proporcionan códigos explícitos. Los formatos inválidos y duplicados explícitos siguen rechazándose.
 - Un código propuesto que ya esté ocupado por un registro histórico utiliza un sufijo aleatorio de reserva. La restricción única de la base impide duplicados y se reintenta dentro de una transacción aislada.
 - No se cambian las claves primarias ni las relaciones, auditorías o capturas históricas. La auditoría de altas guarda el código definitivo.
 - No requiere migraciones del esquema. No se hizo una conversión masiva de los registros existentes.
@@ -46,3 +46,12 @@ Regresión completa en MySQL: 382 casos, 381 aprobados y un fallo esperado preex
 Recorrido en navegador sobre base QA independiente: delegación creada sin código manual, código persistido, caso nuevo automático, continuación con el mismo código y referencia de foto de solo lectura. Sin errores JavaScript durante el recorrido.
 
 Esta etapa también quedó desplegada en AWS: [registro y comprobaciones del 20/10/2026](aws-2026-10-20/README.md). Las pruebas usan cuentas y datos ficticios.
+
+
+## Código visible antes de guardar
+
+El formulario solicita una reserva al servidor por POST autenticado y protegido por CSRF. Se registra un evento de reserva con el recurso, usuario y delegación; no se crea un registro vacío del catálogo. El código visible usa un prefijo como `DEL-R000123`: R distingue la secuencia de reservas de la secuencia de códigos antiguos. No se calcula el siguiente número en el navegador.
+
+La reserva se firma, dura 24 horas y solo puede consumirse una vez por la misma cuenta, delegación y catálogo. Guardado y consumo se realizan en la misma transacción: si una validación falla, se puede corregir y usar la misma reserva. Una reserva ajena, alterada, vencida o consumida se rechaza. Cancelar conserva la reserva en auditoría y puede dejar saltos en la numeración, sin crear filas de negocio. Los códigos existentes no cambian.
+
+Se verificaron también cancelación sin alta, reservas diferentes, coincidencia exacta entre código mostrado y persistido, permisos, propietario, recurso, firmas y corrección después de un error de validación. La regresión completa de esta revisión ejecutó 387 casos (386 aprobados y un fallo esperado preexistente); se añadieron seis verificaciones específicas de reserva, incluida la entrada con formato inválido.

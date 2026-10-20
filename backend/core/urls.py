@@ -8,11 +8,12 @@ urlpatterns = [
  path('contexto/',api.context),path('atenciones/contexto/',api.context),
  path('contexto/cambiar-delegacion/',api.change_context),path('opciones/',api.options),
 ]
-from . import area_catalog
+from . import area_catalog, code_reservation
 urlpatterns += [path('cargos/referencia-excel/', area_catalog.reference)]
 
 for resource in api.RESOURCES:
  urlpatterns += [
+  path(resource+'/reservar-codigo/',code_reservation.reserve,{'resource':resource}),
   path(resource+'/',api.crud,{'resource':resource}),
   path(resource+'/export/',api.crud,{'resource':resource,'action':'export'}),
   path(resource+'/<int:pk>/',api.crud,{'resource':resource}),

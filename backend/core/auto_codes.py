@@ -11,7 +11,16 @@ PREFIXES={'delegaciones':'DEL','cargos':'CAR','items-metas':'ITM','tipos-atencio
 AREA_PREFIXES={'APOYO ADMINISTRATIVO':'APA','COOR SERV. COMU':'COS','PLANIFICACIÓN Y GESTIÓN':'PYG',**{f'TERRITORIAL OO.CC. {i}':f'COM{i}' for i in range(1,5)},**dict(zip([f'GESTOR SOCIAL {i}' for i in range(1,6)],['SOC','SOC2','SCO3','SCO4','SOC5']))}
 PROFILE_PREFIXES={'AP_ADM':'APA','COOR_DISERCO':'COS','PLAN_CON':'PYG','GES_SEG':'SEG'}
 
-def prepare_catalog(obj,incoming,resource,creating):
+def prepare_catalog(obj,incoming,resource,creating,request=None):
+    token=incoming.pop('_reserva_codigo',None)
+    if token is not None:
+        from django.core.exceptions import ValidationError
+        from .code_reservation import use
+        if not creating or resource not in PREFIXES:raise ValidationError('La reserva solo se utiliza para crear un catálogo.')
+        event=use(request,resource,token)
+        if incoming.get('codigo') not in (None,'',event.despues['codigo']):raise ValidationError('El código no coincide con la reserva.')
+        incoming['codigo']=event.despues['codigo'];obj._code_reservation=event
+        return
     if creating and resource in PREFIXES and (incoming.get('codigo') is None or isinstance(incoming.get('codigo'),str) and not incoming['codigo'].strip()):
         incoming['codigo']='TMP-'+uuid.uuid4().hex[:16]
         obj._automatic_code=True
@@ -33,6 +42,9 @@ def assign(obj,field,prefix,day=None):
 
 
 def catalog_saved(obj,resource):
+    event=getattr(obj,'_code_reservation',None)
+    if event is not None:
+        event.despues['consumido']=True;event.registro=obj.pk;event.save(update_fields=['despues','registro'])
     if getattr(obj,'_automatic_code',False):assign(obj,'codigo',PREFIXES[resource])
 
 

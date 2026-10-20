@@ -235,7 +235,7 @@ def options(request):
 def validate_data(obj, data, resource, request, creating=False):
     fields=RESOURCES[resource][1]; incoming=dict(data)
     from .auto_codes import prepare_catalog
-    prepare_catalog(obj,incoming,resource,creating)
+    prepare_catalog(obj,incoming,resource,creating,request)
     if isinstance(obj,PeriodoGestion) and obj.pk and obj.cerrado:raise ValidationError('El período está cerrado. Reábrelo con autorización antes de editarlo.')
     if isinstance(obj,ConfiguracionMeta):
         from .period_support import prepare_meta
