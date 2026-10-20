@@ -1,0 +1,19 @@
+{
+  "checks": [
+    "delegaciones",
+    "cargos",
+    "items-metas",
+    "tipos-atencion",
+    "periodos",
+    "subatenciones",
+    "conservaci\u00f3n c\u00f3digo anterior",
+    "actividad por \u00e1rea y fecha",
+    "compromiso y foto",
+    "caso y folio autom\u00e1ticos",
+    "reintento sin duplicar",
+    "continuidad y l\u00edmite de tres gestiones"
+  ],
+  "passed": 12,
+  "rollback_confirmed": true,
+  "version": "7f65cf6ad9d68a090fe340026afa7eee3030cf50"
+}

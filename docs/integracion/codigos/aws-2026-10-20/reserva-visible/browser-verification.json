@@ -1,0 +1,15 @@
+{
+  "passed": 8,
+  "checks": [
+    "delegaciones código visible reservado",
+    "cargos código visible reservado",
+    "items-metas código visible reservado",
+    "tipos-atencion código visible reservado",
+    "subatenciones código visible reservado",
+    "periodos código visible reservado",
+    "nuevo caso automático",
+    "foto automática de solo lectura"
+  ],
+  "javascript_errors": [],
+  "writes": "Inicio de sesión y seis reservas auditadas; ningún formulario de catálogo guardado."
+}
