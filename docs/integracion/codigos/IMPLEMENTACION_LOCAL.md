@@ -45,4 +45,4 @@ Regresión completa en MySQL: 382 casos, 381 aprobados y un fallo esperado preex
 
 Recorrido en navegador sobre base QA independiente: delegación creada sin código manual, código persistido, caso nuevo automático, continuación con el mismo código y referencia de foto de solo lectura. Sin errores JavaScript durante el recorrido.
 
-Esta etapa está implementada en local y no se ha desplegado en AWS. Las pruebas usan cuentas y datos ficticios.
+Esta etapa también quedó desplegada en AWS: [registro y comprobaciones del 20/10/2026](aws-2026-10-20/README.md). Las pruebas usan cuentas y datos ficticios.

@@ -1,0 +1,15 @@
+{
+  "passed": 8,
+  "checks": [
+    "delegaciones solo lectura",
+    "cargos solo lectura",
+    "items-metas solo lectura",
+    "tipos-atencion solo lectura",
+    "subatenciones solo lectura",
+    "periodos solo lectura",
+    "nuevo caso automático",
+    "foto automática de solo lectura"
+  ],
+  "javascript_errors": [],
+  "writes": "Solo inicio de sesión; formularios abiertos sin guardar"
+}
