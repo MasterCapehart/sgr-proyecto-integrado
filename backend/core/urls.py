@@ -49,3 +49,6 @@ urlpatterns += [path('periodos/<int:pk>/cerrar/',period_api.transition,{'action'
 
 from . import personal_progress
 urlpatterns += [path('mi-progreso/', personal_progress.overview)]
+
+from . import capture_followup
+urlpatterns += [path('seguimiento/opciones/',capture_followup.options),path('operacion/compromisos/<int:pk>/origenes/',capture_followup.origins)]

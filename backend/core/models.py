@@ -185,6 +185,7 @@ class Atencion(models.Model):
     fecha_registro = models.DateTimeField(auto_now_add=True)
     caso_social = models.CharField(max_length=50, null=True, blank=True)
     numero_gestion = models.PositiveSmallIntegerField(default=1, null=True, blank=True)
+    captura_hash = models.CharField(max_length=64, blank=True, default='', editable=False)
     clave_idempotencia = models.CharField(max_length=64, unique=True, null=True, blank=True)
     estado = models.BooleanField(default=True)
 

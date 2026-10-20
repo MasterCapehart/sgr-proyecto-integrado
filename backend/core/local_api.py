@@ -12,7 +12,7 @@ from django.conf import settings
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.password_validation import validate_password
-from django.core.exceptions import ValidationError, ImproperlyConfigured
+from django.core.exceptions import ValidationError, PermissionDenied, ImproperlyConfigured
 from django.core.mail import send_mail
 from django.core.paginator import Paginator
 from django.db import transaction, IntegrityError
@@ -431,6 +431,7 @@ def crud(request, resource, pk=None, action=None):
             except ValidationError:return error('JSON inválido.')
             if replay.get('clave_idempotencia') and Atencion.objects.filter(clave_idempotencia=replay['clave_idempotencia']).exists(): return create_attention(request,replay)
         return error('Revisa los campos.',details=getattr(ex,'message_dict',{'campos':ex.messages}))
+    except PermissionDenied as ex:return error(str(ex),403)
     except (ValueError,TypeError): return error('Formato de datos inválido.')
     except IntegrityError:
         if resource=='atenciones' and request.method=='POST' and request.content_type=='application/json':
@@ -441,7 +442,7 @@ def crud(request, resource, pk=None, action=None):
 
 def create_attention(request,data):
     from .excel_support import SOCIAL_FIELDS, validate_social
-    allowed_keys=set(SOCIAL_FIELDS)|{'solicitante','tipo_atencion','sub_atencion','descripcion','delegacion_responsable','caso_social','clave_idempotencia','motivo_derivacion','compromiso','nuevo_caso'}
+    allowed_keys=set(SOCIAL_FIELDS)|{'solicitante','tipo_atencion','sub_atencion','descripcion','delegacion_responsable','caso_social','clave_idempotencia','motivo_derivacion','compromiso','nuevo_caso','nuevo_compromiso'}
     if set(data)-allowed_keys: return error('Hay campos no editables.')
     if 'nuevo_caso' in data and not isinstance(data['nuevo_caso'],bool):return error('Indica Sí o No en nuevo caso.')
     if data.get('nuevo_caso') and data.get('caso_social'):return error('Elige crear un caso o continuar uno existente.')
@@ -449,11 +450,14 @@ def create_attention(request,data):
     if not d: return error('No tienes delegación autorizada.',403)
     key=data.get('clave_idempotencia') or uuid.uuid4().hex
     if not isinstance(key,str) or len(key)>64: return error('Clave de idempotencia inválida.')
+    from .capture_followup import fingerprint
     existing=Atencion.objects.filter(clave_idempotencia=key).first()
     if existing:
+        if (existing.captura_hash or data.get('nuevo_compromiso') is not None) and existing.captura_hash!=fingerprint(data):return error('La clave corresponde a otra solicitud de seguimiento.',409)
         if existing.usuario_id!=request.user.pk or existing.delegacion_id!=d.pk: return error('Clave ya utilizada.',409)
         for field in ['solicitante','descripcion','caso_social','tipo_atencion_id','sub_atencion_id','delegacion_responsable_id','compromiso_id']:
             if field=='caso_social' and data.get('nuevo_caso') and existing.caso_social:continue
+            if field=='compromiso_id' and data.get('nuevo_compromiso') is not None:continue
             source=field.removesuffix('_id')
             if source in data and field.endswith('_id') and str(getattr(existing,field))!=str(data[source]): return error('La clave corresponde a otra solicitud.',409)
             if field in data and (getattr(existing,field) or '')!=((str(data[field]).strip().upper() if field=='caso_social' else str(data[field]).strip()) if data[field] else ''): return error('La clave corresponde a otra solicitud.',409)
@@ -465,6 +469,7 @@ def create_attention(request,data):
             if field in data and str(getattr(existing,field) or '')!=str(getattr(normalized,field) or ''):return error('La clave corresponde a otra solicitud.',409)
         return ok(serialize(existing,RESOURCES['atenciones'][1]),message='Registro ya guardado.',is_duplicate_prevented=True)
     obj=Atencion(folio='AT-'+uuid.uuid4().hex.upper(),usuario=request.user,delegacion=d,clave_idempotencia=key)
+    if data.get('nuevo_compromiso') is not None:obj.captura_hash=fingerprint(data)
     if any(not isinstance(data.get(field,''),str) for field in ['solicitante','descripcion','caso_social'] if data.get(field) is not None): return error('Solicitante, descripción y caso deben ser texto.')
     for field in ['solicitante','descripcion','caso_social']: setattr(obj,field,str(data.get(field) or '').strip() or None)
     if not obj.solicitante or not obj.descripcion: return error('Solicitante y descripción son obligatorios.',details={f:['Campo obligatorio.'] for f in ['solicitante','descripcion'] if not getattr(obj,f)})
@@ -503,6 +508,9 @@ def create_attention(request,data):
             if obj.numero_gestion>3: return error('El caso ya tiene tres gestiones.',409)
         from .excel_support import validate_stage
         validate_stage(obj)
+        from .capture_followup import create as create_followup
+        linked=create_followup(request,obj,data.get('nuevo_compromiso'),data.get('compromiso'))
+        if linked is not None:obj.compromiso=linked
         from . import catalog_history
         obj.tipo_atencion=TipoAtencion.objects.select_for_update().get(pk=obj.tipo_atencion_id)
         obj.sub_atencion=SubAtencion.objects.select_for_update().get(pk=obj.sub_atencion_id)
@@ -511,6 +519,8 @@ def create_attention(request,data):
         obj.full_clean();obj.save()
         from .auto_codes import assign
         assign(obj,'folio','AT',timezone.localdate())
+        from .capture_followup import finish
+        finish(request,linked,obj)
         if obj.delegacion_responsable_id!=d.pk: AuditoriaDerivacion.objects.create(atencion=obj,delegacion_origen=d,delegacion_destino=obj.delegacion_responsable,usuario_responsable=request.user,motivo=data.get('motivo_derivacion','Derivación institucional autorizada'))
         record_event(request,'atenciones',obj.pk,'crear',None,snapshot(obj,RESOURCES['atenciones'][1]))
     response=ok(serialize(obj,RESOURCES['atenciones'][1]),message='Atención registrada.');response.status_code=201;return response

@@ -4,7 +4,7 @@ import json
 from django.core.serializers.json import DjangoJSONEncoder
 from io import BytesIO
 from pathlib import Path
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, PermissionDenied
 from django.core.paginator import Paginator
 from django.db import transaction, IntegrityError
 from django.db.models import Q
@@ -185,7 +185,19 @@ def records(request,resource,pk=None,action=None):
             if request.method!='POST' or pk:return api.error('Las evidencias se conservan; adjunta una nueva versión.',405)
             return upload(request)
         data=api.body(request)
+        raw_data=dict(data)
+        from .capture_followup import fingerprint
+        capture_key=data.pop('clave_idempotencia',None) if resource=='actividades' and request.method=='POST' else None
+        if capture_key is not None and (not isinstance(capture_key,str) or not capture_key.strip() or len(capture_key)>64):raise ValidationError('Clave de idempotencia inválida.')
+        capture_hash=fingerprint(raw_data) if capture_key else ''
+        new_followup=data.pop('nuevo_compromiso',None) if resource=='actividades' else None
+        if request.method=='PATCH' and new_followup is not None:raise ValidationError('El nuevo compromiso se crea al registrar la actividad.')
         with transaction.atomic():
+            if capture_key:
+                prior=Actividad.objects.select_for_update().filter(clave_idempotencia=capture_key).first()
+                if prior:
+                    if prior.autor_id!=request.user.pk or prior.delegacion_id!=api.active_delegation(request).pk or prior.captura_hash!=capture_hash:return api.error('La clave corresponde a otra captura.',409)
+                    return api.ok(representation(prior),is_duplicate_prevented=True)
             if request.method=='PATCH':
                 obj=qs.select_for_update().filter(pk=pk).first()
                 if not obj:return api.error('Registro no encontrado.',404)
@@ -197,10 +209,15 @@ def records(request,resource,pk=None,action=None):
             else:
                 if pk:return api.error('Ruta inválida.',405)
                 obj=MODELS[resource](autor=request.user,delegacion=api.active_delegation(request));before=None
-                if resource=='actividades':obj.cargo=request.user.cargo;obj.plantilla=(request.user.cargo.planilla if request.user.cargo_id else '') or 'GENERAL'
+                if resource=='actividades':obj.clave_idempotencia=capture_key;obj.captura_hash=capture_hash;obj.cargo=request.user.cargo;obj.plantilla=(request.user.cargo.planilla if request.user.cargo_id else '') or 'GENERAL'
                 if resource=='compromisos' and not data.get('fecha_solicitud'):obj.fecha_solicitud=timezone.localdate()
             old_item=obj.item_id if resource=='actividades' else None
             apply_fields(request,resource,obj,data)
+            linked=None
+            if resource=='actividades' and not before:
+                from .capture_followup import create as create_followup
+                linked=create_followup(request,obj,new_followup,data.get('compromiso'))
+                if linked is not None:obj.compromiso=linked
             if resource=='actividades' and (not obj.catalogos_snapshot or old_item!=obj.item_id):
                 from .catalog_history import activity
                 obj.catalogos_snapshot=activity(obj,observed=bool(before and old_item==obj.item_id))
@@ -212,6 +229,8 @@ def records(request,resource,pk=None,action=None):
             if not before:
                 from .auto_codes import operation_saved
                 operation_saved(obj,resource,request.user)
+                from .capture_followup import finish
+                finish(request,linked,obj)
             if resource=='compromisos' and before:
                 observation=data.get('observacion')
                 if not isinstance(observation,str) or not observation.strip() or len(observation)>2000:raise ValidationError('Indica una observación de hasta 2000 caracteres.')
@@ -222,8 +241,15 @@ def records(request,resource,pk=None,action=None):
                 save_closure(request,obj,before,data)
             api.record_event(request,resource,obj.pk,'editar' if before else 'crear',before,representation(obj))
         response=api.ok(representation(obj));response.status_code=200 if before else 201;return response
-    except (ValidationError,ValueError,TypeError) as ex:return api.error('; '.join(ex.messages) if isinstance(ex,ValidationError) else 'Datos inválidos.')
-    except IntegrityError:return api.error('El registro cambió o existe una versión posterior.',409)
+    except PermissionDenied as ex:return api.error(str(ex),403)
+    except (ValidationError,ValueError,TypeError,IntegrityError) as ex:
+        if resource=='actividades' and request.method=='POST' and locals().get('capture_key'):
+            prior=Actividad.objects.filter(clave_idempotencia=capture_key).first()
+            if prior:
+                if prior.autor_id!=request.user.pk or prior.delegacion_id!=api.active_delegation(request).pk or prior.captura_hash!=capture_hash:return api.error('La clave corresponde a otra captura.',409)
+                return api.ok(representation(prior),is_duplicate_prevented=True)
+        if isinstance(ex,IntegrityError):return api.error('El registro cambió o existe una versión posterior.',409)
+        return api.error('; '.join(ex.messages) if isinstance(ex,ValidationError) else 'Datos inválidos.')
 
 def upload(request):
     data=request.POST;file=request.FILES.get('archivo');activity=scoped(request,'actividades').filter(pk=data.get('actividad') if str(data.get('actividad','')).isdigit() else 0).first()

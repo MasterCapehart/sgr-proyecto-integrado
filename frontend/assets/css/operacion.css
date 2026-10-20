@@ -1065,3 +1065,5 @@ body .swal2-container.swal2-top-end .swal2-popup.swal2-toast .swal2-title {
   color: var(--ink-muted);
 }
 
+
+.sgr-followup{grid-column:1/-1;border:1px solid var(--line,#dfe4e9);border-radius:12px;padding:18px;margin:16px 0;background:#fff}.sgr-followup>.grid{margin-top:16px}.sgr-followup>select{width:100%;margin:8px 0}.sgr-followup .help{margin-bottom:0}
