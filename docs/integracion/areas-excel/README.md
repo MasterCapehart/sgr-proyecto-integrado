@@ -25,10 +25,12 @@ Los códigos `EXCEL-*` son identificadores internos generados por el sistema; no
 
 ## Uso
 
-1. Ingresar con permisos `cargos.ver` y `cargos.crear`.
-2. Abrir Administración → Cargos y áreas → **Incorporar áreas del Excel**.
-3. Revisar las doce filas y confirmar **Incorporar faltantes**. Cancelar no guarda nada.
-4. En Administración → Usuarios, editar la cuenta y seleccionar su **Cargo / área operativa**. Guardar con los permisos habituales de Usuarios. No se infiere la asignación a partir de nombres de personas.
+Las doce áreas se dejan precargadas en el catálogo local. No existe un botón de importación en la interfaz ni se necesita subir el archivo Excel.
+
+1. Abrir Administración → Cargos y áreas para consultar, buscar y mantener las entradas.
+2. En Administración → Usuarios, editar la cuenta y seleccionar su **Cargo / área operativa**. Guardar con los permisos habituales de Usuarios. No se infiere la asignación a partir de nombres de personas.
+
+El servicio administrativo de aprovisionamiento `/api/cargos/referencia-excel/` conserva sus controles de permisos y confirmación para la preparación de otros entornos; no se invoca automáticamente al visitar la página.
 
 La operación conserva cargos anteriores y entradas compatibles, incluso inactivas; no reactiva ni sobrescribe registros. Si hay códigos, nombres o planillas incompatibles, aborta toda la incorporación. Cada alta registra versión de catálogo y auditoría con usuario, delegación y procedencia. Repetir no genera duplicados. No requiere migraciones de base de datos.
 
@@ -39,6 +41,10 @@ La operación conserva cargos anteriores y entradas compatibles, incluso inactiv
 - Regresión completa de `core` en MySQL: 365 casos, 364 aprobados y un fallo esperado preexistente; sin fallos inesperados. `manage.py check` sin incidencias.
 - Las pruebas no asignan áreas a personas reales ni modifican los datos de AWS.
 
+## Ítems por área
+
+La segunda etapa ya está configurada en local: [matriz de ítems, procedencia y verificación](ITEMS_POR_AREA.md). Contiene 22 ítems únicos y 73 asociaciones, con unidades de conteo y conservación de los datos anteriores.
+
 ## Alcance pendiente
 
-Esta etapa integra el catálogo y su asignación mediante el mantenedor existente. La asociación de ítems específicos a cada entrada requiere un mapeo confirmado; no se deduce automáticamente por familia. Los nombres de trabajadores del Excel no se importan. La unificación de atención, actividad y tubo corresponde a una etapa posterior. El despliegue y la incorporación del catálogo en AWS deben efectuarse expresamente; estas comprobaciones son locales.
+La unificación de atención, actividad y tubo corresponde a una etapa posterior. No se importan trabajadores ni se asignan áreas a personas automáticamente. El despliegue en AWS debe efectuarse expresamente; las verificaciones anteriores son locales.

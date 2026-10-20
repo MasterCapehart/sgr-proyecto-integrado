@@ -1,0 +1,526 @@
+{
+  "fuente": "Copia INACAP 3ER COMPAÑIAS MATRIZ SGR TRIMESTRE 2026 REV.xlsx",
+  "sha256": "65d2f3616fb547491a42b7823159a08e9d8cff09db531074c47f331a682beb05",
+  "unidad": "Cantidad representa el conteo genérico UNIDAD / unidad (1) del libro; no se inventan unidades físicas por ítem.",
+  "items": [
+    {
+      "codigo": "AI-d6e938da570d59",
+      "nombre": "ATENCIÓN SOCIAL A USUARIO PRESENCIAL",
+      "unidad_medida": "Cantidad",
+      "origenes": [
+        {
+          "area": "GESTOR SOCIAL 1",
+          "hoja": "G SOC 1",
+          "celda": "C3"
+        },
+        {
+          "area": "GESTOR SOCIAL 2",
+          "hoja": "G SOC2",
+          "celda": "C3"
+        },
+        {
+          "area": "GESTOR SOCIAL 3",
+          "hoja": "G SOC3",
+          "celda": "C3"
+        },
+        {
+          "area": "GESTOR SOCIAL 4",
+          "hoja": "G SOC4",
+          "celda": "C3"
+        },
+        {
+          "area": "GESTOR SOCIAL 5",
+          "hoja": " G SOC5",
+          "celda": "C3"
+        }
+      ]
+    },
+    {
+      "codigo": "AI-59d30745f7de6a",
+      "nombre": "VISITA TERRENO",
+      "unidad_medida": "Cantidad",
+      "origenes": [
+        {
+          "area": "GESTOR SOCIAL 1",
+          "hoja": "G SOC 1",
+          "celda": "C4"
+        },
+        {
+          "area": "GESTOR SOCIAL 2",
+          "hoja": "G SOC2",
+          "celda": "C4"
+        },
+        {
+          "area": "GESTOR SOCIAL 3",
+          "hoja": "G SOC3",
+          "celda": "C4"
+        },
+        {
+          "area": "GESTOR SOCIAL 4",
+          "hoja": "G SOC4",
+          "celda": "C4"
+        },
+        {
+          "area": "GESTOR SOCIAL 5",
+          "hoja": " G SOC5",
+          "celda": "C4"
+        }
+      ]
+    },
+    {
+      "codigo": "AI-140a8300772fe8",
+      "nombre": "ENTREGA INFORME",
+      "unidad_medida": "Cantidad",
+      "origenes": [
+        {
+          "area": "GESTOR SOCIAL 1",
+          "hoja": "G SOC 1",
+          "celda": "C5"
+        },
+        {
+          "area": "GESTOR SOCIAL 2",
+          "hoja": "G SOC2",
+          "celda": "C5"
+        },
+        {
+          "area": "GESTOR SOCIAL 3",
+          "hoja": "G SOC3",
+          "celda": "C5"
+        },
+        {
+          "area": "GESTOR SOCIAL 4",
+          "hoja": "G SOC4",
+          "celda": "C5"
+        },
+        {
+          "area": "GESTOR SOCIAL 5",
+          "hoja": " G SOC5",
+          "celda": "C5"
+        }
+      ]
+    },
+    {
+      "codigo": "AI-9e1c2336f92620",
+      "nombre": "ENTREGA BENEFICIO",
+      "unidad_medida": "Cantidad",
+      "origenes": [
+        {
+          "area": "GESTOR SOCIAL 1",
+          "hoja": "G SOC 1",
+          "celda": "C6"
+        },
+        {
+          "area": "GESTOR SOCIAL 2",
+          "hoja": "G SOC2",
+          "celda": "C6"
+        },
+        {
+          "area": "GESTOR SOCIAL 3",
+          "hoja": "G SOC3",
+          "celda": "C6"
+        },
+        {
+          "area": "GESTOR SOCIAL 4",
+          "hoja": "G SOC4",
+          "celda": "C6"
+        },
+        {
+          "area": "GESTOR SOCIAL 5",
+          "hoja": " G SOC5",
+          "celda": "C6"
+        }
+      ]
+    },
+    {
+      "codigo": "AI-b80cafb867babe",
+      "nombre": "EMERGENCIA",
+      "unidad_medida": "Cantidad",
+      "origenes": [
+        {
+          "area": "GESTOR SOCIAL 1",
+          "hoja": "G SOC 1",
+          "celda": "C7"
+        },
+        {
+          "area": "GESTOR SOCIAL 2",
+          "hoja": "G SOC2",
+          "celda": "C7"
+        },
+        {
+          "area": "GESTOR SOCIAL 3",
+          "hoja": "G SOC3",
+          "celda": "C7"
+        },
+        {
+          "area": "GESTOR SOCIAL 4",
+          "hoja": "G SOC4",
+          "celda": "C7"
+        },
+        {
+          "area": "GESTOR SOCIAL 5",
+          "hoja": " G SOC5",
+          "celda": "C7"
+        },
+        {
+          "area": "TERRITORIAL OO.CC. 1",
+          "hoja": "T OC1",
+          "celda": "B7"
+        },
+        {
+          "area": "TERRITORIAL OO.CC. 2",
+          "hoja": "T OC 2",
+          "celda": "B7"
+        },
+        {
+          "area": "TERRITORIAL OO.CC. 3",
+          "hoja": "T OC 3",
+          "celda": "B7"
+        },
+        {
+          "area": "TERRITORIAL OO.CC. 4",
+          "hoja": "T OC 4",
+          "celda": "B7"
+        },
+        {
+          "area": "APOYO ADMINISTRATIVO",
+          "hoja": "AP ADM.",
+          "celda": "B7"
+        },
+        {
+          "area": "COOR SERV. COMU",
+          "hoja": "COOR DISERCO",
+          "celda": "C10"
+        },
+        {
+          "area": "PLANIFICACIÓN Y GESTIÓN",
+          "hoja": "PLAN y CON",
+          "celda": "B5"
+        }
+      ]
+    },
+    {
+      "codigo": "AI-ee727e8a7f8eac",
+      "nombre": "OTRAS GESTIONES",
+      "unidad_medida": "Cantidad",
+      "origenes": [
+        {
+          "area": "GESTOR SOCIAL 1",
+          "hoja": "G SOC 1",
+          "celda": "validación J21:J510"
+        },
+        {
+          "area": "GESTOR SOCIAL 2",
+          "hoja": "G SOC2",
+          "celda": "validación J16:J459"
+        },
+        {
+          "area": "GESTOR SOCIAL 3",
+          "hoja": "G SOC3",
+          "celda": "validación J16:J459"
+        },
+        {
+          "area": "GESTOR SOCIAL 4",
+          "hoja": "G SOC4",
+          "celda": "validación J16:J459"
+        },
+        {
+          "area": "GESTOR SOCIAL 5",
+          "hoja": " G SOC5",
+          "celda": "validación J16:J459"
+        },
+        {
+          "area": "TERRITORIAL OO.CC. 1",
+          "hoja": "T OC1",
+          "celda": "validación I18:I223"
+        },
+        {
+          "area": "TERRITORIAL OO.CC. 2",
+          "hoja": "T OC 2",
+          "celda": "validación I17:I224"
+        },
+        {
+          "area": "TERRITORIAL OO.CC. 3",
+          "hoja": "T OC 3",
+          "celda": "validación I17:I224"
+        },
+        {
+          "area": "TERRITORIAL OO.CC. 4",
+          "hoja": "T OC 4",
+          "celda": "validación I17:I224"
+        },
+        {
+          "area": "APOYO ADMINISTRATIVO",
+          "hoja": "AP ADM.",
+          "celda": "validación H16:H962"
+        },
+        {
+          "area": "COOR SERV. COMU",
+          "hoja": "COOR DISERCO",
+          "celda": "validación I20:I218"
+        },
+        {
+          "area": "PLANIFICACIÓN Y GESTIÓN",
+          "hoja": "PLAN y CON",
+          "celda": "validación G16:G231"
+        }
+      ]
+    },
+    {
+      "codigo": "AI-ae2330aa68a710",
+      "nombre": "ATENCION DE USUARIO TELEFONO Y PRESENCIAL",
+      "unidad_medida": "Cantidad",
+      "origenes": [
+        {
+          "area": "TERRITORIAL OO.CC. 1",
+          "hoja": "T OC1",
+          "celda": "B3"
+        },
+        {
+          "area": "TERRITORIAL OO.CC. 2",
+          "hoja": "T OC 2",
+          "celda": "B3"
+        },
+        {
+          "area": "TERRITORIAL OO.CC. 3",
+          "hoja": "T OC 3",
+          "celda": "B3"
+        },
+        {
+          "area": "TERRITORIAL OO.CC. 4",
+          "hoja": "T OC 4",
+          "celda": "B3"
+        },
+        {
+          "area": "APOYO ADMINISTRATIVO",
+          "hoja": "AP ADM.",
+          "celda": "B3"
+        }
+      ]
+    },
+    {
+      "codigo": "AI-c73a9a92d03d23",
+      "nombre": "VISITAS, REUNIONES CON ORGANIZACIONES",
+      "unidad_medida": "Cantidad",
+      "origenes": [
+        {
+          "area": "TERRITORIAL OO.CC. 1",
+          "hoja": "T OC1",
+          "celda": "B4"
+        },
+        {
+          "area": "TERRITORIAL OO.CC. 2",
+          "hoja": "T OC 2",
+          "celda": "B4"
+        },
+        {
+          "area": "TERRITORIAL OO.CC. 3",
+          "hoja": "T OC 3",
+          "celda": "B4"
+        },
+        {
+          "area": "TERRITORIAL OO.CC. 4",
+          "hoja": "T OC 4",
+          "celda": "B4"
+        }
+      ]
+    },
+    {
+      "codigo": "AI-7c22a777692321",
+      "nombre": "CONFORMACION DE ORGANIZACIONES",
+      "unidad_medida": "Cantidad",
+      "origenes": [
+        {
+          "area": "TERRITORIAL OO.CC. 1",
+          "hoja": "T OC1",
+          "celda": "B5"
+        },
+        {
+          "area": "TERRITORIAL OO.CC. 2",
+          "hoja": "T OC 2",
+          "celda": "B5"
+        },
+        {
+          "area": "TERRITORIAL OO.CC. 3",
+          "hoja": "T OC 3",
+          "celda": "B5"
+        },
+        {
+          "area": "TERRITORIAL OO.CC. 4",
+          "hoja": "T OC 4",
+          "celda": "B5"
+        }
+      ]
+    },
+    {
+      "codigo": "AI-6033239ee6bafc",
+      "nombre": "GESTION DE TALLERES Y ACTIVIDADES",
+      "unidad_medida": "Cantidad",
+      "origenes": [
+        {
+          "area": "TERRITORIAL OO.CC. 1",
+          "hoja": "T OC1",
+          "celda": "B6"
+        },
+        {
+          "area": "TERRITORIAL OO.CC. 2",
+          "hoja": "T OC 2",
+          "celda": "B6"
+        },
+        {
+          "area": "TERRITORIAL OO.CC. 3",
+          "hoja": "T OC 3",
+          "celda": "B6"
+        },
+        {
+          "area": "TERRITORIAL OO.CC. 4",
+          "hoja": "T OC 4",
+          "celda": "B6"
+        }
+      ]
+    },
+    {
+      "codigo": "AI-e926e13ebd70a0",
+      "nombre": "LLAMADAS PREVENTIVAS A USUARIOS",
+      "unidad_medida": "Cantidad",
+      "origenes": [
+        {
+          "area": "APOYO ADMINISTRATIVO",
+          "hoja": "AP ADM.",
+          "celda": "B4"
+        }
+      ]
+    },
+    {
+      "codigo": "AI-e9cf354e8e4b26",
+      "nombre": "INFORME DE INVENTARIOS",
+      "unidad_medida": "Cantidad",
+      "origenes": [
+        {
+          "area": "APOYO ADMINISTRATIVO",
+          "hoja": "AP ADM.",
+          "celda": "B5"
+        }
+      ]
+    },
+    {
+      "codigo": "AI-f31b87d47ff4d0",
+      "nombre": "INFORME A COMUNICACIONES",
+      "unidad_medida": "Cantidad",
+      "origenes": [
+        {
+          "area": "APOYO ADMINISTRATIVO",
+          "hoja": "AP ADM.",
+          "celda": "B6"
+        }
+      ]
+    },
+    {
+      "codigo": "AI-039cd112bb8c8f",
+      "nombre": "INFORMES PERSONAL",
+      "unidad_medida": "Cantidad",
+      "origenes": [
+        {
+          "area": "COOR SERV. COMU",
+          "hoja": "COOR DISERCO",
+          "celda": "C3"
+        }
+      ]
+    },
+    {
+      "codigo": "AI-5269fe435f9f4d",
+      "nombre": "INFORME TRABAJO",
+      "unidad_medida": "Cantidad",
+      "origenes": [
+        {
+          "area": "COOR SERV. COMU",
+          "hoja": "COOR DISERCO",
+          "celda": "C4"
+        }
+      ]
+    },
+    {
+      "codigo": "AI-7de9149a0b3999",
+      "nombre": "OPERATIVO DELEGACION",
+      "unidad_medida": "Cantidad",
+      "origenes": [
+        {
+          "area": "COOR SERV. COMU",
+          "hoja": "COOR DISERCO",
+          "celda": "C5"
+        }
+      ]
+    },
+    {
+      "codigo": "AI-e13de205b770f8",
+      "nombre": "OPERATIVO DISERCO",
+      "unidad_medida": "Cantidad",
+      "origenes": [
+        {
+          "area": "COOR SERV. COMU",
+          "hoja": "COOR DISERCO",
+          "celda": "C6"
+        }
+      ]
+    },
+    {
+      "codigo": "AI-e73108f8ad6baf",
+      "nombre": "TALLERES",
+      "unidad_medida": "Cantidad",
+      "origenes": [
+        {
+          "area": "COOR SERV. COMU",
+          "hoja": "COOR DISERCO",
+          "celda": "C7"
+        }
+      ]
+    },
+    {
+      "codigo": "AI-df32d4c8ce4a7a",
+      "nombre": "TERRENO",
+      "unidad_medida": "Cantidad",
+      "origenes": [
+        {
+          "area": "COOR SERV. COMU",
+          "hoja": "COOR DISERCO",
+          "celda": "C8"
+        }
+      ]
+    },
+    {
+      "codigo": "AI-85423b34c251ab",
+      "nombre": "ATENCION REQUERIMIENTO USUARIO",
+      "unidad_medida": "Cantidad",
+      "origenes": [
+        {
+          "area": "COOR SERV. COMU",
+          "hoja": "COOR DISERCO",
+          "celda": "C9"
+        }
+      ]
+    },
+    {
+      "codigo": "AI-bdeac81b417c1e",
+      "nombre": "REUNION SEMANAL CON EL EQUIPO",
+      "unidad_medida": "Cantidad",
+      "origenes": [
+        {
+          "area": "PLANIFICACIÓN Y GESTIÓN",
+          "hoja": "PLAN y CON",
+          "celda": "B3"
+        }
+      ]
+    },
+    {
+      "codigo": "AI-b1075dd0b2991f",
+      "nombre": "SOLUCION DE PROBLEMAS A USUARIOS PARTICULARES",
+      "unidad_medida": "Cantidad",
+      "origenes": [
+        {
+          "area": "PLANIFICACIÓN Y GESTIÓN",
+          "hoja": "PLAN y CON",
+          "celda": "B4"
+        }
+      ]
+    }
+  ]
+}
