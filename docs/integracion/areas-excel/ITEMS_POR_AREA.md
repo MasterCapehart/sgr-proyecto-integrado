@@ -25,6 +25,7 @@ Se documentan 22 ítems de captura únicos y 73 asociaciones a las doce áreas. 
 - «VISITAS, REUNIONES CON ORGANIZACIONES» es un solo ítem: la coma forma parte del nombre en B4 de las cuatro hojas territoriales. No se usa la coma para separar ese nombre en dos opciones.
 - «OTRAS GESTIONES» está en las validaciones de captura y se asocia donde está documentada. «1RA / 2DA / 3RA GESTION» son etapas sociales y no se crean como ítems. «OTROS» sigue siendo una opción de etapa; no se convierte en un ítem adicional por inferencia.
 - Se excluyen porcentajes del tubo, totales, felicitaciones y reclamos como ítems de captura de actividades. Sus módulos y cálculos no se modifican.
+- La unidad histórica `1`, encontrada en AWS, se acepta como conteo equivalente y se conserva sin sobrescribirla.
 - La unidad utilizada es **Cantidad**, el conteo genérico representado por UNIDAD / unidad (1). El libro no especifica una unidad física distinta por cada ítem; no se inventan unidades como horas o metros.
 - Se reutilizan nombres existentes inequívocos normalizando espacios y mayúsculas. Se conservan código, descripción y asociaciones anteriores. Un nombre duplicado, un área ausente/inactiva, una unidad incompatible o un código ocupado detiene toda la operación.
 - Cada cambio genera versión y auditoría. Antes de ampliar vínculos se conservan referencias históricas sin captura, marcadas como observadas.

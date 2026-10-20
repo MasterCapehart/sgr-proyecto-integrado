@@ -54,3 +54,8 @@ class AreaItemsTests(TestCase):
   self.assertEqual(self.client.post('/api/operacion/actividades/',data,content_type='application/json').status_code,400)
   data['item']=ItemMeta.objects.get(nombre='CONFORMACION DE ORGANIZACIONES').pk
   self.assertEqual(self.client.post('/api/operacion/actividades/',data,content_type='application/json').status_code,201)
+
+ def test_unidad_legacy_uno_conserva_codigo_y_unidad(self):
+  item=ItemMeta.objects.create(codigo='ITEM-001',nombre='ATENCION DE USUARIO TELEFONO Y PRESENCIAL',unidad_medida='1')
+  configure(self.r,apply=True)
+  item.refresh_from_db();self.assertEqual(item.unidad_medida,'1');self.assertEqual(item.codigo,'ITEM-001');self.assertEqual(item.cargos.count(),5)

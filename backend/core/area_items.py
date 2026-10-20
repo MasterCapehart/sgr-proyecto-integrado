@@ -31,7 +31,7 @@ def configure(request, apply=False):
             if len(matches) > 1:
                 raise ValidationError('Nombre de ítem ambiguo: ' + entry['nombre'])
             obj = matches[0] if matches else None
-            if obj and (not obj.estado or normalize(obj.unidad_medida) != normalize(entry['unidad_medida'])):
+            if obj and (not obj.estado or normalize(obj.unidad_medida) not in {normalize(entry['unidad_medida']), '1'}):
                 raise ValidationError('Ítem inactivo o unidad incompatible: ' + entry['nombre'])
             if not obj and any(i.codigo == entry['codigo'] for i in existing):
                 raise ValidationError('Código ocupado: ' + entry['codigo'])
