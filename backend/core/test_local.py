@@ -266,7 +266,8 @@ def variant_test(resource,variant):
             first=self.send(url,payload);self.assertEqual(first.status_code,201,first.content)
             self.assertIn(self.send(url,payload).status_code,[400,409])
         elif variant=='obligatorios':
-            for name in required:
+            # El código se asigna automáticamente al crear; los demás siguen siendo obligatorios.
+            for name in [field for field in required if field!='codigo']:
                 with self.subTest(campo=name):
                     invalid={k:v for k,v in payload.items() if k!=name}
                     response=self.send(url,invalid);self.assertEqual(response.status_code,400,response.content)

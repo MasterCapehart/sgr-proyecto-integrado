@@ -209,6 +209,9 @@ def records(request,resource,pk=None,action=None):
                 validate_transition(request,obj,before,data)
             if before:obj.version+=1
             obj.save()
+            if not before:
+                from .auto_codes import operation_saved
+                operation_saved(obj,resource,request.user)
             if resource=='compromisos' and before:
                 observation=data.get('observacion')
                 if not isinstance(observation,str) or not observation.strip() or len(observation)>2000:raise ValidationError('Indica una observación de hasta 2000 caracteres.')

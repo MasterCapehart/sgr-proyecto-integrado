@@ -74,8 +74,12 @@
             <div class="field full" id="seccion-caso-social" style="display: none; background: #fdf5f5; border: 1px solid #fed7d7; border-radius: 6px; padding: 16px;">
               <p class="eyebrow" style="margin: 0 0 6px;">Atención de Asistencia Social</p>
               <p style="font-size: 13px; color: var(--muted); margin: 0 0 12px;">Un caso social puede conservar hasta tres gestiones sucesivas del mismo solicitante.</p>
-              <label for="codigo-caso-social" style="font-size: 13px;">Código de Caso Social (opcional para continuidad):</label>
-              <input type="text" id="codigo-caso-social" name="caso_social" placeholder="ej. CS-2026-089">
+              <label for="modo-caso-social">Expediente social</label>
+              <select id="modo-caso-social"><option value="ninguno">Atención sin expediente social</option><option value="nuevo">Crear nuevo caso · código automático</option><option value="existente">Continuar caso existente</option></select>
+              <div id="selector-caso-social" hidden><label for="caso-social-existente">Selecciona el caso</label><select id="caso-social-existente"><option value="">Selecciona un expediente…</option></select></div>
+              <label for="codigo-caso-social">Código de caso social</label>
+              <input type="text" id="codigo-caso-social" name="caso_social" readonly placeholder="Se genera al crear un caso nuevo">
+              <p class="help">Para continuar una gestión, selecciona el expediente existente; conservará su código.</p>
             </div>
 
             <details class="social-optional full" id="datos-seguimiento-social">
@@ -120,7 +124,7 @@
 <script defer src="../assets/js/modules/borradores.js"></script>
 <script defer src="../assets/js/components/kpis.js"></script>
 <script defer src="../assets/js/components/layout.js"></script>
-  <script defer src="../assets/js/modules/ingreso-atencion.js"></script>
+  <script defer src="../assets/js/modules/ingreso-atencion.js?v=2"></script>
   <script defer src="../assets/js/app.js"></script>
 </body>
 </html>

@@ -123,7 +123,7 @@ class PatronCRUDAPITestCase(TestCase):
         data = response.json()
         self.assertFalse(data["success"])
         self.assertEqual(data["error"]["code"], "400")
-        self.assertIn("codigo", data["error"]["details"])
+        self.assertNotIn("codigo", data["error"]["details"])
         self.assertIn("nombre", data["error"]["details"])
 
     def test_update_patch_success(self):

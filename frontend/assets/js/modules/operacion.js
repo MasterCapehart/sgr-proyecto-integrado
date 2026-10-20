@@ -21,6 +21,7 @@
    for(const v of values)input.add(typeof v==='string'?new Option(v,v):new Option(type==='compromisos'?v.descripcion+' · '+v.folio:type==='actividades'?v.codigo+' · '+v.solicitud:v.nombre||v.codigo||v.folio||v.nombre_archivo,v.id));
   }else{input=el('input');input.type=type;}
   input.id='op-'+name;input.name=name;input.required=!optional;
+  if(name==='codigo_verificacion_foto'){input.readOnly=true;input.required=false;input.placeholder='Se genera al guardar; no sustituye el archivo de evidencia';}
   if(type==='file'){
    input.accept='.pdf,.png,.jpg,.jpeg';
    input.style.display='none';

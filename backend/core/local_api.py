@@ -234,6 +234,8 @@ def options(request):
 
 def validate_data(obj, data, resource, request, creating=False):
     fields=RESOURCES[resource][1]; incoming=dict(data)
+    from .auto_codes import prepare_catalog
+    prepare_catalog(obj,incoming,resource,creating)
     if isinstance(obj,PeriodoGestion) and obj.pk and obj.cerrado:raise ValidationError('El período está cerrado. Reábrelo con autorización antes de editarlo.')
     if isinstance(obj,ConfiguracionMeta):
         from .period_support import prepare_meta
@@ -414,6 +416,8 @@ def crud(request, resource, pk=None, action=None):
             validate_data(obj,data,resource,request,creating=not pk)
             if pk: obj.version+=1
             obj.save()
+            from .auto_codes import catalog_saved
+            catalog_saved(obj,resource)
             if hasattr(obj,'_delegaciones'): obj.delegaciones.set(obj._delegaciones)
             if hasattr(obj,'_cargos'): obj.cargos.set(obj._cargos)
             catalog_history.record(request,resource,obj)
@@ -437,8 +441,10 @@ def crud(request, resource, pk=None, action=None):
 
 def create_attention(request,data):
     from .excel_support import SOCIAL_FIELDS, validate_social
-    allowed_keys=set(SOCIAL_FIELDS)|{'solicitante','tipo_atencion','sub_atencion','descripcion','delegacion_responsable','caso_social','clave_idempotencia','motivo_derivacion','compromiso'}
+    allowed_keys=set(SOCIAL_FIELDS)|{'solicitante','tipo_atencion','sub_atencion','descripcion','delegacion_responsable','caso_social','clave_idempotencia','motivo_derivacion','compromiso','nuevo_caso'}
     if set(data)-allowed_keys: return error('Hay campos no editables.')
+    if 'nuevo_caso' in data and not isinstance(data['nuevo_caso'],bool):return error('Indica Sí o No en nuevo caso.')
+    if data.get('nuevo_caso') and data.get('caso_social'):return error('Elige crear un caso o continuar uno existente.')
     d=active_delegation(request)
     if not d: return error('No tienes delegación autorizada.',403)
     key=data.get('clave_idempotencia') or uuid.uuid4().hex
@@ -447,6 +453,7 @@ def create_attention(request,data):
     if existing:
         if existing.usuario_id!=request.user.pk or existing.delegacion_id!=d.pk: return error('Clave ya utilizada.',409)
         for field in ['solicitante','descripcion','caso_social','tipo_atencion_id','sub_atencion_id','delegacion_responsable_id','compromiso_id']:
+            if field=='caso_social' and data.get('nuevo_caso') and existing.caso_social:continue
             source=field.removesuffix('_id')
             if source in data and field.endswith('_id') and str(getattr(existing,field))!=str(data[source]): return error('La clave corresponde a otra solicitud.',409)
             if field in data and (getattr(existing,field) or '')!=((str(data[field]).strip().upper() if field=='caso_social' else str(data[field]).strip()) if data[field] else ''): return error('La clave corresponde a otra solicitud.',409)
@@ -479,6 +486,10 @@ def create_attention(request,data):
     try:validate_social(obj,data)
     except ValidationError as ex:return error('; '.join(ex.messages))
     with transaction.atomic():
+        if data.get('nuevo_caso'):
+            from .auto_codes import assign
+            case=CasoSocial.objects.create(codigo='TMP-'+uuid.uuid4().hex,solicitante=' '.join(obj.solicitante.casefold().split()))
+            obj.caso_social=assign(case,'codigo','CS',timezone.localdate())
         if obj.caso_social:
             obj.caso_social=obj.caso_social.upper()
             case,_=CasoSocial.objects.get_or_create(codigo=obj.caso_social,defaults={'solicitante':' '.join(obj.solicitante.casefold().split())})
@@ -498,6 +509,8 @@ def create_attention(request,data):
         if not obj.tipo_atencion.estado or not obj.sub_atencion.estado:raise ValidationError('El catálogo dejó de estar activo.')
         obj.catalogos_snapshot=catalog_history.attention(obj)
         obj.full_clean();obj.save()
+        from .auto_codes import assign
+        assign(obj,'folio','AT',timezone.localdate())
         if obj.delegacion_responsable_id!=d.pk: AuditoriaDerivacion.objects.create(atencion=obj,delegacion_origen=d,delegacion_destino=obj.delegacion_responsable,usuario_responsable=request.user,motivo=data.get('motivo_derivacion','Derivación institucional autorizada'))
         record_event(request,'atenciones',obj.pk,'crear',None,snapshot(obj,RESOURCES['atenciones'][1]))
     response=ok(serialize(obj,RESOURCES['atenciones'][1]),message='Atención registrada.');response.status_code=201;return response
