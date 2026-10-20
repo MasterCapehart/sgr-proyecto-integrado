@@ -2,10 +2,10 @@ document.addEventListener('DOMContentLoaded', async()=>{
  const resource=document.body.dataset.page;
  const definitions={
   periodos:[['codigo','Código',20],['nombre','Período',100],['fecha_inicio','Fecha de inicio','date'],['fecha_fin','Fecha de término','date']],
-  cargos:[['codigo','Código',20],['nombre','Cargo / función',100],['area','Área',100],['planilla','Planilla de trabajo (Excel)','planillas']],
+  cargos:[['codigo','Código',20],['nombre','Cargo / área operativa',100],['area','Área',100],['planilla','Planilla de trabajo (Excel)','planillas']],
   delegaciones:[['codigo','Código',20],['nombre','Nombre',100],['direccion','Dirección',255],['comuna','Comuna',100]],
   roles:[['nombre','Nombre',50],['descripcion','Descripción',200],['alcance','Alcance','scope'],['permisos','Permisos','permissions']],
-  usuarios:[['username','Usuario',150],['first_name','Nombre',150],['last_name','Apellidos',150],['email','Correo','email'],['rut','RUN (opcional)',12],['rol','Rol de acceso','roles'],['cargo','Cargo / función (opcional)','cargos'],['delegacion','Delegación principal','delegaciones'],['delegaciones','Delegaciones autorizadas','multiple'],['password','Contraseña (solo al crear o cambiar)','password']],
+  usuarios:[['username','Usuario',150],['first_name','Nombre',150],['last_name','Apellidos',150],['email','Correo','email'],['rut','RUN (opcional)',12],['rol','Rol de acceso','roles'],['cargo','Cargo / área operativa (opcional)','cargos'],['delegacion','Delegación principal','delegaciones'],['delegaciones','Delegaciones autorizadas','multiple'],['password','Contraseña (solo al crear o cambiar)','password']],
   'tipos-atencion':[['codigo','Código',20],['nombre','Nombre',100],['descripcion','Descripción',2000]],
   subatenciones:[['codigo','Código',20],['nombre','Nombre',100],['descripcion','Descripción',2000],['tipo_atencion','Tipo de atención','tipos-atencion']],
   'items-metas':[['codigo','Código',20],['nombre','Nombre',100],['descripcion','Descripción',2000],['unidad_medida','Unidad de medida',50],['cargos','Cargos que utilizan este ítem (vacío: general)','multi-cargos']],
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', async()=>{
  try{session=await window.SGRSession;}catch{return;}
  const can=action=>session.permisos.includes(resource+'.'+action);
  document.getElementById('btn-nuevo').hidden=!can('crear');document.getElementById('btn-export').hidden=!can('exportar');
- const columns=defs.filter(d=>!['password','permisos','delegaciones','rut'].includes(d[0])&&(resource!=='usuarios'||['username','first_name','email','rol','delegacion'].includes(d[0])));
+ const columns=defs.filter(d=>!['password','permisos','delegaciones','rut'].includes(d[0])&&(resource!=='usuarios'||['username','first_name','email','rol','cargo','delegacion'].includes(d[0])));
  if(resource==='periodos')columns.push(['duracion_dias','Días'],['situacion','Situación']);
  const head=tbody.closest('table').querySelector('thead');head.replaceChildren();const tr=document.createElement('tr');for(const label of [...columns.map(d=>d[1]),'Estado','Acciones']){const th=document.createElement('th');th.scope='col';th.textContent=label;tr.append(th);}head.append(tr);
  const oldPager=info?.parentElement.querySelector('.pagination');if(oldPager)oldPager.remove();

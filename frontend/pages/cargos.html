@@ -23,7 +23,7 @@
         <div>
           <p class="eyebrow">Catálogo y administración</p>
           <h1>Cargos y áreas</h1>
-          <p class="sub">Consulta, organiza y mantiene las cargos, funciones y áreas de trabajo.</p>
+          <p class="sub">Consulta y administra los cargos y las áreas operativas de trabajo.</p>
         </div>
         <button class="button" type="button" id="btn-nuevo">+ Nuevo cargo</button>
       </div>
@@ -33,28 +33,28 @@
       <div class="card" style="padding: 0; margin-bottom: 24px;">
         <div class="toolbar">
           <label for="search-input">
-            <span>Buscar delegaciones</span>
-            <input type="search" id="search-input" placeholder="Buscar por código, nombre o comuna...">
+            <span>Buscar cargos y áreas</span>
+            <input type="search" id="search-input" placeholder="Buscar por código, nombre o área...">
           </label>
           <label for="status-filter" style="max-width: 180px;">
             <span>Estado</span>
             <select id="status-filter">
               <option value="todos">Todos</option>
-              <option value="activo">Activa</option>
-              <option value="inactivo">Inactiva</option>
+              <option value="activo">Activo</option>
+              <option value="inactivo">Inactivo</option>
             </select>
           </label>
           <button type="button" class="button secondary" id="btn-export">↓ Exportar a Excel</button>
         </div>
 
         <div class="tablewrap">
-          <table aria-label="Listado de delegaciones">
+          <table aria-label="Listado de cargos y áreas">
             <thead>
               <tr>
                 <th scope="col">Código</th>
                 <th scope="col">Nombre</th>
-                <th scope="col">Dirección</th>
-                <th scope="col">Comuna</th>
+                <th scope="col">Área</th>
+                <th scope="col">Planilla</th>
                 <th scope="col">Estado</th>
                 <th scope="col">Acciones</th>
               </tr>
@@ -73,42 +73,18 @@
       <dialog id="modal-editor">
         <form id="form-editor" method="dialog" novalidate>
           <div class="modalhead">
-            <h2 id="modal-title">Nueva Delegación</h2>
+            <h2 id="modal-title">Nuevo cargo / área</h2>
             <button type="button" class="linkbtn" id="modal-close" style="font-size: 16px;">✕</button>
           </div>
-          <div class="modalbody grid">
-            <div class="field">
-              <label for="campo-codigo">Código <span class="required" aria-hidden="true">*</span></label>
-              <input type="text" id="campo-codigo" name="codigo" placeholder="ej. DEL04" required>
-            </div>
-            <div class="field">
-              <label for="campo-nombre">Nombre de la Delegación <span class="required" aria-hidden="true">*</span></label>
-              <input type="text" id="campo-nombre" name="nombre" placeholder="ej. La Florida" required>
-            </div>
-            <div class="field">
-              <label for="campo-direccion">Dirección <span class="required" aria-hidden="true">*</span></label>
-              <input type="text" id="campo-direccion" name="direccion" placeholder="ej. Av. El Santo 1230" required>
-            </div>
-            <div class="field">
-              <label for="campo-comuna">Comuna <span class="required" aria-hidden="true">*</span></label>
-              <input type="text" id="campo-comuna" name="comuna" value="La Serena" required>
-            </div>
-            <div class="field full">
-              <label for="campo-estado">Estado operativo <span class="required" aria-hidden="true">*</span></label>
-              <select id="campo-estado" name="estado">
-                <option value="Activa">Activa</option>
-                <option value="Inactiva">Inactiva</option>
-              </select>
-            </div>
-          </div>
+          <div class="modalbody grid"></div>
           <div class="modalfoot">
             <button type="button" class="button secondary" id="modal-cancel">Cancelar</button>
-            <button type="submit" class="button primary" id="modal-save">Guardar delegación</button>
+            <button type="submit" class="button primary" id="modal-save">Guardar cargo / área</button>
           </div>
         </form>
       </dialog>
 
-      <footer class="footer">SGR · Municipalidad de La Serena · Mantenedor M-14</footer>
+      <footer class="footer">SGR · Municipalidad de La Serena · Cargos y áreas</footer>
     </main>
   </div>
 
@@ -116,7 +92,8 @@
   <script defer src="../assets/js/api-local.js"></script>
 <script defer src="../assets/js/modules/borradores.js"></script>
 <script defer src="../assets/js/components/layout.js"></script>
-  <script defer src="../assets/js/modules/mantenedor-comun.js"></script>
+  <script defer src="../assets/js/modules/mantenedor-comun.js?v=2"></script>
+  <script defer src="../assets/js/modules/areas-excel.js"></script>
   <script defer src="../assets/js/app.js"></script>
 </body>
 </html>

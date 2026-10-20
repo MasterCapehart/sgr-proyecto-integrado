@@ -8,6 +8,9 @@ urlpatterns = [
  path('contexto/',api.context),path('atenciones/contexto/',api.context),
  path('contexto/cambiar-delegacion/',api.change_context),path('opciones/',api.options),
 ]
+from . import area_catalog
+urlpatterns += [path('cargos/referencia-excel/', area_catalog.reference)]
+
 for resource in api.RESOURCES:
  urlpatterns += [
   path(resource+'/',api.crud,{'resource':resource}),
