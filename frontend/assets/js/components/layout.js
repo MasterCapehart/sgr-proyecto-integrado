@@ -181,7 +181,7 @@
             ];
 
             for (const [label, ids] of groups) {
-              const available = links.filter(x => ids.includes(x[0]) && c.permisos.includes(x[3])).sort((a, b) => ids.indexOf(a[0]) - ids.indexOf(b[0]));
+              const available = links.filter(x => ids.includes(x[0]) && c.permisos.includes(x[3]) && !(x[0] === 'atencion' && (document.body.dataset.capturePreview || c.permisos.includes('actividades.crear')))).sort((a, b) => ids.indexOf(a[0]) - ids.indexOf(b[0]));
               if (!available.length) continue;
               const section = document.createElement('details');
               section.className = 'nav-section';
@@ -191,7 +191,7 @@
               section.append(title);
               for (const [id, file, text] of available) {
                 const a = document.createElement('a');
-                a.href = basePath + 'pages/' + file + '.html';
+                a.href = basePath + 'pages/' + (document.body.dataset.capturePreview && id === 'actividades' ? 'planilla-unificada-preview' : file) + '.html';
                 const iconSvg = ICONS[id] || '';
                 a.innerHTML = `${iconSvg} <span>${text}</span>`;
                 a.className = 'nav';

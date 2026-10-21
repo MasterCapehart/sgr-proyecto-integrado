@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     for (const [perm, file, label] of [
-      ['atenciones.crear', 'ingreso-atencion', 'Registrar atención'],
+      ['actividades.crear', 'registro-trabajo', 'Registrar actividad o atención'],
       ['actividades.crear', 'desempeno', 'Abrir mi planilla'],
       ['compromisos.ver', 'tubo-trabajo', 'Consultar tubo de trabajo'],
       ['evidencias.revisar', 'validacion', 'Revisar evidencias']

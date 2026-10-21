@@ -52,3 +52,7 @@ urlpatterns += [path('mi-progreso/', personal_progress.overview)]
 
 from . import capture_followup
 urlpatterns += [path('seguimiento/opciones/',capture_followup.options),path('operacion/compromisos/<int:pk>/origenes/',capture_followup.origins)]
+
+from . import capture_form
+urlpatterns += [path('captura/', capture_form.create)]
+urlpatterns += [path('captura/opciones/', capture_form.options)]

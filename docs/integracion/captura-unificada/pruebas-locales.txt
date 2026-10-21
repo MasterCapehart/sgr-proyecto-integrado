@@ -1,0 +1,10 @@
+Creating test database for alias 'default'...
+....................................................................................................................................................................................................................................................................................................x....................................................................................................................
+----------------------------------------------------------------------
+Ran 409 tests in 52.043s
+
+OK (expected failures=1)
+Destroying test database for alias 'default'...
+Found 409 test(s).
+System check identified no issues (0 silenced).
+Navegador QA: registro general y social, junta persistente, compromiso, evidencia PDF, detalle y móvil verificados.

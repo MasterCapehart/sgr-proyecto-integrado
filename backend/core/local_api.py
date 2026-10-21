@@ -85,6 +85,8 @@ def serialize(obj, fields):
         result.update(conciliada_con=obj.conciliada_con_id,periodo_cerrado=bool(obj.periodo_gestion_id and obj.periodo_gestion.cerrado),periodo_nombre=obj.periodo_gestion.nombre if obj.periodo_gestion_id else obj.periodo,historico_sin_calendario=not bool(obj.periodo_gestion_id))
     if isinstance(obj,SubAtencion): result['tipo_padre_display']=f'{obj.tipo_atencion.codigo} · {obj.tipo_atencion.nombre}'
     if isinstance(obj,Atencion):
+        linked=getattr(obj,'actividad_origen',None)
+        result.update(actividad=linked.pk if linked else None,junta_vecinos=linked.junta_vecinos if linked else '')
         snapshot=obj.catalogos_snapshot or {}
         result.update(usuario_nombre=obj.usuario.get_full_name() or obj.usuario.username,tipo_nombre=snapshot.get('tipo_atencion',{}).get('nombre',obj.tipo_atencion.nombre),subatencion_nombre=snapshot.get('sub_atencion',{}).get('nombre',obj.sub_atencion.nombre),catalogos_snapshot=snapshot or None,historia_catalogos='Captura posterior; etiqueta original no garantizada' if snapshot.get('observada') else 'Captura al registrar' if snapshot else 'Sin captura histórica; etiqueta actual')
     if isinstance(obj,Usuario): result['estado']=obj.is_active; result['nombre']=obj.get_full_name() or obj.username

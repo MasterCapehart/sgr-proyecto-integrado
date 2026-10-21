@@ -43,6 +43,8 @@ class Compromiso(RegistroOperativo):
     estado = models.CharField(max_length=20, default='Ingresado', choices=[(x,x) for x in ['Ingresado','Pendiente','En proceso','Realizado']])
 
 class Actividad(RegistroOperativo):
+    junta_vecinos = models.CharField(max_length=200, blank=True, default="")
+    atencion = models.OneToOneField("core.Atencion", null=True, blank=True, on_delete=models.PROTECT, related_name="actividad_origen")
     clave_idempotencia = models.CharField(max_length=64, unique=True, null=True, blank=True, editable=False)
     captura_hash = models.CharField(max_length=64, blank=True, default='', editable=False)
     profesional = models.ForeignKey(settings.AUTH_USER_MODEL,null=True,blank=True,on_delete=models.PROTECT,related_name='actividades_profesional')

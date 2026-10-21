@@ -16,7 +16,7 @@ from .models import Actividad, Evidencia, Compromiso, RevisionEvidencia, Seguimi
 
 MODELS={'actividades':Actividad,'evidencias':Evidencia,'compromisos':Compromiso}
 FIELDS={
- 'actividades':['fecha','solicitud','accion','contacto','telefono','sector','item','compromiso','unidad','plantilla','profesional'],
+ 'actividades':['fecha','solicitud','accion','contacto','telefono','sector','item','compromiso','unidad','plantilla','profesional','junta_vecinos'],
  'compromisos':['fecha_solicitud','descripcion','solicitante','sector','responsable','fecha_comprometida','area_apoyo','origen','estado','unidad','codigo_verificacion_foto'],
 }
 
@@ -32,6 +32,7 @@ def representation(obj):
     r={'id':obj.pk,'version':obj.version,'autor':obj.autor_id,'autor_nombre':obj.autor.get_full_name() or obj.autor.username,'delegacion':obj.delegacion_id,'creado':obj.creado.isoformat(),'estado':obj.estado}
     if isinstance(obj,Actividad):
         r.update(api.serialize(obj,FIELDS['actividades']));r.update(codigo=obj.codigo,item_nombre=(obj.catalogos_snapshot or {}).get('item',{}).get('nombre',obj.item.nombre),catalogos_snapshot=obj.catalogos_snapshot,historia_catalogos='Captura posterior; etiqueta original no garantizada' if (obj.catalogos_snapshot or {}).get('observada') else 'Captura al registrar' if obj.catalogos_snapshot else 'Sin captura histórica; etiqueta actual')
+        r['atencion']=obj.atencion_id
         r.update(profesional_nombre=(obj.profesional.get_full_name() or obj.profesional.username) if obj.profesional_id else None,cargo=obj.cargo_id,cargo_nombre=((obj.catalogos_snapshot or {}).get('cargo') or {}).get('nombre',obj.cargo.nombre if obj.cargo_id else None),area=((obj.catalogos_snapshot or {}).get('cargo') or {}).get('area',obj.cargo.area if obj.cargo_id else None),derivado_a=obj.derivado_a,estado_derivacion=obj.estado_derivacion,ingreso_tubo='Sí' if obj.compromiso_id else 'No')
         r['derivaciones']=[{'fecha':x.fecha.isoformat(),'autor':x.autor.get_full_name() or x.autor.username,'destino':x.destino,'motivo':x.motivo,'estado':x.estado} for x in obj.derivaciones.select_related('autor')]
         r['evidencias_actuales']=[{'id':e.pk,'archivo':e.nombre_archivo,'estado':e.estado,'url':f'/api/operacion/evidencias/{e.pk}/archivo/'} for e in obj.evidencias.filter(siguiente_version__isnull=True)]
@@ -81,7 +82,7 @@ def apply_fields(request,resource,obj,data):
             elif value not in PROFILES or (not request.user.is_superuser and value!=(selected or 'GENERAL')):raise ValidationError('Planilla no autorizada para tu función.')
             obj.plantilla=value
         else:
-            if field=='codigo_verificacion_foto' and value in ['',None]:obj.codigo_verificacion_foto='';continue
+            if field in ['codigo_verificacion_foto','junta_vecinos'] and value in ['',None]:setattr(obj,field,'');continue
             if field=='fecha_solicitud' and value in ('',None):obj.fecha_solicitud=None;continue
             if not isinstance(value,str) or not value.strip():raise ValidationError(f'{field}: campo obligatorio de texto.')
             setattr(obj,field,value.strip())

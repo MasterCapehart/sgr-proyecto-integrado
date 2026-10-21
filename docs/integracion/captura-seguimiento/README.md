@@ -55,7 +55,7 @@ El ejemplo ilustra los campos adicionales; también deben enviarse los campos ob
 
 Migración **0018_captura_seguimiento**: agrega tres columnas opcionales a tablas existentes: clave de idempotencia/huella en Actividad y huella en Atencion. No crea tablas adicionales ni modifica claves, asignaciones, códigos o vínculos anteriores. Fue aplicada en la base local MAMP y en la base independiente de demostración.
 
-Esta etapa **no está desplegada en AWS**. Para desplegarla se requiere respaldo, publicar los archivos de aplicación, ejecutar la migración con permisos de esquema y verificar el recorrido remoto; copiar solo los HTML no es suficiente.
+Este informe registra la validación local del 20/10/2026. La publicación posterior se documenta en [Captura unificada](../captura-unificada/README.md). Para desplegarla se requiere respaldo, publicar los archivos de aplicación, ejecutar la migración con permisos de esquema y verificar el recorrido remoto; copiar solo los HTML no es suficiente.
 
 ## Verificación local
 
