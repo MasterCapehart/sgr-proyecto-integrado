@@ -25,3 +25,5 @@ AWS personal, aplicación `195993159285696e8a11bc06a02cffea273ea5f5`. Respaldo S
 Regresión local: 414 casos, 413 aprobados y un fallo esperado preexistente. AWS: 26 comprobaciones transaccionales aprobadas, incluyendo reserva y código guardado idénticos, sin persistir registros QA. Navegador: Administrador, Funcionario y Consulta, buscador, código visible, encabezado y móvil. Abrir el formulario genera una reserva auditable, sin crear una actividad ficticia.
 
 [Evidencia del despliegue](aws-2026-10-21/ajustes/despliegue.txt) · [Verificación AWS](aws-2026-10-21/ajustes/verificacion-transaccional.txt) · [Navegador AWS](aws-2026-10-21/ajustes/navegador.json).
+
+Corrección visual posterior: se añadió la clase institucional al encabezado de registro-trabajo.html. Fondo verificado en local y AWS: rgba(255, 255, 255, 0.14), igual al de Mi planilla. Vista móvil sin desbordamiento. Aplicación `945a838f4472ed76cb12bcb3bd4bae95b3c9b7b6`; sin cambios de datos o esquema.
