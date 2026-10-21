@@ -28,6 +28,8 @@ Se validó el ciclo completo `Registro → Tubo → Evidencia → Revisión → 
 * **Regresión local global**: 436 pruebas ejecutadas (`435 OK`, `1 expected failure` heredada).
 * **Verificación transaccional en AWS**: 27 comprobaciones aprobadas en vivo sobre EC2/RDS personal (`54.236.112.203`) mediante SSM y transacción atómica con rollback limpio, sin residuos ficticios en la base de datos.
 
-## Ajuste del menú (validado en local)
+## Ajuste del menú (desplegado en AWS)
 
 Los accesos de lectura a Ítems y metas, Tipos de atención y Subatenciones se agrupan en «Catálogos de consulta». No se retiran ni conceden permisos de API. La clasificación usa permisos de cada catálogo y no el nombre del rol; admite permisos mixtos sin enlaces duplicados. El grupo Administración desaparece si no contiene accesos.
+
+Desplegado el 21/10/2026: `fe6dec16eadeb382c9cb9053c8e456edb39b09ea`. Copia previa de archivos y respaldo SQL cifrado en S3 (2.778.233 bytes). Salud, versión, hashes y servicios activos verificados; sin migraciones nuevas. Prueba local de permisos de lectura y mixtos aprobada. Navegador AWS: funcionario, verificador, coordinador, delegado y consulta muestran los tres catálogos en su grupo de consulta, sin Administración ni enlaces duplicados. No se cambiaron permisos ni datos de negocio.
