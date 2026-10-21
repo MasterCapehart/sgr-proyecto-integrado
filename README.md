@@ -41,6 +41,7 @@ Seguir [backend/README.md](backend/README.md). Cada integrante mantiene su propi
 - **Ítems y metas:** administración de ítems y configuraciones de metas.
 - **Tipos y subatenciones:** administración de ambos catálogos y sus asociaciones.
 - **Captura unificada:** Mi planilla → Registrar actividad o atención; datos del vecino, junta de vecinos, ficha social y seguimiento opcional en el tubo, sin volver a capturar la solicitud.
+- **Vecinos:** búsqueda por RUN o nombre y alta desde la captura; datos reutilizables dentro de la delegación activa. [Funcionamiento y pruebas](docs/integracion/vecinos/README.md).
 - **Actividades y evidencias:** registro de trabajo por cargo, evidencia opcional y revisión de archivos por otra persona autorizada.
 - **Compromisos y seguimiento:** gestión de compromisos, avances y conversación.
 - **Alertas y auditoría:** consulta de alertas y registro de operaciones.
@@ -53,7 +54,7 @@ Los permisos deben asignarse explícitamente y los catálogos deben validarse co
 ## Despliegue y versión evaluada
 
 - [SGR en AWS personal](https://54.236.112.203/pages/login.html), última verificación registrada el 21/10/2026.
-- Versión de aplicación evaluada: `945a838f4472ed76cb12bcb3bd4bae95b3c9b7b6`; consultar [/api/version/](https://54.236.112.203/api/version/).
+- Versión de aplicación evaluada: `dc97a010889ad862f5a60b501bed18b25a165441`; consultar [/api/version/](https://54.236.112.203/api/version/).
 - [Instalación, configuración y recuperación AWS](docs/entrega/despliegue/README.md).
 - [Resultados, incidencias y estado del paquete de evidencias](docs/entrega/README.md).
 

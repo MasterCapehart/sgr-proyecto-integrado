@@ -24,6 +24,16 @@ El alta requiere una clave idempotente. La restricción RUN/delegación y la rec
 
 Regresión completa: **426 casos, 425 aprobados y un fallo esperado preexistente**. Navegador QA: buscar sin resultados, registrar vecino desde el formulario, completar los cinco datos, reutilizar por RUN, guardar captura general y social, y móvil sin desbordamiento. Revisión independiente de integridad y reintentos; hallazgos corregidos y comprobados antes del despliegue.
 
-## Estado
+## Despliegue verificado — AWS personal
 
-Implementado y verificado localmente. **Pendiente de publicación en AWS: sesión sgr-personal vencida.** La versión remota anterior permanece activa. Tras renovar la sesión se debe ejecutar respaldo, aplicar 0020 con credencial transitoria de migración, publicar y comprobar el recorrido remoto con reversión de datos QA.
+Publicado el 21/10/2026, aplicación `dc97a010889ad862f5a60b501bed18b25a165441`. [Abrir formulario](https://54.236.112.203/pages/registro-trabajo.html).
+
+- Respaldo SQL previo de 2.767.564 bytes cifrado en S3 privado y copia de archivos/configuración de la versión anterior.
+- Migración 0020 aplicada con credencial temporal de esquema; no se ampliaron permisos del usuario de la aplicación.
+- 19 archivos verificados, salud y versión correctas; servicios SGR y Nginx activos.
+- 41 comprobaciones remotas aprobadas: registro y reintento de vecino, duplicado de RUN, búsquedas por nombre/RUN, captura vinculada, conservación del directorio al editar datos de contacto de una captura, identidad protegida en edición, aislamiento entre delegaciones y rechazo de operaciones para Consulta, además del flujo social y del tubo. Todas las filas QA se revirtieron; los conteos finales coincidieron.
+- Navegador con Administrador, Funcionario y Consulta: buscador de vecinos, formulario de alta, permisos y móvil. No se enviaron altas de negocio desde esta revisión del navegador; abrir la captura sí genera su reserva auditable de código.
+
+El laboratorio no se modificó. No se importaron vecinos históricos ni personas del Excel. Los datos de un vecino se registran explícitamente desde el formulario.
+
+[Evidencia de despliegue](aws-2026-10-21/despliegue.txt) · [Pruebas transaccionales](aws-2026-10-21/verificacion-transaccional.txt) · [Navegador AWS](aws-2026-10-21/navegador.json).
