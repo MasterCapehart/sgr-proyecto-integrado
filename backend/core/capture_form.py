@@ -23,7 +23,7 @@ def create(request):
  if denied:return denied
  try:
   data=api.body(request)
-  if set(data)-{'clave_idempotencia','actividad','social','nuevo_compromiso'}:raise ValidationError('Campos no permitidos en la captura.')
+  if set(data)-{'clave_idempotencia','actividad','social','nuevo_compromiso','_reserva_codigo'}:raise ValidationError('Campos no permitidos en la captura.')
   key=data.get('clave_idempotencia')
   if not isinstance(key,str) or not key.strip() or len(key)>64:raise ValidationError('Falta una clave de captura válida.')
   values=data.get('actividad')
@@ -40,6 +40,10 @@ def create(request):
                plantilla=(request.user.cargo.planilla if request.user.cargo_id else '') or 'GENERAL',
                clave_idempotencia=key,captura_hash=digest,unidad=1)
    domain.apply_fields(request,'actividades',a,values)
+   reservation=None
+   if '_reserva_codigo' in data:
+    from .capture_codes import apply as apply_code
+    reservation=apply_code(request,a,data['_reserva_codigo'])
    if social is not None:
     from .excel_support import SOCIAL_FIELDS
     allowed=set(SOCIAL_FIELDS)|{'tipo_atencion','sub_atencion','nuevo_caso','caso_social'}
@@ -54,7 +58,10 @@ def create(request):
    from .catalog_history import activity
    a.catalogos_snapshot=activity(a);a.full_clean();a.save()
    from .auto_codes import operation_saved
-   operation_saved(a,'actividades',request.user);finish(request,linked,a)
+   if reservation is None:operation_saved(a,'actividades',request.user)
+   else:
+    reservation.despues['consumido']=True;reservation.registro=a.pk;reservation.save(update_fields=['despues','registro'])
+   finish(request,linked,a)
    if a.atencion_id:
     attention=a.atencion
     attention.compromiso=a.compromiso;attention.save(update_fields=['compromiso'])
@@ -66,7 +73,11 @@ def create(request):
  except IntegrityError:
   previous=prior_response(request,key,digest)
   return previous if previous else api.error('Conflicto al registrar. Recarga y vuelve a intentar.',409)
- except (ValidationError,ValueError,TypeError) as ex:return api.error('; '.join(ex.messages) if isinstance(ex,ValidationError) else 'Datos inválidos.')
+ except (ValidationError,ValueError,TypeError) as ex:
+  if isinstance(ex,ValidationError) and 'key' in locals() and 'digest' in locals():
+   previous=prior_response(request,key,digest)
+   if previous:return previous
+  return api.error('; '.join(ex.messages) if isinstance(ex,ValidationError) else 'Datos inválidos.')
 
 from django.views.decorators.http import require_GET
 

@@ -1,0 +1,10 @@
+Creating test database for alias 'default'...
+........................................................................................................................................................................................................................................................................................................x.....................................................................................................................
+----------------------------------------------------------------------
+Ran 414 tests in 52.649s
+
+OK (expected failures=1)
+Destroying test database for alias 'default'...
+Found 414 test(s).
+System check identified no issues (0 silenced).
+Navegador: buscador de actividad, código visible igual al guardado, encabezado, captura general/social con evidencia y móvil comprobados.

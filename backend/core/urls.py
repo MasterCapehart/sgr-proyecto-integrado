@@ -56,3 +56,6 @@ urlpatterns += [path('seguimiento/opciones/',capture_followup.options),path('ope
 from . import capture_form
 urlpatterns += [path('captura/', capture_form.create)]
 urlpatterns += [path('captura/opciones/', capture_form.options)]
+
+from . import capture_codes
+urlpatterns += [path('captura/reservar-codigo/', capture_codes.reserve)]
