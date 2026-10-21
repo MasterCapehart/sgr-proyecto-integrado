@@ -21,11 +21,11 @@ window.SGRFollowup={async attach({context,existingSelect,description,sector,sour
  const text=field('descripcion','Descripción del compromiso','textarea');text.maxLength=5000;text.value=description.value;
  let changed=false;text.addEventListener('input',()=>{changed=true;});description.addEventListener('input',()=>{if(!changed)text.value=description.value;});
  if(!sector){const s=field('sector','Sector del compromiso');s.maxLength=150;}
- const area=field('area_apoyo','Área de apoyo');area.maxLength=150;area.value=context.usuario.area||'';
+ const area=field('area_apoyo','Área o persona de apoyo · opcional');area.required=false;area.previousElementSibling.textContent='Área o persona de apoyo · opcional';area.maxLength=150;area.placeholder='Solo si necesitas apoyo adicional';area.value='';
  const origin=field('origen','Origen del compromiso','select');origin.add(new Option('Interno','Interno'));origin.add(new Option('Externo','Externo'));origin.value=attention?'Externo':'Interno';
  const note=make('p','El solicitante y la fecha se toman del registro de origen. El compromiso se guardará junto con la atención o actividad.');note.className='help';root.append(note);
  function update(){const creating=mode.value==='nuevo';details.style.display=creating?'grid':'none';for(const input of Object.values(controls))input.disabled=!creating;existingWrap.style.display=mode.value==='existente'?'':'none';existingSelect.disabled=mode.value!=='existente';existingSelect.required=mode.value==='existente';due.min=sourceDate?.value||new Date().toLocaleDateString('en-CA');note.hidden=!creating;}
  mode.onchange=update;sourceDate?.addEventListener('change',update);
- form.addEventListener('reset',()=>queueMicrotask(()=>{changed=false;mode.value='no';owner.value=String(context.usuario.id);area.value=context.usuario.area||'';origin.value=attention?'Externo':'Interno';text.value=description.value;update();}));update();
+ form.addEventListener('reset',()=>queueMicrotask(()=>{changed=false;mode.value='no';owner.value=String(context.usuario.id);area.value='';origin.value=attention?'Externo':'Interno';text.value=description.value;update();}));update();
  return {root,apply(data){if(mode.value==='nuevo'){data.compromiso=null;data.nuevo_compromiso=Object.fromEntries(Object.entries(controls).map(([k,v])=>[k,v.value.trim()]));if(sector)data.nuevo_compromiso.sector=sector.value.trim();}else data.compromiso=mode.value==='existente'?existingSelect.value:null;return data;}};
 }};

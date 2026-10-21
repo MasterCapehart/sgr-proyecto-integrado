@@ -21,12 +21,11 @@ def create(request,source,details,existing=None):
     permitted={'descripcion','responsable','fecha_comprometida','sector','area_apoyo','origen'}
     if set(details)-permitted:raise ValidationError('El compromiso contiene campos no editables.')
     attention=isinstance(source,Atencion)
-    cargo=request.user.cargo
     values=dict(descripcion=details.get('descripcion') or (source.descripcion if attention else source.solicitud),
                 solicitante=source.solicitante if attention else source.contacto,
                 sector=details.get('sector') or ('' if attention else source.sector),
                 responsable=details.get('responsable',request.user.pk),fecha_comprometida=details.get('fecha_comprometida',''),
-                area_apoyo=details.get('area_apoyo') or (cargo.area if cargo else ''),
+                area_apoyo=details.get('area_apoyo',''),
                 origen=details.get('origen','Externo' if attention else 'Interno'),
                 fecha_solicitud=str(timezone.localdate() if attention else source.fecha),unidad=1)
     obj=Compromiso(autor=request.user,delegacion=api.active_delegation(request))

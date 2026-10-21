@@ -85,7 +85,7 @@ def apply_fields(request,resource,obj,data):
             elif value not in PROFILES or (not request.user.is_superuser and value!=(selected or 'GENERAL')):raise ValidationError('Planilla no autorizada para tu función.')
             obj.plantilla=value
         else:
-            if field in ['codigo_verificacion_foto','junta_vecinos'] and value in ['',None]:setattr(obj,field,'');continue
+            if field in ['codigo_verificacion_foto','junta_vecinos','area_apoyo'] and value in ['',None]:setattr(obj,field,'');continue
             if field=='fecha_solicitud' and value in ('',None):obj.fecha_solicitud=None;continue
             if not isinstance(value,str) or not value.strip():raise ValidationError(f'{field}: campo obligatorio de texto.')
             setattr(obj,field,value.strip())

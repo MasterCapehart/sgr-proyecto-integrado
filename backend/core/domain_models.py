@@ -38,7 +38,7 @@ class Compromiso(RegistroOperativo):
     sector = models.CharField(max_length=150)
     responsable = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='compromisos_asignados')
     fecha_comprometida = models.DateField()
-    area_apoyo = models.CharField(max_length=150)
+    area_apoyo = models.CharField(max_length=150, blank=True, default="")
     origen = models.CharField(max_length=10, choices=[('Interno','Interno'),('Externo','Externo')])
     estado = models.CharField(max_length=20, default='Ingresado', choices=[(x,x) for x in ['Ingresado','Pendiente','En proceso','Realizado']])
 

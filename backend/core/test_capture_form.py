@@ -44,3 +44,17 @@ class CaptureFormTests(TestCase):
   self.u.is_superuser=False;self.u.rol=Rol.objects.create(nombre='Captura sin catálogo',permisos=['actividades.crear','atenciones.crear']);self.u.save()
   r=self.client.get('/api/captura/opciones/');self.assertEqual(r.status_code,200,r.content)
   self.assertEqual(r.json()['tipos'][0]['id'],self.t.pk)
+
+ def test_tubo_sin_apoyo_reutiliza_origen_y_unidad_automatica(self):
+  details=self.follow();details.pop('area_apoyo');details.pop('descripcion');details.pop('sector')
+  r=self.post(self.payload(nuevo_compromiso=details));self.assertEqual(r.status_code,201,r.content)
+  a=Actividad.objects.get();c=Compromiso.objects.get()
+  self.assertEqual(a.compromiso_id,c.pk);self.assertEqual(c.descripcion,a.solicitud)
+  self.assertEqual(c.solicitante,a.contacto);self.assertEqual(c.sector,a.sector)
+  self.assertEqual(c.fecha_solicitud,a.fecha);self.assertEqual(c.codigo_verificacion_foto,a.codigo)
+  self.assertEqual(c.area_apoyo,'');self.assertEqual(c.unidad,1)
+ def test_apoyo_vacio_se_puede_guardar_y_limpiar_en_tubo(self):
+  r=self.post(self.payload(nuevo_compromiso=self.follow()));self.assertEqual(r.status_code,201,r.content)
+  c=Compromiso.objects.get()
+  r=self.client.patch('/api/operacion/compromisos/'+str(c.pk)+'/',dict(_version=c.version,area_apoyo='',observacion='Sin apoyo adicional requerido.'),content_type='application/json')
+  self.assertEqual(r.status_code,200,r.content);c.refresh_from_db();self.assertEqual(c.area_apoyo,'')
