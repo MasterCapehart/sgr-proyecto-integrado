@@ -267,6 +267,22 @@ class AccesoFallido(models.Model):
     direccion_hash = models.CharField(max_length=64, db_index=True)
     creado = models.DateTimeField(auto_now_add=True, db_index=True)
 
+class Vecino(models.Model):
+    delegacion = models.ForeignKey(Delegacion, on_delete=models.PROTECT, related_name='vecinos')
+    nombre = models.CharField(max_length=200, db_index=True)
+    rut = models.CharField(max_length=12, null=True, blank=True)
+    telefono = models.CharField(max_length=20, blank=True, default='')
+    sector = models.CharField(max_length=150, blank=True, default='')
+    junta_vecinos = models.CharField(max_length=200, blank=True, default='')
+    creado_por = models.ForeignKey(Usuario, on_delete=models.PROTECT, related_name='vecinos_registrados')
+    creado = models.DateTimeField(auto_now_add=True)
+    clave_idempotencia = models.CharField(max_length=64, unique=True, editable=False)
+    captura_hash = models.CharField(max_length=64, editable=False)
+
+    class Meta:
+        ordering = ['nombre', 'pk']
+        constraints = [models.UniqueConstraint(fields=['delegacion','rut'], name='vecino_rut_delegacion_unico')]
+
 from .domain_models import Cargo, DerivacionActividad, Actividad, Evidencia, RevisionEvidencia, Compromiso, SeguimientoCompromiso, Conversacion, Mensaje
 from .closure_models import VersionCatalogo, PoliticaOperativa, CierreCompromiso, AlertaLocal
 

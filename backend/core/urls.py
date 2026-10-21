@@ -59,3 +59,6 @@ urlpatterns += [path('captura/opciones/', capture_form.options)]
 
 from . import capture_codes
 urlpatterns += [path('captura/reservar-codigo/', capture_codes.reserve)]
+
+from . import neighbors
+urlpatterns += [path('vecinos/', neighbors.create), path('vecinos/buscar/', neighbors.search)]

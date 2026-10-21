@@ -1,0 +1,10 @@
+Creating test database for alias 'default'...
+....................................................................................................................................................................................................................................................................................................................x.....................................................................................................................
+----------------------------------------------------------------------
+Ran 426 tests in 53.016s
+
+OK (expected failures=1)
+Destroying test database for alias 'default'...
+Found 426 test(s).
+System check identified no issues (0 silenced).
+Navegador: búsqueda, registro, selección, reutilización de vecino en captura general/social y móvil comprobados con datos ficticios.

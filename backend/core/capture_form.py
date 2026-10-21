@@ -23,12 +23,12 @@ def create(request):
  if denied:return denied
  try:
   data=api.body(request)
-  if set(data)-{'clave_idempotencia','actividad','social','nuevo_compromiso','_reserva_codigo'}:raise ValidationError('Campos no permitidos en la captura.')
+  if set(data)-{'clave_idempotencia','actividad','social','nuevo_compromiso','_reserva_codigo','vecino'}:raise ValidationError('Campos no permitidos en la captura.')
   key=data.get('clave_idempotencia')
   if not isinstance(key,str) or not key.strip() or len(key)>64:raise ValidationError('Falta una clave de captura válida.')
   values=data.get('actividad')
   if not isinstance(values,dict):raise ValidationError('Completa los datos del registro.')
-  if set(values)-{'fecha','solicitud','accion','contacto','telefono','sector','item','junta_vecinos','profesional'}:raise ValidationError('La captura contiene campos no editables.')
+  if set(values)-{'fecha','solicitud','accion','contacto','telefono','sector','item','junta_vecinos','profesional','rut_contacto'}:raise ValidationError('La captura contiene campos no editables.')
   digest=fingerprint(data)
   previous=prior_response(request,key,digest)
   if previous:return previous
@@ -40,6 +40,8 @@ def create(request):
                plantilla=(request.user.cargo.planilla if request.user.cargo_id else '') or 'GENERAL',
                clave_idempotencia=key,captura_hash=digest,unidad=1)
    domain.apply_fields(request,'actividades',a,values)
+   from .neighbors import bind
+   if bind(request,a,data.get('vecino')) is False:raise Rejected(api.error('Vecino no encontrado en tu delegación.',404))
    reservation=None
    if '_reserva_codigo' in data:
     from .capture_codes import apply as apply_code
@@ -48,6 +50,10 @@ def create(request):
     from .excel_support import SOCIAL_FIELDS
     allowed=set(SOCIAL_FIELDS)|{'tipo_atencion','sub_atencion','nuevo_caso','caso_social'}
     if set(social)-allowed:raise ValidationError('Campos sociales no permitidos.')
+    if a.rut_contacto:
+     from .neighbors import normalize_rut
+     if social.get('rut_solicitante') and normalize_rut(social['rut_solicitante'])!=a.rut_contacto:raise ValidationError('El RUN social no coincide con el del contacto.')
+     social=dict(social,rut_solicitante=a.rut_contacto)
     social_data=dict(social,solicitante=a.contacto,descripcion=a.solicitud,telefono_solicitante=a.telefono,
                      gestion_realizada=a.accion,clave_idempotencia=hashlib.sha256((key+':social').encode()).hexdigest())
     response=api.create_attention(request,social_data)

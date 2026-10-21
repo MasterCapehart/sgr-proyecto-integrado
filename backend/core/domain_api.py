@@ -16,7 +16,7 @@ from .models import Actividad, Evidencia, Compromiso, RevisionEvidencia, Seguimi
 
 MODELS={'actividades':Actividad,'evidencias':Evidencia,'compromisos':Compromiso}
 FIELDS={
- 'actividades':['fecha','solicitud','accion','contacto','telefono','sector','item','compromiso','unidad','plantilla','profesional','junta_vecinos'],
+ 'actividades':['fecha','solicitud','accion','contacto','telefono','sector','item','compromiso','unidad','plantilla','profesional','junta_vecinos','rut_contacto'],
  'compromisos':['fecha_solicitud','descripcion','solicitante','sector','responsable','fecha_comprometida','area_apoyo','origen','estado','unidad','codigo_verificacion_foto'],
 }
 
@@ -32,7 +32,7 @@ def representation(obj):
     r={'id':obj.pk,'version':obj.version,'autor':obj.autor_id,'autor_nombre':obj.autor.get_full_name() or obj.autor.username,'delegacion':obj.delegacion_id,'creado':obj.creado.isoformat(),'estado':obj.estado}
     if isinstance(obj,Actividad):
         r.update(api.serialize(obj,FIELDS['actividades']));r.update(codigo=obj.codigo,item_nombre=(obj.catalogos_snapshot or {}).get('item',{}).get('nombre',obj.item.nombre),catalogos_snapshot=obj.catalogos_snapshot,historia_catalogos='Captura posterior; etiqueta original no garantizada' if (obj.catalogos_snapshot or {}).get('observada') else 'Captura al registrar' if obj.catalogos_snapshot else 'Sin captura histórica; etiqueta actual')
-        r['atencion']=obj.atencion_id
+        r['atencion']=obj.atencion_id;r['vecino']=obj.vecino_id
         r.update(profesional_nombre=(obj.profesional.get_full_name() or obj.profesional.username) if obj.profesional_id else None,cargo=obj.cargo_id,cargo_nombre=((obj.catalogos_snapshot or {}).get('cargo') or {}).get('nombre',obj.cargo.nombre if obj.cargo_id else None),area=((obj.catalogos_snapshot or {}).get('cargo') or {}).get('area',obj.cargo.area if obj.cargo_id else None),derivado_a=obj.derivado_a,estado_derivacion=obj.estado_derivacion,ingreso_tubo='Sí' if obj.compromiso_id else 'No')
         r['derivaciones']=[{'fecha':x.fecha.isoformat(),'autor':x.autor.get_full_name() or x.autor.username,'destino':x.destino,'motivo':x.motivo,'estado':x.estado} for x in obj.derivaciones.select_related('autor')]
         r['evidencias_actuales']=[{'id':e.pk,'archivo':e.nombre_archivo,'estado':e.estado,'url':f'/api/operacion/evidencias/{e.pk}/archivo/'} for e in obj.evidencias.filter(siguiente_version__isnull=True)]
@@ -71,6 +71,9 @@ def apply_fields(request,resource,obj,data):
             else: related=Usuario.objects.filter(pk=value,is_active=True).filter(Q(delegacion=obj.delegacion)|Q(delegaciones=obj.delegacion)).distinct().first()
             if related is None:raise ValidationError(f'{field}: registro inactivo o fuera de la delegación.')
             setattr(obj,field,related)
+        elif field=='rut_contacto':
+            from .neighbors import normalize_rut
+            obj.rut_contacto=normalize_rut(value)
         elif field=='unidad':
             if isinstance(value,bool) or str(value)!='1':raise ValidationError('La unidad de la matriz es 1 por registro.')
             obj.unidad=int(value)
@@ -214,6 +217,9 @@ def records(request,resource,pk=None,action=None):
                 if resource=='compromisos' and not data.get('fecha_solicitud'):obj.fecha_solicitud=timezone.localdate()
             old_item=obj.item_id if resource=='actividades' else None
             apply_fields(request,resource,obj,data)
+            if resource=='actividades' and obj.vecino_id:
+                from .neighbors import bind
+                if bind(request,obj,obj.vecino_id) is False:raise ValidationError('El vecino vinculado no está disponible en tu delegación.')
             linked=None
             if resource=='actividades' and not before:
                 from .capture_followup import create as create_followup
