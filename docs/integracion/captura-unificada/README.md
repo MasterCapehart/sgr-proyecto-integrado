@@ -25,3 +25,15 @@ Migración 0019: columnas opcionales `Actividad.atencion` (relación uno a uno p
 Pruebas nuevas de captura común/social, junta persistente, reintentos y cambios de payload, permisos sociales/de tubo, campos inyectados, error sin huérfanos, cuarta gestión y catálogos sin permiso administrativo. Regresión completa y navegador QA con datos ficticios, incluyendo PDF, navegación al detalle y vista móvil. Consultar el resultado adjunto.
 
 El despliegue personal se registra tras comprobar respaldo cifrado, migraciones con credencial temporal, estado de servicios, versión y recorrido remoto. El laboratorio no se modifica.
+
+## Despliegue verificado — AWS personal
+
+- Fecha: 21/10/2026. Aplicación: `2fc978e5937a6668ad15f4df7f92c3a366367f86`.
+- Acceso: [Mi planilla](https://54.236.112.203/pages/desempeno.html) → Registrar actividad o atención; [formulario directo](https://54.236.112.203/pages/registro-trabajo.html).
+- 49 archivos verificados; migraciones 0018 y 0019 aplicadas. Servicios de aplicación y Nginx activos; versión y salud correctas.
+- Respaldo previo SQL de 2.731.735 bytes cifrado en S3 privado, junto con copia de archivos y configuración de la versión anterior. La aplicación conserva su usuario de base de datos sin permisos DDL ampliados.
+- 22 comprobaciones transaccionales remotas aprobadas, incluidas junta, creación general/social, compromiso, idempotencia, rechazo de cuarta gestión sin huérfanos y cuenta de consulta sin permiso de alta. Los registros QA se revirtieron y los conteos finales coincidieron.
+- Navegador remoto: Administrador, Funcionario y Consulta; menú, cargo real, catálogo, junta, restricciones, móvil y ausencia de errores JavaScript. Solo lectura de negocio durante esa revisión de navegador. La carga PDF completa se probó en local; no se adjuntaron archivos QA a S3 durante las pruebas remotas.
+- Regresión local final: 409 casos, 408 aprobados y un fallo esperado preexistente; no equivale a certificación integral de todos los módulos en AWS.
+
+[Evidencia del despliegue](aws-2026-10-21/despliegue.txt) · [Pruebas transaccionales AWS](aws-2026-10-21/verificacion-transaccional.txt) · [Revisión navegador AWS](aws-2026-10-21/navegador.json).

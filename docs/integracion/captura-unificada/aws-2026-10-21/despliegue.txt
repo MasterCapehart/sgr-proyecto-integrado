@@ -1,0 +1,14 @@
+Success
+Paquete y versión de partida verificados; copia de archivos anteriores preparada.
+Respaldo de datos preparado y cifrado en S3; bytes: 2731735
+System check identified no issues (0 silenced).
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, core, sessions
+Running migrations:
+  Applying core.0018_captura_seguimiento... OK
+  Applying core.0019_captura_unificada_vecino... OK
+Migraciones aplicadas con credencial transitoria; usuario de aplicación sin ampliar permisos.
+Versión desplegada: 2fc978e5937a6668ad15f4df7f92c3a366367f86
+Salud y archivos del despliegue verificados.
+active
+active

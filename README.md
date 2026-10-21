@@ -40,8 +40,8 @@ Seguir [backend/README.md](backend/README.md). Cada integrante mantiene su propi
 - **Administración:** mantenedores de delegaciones, roles y usuarios.
 - **Ítems y metas:** administración de ítems y configuraciones de metas.
 - **Tipos y subatenciones:** administración de ambos catálogos y sus asociaciones.
-- **Atención ciudadana:** registro de atenciones con selección de tipo y subatención.
-- **Actividades y evidencias:** registro de actividades, carga de archivos y revisión de evidencias.
+- **Captura unificada:** Mi planilla → Registrar actividad o atención; datos del vecino, junta de vecinos, ficha social y seguimiento opcional en el tubo, sin volver a capturar la solicitud.
+- **Actividades y evidencias:** registro de trabajo por cargo, evidencia opcional y revisión de archivos por otra persona autorizada.
 - **Compromisos y seguimiento:** gestión de compromisos, avances y conversación.
 - **Alertas y auditoría:** consulta de alertas y registro de operaciones.
 - **Planillas y exportación:** consulta de planillas y exportación a Excel.
@@ -52,8 +52,8 @@ Los permisos deben asignarse explícitamente y los catálogos deben validarse co
 
 ## Despliegue y versión evaluada
 
-- [SGR en AWS personal](https://54.236.112.203/pages/login.html), última verificación registrada el 20/10/2026.
-- Versión de aplicación evaluada: `7f65cf6ad9d68a090fe340026afa7eee3030cf50`; consultar [/api/version/](https://54.236.112.203/api/version/).
+- [SGR en AWS personal](https://54.236.112.203/pages/login.html), última verificación registrada el 21/10/2026.
+- Versión de aplicación evaluada: `2fc978e5937a6668ad15f4df7f92c3a366367f86`; consultar [/api/version/](https://54.236.112.203/api/version/).
 - [Instalación, configuración y recuperación AWS](docs/entrega/despliegue/README.md).
 - [Resultados, incidencias y estado del paquete de evidencias](docs/entrega/README.md).
 

@@ -1,0 +1,9 @@
+{
+  "resultado": "aprobado",
+  "cuentas": [
+    "admin.aws: acceso y pantalla según permisos, sin errores JavaScript",
+    "funcionario.aws: acceso y pantalla según permisos, sin errores JavaScript",
+    "consulta.aws: acceso y pantalla según permisos, sin errores JavaScript"
+  ],
+  "alcance": "Solo navegación y lectura; no se enviaron formularios de negocio."
+}

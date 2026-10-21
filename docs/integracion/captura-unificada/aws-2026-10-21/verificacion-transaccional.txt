@@ -1,0 +1,4 @@
+Success
+33 objects imported automatically (use -v 2 for details).
+
+{"resultado": "aprobado", "comprobaciones": 22, "detalle": ["opciones autorizadas", "crear False", "junta False", "tubo False", "ficha social False", "reintento False", "detalle False", "conflicto False", "crear True", "junta True", "tubo True", "ficha social True", "reintento True", "detalle True", "conflicto True", "vinculo social y tubo", "continuidad social", "continuidad social", "cuarta gestion rechazada", "cuarta sin huerfanos", "consulta no crea", "sin datos QA persistidos"]}
