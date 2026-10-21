@@ -7,7 +7,7 @@ Entorno evaluado: Local (Django / MySQL) y AWS Personal (`54.236.112.203`).
 
 | Rol | Alcance y Capacidades | Restricciones Comprobadas |
 |---|---|---|
-| **Funcionario** | Registrar trabajo operativo y social (`actividades.crear`, `actividades.editar`, `atenciones.crear`), iniciar seguimiento en el tubo (`compromisos.crear`), adjuntar evidencias propias (`evidencias.crear`) y consultar pendientes personales (`/api/mi-progreso/`). | Bloqueo absoluto de administración (`roles`, `usuarios`, `delegaciones`, `periodos`, `auditoria`). Sin acceso a bandeja de validación (`evidencias.revisar` denegado). Menús administrativos ocultos en frontend. |
+| **Funcionario** | Registrar trabajo operativo y social (`actividades.crear`, `actividades.editar`, `atenciones.crear`), iniciar seguimiento en el tubo (`compromisos.crear`), adjuntar evidencias propias (`evidencias.crear`) y consultar pendientes personales (`/api/mi-progreso/`). | Bloqueo absoluto de administración (`roles`, `usuarios`, `delegaciones`, `periodos`, `auditoria`). Sin acceso a bandeja de validación (`evidencias.revisar` denegado). Los catálogos autorizados solo para lectura aparecen en «Catálogos de consulta». «Administración» se muestra únicamente si hay otros accesos autorizados; los catálogos con permiso de crear, editar o desactivar permanecen allí. |
 | **Verificador** | Consultar evidencias de la delegación activa (`evidencias.ver`, `evidencias.ver_equipo`), bandeja de validación y revisión de evidencias ajenas (`evidencias.revisar`), solicitar correcciones, aprobar o rechazar con observación obligatoria. | Bloqueo de auto-revisión (el autor de la actividad/evidencia no puede auto-aprobarse). Sin acceso administrativo ni creación de actividades. |
 | **Delegado / Coordinador** | Consultar y dar seguimiento al avance de todo el equipo de su delegación activa (`actividades.ver_equipo`, `compromisos.ver_equipo`, `evidencias.ver_equipo`). Editar y reasignar compromisos del equipo (`compromisos.editar`, `compromisos.editar_equipo`) con historial de auditoría. | Sin permisos de administración global de usuarios ni roles del sistema. |
 | **Consulta** | Visualizar y exportar registros y compromisos de la delegación activa (`*.ver`, `*.ver_equipo`, `*.exportar`). | Cero escritura: bloqueado ante cualquier creación, edición o revisión (`403 Forbidden`). En frontend se ocultan todos los botones de alta o modificación. |
@@ -27,3 +27,7 @@ Se validó el ciclo completo `Registro → Tubo → Evidencia → Revisión → 
 * **Suite local dedicada**: `backend/core/test_role_permissions_workflow.py` (8 pruebas aprobadas al 100%).
 * **Regresión local global**: 436 pruebas ejecutadas (`435 OK`, `1 expected failure` heredada).
 * **Verificación transaccional en AWS**: 27 comprobaciones aprobadas en vivo sobre EC2/RDS personal (`54.236.112.203`) mediante SSM y transacción atómica con rollback limpio, sin residuos ficticios en la base de datos.
+
+## Ajuste del menú (validado en local)
+
+Los accesos de lectura a Ítems y metas, Tipos de atención y Subatenciones se agrupan en «Catálogos de consulta». No se retiran ni conceden permisos de API. La clasificación usa permisos de cada catálogo y no el nombre del rol; admite permisos mixtos sin enlaces duplicados. El grupo Administración desaparece si no contiene accesos.

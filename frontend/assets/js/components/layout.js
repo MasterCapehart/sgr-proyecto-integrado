@@ -174,10 +174,17 @@
             if (currentPage === 'home') home.setAttribute('aria-current', 'page');
             nav.append(home);
 
+            // Read-only catalogues belong to consultation, not administration.
+            const catalogIds = ['items-metas', 'tipos-atencion', 'subatenciones'];
+            const readOnlyCatalogs = catalogIds.filter(id =>
+              c.permisos.includes(id + '.ver') &&
+              !['crear', 'editar', 'desactivar'].some(action => c.permisos.includes(id + '.' + action))
+            );
             const groups = [
               ['Gestión diaria', ['actividades', 'atencion', 'casos-sociales', 'compromisos', 'reclamos']],
               ['Seguimiento', ['evidencias', 'validacion', 'alertas', 'reportes', 'auditoria']],
-              ['Administración', ['delegaciones', 'usuarios', 'roles', 'cargos', 'items-metas', 'periodos', 'configuraciones-metas', 'tipos-atencion', 'subatenciones', 'gobierno']]
+              ['Catálogos de consulta', readOnlyCatalogs],
+              ['Administración', ['delegaciones', 'usuarios', 'roles', 'cargos', 'items-metas', 'periodos', 'configuraciones-metas', 'tipos-atencion', 'subatenciones', 'gobierno'].filter(id => !readOnlyCatalogs.includes(id))]
             ];
 
             for (const [label, ids] of groups) {
