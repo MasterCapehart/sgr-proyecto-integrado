@@ -1,0 +1,9 @@
+{
+  "resultado": "aprobado",
+  "cuentas": [
+    "admin.aws: acceso y pantalla según permisos, sin errores JavaScript",
+    "funcionario.aws: acceso y pantalla según permisos, sin errores JavaScript",
+    "consulta.aws: acceso y pantalla según permisos, sin errores JavaScript"
+  ],
+  "alcance": "Navegación y lectura de negocio; abrir el formulario crea su reserva auditable de código, sin crear actividades."
+}

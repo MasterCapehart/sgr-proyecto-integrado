@@ -37,3 +37,5 @@ El despliegue personal se registra tras comprobar respaldo cifrado, migraciones 
 - Regresión local final: 409 casos, 408 aprobados y un fallo esperado preexistente; no equivale a certificación integral de todos los módulos en AWS.
 
 [Evidencia del despliegue](aws-2026-10-21/despliegue.txt) · [Pruebas transaccionales AWS](aws-2026-10-21/verificacion-transaccional.txt) · [Revisión navegador AWS](aws-2026-10-21/navegador.json).
+
+Los ajustes posteriores de selección, código visible y encabezado se documentan en [Ajustes de captura](ajustes-seleccion-codigo.md).
