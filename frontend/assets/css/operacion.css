@@ -1067,3 +1067,6 @@ body .swal2-container.swal2-top-end .swal2-popup.swal2-toast .swal2-title {
 
 
 .sgr-followup{grid-column:1/-1;border:1px solid var(--line,#dfe4e9);border-radius:12px;padding:18px;margin:16px 0;background:#fff}.sgr-followup>.grid{margin-top:16px}.sgr-followup>select{width:100%;margin:8px 0}.sgr-followup .help{margin-bottom:0}
+
+/* Ficha de revisión de respaldos. */
+.evidence-section{border:1px solid var(--line,#dce2ea);border-radius:12px;padding:20px;margin:20px 0;background:#fff}.evidence-section h3{margin:0 0 12px}.evidence-filename{font-weight:600;overflow-wrap:anywhere}.evidence-history{border-left:3px solid #ad0000;padding:8px 16px;margin:16px 0;background:#f7f8fa}.evidence-history p{margin:8px 0;overflow-wrap:anywhere}.evidence-decisions{display:flex;flex-wrap:wrap;gap:12px;margin-top:16px}.evidence-section textarea{width:100%;box-sizing:border-box}@media(max-width:600px){.evidence-section{padding:14px}.evidence-decisions .button{width:100%}}

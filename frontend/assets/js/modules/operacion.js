@@ -118,9 +118,32 @@
   if(actions.children.length)box.append(actions);
   if(box.children.length>1)container.append(box);
  }
+ function evidenceSection(body,title){const section=el('section','evidence-section');section.append(el('h3',null,title));body.append(section);return section;}
+ async function evidenceReview(body,item,dialog){
+  const file=evidenceSection(body,'Archivo de respaldo');
+  file.append(el('p','evidence-filename',item.nombre_archivo),el('p','sub',item.descripcion||'Sin descripción adicional.'));
+  const download=el('a','button secondary','Descargar archivo');download.href=item.archivo_url;file.append(download);
+  const history=evidenceSection(body,'Historial de revisión');
+  if(!item.revisiones?.length)history.append(el('p','sub','Esta evidencia aún no tiene revisiones.'));
+  for(const review of item.revisiones||[]){const entry=el('article','evidence-history');entry.append(el('strong',null,review.decision==='Corrección'?'Corrección solicitada':review.decision),el('p','sub',review.autor+' · '+date(review.fecha)),el('p','readonly-details',review.observacion));history.append(entry);}
+  let ownActivity=false;
+  if(can('evidencias','revisar')&&item.vigente&&item.estado==='Pendiente'&&item.autor!==ctx.usuario.id){
+   try{const activity=(await SGRApi.request(base+'actividades/'+item.actividad+'/')).data;ownActivity=activity.autor===ctx.usuario.id;}catch{history.append(el('p','notice neutral','No se pudo comprobar la autoría de la actividad. Vuelve a abrir el detalle para revisar.'));return;}
+   if(!ownActivity){
+    const section=evidenceSection(body,'Revisar evidencia');section.append(el('p','sub','Descarga y comprueba el respaldo antes de decidir. Toda decisión quedará registrada con tu observación.'));
+    const form=el('form'),obs=field('observacion','Observación de revisión','textarea');obs.querySelector('textarea').maxLength=2000;
+    const actions=el('div','evidence-decisions');for(const [label,decision] of [['Aprobar','Aprobada'],['Solicitar corrección','Corrección'],['Rechazar','Rechazada']]){const action=el('button',decision==='Aprobada'?'button primary':'button secondary',label);action.type='submit';action.value=decision;actions.append(action);}
+    const status=el('p','sub');status.setAttribute('role','status');form.append(obs,actions,status);section.append(form);
+    form.onsubmit=async event=>{event.preventDefault();const decision=event.submitter?.value;if(!decision||form.dataset.saving||!form.reportValidity())return;const observation=form.elements.observacion;if(!observation.value.trim()){observation.setCustomValidity('Indica una observación de revisión.');observation.reportValidity();return;}form.dataset.saving='1';actions.querySelectorAll('button').forEach(b=>b.disabled=true);status.textContent='Guardando revisión…';try{await SGRApi.send(base+'evidencias/'+item.id+'/revisar/',{_version:item.version,decision,observacion:observation.value.trim()});dialog.close();await load();await SGRApi.message('La revisión quedó registrada.','success');}catch(error){status.textContent=error.message;}finally{delete form.dataset.saving;actions.querySelectorAll('button').forEach(b=>b.disabled=false);}};
+    form.elements.observacion.oninput=()=>form.elements.observacion.setCustomValidity('');
+   }
+  }
+  if(item.estado==='Pendiente'&&(item.autor===ctx.usuario.id||ownActivity))history.append(el('p','notice neutral','Este respaldo debe revisarlo otra persona autorizada. No puedes revisar tu propia evidencia ni una actividad tuya.'));
+  else if(item.estado==='Pendiente'&&!can('evidencias','revisar'))history.append(el('p','sub','Pendiente de revisión por una persona autorizada.'));
+ }
  async function detail(item){try{item=(await SGRApi.request(base+resource+'/'+item.id+'/')).data;const dialog=modal(resource==='evidencias'?'Detalle e historial de evidencia':'Detalle del registro');const body=el('div','body');dialog.append(body);await recordActions(body,item,dialog);keyValues(body,item);
   if(resource==='compromisos')await showOrigins(body,item);
-  if(resource==='evidencias'){const a=el('a','button secondary','Descargar archivo');a.href=item.archivo_url;body.append(a);for(const r of item.revisiones){const p=el('p','notice neutral');p.textContent=r.decision+' · '+r.autor+' · '+date(r.fecha)+'\n'+r.observacion;body.append(p);}if(can('evidencias','revisar')&&item.vigente&&item.estado==='Pendiente'&&item.autor!==ctx.usuario.id){const f=el('form');const obs=field('observacion','Observación de revisión','textarea');const select=el('select');select.setAttribute('aria-label','Decisión de revisión');['Aprobada','Corrección','Rechazada'].forEach(x=>select.add(new Option(x,x)));const submit=el('button','button primary','Guardar decisión');submit.type='submit';f.append(obs,select,submit);body.append(f);f.onsubmit=async e=>{e.preventDefault();if(submit.disabled||!f.reportValidity())return;submit.disabled=true;try{await SGRApi.send(base+'evidencias/'+item.id+'/revisar/',{_version:item.version,decision:select.value,observacion:f.elements.observacion.value});dialog.close();await load();await SGRApi.message('La revisión quedó registrada.','success');}catch(err){SGRApi.message(err.message);}finally{submit.disabled=false;}};}}
+  if(resource==='evidencias')await evidenceReview(body,item,dialog);
   if(resource==='compromisos'){const link=el('a','button secondary','Abrir ficha del compromiso');link.href='compromiso-detalle.html?id='+item.id;body.append(link);for(const x of item.seguimientos){const note=el('p','notice neutral');note.textContent=date(x.fecha)+' · '+x.autor+' · '+x.estado_anterior+' → '+x.estado_nuevo+'\n'+x.observacion+'\nFecha: '+date(x.fecha_anterior)+' → '+date(x.fecha_nueva)+' · Responsable: '+x.responsable_anterior+' → '+x.responsable_nuevo;body.append(note);}}
   if(resource==='actividades'){if(item.compromiso&&can('compromisos','ver')){const a=el('a','button secondary','Abrir compromiso vinculado');a.href='compromiso-detalle.html?id='+item.compromiso;body.append(a);}for(const x of item.derivaciones||[]){const p=el('p','notice neutral');p.textContent=date(x.fecha)+' · '+x.autor+' · '+x.destino+' · '+x.estado+'\n'+x.motivo;body.append(p);}}
   if(resource==='actividades'&&can('evidencias','ver')){const ev=(await all('evidencias')).filter(x=>x.actividad===item.id);body.append(el('h3',null,'Evidencias asociadas'));if(!ev.length)body.append(el('p','sub','Sin evidencias adjuntas.'));for(const x of ev){const p=el('p');const a=el('a',null,x.nombre_archivo+' · '+x.estado+(x.vigente?'':' · versión anterior'));a.href=x.archivo_url;p.append(a);body.append(p);}}
