@@ -2,16 +2,18 @@
 
 ## Versión y entorno comprobados
 
-Última verificación registrada: 18 de octubre de 2026.
+Última verificación registrada: 21 de octubre de 2026.
 
 - URL: https://54.236.112.203/pages/login.html
 - Salud: https://54.236.112.203/api/health/
 - Versión: https://54.236.112.203/api/version/
-- Código evaluado: `47358a26167f4efb0a4fe0638e78d815f821967a`.
+- Código evaluado: `1387aa8a976d802588fcb1e173b3bf50db1664f6`.
 - Región: `us-east-1`.
 - Perfil administrativo local: `sgr-personal`; laboratorio separado: `sgr-aws`.
 
 La cuenta personal contiene una copia independiente de la aplicación del laboratorio. No se sincronizan automáticamente el código ni los datos entre ambos entornos.
+
+Último incremento: [vecinos, organizaciones y pertenencias](../../integracion/BLOQUE_VECINOS_ORGANIZACIONES.md), migración0022 aplicada y permisos comprobados en AWS. Las evidencias de instalación que siguen corresponden al traslado inicial del18/10/2026.
 
 ## Componentes
 
