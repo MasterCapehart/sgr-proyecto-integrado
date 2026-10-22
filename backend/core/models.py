@@ -299,3 +299,4 @@ from .milestone_models import Hito, TareaHito, AvanceHito
 from .eligibility_models import ReglaActividad
 
 from .registration_models import ControlCupoFuncionario
+from .absence_models import CalendarioFuncionario,AusenciaFuncionario

@@ -80,7 +80,7 @@ def serialize(obj, fields):
         else: value=getattr(obj,name)
         result[name]=value
     if isinstance(obj,PeriodoGestion):
-        result.update(cerrado=obj.cerrado,situacion='Cerrado' if obj.cerrado else 'Abierto',duracion_dias=obj.duracion_dias,parametros_cierre=obj.parametros_cierre)
+        result.update(cerrado=obj.cerrado,situacion='Cerrado' if obj.cerrado else 'Abierto',duracion_dias=obj.duracion_dias,parametros_cierre={k:v for k,v in obj.parametros_cierre.items() if k!='ajustes_ausencia'})
     if isinstance(obj,ConfiguracionMeta):
         result.update(conciliada_con=obj.conciliada_con_id,periodo_cerrado=bool(obj.periodo_gestion_id and obj.periodo_gestion.cerrado),periodo_nombre=obj.periodo_gestion.nombre if obj.periodo_gestion_id else obj.periodo,historico_sin_calendario=not bool(obj.periodo_gestion_id))
     if isinstance(obj,SubAtencion): result['tipo_padre_display']=f'{obj.tipo_atencion.codigo} · {obj.tipo_atencion.nombre}'

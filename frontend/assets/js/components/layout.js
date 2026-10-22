@@ -34,7 +34,11 @@
   };
 
   ICONS['clasificacion-actividades'] = ICONS['items-metas'];
+  ICONS['ausencias'] = ICONS['periodos'];
+  ICONS['metas-ajustadas'] = ICONS['items-metas'];
   const links = [
+    ['ausencias','ausencias','Ausencias y calendario','ausencias.ver'],
+    ['metas-ajustadas','semaforo','Metas ajustadas','ausencias.ver'],
     ['clasificacion-actividades','clasificacion-actividades','Clasificación de actividades','clasificacion-actividades.ver'],
     ['hitos','hitos','Hitos y festividades','hitos.ver'],
     ['vecinos','vecinos','Vecinos','vecinos.ver'],
@@ -208,7 +212,7 @@
               ['Gestión diaria', ['actividades', 'atencion', 'casos-sociales', 'compromisos', 'reclamos']],
               ['Planificación', ['hitos']],
               ['Comunidad', ['vecinos','organizaciones']],
-              ['Seguimiento', ['evidencias', 'validacion', 'alertas', 'reportes', 'auditoria']],
+              ['Seguimiento', ['ausencias','metas-ajustadas','evidencias', 'validacion', 'alertas', 'reportes', 'auditoria']],
               ['Catálogos de consulta', readOnlyCatalogs],
               ['Administración', ['clasificacion-actividades','delegaciones', 'usuarios', 'roles', 'cargos', 'items-metas', 'periodos', 'configuraciones-metas', 'tipos-atencion', 'subatenciones', 'gobierno'].filter(id => !readOnlyCatalogs.includes(id))]
             ];

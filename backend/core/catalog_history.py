@@ -6,6 +6,8 @@ CATALOGS={'periodos','delegaciones','cargos','items-metas','tipos-atencion','sub
 def catalog(obj):
     fields=['id','version','codigo','nombre','descripcion','area','comuna','direccion','unidad_medida','estado','tipo_atencion_id','planilla','fecha_inicio','fecha_fin','cerrado','parametros_cierre']
     data={k:(getattr(obj,k).isoformat() if hasattr(getattr(obj,k),'isoformat') else getattr(obj,k)) for k in fields if hasattr(obj,k)}
+    if 'parametros_cierre' in data:
+        data['parametros_cierre']={k:v for k,v in data['parametros_cierre'].items() if k!='ajustes_ausencia'}
     if hasattr(obj,'cargos'):
         data['cargos']=list(obj.cargos.values_list('pk',flat=True))
         data['cargos_detalle']=list(obj.cargos.values('id','nombre','version','area'))
