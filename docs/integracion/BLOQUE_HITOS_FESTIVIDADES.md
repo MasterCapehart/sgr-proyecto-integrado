@@ -1,6 +1,8 @@
 # Hitos y festividades — incremento local
 
-Estado: implementado para revisión local. No desplegado en AWS.
+Estado: desplegado y verificado en AWS el21/10/2026. Versión de aplicación `55156b2e4c4d8f41977ecb57f7ee4e2a3d37de15`.
+
+Acceso: [Hitos y festividades en AWS](https://54.236.112.203/pages/hitos.html).
 
 ## Recorrido
 
@@ -36,3 +38,9 @@ Se limita cada operación a la delegación activa autorizada. La migración agre
 14 pruebas específicas aprobadas para permisos, aislamiento entre delegaciones, responsables, recursos, fechas, reintentos, versiones, avances propios, recurrencia, cierre, vínculo único al tubo y sincronización de responsable/plazo. Recorrido de navegador con cuentas ficticias locales y comprobación móvil aprobado. Suite core completa:461 pruebas, OK, con un fallo esperado previamente marcado en la suite. Sin cambios de modelos pendientes de migración.
 
 No se modificaron los diagramas ni se implementaron los siguientes bloques de puntuación, ausencias e indicadores colectivos.
+
+## Despliegue comprobado
+
+Respaldo previo de archivos, configuración y base de datos; SQL cifrado en S3. Migración0023 aplicada correctamente; comprobación sin migraciones pendientes. Salud, versión y hashes de los archivos coinciden; servicios SGR y Nginx activos.
+
+Pruebas autenticadas con administrador, delegado y funcionario: acceso al módulo, formularios según permiso y rechazo403 de creación para funcionario. Planificación aparece después de Gestión diaria (Reclamos y felicitaciones) y antes de Comunidad. Menú comprobado en escritorio y móvil: ocultar/mostrar, estado accesible y contenido sin columna vacía. No se crearon hitos de prueba en AWS.

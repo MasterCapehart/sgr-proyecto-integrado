@@ -7,13 +7,13 @@
 - URL: https://54.236.112.203/pages/login.html
 - Salud: https://54.236.112.203/api/health/
 - Versión: https://54.236.112.203/api/version/
-- Código evaluado: `1387aa8a976d802588fcb1e173b3bf50db1664f6`.
+- Código evaluado: `55156b2e4c4d8f41977ecb57f7ee4e2a3d37de15`.
 - Región: `us-east-1`.
 - Perfil administrativo local: `sgr-personal`; laboratorio separado: `sgr-aws`.
 
 La cuenta personal contiene una copia independiente de la aplicación del laboratorio. No se sincronizan automáticamente el código ni los datos entre ambos entornos.
 
-Último incremento: [vecinos, organizaciones y pertenencias](../../integracion/BLOQUE_VECINOS_ORGANIZACIONES.md), migración0022 aplicada y permisos comprobados en AWS. Las evidencias de instalación que siguen corresponden al traslado inicial del18/10/2026.
+Último incremento: [hitos, festividades y menú plegable](../../integracion/BLOQUE_HITOS_FESTIVIDADES.md), migración0023 aplicada y permisos comprobados en AWS. Las evidencias de instalación que siguen corresponden al traslado inicial del18/10/2026.
 
 ## Componentes
 

@@ -43,6 +43,7 @@ Seguir [backend/README.md](backend/README.md). Cada integrante mantiene su propi
 - **Captura unificada:** Mi planilla → Registrar actividad o atención; datos del vecino, junta de vecinos, ficha social y seguimiento opcional en el tubo, sin volver a capturar la solicitud.
 - **Vecinos y organizaciones:** directorio por delegación, juntas y organizaciones comunitarias, pertenencias múltiples y rol de integrante o dirigente. [Funcionamiento, permisos y pruebas](docs/integracion/BLOQUE_VECINOS_ORGANIZACIONES.md).
 - **Actividades y evidencias:** registro de trabajo por cargo, evidencia opcional y revisión de archivos por otra persona autorizada.
+- **Hitos y festividades:** planificación interna con recursos descriptivos, responsables, avances y seguimiento opcional en el tubo. Ubicado en Planificación. [Funcionamiento y permisos](docs/integracion/BLOQUE_HITOS_FESTIVIDADES.md).
 - **Compromisos y seguimiento:** gestión de compromisos, avances y conversación.
 - **Alertas y auditoría:** consulta de alertas y registro de operaciones.
 - **Planillas y exportación:** consulta de planillas y exportación a Excel.
@@ -54,7 +55,7 @@ Los permisos deben asignarse explícitamente y los catálogos deben validarse co
 ## Despliegue y versión evaluada
 
 - [SGR en AWS personal](https://54.236.112.203/pages/login.html), última verificación registrada el 21/10/2026.
-- Versión de aplicación evaluada: `1387aa8a976d802588fcb1e173b3bf50db1664f6`; consultar [/api/version/](https://54.236.112.203/api/version/).
+- Versión de aplicación evaluada: `55156b2e4c4d8f41977ecb57f7ee4e2a3d37de15`; consultar [/api/version/](https://54.236.112.203/api/version/).
 - [Instalación, configuración y recuperación AWS](docs/entrega/despliegue/README.md).
 - [Resultados, incidencias y estado del paquete de evidencias](docs/entrega/README.md).
 
