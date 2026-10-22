@@ -7,13 +7,13 @@
 - URL: https://54.236.112.203/pages/login.html
 - Salud: https://54.236.112.203/api/health/
 - Versión: https://54.236.112.203/api/version/
-- Código evaluado: `b2a6addd1ae8f850789eb0a6d9b9c8ab340dcad4`.
+- Código evaluado: `95c6f82629cf6d807a8843a143832f61f6c8af47`.
 - Región: `us-east-1`.
 - Perfil administrativo local: `sgr-personal`; laboratorio separado: `sgr-aws`.
 
 La cuenta personal contiene una copia independiente de la aplicación del laboratorio. No se sincronizan automáticamente el código ni los datos entre ambos entornos.
 
-Último incremento: [felicitaciones y revisión formal](../../integracion/BLOQUE_FELICITACIONES.md), migración 0026 aplicada, permisos de delegado y flechas de selectores comprobados en AWS. Las evidencias de instalación que siguen corresponden al traslado inicial del18/10/2026.
+Último incremento: [felicitaciones y revisión formal](../../integracion/BLOQUE_FELICITACIONES.md), migración 0026 aplicada, permisos de administrador y delegado y flechas de selectores comprobados en AWS. Las evidencias de instalación que siguen corresponden al traslado inicial del18/10/2026.
 
 ## Componentes
 

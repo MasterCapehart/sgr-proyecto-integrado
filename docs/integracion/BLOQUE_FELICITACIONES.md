@@ -1,10 +1,10 @@
 # Felicitaciones y revisión formal — R11
 
-Versión base desplegada y verificada en AWS el 22/10/2026. Versión de aplicación `b2a6addd1ae8f850789eb0a6d9b9c8ab340dcad4`.
+Desplegado y verificado en AWS el 22/10/2026. Versión de aplicación `95c6f82629cf6d807a8843a143832f61f6c8af47`.
 
 ## Alcance
 
-Cambio posterior solicitado el 22/10/2026: administrador y delegado pueden registrar, editar, adjuntar respaldos y validar o rechazar felicitaciones. Un superusuario activo conserva su acceso completo. Los usuarios normales requieren rol activo y permisos de reclamos correspondientes; el ámbito de delegación se mantiene. Este ajuste está implementado y verificado en local, pendiente de despliegue. Los reclamos conservan su flujo y permisos anteriores. La consulta mantiene el alcance autorizado por delegación y por autor/equipo.
+Cambio posterior solicitado el 22/10/2026: administrador y delegado pueden registrar, editar, adjuntar respaldos y validar o rechazar felicitaciones. Un superusuario activo conserva su acceso completo. Los usuarios normales requieren rol activo y permisos de reclamos correspondientes; el ámbito de delegación se mantiene. Este ajuste está desplegado y verificado en AWS. Los reclamos conservan su flujo y permisos anteriores. La consulta mantiene el alcance autorizado por delegación y por autor/equipo.
 
 El administrador o delegado registra emisor, contacto cuando corresponda, fecha de recepción, descripción, procedencia, destinatario y opcionalmente funcionario reconocido. El alta queda pendiente; no equivale a aprobación. La clase del registro queda fija para impedir cambiar un reclamo a felicitación como vía alternativa.
 
@@ -41,6 +41,8 @@ Comprobación autenticada de administrador, delegado y funcionario: solo delegad
 
 Las flechas de selectores simples se uniforman mediante selects.css desde el layout compartido; se ocultan en campos bloqueados, se mantiene teclado nativo y selección múltiple. Se actualizaron las referencias de caché de las páginas funcionales.
 
-## Verificación del ajuste de administrador (local)
+## Verificación del ajuste de administrador
 
 36 pruebas de felicitaciones y matriz correctas: administrador con permisos, superusuario sin rol y delegado pueden gestionar; otros perfiles siguen bloqueados. Alta pendiente y revisión separada se mantienen. Se actualizó el texto del formulario y la referencia de caché. Sin nueva migración.
+
+Ajuste desplegado en AWS el 22/10/2026, con respaldo previo y sin nuevas migraciones. Administrador y delegado ven Nueva felicitación y tienen acceso al endpoint de revisión; funcionario mantiene 403. Salud, versión y visualización móvil comprobadas, sin crear registros ni adjuntar archivos de prueba en AWS.
