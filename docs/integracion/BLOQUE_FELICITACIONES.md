@@ -1,6 +1,6 @@
 # Felicitaciones y revisión formal — R11
 
-Estado: implementado y verificado en local el 22/10/2026. Sin despliegue AWS.
+Estado: desplegado y verificado en AWS el 22/10/2026. Versión de aplicación `b2a6addd1ae8f850789eb0a6d9b9c8ab340dcad4`.
 
 ## Alcance
 
@@ -32,3 +32,11 @@ Menú Gestión diaria → Reclamos y felicitaciones. El delegado ve «Nueva feli
 ## Límites del incremento
 
 Validada significa comprobación formal preliminar, no puntos otorgados. No se crean actividades, no se consumen cupos diarios ni se aplica el plazo de actividades a una felicitación independiente. Permanecen por definir la asignación de puntos/ítems/período, tratamiento de duplicados para cálculo y eventuales conflictos de interés. No se modificaron diagramas ni se implementaron los bloques siguientes.
+
+## Despliegue AWS
+
+Respaldo previo SQL cifrado en S3 y copia de archivos/configuración. Paquete, versión de partida y hashes comprobados; migración 0026 aplicada, sin ampliar permisos del usuario MySQL de aplicación. Servicios sgr y nginx activos; salud y versión comprobadas.
+
+Comprobación autenticada de administrador, delegado y funcionario: solo delegado ve Nueva felicitación y pasa la restricción de rol de la API; otros perfiles reciben 403. Formulario de felicitación con guardado sin validar, procedencia/destinatario y controles de flechas uniformes. Historial anterior sin aprobaciones inferidas, interfaz móvil sin desbordamientos y sin errores JavaScript. No se crearon felicitaciones ni se cargaron archivos de prueba en AWS.
+
+Las flechas de selectores simples se uniforman mediante selects.css desde el layout compartido; se ocultan en campos bloqueados, se mantiene teclado nativo y selección múltiple. Se actualizaron las referencias de caché de las páginas funcionales.
