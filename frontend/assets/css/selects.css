@@ -1,0 +1,28 @@
+/* Flecha común para selectores simples. Se conserva el control nativo y su teclado. */
+:root select:not([multiple]):not([size]),
+:root select:not([multiple])[size="1"] {
+  --select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none' stroke='%23475569' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4 6 4 4 4-4'/%3E%3C/svg%3E");
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  background-image: var(--select-arrow) !important;
+  background-repeat: no-repeat !important;
+  background-position: right 12px center !important;
+  background-size: 16px 16px !important;
+  padding-right: 40px !important;
+}
+:root #session-delegation-select {
+  --select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none' stroke='white' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4 6 4 4 4-4'/%3E%3C/svg%3E");
+}
+:root select:not([multiple]):not([size]):disabled,
+:root select:not([multiple])[size="1"]:disabled {
+  background-image: none !important;
+  cursor: default;
+}
+@media (forced-colors: active) {
+  :root select:not([multiple]):not([size]),
+  :root select:not([multiple])[size="1"] {
+    appearance: auto !important;
+    -webkit-appearance: auto !important;
+    background-image: none !important;
+  }
+}

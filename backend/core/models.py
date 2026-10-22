@@ -290,7 +290,7 @@ class Vecino(models.Model):
 from .domain_models import Cargo, DerivacionActividad, Actividad, Evidencia, RevisionEvidencia, Compromiso, SeguimientoCompromiso, Conversacion, Mensaje
 from .closure_models import VersionCatalogo, PoliticaOperativa, CierreCompromiso, AlertaLocal
 
-from .matrix_models import Reclamo
+from .matrix_models import Reclamo,RespaldoFelicitacion,RevisionFelicitacion
 
 from .community_models import OrganizacionComunitaria, PertenenciaOrganizacion
 

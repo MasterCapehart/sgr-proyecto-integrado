@@ -1,4 +1,10 @@
 (() => {
+  // Cargar al final de las hojas de cada página para uniformar los desplegables.
+  const selectStyles = document.createElement('link');
+  selectStyles.rel = 'stylesheet';
+  selectStyles.href = new URL('../../css/selects.css?v=selects-1', document.currentScript.src).href;
+  document.head.append(selectStyles);
+
   const publicPages = ['login', 'recovery', 'validate-code', 'new-password'];
   function dirty() { return window.SGRDrafts?.hasChanges() || false; }
 

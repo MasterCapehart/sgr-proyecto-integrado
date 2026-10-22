@@ -11,12 +11,14 @@ from django.utils import timezone
 from django.views.decorators.http import require_http_methods
 from . import local_api as api,domain_api as domain
 from .models import Reclamo,Usuario
-FIELDS=['clase','fecha','vecino','contacto','ubicacion','situacion','profesional','medio_escrito','informado_a','evidencia']
+from . import congratulations as felicitations
+FIELDS=['clase','fecha','vecino','contacto','ubicacion','situacion','profesional','medio_escrito','informado_a','evidencia','procedencia','destinatario']
 def scoped(request):
     qs=Reclamo.objects.filter(delegacion=api.active_delegation(request)).select_related('autor','profesional','evidencia').order_by('-id')
     return qs if api.allowed(request.user,'reclamos','ver_equipo') else qs.filter(autor=request.user)
 def data(obj):
     r=api.serialize(obj,FIELDS);r.update(version=obj.version,folio=obj.folio,autor=obj.autor_id,autor_nombre=obj.autor.get_full_name() or obj.autor.username,profesional_nombre=(obj.profesional.get_full_name() or obj.profesional.username) if obj.profesional_id else '',creado=obj.creado.isoformat(),archivo_url=f'/api/operacion/evidencias/{obj.evidencia_id}/archivo/' if obj.evidencia_id else None)
+    r.update(felicitations.describe(obj))
     return json.loads(json.dumps(r,cls=DjangoJSONEncoder))
 @require_http_methods(['GET','POST','PATCH'])
 def records(request,pk=None,action=None):
@@ -37,9 +39,9 @@ def records(request,pk=None,action=None):
             if action=='export':
                 from openpyxl import Workbook
                 from openpyxl.styles import Font,PatternFill
-                book=Workbook();sheet=book.active;sheet.title='Reclamos y felicitaciones';sheet.append(['Folio','Fecha','Clase','Usuario / vecino','Contacto','Ubicación','Situación','Profesional involucrado','Medio escrito','Informado a','Código evidencia'])
+                book=Workbook();sheet=book.active;sheet.title='Reclamos y felicitaciones';sheet.append(['Folio','Fecha','Clase','Usuario / vecino','Contacto','Ubicación','Situación','Profesional involucrado','Medio escrito','Informado a','Código evidencia','Procedencia','Destinatario','Estado revisión','Candidata formal'])
                 for obj in qs:
-                    r=data(obj);sheet.append([r[k] for k in ['folio','fecha','clase','vecino','contacto','ubicacion','situacion','profesional_nombre','medio_escrito','informado_a','evidencia']])
+                    r=data(obj);sheet.append([r[k] for k in ['folio','fecha','clase','vecino','contacto','ubicacion','situacion','profesional_nombre','medio_escrito','informado_a','evidencia','procedencia','destinatario']]+[r['revision']['estado'],'Sí' if r['revision']['potencialmente_puntuable'] else 'No'])
                     for cell in sheet[sheet.max_row]:
                         if isinstance(cell.value,str):cell.data_type='s'
                 for cell in sheet[1]:cell.font=Font(bold=True,color='FFFFFF');cell.fill=PatternFill('solid',fgColor='AD0000')
@@ -55,6 +57,8 @@ def records(request,pk=None,action=None):
             obj=qs.select_for_update().filter(pk=pk).first() if pk else Reclamo(autor=request.user,delegacion=api.active_delegation(request))
             if obj is None:return api.error('Registro no encontrado.',404)
             if pk and request.method=='POST':return api.error('Método no permitido.',405)
+            if pk and 'clase' in incoming and incoming['clase']!=obj.clase:raise ValidationError('La clase queda fija después de guardar.')
+            if (obj.clase=='Felicitación' or incoming.get('clase')=='Felicitación') and not felicitations.manager(request.user):return api.error('Solo el delegado puede gestionar felicitaciones.',403)
             before=data(obj) if pk else None
             if pk:
                 if obj.autor_id!=request.user.pk and not api.allowed(request.user,'reclamos','editar_equipo'):return api.error('No puedes editar un registro ajeno.',403)
@@ -88,4 +92,4 @@ def options(request):
     if denied:return denied
     d=api.active_delegation(request)
     users=Usuario.objects.filter(is_active=True).filter(Q(delegacion=d)|Q(delegaciones=d)).distinct()
-    return api.ok(responsables=[{'id':u.pk,'nombre':u.get_full_name() or u.username} for u in users])
+    return api.ok(responsables=[{'id':u.pk,'nombre':u.get_full_name() or u.username} for u in users],puede_gestionar_felicitaciones=felicitations.manager(request.user),fecha_municipal=str(timezone.localdate()))

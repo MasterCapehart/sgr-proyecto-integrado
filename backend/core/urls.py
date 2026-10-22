@@ -74,3 +74,6 @@ urlpatterns += [path('hitos/opciones/',milestone_api.options),path('hitos/',mile
 
 from . import eligibility_api
 urlpatterns += [path('clasificacion-actividades/evaluar/',eligibility_api.preview),path('clasificacion-actividades/',eligibility_api.catalog),path('clasificacion-actividades/<int:pk>/',eligibility_api.catalog)]
+
+from . import congratulations_api
+urlpatterns += [path('reclamos/<int:pk>/respaldos/',congratulations_api.upload),path('reclamos/<int:pk>/respaldos/<int:backing>/archivo/',congratulations_api.download),path('reclamos/<int:pk>/revision/',congratulations_api.review)]
