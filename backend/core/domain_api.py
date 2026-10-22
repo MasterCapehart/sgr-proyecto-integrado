@@ -44,6 +44,8 @@ def representation(obj):
         r['dias_atraso_cierre']=obj.cierre_actual.dias_atraso if obj.cierre_actual_id else None
         r['cerrado_en']=obj.cierre_actual.fecha.isoformat() if obj.cierre_actual_id else None
         r['cierres']=[{'fecha':c.fecha.isoformat(),'autor':c.autor.username,'fecha_plazo':str(c.fecha_plazo),'dias_atraso':c.dias_atraso,'observacion':c.observacion} for c in obj.cierres.select_related('autor')]
+        hito_task=getattr(obj,'tarea_hito',None)
+        r['hito']=dict(id=hito_task.hito_id,nombre=hito_task.hito.nombre,tarea=hito_task.pk,cerrado=hito_task.hito.estado in ['Finalizado','Cancelado'],responsables=list(hito_task.hito.responsables.values_list('pk',flat=True))) if hito_task else None
         r['mes_compromiso']=obj.fecha_comprometida.strftime('%m')
         r['ultima_observacion']=obj.seguimientos.first().observacion if obj.seguimientos.exists() else ''
         r['seguimientos']=[{'fecha':x.fecha.isoformat(),'autor':x.autor.username,'estado_anterior':x.estado_anterior,'estado_nuevo':x.estado_nuevo,'observacion':x.observacion,'fecha_anterior':str(x.fecha_anterior),'fecha_nueva':str(x.fecha_nueva),'responsable_anterior':x.responsable_anterior.username,'responsable_nuevo':x.responsable_nuevo.username} for x in obj.seguimientos.select_related('autor','responsable_anterior','responsable_nuevo')]
@@ -203,6 +205,9 @@ def records(request,resource,pk=None,action=None):
                     if prior.autor_id!=request.user.pk or prior.delegacion_id!=api.active_delegation(request).pk or prior.captura_hash!=capture_hash:return api.error('La clave corresponde a otra captura.',409)
                     return api.ok(representation(prior),is_duplicate_prevented=True)
             if request.method=='PATCH':
+                if resource=='compromisos':
+                    from .milestone_api import lock_commitment_hito
+                    lock_commitment_hito(request,pk)
                 obj=qs.select_for_update().filter(pk=pk).first()
                 if not obj:return api.error('Registro no encontrado.',404)
                 if obj.autor_id!=request.user.pk and not (resource=='compromisos' and obj.responsable_id==request.user.pk) and not api.allowed(request.user,resource,'editar_equipo'):return api.error('No puedes editar registros de otro responsable.',403)
@@ -216,6 +221,9 @@ def records(request,resource,pk=None,action=None):
                 if resource=='actividades':obj.clave_idempotencia=capture_key;obj.captura_hash=capture_hash;obj.cargo=request.user.cargo;obj.plantilla=(request.user.cargo.planilla if request.user.cargo_id else '') or 'GENERAL'
                 if resource=='compromisos' and not data.get('fecha_solicitud'):obj.fecha_solicitud=timezone.localdate()
             old_item=obj.item_id if resource=='actividades' else None
+            if resource=='compromisos' and before:
+                from .milestone_api import validate_commitment_edit
+                validate_commitment_edit(request,obj,data)
             apply_fields(request,resource,obj,data)
             if resource=='actividades' and obj.vecino_id:
                 from .neighbors import bind
@@ -244,6 +252,8 @@ def records(request,resource,pk=None,action=None):
                 observation=observation.strip()
                 SeguimientoCompromiso.objects.create(compromiso=obj,autor=request.user,estado_anterior=before['estado'],estado_nuevo=obj.estado,observacion=observation,responsable_anterior_id=before['responsable'],responsable_nuevo=obj.responsable,fecha_anterior=before['fecha_comprometida'],fecha_nueva=obj.fecha_comprometida)
             if resource=='compromisos':
+                from .milestone_api import sync_commitment
+                sync_commitment(obj)
                 from .closure_workflow import save_closure
                 save_closure(request,obj,before,data)
             api.record_event(request,resource,obj.pk,'editar' if before else 'crear',before,representation(obj))

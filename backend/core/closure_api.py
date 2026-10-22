@@ -155,6 +155,8 @@ def reopen(request,pk):
     try:
         data=api.body(request);motivo=reason(data)
         with transaction.atomic():
+            from .milestone_api import lock_commitment_hito
+            lock_commitment_hito(request,pk)
             obj=domain.scoped(request,'compromisos').select_for_update().filter(pk=pk).first()
             if not obj:return api.error('Compromiso no encontrado.',404)
             conflict=domain.validate_version(obj,data)

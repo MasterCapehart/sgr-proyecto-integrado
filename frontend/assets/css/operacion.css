@@ -1074,3 +1074,8 @@ body .swal2-container.swal2-top-end .swal2-popup.swal2-toast .swal2-title {
 .tube-section-title{grid-column:1 / -1;margin:16px 0 4px;padding-bottom:12px;border-bottom:1px solid var(--line,#dce2ea);font-size:17px}
 
 .planilla-quick{display:flex;flex-wrap:wrap;gap:10px;padding:18px 20px;border-bottom:1px solid var(--line,#dce2ea)}.planilla-quick [aria-pressed=true]{background:#ad0000;color:white;border-color:#ad0000}.tablewrap .planilla-simple{min-width:720px;table-layout:auto}.tablewrap .planilla-simple td:nth-child(2){min-width:180px;max-width:330px;white-space:normal;overflow-wrap:anywhere}.tablewrap .planilla-simple td:nth-child(3){max-width:200px;white-space:normal;overflow-wrap:anywhere}.tablewrap .planilla-simple td:nth-child(5){min-width:180px;white-space:normal}.tablewrap .planilla-simple td:last-child{min-width:100px}
+
+/* El mismo control de menú funciona en escritorio y móvil. */
+.button.mobilemenu{display:inline-flex;margin:10px 16px;align-self:flex-start}
+#site-sidebar[hidden]{display:none!important}
+.layout.sidebar-collapsed{grid-template-columns:minmax(0,1fr)}

@@ -292,3 +292,5 @@ from .closure_models import VersionCatalogo, PoliticaOperativa, CierreCompromiso
 from .matrix_models import Reclamo
 
 from .community_models import OrganizacionComunitaria, PertenenciaOrganizacion
+
+from .milestone_models import Hito, TareaHito, AvanceHito

@@ -68,3 +68,6 @@ urlpatterns += [path('vecinos/directorio/',community_api.resource,{'resource':'v
 for community_resource in ['vecinos','organizaciones','pertenencias']:
     if community_resource!='vecinos':urlpatterns += [path(community_resource+'/',community_api.resource,{'resource':community_resource})]
     urlpatterns += [path(community_resource+'/<int:pk>/',community_api.resource,{'resource':community_resource}),path(community_resource+'/<int:pk>/estado/',community_api.resource,{'resource':community_resource,'action':'estado'})]
+
+from . import milestone_api
+urlpatterns += [path('hitos/opciones/',milestone_api.options),path('hitos/',milestone_api.records),path('hitos/<int:pk>/',milestone_api.records),path('hitos/<int:hito_id>/tareas/',milestone_api.tasks),path('hitos/tareas/<int:pk>/',milestone_api.tasks),path('hitos/tareas/<int:pk>/avances/',milestone_api.tasks,{'action':'avances'}),path('hitos/tareas/<int:pk>/tubo/',milestone_api.tasks,{'action':'tubo'})]

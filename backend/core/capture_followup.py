@@ -66,6 +66,11 @@ def origins(request,pk):
     obj=scoped(request,'compromisos').filter(pk=pk).first()
     if obj is None:return api.error('Compromiso no encontrado.',404)
     rows=[];d=api.active_delegation(request)
+    if api.allowed(request.user,'hitos','ver'):
+        from .milestone_api import visible
+        from .models import TareaHito
+        task=TareaHito.objects.filter(compromiso=obj,hito__in=visible(request)).select_related('hito').first()
+        if task:rows.append(dict(tipo='hito',id=task.hito_id,codigo='Hito interno',descripcion=task.hito.nombre+' · '+task.nombre,url='/pages/hitos.html?id='+str(task.hito_id)))
     if api.allowed(request.user,'actividades','ver'):
         for a in scoped(request,'actividades').filter(compromiso=obj)[:100]:rows.append(dict(tipo='actividad',id=a.pk,codigo=a.codigo,descripcion=a.solicitud,url='/pages/desempeno.html?registro='+str(a.pk)))
     if api.allowed(request.user,'atenciones','ver'):
