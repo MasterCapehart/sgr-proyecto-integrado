@@ -12,7 +12,7 @@ from .models import RespaldoFelicitacion,RevisionFelicitacion
 def gate(request,write=False):
     denied=domain.gate(request,'reclamos','editar' if write else 'ver')
     if denied:return denied
-    if write and not service.manager(request.user):return api.error('Solo el delegado puede gestionar y validar felicitaciones.',403)
+    if write and not service.manager(request.user):return api.error('Solo el administrador o delegado puede gestionar y validar felicitaciones.',403)
 
 def authorized(request,pk):
     from .feedback_api import scoped

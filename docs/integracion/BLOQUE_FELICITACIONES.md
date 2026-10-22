@@ -1,14 +1,14 @@
 # Felicitaciones y revisión formal — R11
 
-Estado: desplegado y verificado en AWS el 22/10/2026. Versión de aplicación `b2a6addd1ae8f850789eb0a6d9b9c8ab340dcad4`.
+Versión base desplegada y verificada en AWS el 22/10/2026. Versión de aplicación `b2a6addd1ae8f850789eb0a6d9b9c8ab340dcad4`.
 
 ## Alcance
 
-Solo un usuario activo con rol activo denominado Delegado y los permisos de reclamos correspondientes puede registrar, editar, adjuntar respaldos y validar o rechazar felicitaciones. Un administrador o superusuario sin ese rol queda excluido. Los reclamos conservan su flujo y permisos anteriores. La consulta mantiene el alcance autorizado por delegación y por autor/equipo.
+Cambio posterior solicitado el 22/10/2026: administrador y delegado pueden registrar, editar, adjuntar respaldos y validar o rechazar felicitaciones. Un superusuario activo conserva su acceso completo. Los usuarios normales requieren rol activo y permisos de reclamos correspondientes; el ámbito de delegación se mantiene. Este ajuste está implementado y verificado en local, pendiente de despliegue. Los reclamos conservan su flujo y permisos anteriores. La consulta mantiene el alcance autorizado por delegación y por autor/equipo.
 
-El delegado registra emisor, contacto cuando corresponda, fecha de recepción, descripción, procedencia, destinatario y opcionalmente funcionario reconocido. El alta queda pendiente; no equivale a aprobación. La clase del registro queda fija para impedir cambiar un reclamo a felicitación como vía alternativa.
+El administrador o delegado registra emisor, contacto cuando corresponda, fecha de recepción, descripción, procedencia, destinatario y opcionalmente funcionario reconocido. El alta queda pendiente; no equivale a aprobación. La clase del registro queda fija para impedir cambiar un reclamo a felicitación como vía alternativa.
 
-Para validar se exige procedencia directa del vecino/usuario, destinatario delegado o delegación, emisor identificado, respaldo formal existente y observación explícita del delegado. Los mensajes personales no formalizados pueden conservarse, sin candidatura. La validación es una acción separada del guardado. El rechazo exige motivo y conserva trazabilidad.
+Para validar se exige procedencia directa del vecino/usuario, destinatario delegado o delegación, emisor identificado, respaldo formal existente y observación explícita del administrador o delegado. Los mensajes personales no formalizados pueden conservarse, sin candidatura. La validación es una acción separada del guardado. El rechazo exige motivo y conserva trazabilidad.
 
 ## Respaldos e historial
 
@@ -20,7 +20,7 @@ Migración 0026: procedencia/destinatario en Reclamo, RespaldoFelicitacion y Rev
 
 ## Interfaz y pruebas
 
-Menú Gestión diaria → Reclamos y felicitaciones. El delegado ve «Nueva felicitación»; los otros perfiles mantienen «Nuevo reclamo» según permisos. El detalle muestra primero el estado, respaldo y revisión; datos completos e historial son desplegables. Exportación incluye procedencia, destinatario, estado y candidatura formal, conservando protección contra fórmulas.
+Menú Gestión diaria → Reclamos y felicitaciones. El administrador y el delegado ven «Nueva felicitación»; los otros perfiles mantienen «Nuevo reclamo» según permisos. El detalle muestra primero el estado, respaldo y revisión; datos completos e historial son desplegables. Exportación incluye procedencia, destinatario, estado y candidatura formal, conservando protección contra fórmulas.
 
 - 32 pruebas iniciales de felicitaciones y regresión del módulo de matriz correctas.
 - Suite completa: 505 pruebas correctas, con un fallo esperado preexistente.
@@ -40,3 +40,7 @@ Respaldo previo SQL cifrado en S3 y copia de archivos/configuración. Paquete, v
 Comprobación autenticada de administrador, delegado y funcionario: solo delegado ve Nueva felicitación y pasa la restricción de rol de la API; otros perfiles reciben 403. Formulario de felicitación con guardado sin validar, procedencia/destinatario y controles de flechas uniformes. Historial anterior sin aprobaciones inferidas, interfaz móvil sin desbordamientos y sin errores JavaScript. No se crearon felicitaciones ni se cargaron archivos de prueba en AWS.
 
 Las flechas de selectores simples se uniforman mediante selects.css desde el layout compartido; se ocultan en campos bloqueados, se mantiene teclado nativo y selección múltiple. Se actualizaron las referencias de caché de las páginas funcionales.
+
+## Verificación del ajuste de administrador (local)
+
+36 pruebas de felicitaciones y matriz correctas: administrador con permisos, superusuario sin rol y delegado pueden gestionar; otros perfiles siguen bloqueados. Alta pendiente y revisión separada se mantienen. Se actualizó el texto del formulario y la referencia de caché. Sin nueva migración.

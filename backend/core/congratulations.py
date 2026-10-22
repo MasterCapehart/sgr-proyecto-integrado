@@ -1,8 +1,9 @@
-"""R11: registro y revisión explícita por delegado. Nunca concede puntos."""
+"""R11: registro y revisión explícita por administrador o delegado. Nunca concede puntos."""
 from .models import RevisionFelicitacion
 
 def manager(user):
-    return bool(user.is_authenticated and user.is_active and user.rol_id and user.rol.estado and user.rol.nombre.strip().casefold()=='delegado')
+    return bool(user.is_authenticated and user.is_active and (user.is_superuser or
+        (user.rol_id and user.rol.estado and user.rol.nombre.strip().casefold() in ['administrador','delegado'])))
 
 def conditions(obj,backing):
     reasons=[]
@@ -24,7 +25,7 @@ def describe(obj):
     last=reviews[0] if reviews else None
     state=last.decision if last and last.version_registro==obj.version else 'Pendiente'
     reasons=conditions(obj,backups[0] if backups else None)
-    if state=='Pendiente':reasons.append('Pendiente de revisión explícita del delegado.')
-    if state=='Rechazada':reasons.append('Rechazada por el delegado: '+last.observacion)
+    if state=='Pendiente':reasons.append('Pendiente de revisión explícita del administrador o delegado.')
+    if state=='Rechazada':reasons.append('Rechazada en revisión: '+last.observacion)
     return dict(revision=dict(estado=state,potencialmente_puntuable=state=='Validada' and not reasons,motivos=reasons,
         alcance='Validación formal preliminar: no concede puntos ni calcula metas.'),respaldos=[backing_data(b) for b in backups],revisiones=[review_data(r) for r in reviews])

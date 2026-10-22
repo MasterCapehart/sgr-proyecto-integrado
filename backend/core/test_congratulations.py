@@ -18,8 +18,8 @@ class CongratulationsTests(TestCase):
  def file(self,row,content=b'%PDF-1.4\nRespaldo ficticio',name='carta.pdf'):
   return self.client.post(f"/api/reclamos/{row['id']}/respaldos/",{'_version':row['version'],'archivo':SimpleUploadedFile(name,content,content_type='application/pdf')})
  def review(self,row,**extra):return self.send(f"/api/reclamos/{row['id']}/revision/",dict(_version=row['version'],decision='Validada',observacion='Procedencia y respaldo comprobados',**extra))
- def test_solo_delegado_incluso_con_permisos_y_superusuario(self):
-  for name,superuser in [('Administrador',True),('Funcionario',False),('Verificador',False)]:
+ def test_otros_perfiles_siguen_restringidos(self):
+  for name,superuser in [('Funcionario',False),('Verificador',False)]:
    role=Rol.objects.create(nombre=name,permisos=self.role.permisos);self.u.rol=role;self.u.is_superuser=superuser;self.u.save()
    self.assertEqual(self.send('/api/reclamos/',self.payload()).status_code,403)
   self.assertEqual(Reclamo.objects.count(),0)
@@ -54,7 +54,7 @@ class CongratulationsTests(TestCase):
  def test_aislamiento_y_restriccion_edicion_de_felicitacion(self):
   row=self.file(self.create()).json()['data'];url=row['respaldos'][0]['archivo_url']
   other=Delegacion.objects.create(codigo='FEL2',nombre='Otra');self.u.delegacion=other;self.u.save();self.assertEqual(self.client.get(url).status_code,404);self.assertEqual(self.review(row).status_code,404)
-  self.u.delegacion=self.d;self.u.rol=Rol.objects.create(nombre='Administrador',permisos=self.role.permisos);self.u.is_superuser=True;self.u.save();self.assertEqual(self.file(row).status_code,403);self.assertEqual(self.review(row).status_code,403);self.assertEqual(self.send(f"/api/reclamos/{row['id']}/",dict(_version=row['version'],situacion='Cambio'),'patch').status_code,403)
+  self.u.delegacion=self.d;self.u.rol=Rol.objects.create(nombre='Funcionario',permisos=self.role.permisos);self.u.is_superuser=False;self.u.save();self.assertEqual(self.file(row).status_code,403);self.assertEqual(self.review(row).status_code,403);self.assertEqual(self.send(f"/api/reclamos/{row['id']}/",dict(_version=row['version'],situacion='Cambio'),'patch').status_code,403)
  def test_reclamo_normal_se_conserva_para_administrador(self):
   self.u.rol=None;self.u.is_superuser=True;self.u.save();p=self.payload();p.pop('procedencia');p.pop('destinatario');p['clase']='Reclamo';r=self.send('/api/reclamos/',p);self.assertEqual(r.status_code,201,r.content)
  def test_exportacion_incluye_estado_y_no_formula(self):
@@ -66,8 +66,8 @@ class CongratulationsTests(TestCase):
   row=self.create(medio_escrito=True);self.assertEqual(self.review(row).status_code,400)
  def test_reclamo_no_admite_endpoint_de_felicitacion(self):
   p=self.payload();p['clase']='Reclamo';row=self.send('/api/reclamos/',p).json()['data'];self.assertEqual(self.file(row).status_code,404);self.assertEqual(self.review(row).status_code,404)
- def test_estado_rol_inactivo_bloquea_aunque_superusuario(self):
-  self.u.is_superuser=True;self.u.save();self.role.estado=False;self.role.save();self.assertEqual(self.send('/api/reclamos/',self.payload()).status_code,403)
+ def test_estado_rol_inactivo_bloquea_usuario_normal(self):
+  self.role.estado=False;self.role.save();self.assertEqual(self.send('/api/reclamos/',self.payload()).status_code,403)
  def test_descarga_no_autenticada_y_respaldo_de_otro_registro(self):
   row=self.file(self.create()).json()['data'];other=self.create();backing=row['respaldos'][0]['id'];self.assertEqual(self.client.get(f"/api/reclamos/{other['id']}/respaldos/{backing}/archivo/").status_code,404)
   self.client.logout();self.assertEqual(self.client.get(row['respaldos'][0]['archivo_url']).status_code,401)
@@ -75,6 +75,16 @@ class CongratulationsTests(TestCase):
   from .models import RespaldoFelicitacion
   row=self.file(self.create()).json()['data'];b=RespaldoFelicitacion.objects.get(pk=row['respaldos'][0]['id']);b.archivo.storage.delete(b.archivo.name)
   self.assertEqual(self.review(row).status_code,400);self.assertEqual(self.client.get(f"/api/reclamos/{row['id']}/").json()['data']['revision']['estado'],'Pendiente')
+
+
+ def test_administrador_y_superusuario_gestionan_flujo_completo(self):
+  for name,superuser in [('Administrador',False),(None,True)]:
+   self.u.rol=Rol.objects.create(nombre=name,permisos=self.role.permisos) if name else None;self.u.is_superuser=superuser;self.u.save()
+   self.assertTrue(self.client.get('/api/reclamos/opciones/').json()['puede_gestionar_felicitaciones'])
+   row=self.create();row=self.file(row).json()['data'];r=self.review(row);self.assertEqual(r.status_code,200,r.content);row=r.json()['data'];self.assertTrue(row['revision']['potencialmente_puntuable'])
+   r=self.send(f"/api/reclamos/{row['id']}/",dict(_version=row['version'],situacion='Corrección del administrador'),'patch');self.assertEqual(r.status_code,200,r.content);self.assertEqual(r.json()['data']['revision']['estado'],'Pendiente')
+ def test_superusuario_inactivo_no_gestiona(self):
+  self.u.is_superuser=True;self.u.is_active=False;self.u.save();self.assertIn(self.send('/api/reclamos/',self.payload()).status_code,[401,403])
 
 from django.test import TransactionTestCase,Client
 from django.db import close_old_connections

@@ -1,4 +1,4 @@
-/* Reclamos conservados; felicitaciones con respaldo y revisión explícita del delegado. */
+/* Reclamos conservados; felicitaciones con respaldo y revisión explícita del administrador o delegado. */
 (() => {
  const n=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e;};
  const button=(text,fn,cls='button secondary')=>{const b=n('button',cls,text);b.type='button';b.onclick=fn;return b;};
@@ -62,7 +62,7 @@
     if(input.tagName==='INPUT'||input.tagName==='TEXTAREA')input.maxLength=key==='situacion'?5000:key==='contacto'?100:key==='ubicacion'?250:200;
     input.value=item?(key==='medio_escrito'?(item[key]?'si':'no'):item[key]??''):(key==='fecha'?options.fecha_municipal:key==='clase'?kind:key==='medio_escrito'?'no':['procedencia','destinatario'].includes(key)?'Sin determinar':'');wrap.append(lab,input);grid.append(wrap);
    }
-   if(isFel)grid.append(n('p','help field full','Solo el delegado registra y valida. Primero guarda; luego adjunta el respaldo y revisa. Cada corrección exige nueva revisión. No se asignan puntos automáticamente.'));
+   if(isFel)grid.append(n('p','help field full','El administrador y el delegado pueden registrar y validar. Primero guarda; luego adjunta el respaldo y revisa. Cada corrección exige nueva revisión. No se asignan puntos automáticamente.'));
    form.append(grid);const foot=n('div','modalfoot');foot.append(button(edit?'Cancelar':'Cerrar',()=>d.close()));
    if(edit){const save=n('button','button primary',isFel?'Guardar sin validar':'Guardar registro');save.type='submit';foot.append(save);
     form.onsubmit=async e=>{e.preventDefault();if(save.disabled||!form.reportValidity())return;save.disabled=true;try{const data=Object.fromEntries(new FormData(form));data.clase=item?.clase||kind;data.profesional=data.profesional?Number(data.profesional):null;if(!isFel){data.medio_escrito=data.medio_escrito==='si';data.evidencia=data.evidencia?Number(data.evidencia):null;}if(item)data._version=item.version;const r=await SGRApi.send('/api/reclamos/'+(item?item.id+'/':''),data,item?'PATCH':'POST');SGRDrafts.clean(form);d.close();await load();if(isFel)await editor(r.data,false);else await SGRApi.message('Registro guardado con su historial.','success');}catch(e){await SGRApi.message(e.message);}finally{save.disabled=false;}};
@@ -72,7 +72,7 @@
  }
  document.addEventListener('DOMContentLoaded',async()=>{
   const main=document.getElementById('main-content');try{ctx=await SGRSession;if(!can('ver')){main.textContent='No tienes permiso para consultar estos registros.';return;}options=await SGRApi.request('/api/reclamos/opciones/');
-   main.replaceChildren(n('div','crumb','SGR / Gestión diaria / Reclamos y felicitaciones'));const head=n('div','head'),copy=n('div');copy.append(n('h1',null,'Reclamos y felicitaciones'),n('p','sub','Registros de la delegación activa. Las felicitaciones requieren respaldo formal y revisión explícita del delegado.'));head.append(copy);
+   main.replaceChildren(n('div','crumb','SGR / Gestión diaria / Reclamos y felicitaciones'));const head=n('div','head'),copy=n('div');copy.append(n('h1',null,'Reclamos y felicitaciones'),n('p','sub','Registros de la delegación activa. Las felicitaciones requieren respaldo formal y revisión explícita del administrador o delegado.'));head.append(copy);
    if(can('crear')){const actions=n('div','primary-actions');actions.append(button('+ Nuevo reclamo',()=>editor(null,true,'Reclamo')));if(manager())actions.append(button('+ Nueva felicitación',()=>editor(null,true,'Felicitación'),'button primary'));head.append(actions);}main.append(head);
    const card=n('section','card'),toolbar=n('div','toolbar'),searchLabel=n('label');searchLabel.append(n('span',null,'Buscar'));const input=n('input');input.type='search';input.placeholder='Vecino, situación, ubicación o folio';searchLabel.append(input);let timer;input.oninput=()=>{clearTimeout(timer);timer=setTimeout(()=>{search=input.value;page=1;load();},250);};toolbar.append(searchLabel);
    const classLabel=n('label');classLabel.append(n('span',null,'Clase'));const select=n('select');for(const [v,t] of [['','Reclamos y felicitaciones'],['Reclamo','Reclamo'],['Felicitación','Felicitación']])select.add(new Option(t,v));select.onchange=()=>{clase=select.value;page=1;load();};classLabel.append(select);toolbar.append(classLabel);

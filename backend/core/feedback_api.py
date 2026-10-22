@@ -58,7 +58,7 @@ def records(request,pk=None,action=None):
             if obj is None:return api.error('Registro no encontrado.',404)
             if pk and request.method=='POST':return api.error('Método no permitido.',405)
             if pk and 'clase' in incoming and incoming['clase']!=obj.clase:raise ValidationError('La clase queda fija después de guardar.')
-            if (obj.clase=='Felicitación' or incoming.get('clase')=='Felicitación') and not felicitations.manager(request.user):return api.error('Solo el delegado puede gestionar felicitaciones.',403)
+            if (obj.clase=='Felicitación' or incoming.get('clase')=='Felicitación') and not felicitations.manager(request.user):return api.error('Solo el administrador o delegado puede gestionar felicitaciones.',403)
             before=data(obj) if pk else None
             if pk:
                 if obj.autor_id!=request.user.pk and not api.allowed(request.user,'reclamos','editar_equipo'):return api.error('No puedes editar un registro ajeno.',403)
