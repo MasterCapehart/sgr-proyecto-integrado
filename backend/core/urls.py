@@ -62,3 +62,9 @@ urlpatterns += [path('captura/reservar-codigo/', capture_codes.reserve)]
 
 from . import neighbors
 urlpatterns += [path('vecinos/', neighbors.create), path('vecinos/buscar/', neighbors.search)]
+
+from . import community_api
+urlpatterns += [path('vecinos/directorio/',community_api.resource,{'resource':'vecinos'})]
+for community_resource in ['vecinos','organizaciones','pertenencias']:
+    if community_resource!='vecinos':urlpatterns += [path(community_resource+'/',community_api.resource,{'resource':community_resource})]
+    urlpatterns += [path(community_resource+'/<int:pk>/',community_api.resource,{'resource':community_resource}),path(community_resource+'/<int:pk>/estado/',community_api.resource,{'resource':community_resource,'action':'estado'})]

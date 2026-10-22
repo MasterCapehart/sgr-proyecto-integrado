@@ -8,6 +8,7 @@ from .capture_followup import fingerprint
 from .models import Vecino
 
 FIELDS=('nombre','rut','telefono','sector','junta_vecinos')
+EDIT_FIELDS=FIELDS+('direccion',)
 
 def normalize_rut(value):
  if value in ('',None):return ''
@@ -21,7 +22,10 @@ def normalize_rut(value):
  if digit!=expected:raise ValidationError('El dígito verificador del RUN no es válido.')
  return number+'-'+digit
 
-def representation(obj):return dict(id=obj.pk,**{field:getattr(obj,field) or '' for field in FIELDS})
+def representation(obj):
+ data=dict(id=obj.pk,version=obj.version,activo=obj.activo,delegacion=obj.delegacion_id,**{field:getattr(obj,field) or '' for field in EDIT_FIELDS})
+ data['organizaciones']=[dict(id=p.organizacion_id,nombre=p.organizacion.nombre,rol=p.rol,tipo=p.organizacion.tipo) for p in obj.pertenencias.select_related('organizacion').filter(activo=True,organizacion__activo=True)]
+ return data
 
 def prior(request,key,digest):
  obj=Vecino.objects.filter(clave_idempotencia=key).first()
@@ -31,12 +35,12 @@ def prior(request,key,digest):
 
 @require_POST
 def search(request):
- denied=domain.gate(request,'actividades','crear')
+ denied=domain.gate(request,'vecinos','crear') if api.allowed(request.user,'vecinos','crear') else domain.gate(request,'actividades','crear')
  if denied:return denied
  try:
   data=api.body(request);q=data.get('q','')
   if set(data)-{'q'} or not isinstance(q,str) or len(q)>100:raise ValidationError('Búsqueda inválida.')
-  q=' '.join(q.split());qs=Vecino.objects.filter(delegacion=api.active_delegation(request))
+  q=' '.join(q.split());qs=Vecino.objects.filter(delegacion=api.active_delegation(request),activo=True)
   if len(q)<3:return api.ok(results=[],has_more=False,message='Escribe al menos tres letras del nombre o el RUN completo.')
   if re.fullmatch(r'[\d.\sKk-]+',q):
    try:rut=normalize_rut(q)
@@ -48,18 +52,18 @@ def search(request):
 
 @require_POST
 def create(request):
- denied=domain.gate(request,'actividades','crear')
+ denied=domain.gate(request,'vecinos','crear') if api.allowed(request.user,'vecinos','crear') else domain.gate(request,'actividades','crear')
  if denied:return denied
  try:
   data=api.body(request)
-  if set(data)-set(FIELDS)-{'clave_idempotencia'}:raise ValidationError('Hay campos no editables.')
+  if set(data)-set(EDIT_FIELDS)-{'clave_idempotencia'}:raise ValidationError('Hay campos no editables.')
   key=data.get('clave_idempotencia')
   if not isinstance(key,str) or not key.strip() or len(key)>64:raise ValidationError('Falta una clave válida de registro vecinal.')
-  if any(not isinstance(data.get(f,''),str) for f in FIELDS):raise ValidationError('Los datos del vecino deben ser texto.')
-  values={f:data.get(f,'').strip() for f in FIELDS};values['nombre']=' '.join(values['nombre'].split());values['rut']=normalize_rut(values['rut'])
+  if any(not isinstance(data.get(f,''),str) for f in EDIT_FIELDS):raise ValidationError('Los datos del vecino deben ser texto.')
+  values={f:data.get(f,'').strip() for f in EDIT_FIELDS};values['nombre']=' '.join(values['nombre'].split());values['rut']=normalize_rut(values['rut'])
   if len(values['nombre'])<2:raise ValidationError('Indica el nombre del vecino.')
   if values['telefono'] and not re.fullmatch(r'\+?[0-9 ()-]{8,20}',values['telefono']):raise ValidationError('Teléfono inválido.')
-  digest=fingerprint(values);previous=prior(request,key,digest)
+  digest=fingerprint({f:v for f,v in values.items() if f!='direccion' or v});previous=prior(request,key,digest)
   if previous:return previous
   d=api.active_delegation(request)
   with transaction.atomic():
@@ -81,7 +85,13 @@ def bind(request,activity,identifier):
  if identifier in ('',None):return
  if isinstance(identifier,bool) or not str(identifier).isdigit():raise ValidationError('Selecciona un vecino válido.')
  obj=Vecino.objects.filter(pk=identifier,delegacion=api.active_delegation(request)).first()
- if obj is None:return False
+ if obj is None or (not obj.activo and not activity.pk):return False
+ if activity.pk:
+  from .models import Actividad
+  previous=Actividad.objects.filter(pk=activity.pk,vecino=obj).first()
+  if previous is not None:
+   if activity.contacto!=previous.contacto or activity.rut_contacto!=previous.rut_contacto:raise ValidationError('La identidad histórica del vecino vinculado no se cambia desde la actividad.')
+   return True
  if ' '.join(activity.contacto.casefold().split())!=' '.join(obj.nombre.casefold().split()):raise ValidationError('El nombre no coincide con el vecino seleccionado. Cambia la selección para registrar otra persona.')
  if activity.rut_contacto and activity.rut_contacto!=(obj.rut or ''):raise ValidationError('El RUN no coincide con el vecino seleccionado.')
  activity.vecino=obj;activity.contacto=obj.nombre;activity.rut_contacto=obj.rut or ''

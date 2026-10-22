@@ -268,6 +268,9 @@ class AccesoFallido(models.Model):
     creado = models.DateTimeField(auto_now_add=True, db_index=True)
 
 class Vecino(models.Model):
+    direccion = models.CharField(max_length=250, blank=True, default="")
+    activo = models.BooleanField(default=True)
+    version = models.PositiveIntegerField(default=1, editable=False)
     delegacion = models.ForeignKey(Delegacion, on_delete=models.PROTECT, related_name='vecinos')
     nombre = models.CharField(max_length=200, db_index=True)
     rut = models.CharField(max_length=12, null=True, blank=True)
@@ -287,3 +290,5 @@ from .domain_models import Cargo, DerivacionActividad, Actividad, Evidencia, Rev
 from .closure_models import VersionCatalogo, PoliticaOperativa, CierreCompromiso, AlertaLocal
 
 from .matrix_models import Reclamo
+
+from .community_models import OrganizacionComunitaria, PertenenciaOrganizacion

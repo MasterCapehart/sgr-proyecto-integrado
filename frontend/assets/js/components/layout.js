@@ -27,6 +27,8 @@
   };
 
   const links = [
+    ['vecinos','vecinos','Vecinos','vecinos.ver'],
+    ['organizaciones','organizaciones','Juntas y organizaciones','organizaciones.ver'],
     ['alertas', 'alertas', 'Alertas operativas', 'alertas.ver'],
     ['gobierno', 'gobierno', 'Reglas y permisos', 'gobierno.ver'],
     ['reclamos', 'reclamos', 'Reclamos y felicitaciones', 'reclamos.ver'],
@@ -182,6 +184,7 @@
             );
             const groups = [
               ['Gestión diaria', ['actividades', 'atencion', 'casos-sociales', 'compromisos', 'reclamos']],
+              ['Comunidad', ['vecinos','organizaciones']],
               ['Seguimiento', ['evidencias', 'validacion', 'alertas', 'reportes', 'auditoria']],
               ['Catálogos de consulta', readOnlyCatalogs],
               ['Administración', ['delegaciones', 'usuarios', 'roles', 'cargos', 'items-metas', 'periodos', 'configuraciones-metas', 'tipos-atencion', 'subatenciones', 'gobierno'].filter(id => !readOnlyCatalogs.includes(id))]
