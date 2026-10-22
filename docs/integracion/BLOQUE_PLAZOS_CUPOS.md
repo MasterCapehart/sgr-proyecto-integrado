@@ -1,6 +1,6 @@
 # Plazos y cupos diarios
 
-Estado: implementado y verificado en local el 22/10/2026. Pendiente de despliegue. No calcula ni concede puntaje.
+Estado: desplegado y verificado en AWS el 22/10/2026. Versión `dfb93a9ddebbc39972208d8fcf7913e33875acb3`. No calcula ni concede puntaje.
 
 ## Comportamiento
 
@@ -29,4 +29,8 @@ La fila de control se crea antes de la transacción de negocio. Después se bloq
 - Navegador: séptima aceptada, octava rechazada, liberación de cupo, conservación tardía sin elegibilidad, vista previa y pantalla móvil sin errores JavaScript ni desbordamiento horizontal.
 - Modelos y migraciones coherentes; revisión de espacios del diff correcta.
 
-No se ejecutó despliegue, no se modificaron diagramas ni se integraron los bloques de felicitaciones, ausencias, tope del 120 % o indicadores colectivos.
+## Despliegue y comprobación en AWS
+
+Respaldo SQL previo cifrado en S3, verificación de archivos y versión de partida, migración 0025 aplicada y servicios sgr/nginx activos. Salud, versión, fecha municipal y vista previa de plazo/cupos verificadas. Administrador, delegado y funcionario comprobados, incluidos permisos de catálogo y vista móvil. No se publicaron reglas ni se crearon actividades de prueba en AWS.
+
+No se modificaron diagramas ni se integraron los bloques de felicitaciones, ausencias, tope del 120 % o indicadores colectivos.
