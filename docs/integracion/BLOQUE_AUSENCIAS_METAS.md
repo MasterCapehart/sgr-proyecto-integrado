@@ -1,6 +1,6 @@
 # Ausencias y metas proporcionales — R12
 
-Estado: implementado y verificado en local el 22/10/2026. Pendiente de despliegue.
+Estado: desplegado y verificado en AWS el 22/10/2026. Versión `906c43693f1a080f95c5b5e3aeef2beece0dc1b6`.
 
 ## Reglas y alcance
 
@@ -14,7 +14,7 @@ El cálculo recorta ausencias al período y a las jornadas previstas; usa conjun
 
 **Meta ajustada = meta original × (días previstos − ausencia computable) ÷ días previstos.**
 
-Ejemplo verificado: 20 días previstos, 5 días de ausencia y meta original 100 → meta ajustada 75. Las metas a prorratear se seleccionan expresamente en el calendario; las demás conservan su base. Nunca se sobrescribe ConfiguracionMeta.meta_esperada. Se conserva precisión decimal para el cálculo y se muestran dos decimales, con ROUND_HALF_UP; no se convierten cantidades fraccionarias a enteros arbitrariamente.
+Ejemplo verificado: 20 días previstos, 5 días de ausencia y meta original 100 → meta ajustada 75. Las metas a prorratear se seleccionan expresamente en el calendario; las demás conservan su base. Nunca se sobrescribe ConfiguracionMeta.meta_esperada. Se conserva precisión decimal para el cálculo y se presentan hasta dos decimales cuando son necesarios, con coma decimal y sin ceros finales; el redondeo de la API conserva ROUND_HALF_UP; no se convierten cantidades fraccionarias a enteros arbitrariamente.
 
 Sin calendario: sin cálculo. Cero jornadas previstas: no evaluable, sin dividir por cero. Ausencia total: meta proporcional cero y sin exigibilidad, sin asignar incumplimiento.
 
@@ -44,4 +44,12 @@ Se inspeccionó, sin modificar, el libro Copia INACAP 3ER COMPAÑIAS MATRIZ SGR 
 - Revisión independiente detectó la exposición de snapshots en catálogo general; corregida y cubierta con prueba roja/verde. Sin otros defectos bloqueantes confirmados.
 - Modelos/migraciones consistentes, sintaxis JS y espacios del diff comprobados.
 
-Solo se utilizaron datos ficticios en SQLite local y la base temporal MySQL de pruebas. No hubo despliegue ni cambios a diagramas.
+Las pruebas con altas y correcciones utilizaron datos ficticios en SQLite local y la base temporal MySQL de pruebas. No se modificaron diagramas.
+
+## Verificación AWS
+
+Respaldo SQL previo cifrado en S3 y copia de archivos/configuración. Versión de partida, paquete y hashes verificados. Migración 0027 aplicada; servicios sgr y nginx activos, salud y versión correctas.
+
+Se comprobó acceso de administrador y delegado a configuración; funcionario limitado a sí mismo y sin gestión; acceso anónimo bloqueado. Pantallas de ausencias y semáforo, confirmación de calendario, consulta sin calendarios inventados y vista móvil verificadas sin crear calendarios ni ausencias de prueba en AWS. Los parámetros públicos de períodos omiten snapshots individuales.
+
+Formato verificado localmente:20 días,2,5 días,75 % y75,25 %. La base y la API conservan precisión; solo se simplifica la presentación.
