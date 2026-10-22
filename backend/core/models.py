@@ -134,6 +134,7 @@ class ConfiguracionMeta(models.Model):
 
 
 class Atencion(models.Model):
+    elegibilidad_snapshot = models.JSONField(null=True, blank=True, editable=False)
     fecha_visita_programada = models.DateField(null=True, blank=True)
     fecha_visita_realizada = models.DateField(null=True, blank=True)
     tipo_gestion = models.CharField(max_length=100, blank=True, default='')
@@ -153,7 +154,7 @@ class Atencion(models.Model):
     por el servidor para garantizar la inmutabilidad institucional.
     """
     folio = models.CharField(max_length=64, unique=True, db_index=True)
-    solicitante = models.CharField(max_length=200)
+    solicitante = models.CharField(max_length=200, blank=True, default="")
     tipo_atencion = models.ForeignKey(
         TipoAtencion,
         on_delete=models.PROTECT,
@@ -248,7 +249,7 @@ class RecuperacionAcceso(models.Model):
 
 class CasoSocial(models.Model):
     codigo = models.CharField(max_length=50, unique=True)
-    solicitante = models.CharField(max_length=200)
+    solicitante = models.CharField(max_length=200, blank=True, default="")
 
 class EventoLocal(models.Model):
     antes = models.JSONField(null=True, blank=True)
@@ -294,3 +295,5 @@ from .matrix_models import Reclamo
 from .community_models import OrganizacionComunitaria, PertenenciaOrganizacion
 
 from .milestone_models import Hito, TareaHito, AvanceHito
+
+from .eligibility_models import ReglaActividad

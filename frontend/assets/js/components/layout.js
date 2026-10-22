@@ -27,7 +27,9 @@
     subatenciones: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>`
   };
 
+  ICONS['clasificacion-actividades'] = ICONS['items-metas'];
   const links = [
+    ['clasificacion-actividades','clasificacion-actividades','Clasificación de actividades','clasificacion-actividades.ver'],
     ['hitos','hitos','Hitos y festividades','hitos.ver'],
     ['vecinos','vecinos','Vecinos','vecinos.ver'],
     ['organizaciones','organizaciones','Juntas y organizaciones','organizaciones.ver'],
@@ -191,10 +193,10 @@
             nav.append(home);
 
             // Read-only catalogues belong to consultation, not administration.
-            const catalogIds = ['items-metas', 'tipos-atencion', 'subatenciones'];
+            const catalogIds = ['clasificacion-actividades','items-metas', 'tipos-atencion', 'subatenciones'];
             const readOnlyCatalogs = catalogIds.filter(id =>
               c.permisos.includes(id + '.ver') &&
-              !['crear', 'editar', 'desactivar'].some(action => c.permisos.includes(id + '.' + action))
+              !['crear', 'editar', 'desactivar','configurar'].some(action => c.permisos.includes(id + '.' + action))
             );
             const groups = [
               ['Gestión diaria', ['actividades', 'atencion', 'casos-sociales', 'compromisos', 'reclamos']],
@@ -202,7 +204,7 @@
               ['Comunidad', ['vecinos','organizaciones']],
               ['Seguimiento', ['evidencias', 'validacion', 'alertas', 'reportes', 'auditoria']],
               ['Catálogos de consulta', readOnlyCatalogs],
-              ['Administración', ['delegaciones', 'usuarios', 'roles', 'cargos', 'items-metas', 'periodos', 'configuraciones-metas', 'tipos-atencion', 'subatenciones', 'gobierno'].filter(id => !readOnlyCatalogs.includes(id))]
+              ['Administración', ['clasificacion-actividades','delegaciones', 'usuarios', 'roles', 'cargos', 'items-metas', 'periodos', 'configuraciones-metas', 'tipos-atencion', 'subatenciones', 'gobierno'].filter(id => !readOnlyCatalogs.includes(id))]
             ];
 
             for (const [label, ids] of groups) {

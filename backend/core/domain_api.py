@@ -16,7 +16,7 @@ from .models import Actividad, Evidencia, Compromiso, RevisionEvidencia, Seguimi
 
 MODELS={'actividades':Actividad,'evidencias':Evidencia,'compromisos':Compromiso}
 FIELDS={
- 'actividades':['fecha','solicitud','accion','contacto','telefono','sector','item','compromiso','unidad','plantilla','profesional','junta_vecinos','rut_contacto'],
+ 'actividades':['fecha','solicitud','accion','contacto','telefono','sector','item','compromiso','unidad','plantilla','profesional','junta_vecinos','rut_contacto','beneficiario_usuario'],
  'compromisos':['fecha_solicitud','descripcion','solicitante','sector','responsable','fecha_comprometida','area_apoyo','origen','estado','unidad','codigo_verificacion_foto'],
 }
 
@@ -33,6 +33,9 @@ def representation(obj):
     if isinstance(obj,Actividad):
         r.update(api.serialize(obj,FIELDS['actividades']));r.update(codigo=obj.codigo,item_nombre=(obj.catalogos_snapshot or {}).get('item',{}).get('nombre',obj.item.nombre),catalogos_snapshot=obj.catalogos_snapshot,historia_catalogos='Captura posterior; etiqueta original no garantizada' if (obj.catalogos_snapshot or {}).get('observada') else 'Captura al registrar' if obj.catalogos_snapshot else 'Sin captura histórica; etiqueta actual')
         r['atencion']=obj.atencion_id;r['vecino']=obj.vecino_id
+        from .eligibility import display
+        r['elegibilidad']=display(obj);r['beneficiario_usuario_nombre']=(obj.beneficiario_usuario.get_full_name() or obj.beneficiario_usuario.username) if obj.beneficiario_usuario_id else ''
+        r['clasificacion']=r['elegibilidad']['clasificacion'];r['estado_elegibilidad']=r['elegibilidad']['estado'];r['motivo_elegibilidad']='; '.join(r['elegibilidad']['motivos'])
         r.update(profesional_nombre=(obj.profesional.get_full_name() or obj.profesional.username) if obj.profesional_id else None,cargo=obj.cargo_id,cargo_nombre=((obj.catalogos_snapshot or {}).get('cargo') or {}).get('nombre',obj.cargo.nombre if obj.cargo_id else None),area=((obj.catalogos_snapshot or {}).get('cargo') or {}).get('area',obj.cargo.area if obj.cargo_id else None),derivado_a=obj.derivado_a,estado_derivacion=obj.estado_derivacion,ingreso_tubo='Sí' if obj.compromiso_id else 'No')
         r['derivaciones']=[{'fecha':x.fecha.isoformat(),'autor':x.autor.get_full_name() or x.autor.username,'destino':x.destino,'motivo':x.motivo,'estado':x.estado} for x in obj.derivaciones.select_related('autor')]
         r['evidencias_actuales']=[{'id':e.pk,'archivo':e.nombre_archivo,'estado':e.estado,'url':f'/api/operacion/evidencias/{e.pk}/archivo/'} for e in obj.evidencias.filter(siguiente_version__isnull=True)]
@@ -63,9 +66,10 @@ def apply_fields(request,resource,obj,data):
     for field in FIELDS[resource]:
         if field not in data:continue
         value=data[field]
-        if field in ['item','compromiso','responsable','profesional']:
-            if field in ['compromiso','profesional'] and value in ('',None):setattr(obj,field,None);continue
+        if field in ['item','compromiso','responsable','profesional','beneficiario_usuario']:
+            if field in ['compromiso','profesional','beneficiario_usuario'] and value in ('',None):setattr(obj,field,None);continue
             if isinstance(value,bool) or not str(value).isdigit():raise ValidationError('Referencia inválida.')
+            if field=='beneficiario_usuario' and obj.pk and obj.beneficiario_usuario_id==int(value):continue
             if field=='item':
                 from .excel_support import items_for
                 related=items_for(request.user).filter(pk=value).first()
@@ -87,7 +91,7 @@ def apply_fields(request,resource,obj,data):
             elif value not in PROFILES or (not request.user.is_superuser and value!=(selected or 'GENERAL')):raise ValidationError('Planilla no autorizada para tu función.')
             obj.plantilla=value
         else:
-            if field in ['codigo_verificacion_foto','junta_vecinos','area_apoyo'] and value in ['',None]:setattr(obj,field,'');continue
+            if (field in ['codigo_verificacion_foto','junta_vecinos','area_apoyo'] or (resource=='actividades' and field in ['contacto','telefono']) or (resource=='compromisos' and field=='solicitante')) and value in ['',None]:setattr(obj,field,'');continue
             if field=='fecha_solicitud' and value in ('',None):obj.fecha_solicitud=None;continue
             if not isinstance(value,str) or not value.strip():raise ValidationError(f'{field}: campo obligatorio de texto.')
             setattr(obj,field,value.strip())
@@ -233,6 +237,10 @@ def records(request,resource,pk=None,action=None):
                 from .capture_followup import create as create_followup
                 linked=create_followup(request,obj,new_followup,data.get('compromiso'))
                 if linked is not None:obj.compromiso=linked
+            if resource=='actividades':
+                if obj.beneficiario_usuario_id and obj.vecino_id:raise ValidationError('Selecciona un vecino o un usuario municipal beneficiario, no ambos.')
+                from .eligibility import evaluate_activity
+                obj.elegibilidad_snapshot=evaluate_activity(obj,force=bool(before and old_item!=obj.item_id))
             if resource=='actividades' and (not obj.catalogos_snapshot or old_item!=obj.item_id):
                 from .catalog_history import activity
                 obj.catalogos_snapshot=activity(obj,observed=bool(before and old_item==obj.item_id))
@@ -241,6 +249,8 @@ def records(request,resource,pk=None,action=None):
                 validate_transition(request,obj,before,data)
             if before:obj.version+=1
             obj.save()
+            if resource=='actividades' and obj.atencion_id:
+                type(obj.atencion).objects.filter(pk=obj.atencion_id).update(elegibilidad_snapshot=obj.elegibilidad_snapshot)
             if not before:
                 from .auto_codes import operation_saved
                 operation_saved(obj,resource,request.user)

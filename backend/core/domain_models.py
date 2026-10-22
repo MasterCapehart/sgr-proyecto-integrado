@@ -34,7 +34,7 @@ class Compromiso(RegistroOperativo):
     fecha_solicitud = models.DateField(null=True, blank=True)
     folio = models.CharField(max_length=36, unique=True, default=codigo, editable=False)
     descripcion = models.TextField(max_length=5000)
-    solicitante = models.CharField(max_length=200)
+    solicitante = models.CharField(max_length=200, blank=True, default="")
     sector = models.CharField(max_length=150)
     responsable = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='compromisos_asignados')
     fecha_comprometida = models.DateField()
@@ -43,6 +43,8 @@ class Compromiso(RegistroOperativo):
     estado = models.CharField(max_length=20, default='Ingresado', choices=[(x,x) for x in ['Ingresado','Pendiente','En proceso','Realizado']])
 
 class Actividad(RegistroOperativo):
+    beneficiario_usuario = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.PROTECT, related_name="actividades_beneficiario")
+    elegibilidad_snapshot = models.JSONField(null=True, blank=True, editable=False)
     vecino = models.ForeignKey("core.Vecino", null=True, blank=True, on_delete=models.PROTECT, related_name="registros")
     rut_contacto = models.CharField(max_length=12, blank=True, default="")
     junta_vecinos = models.CharField(max_length=200, blank=True, default="")
@@ -61,8 +63,8 @@ class Actividad(RegistroOperativo):
     fecha = models.DateField()
     solicitud = models.TextField(max_length=5000)
     accion = models.TextField(max_length=5000)
-    contacto = models.CharField(max_length=200)
-    telefono = models.CharField(max_length=20)
+    contacto = models.CharField(max_length=200, blank=True, default="")
+    telefono = models.CharField(max_length=20, blank=True, default="")
     sector = models.CharField(max_length=150)
     item = models.ForeignKey('core.ItemMeta', on_delete=models.PROTECT)
     compromiso = models.ForeignKey(Compromiso, on_delete=models.PROTECT, null=True, blank=True, related_name='actividades')

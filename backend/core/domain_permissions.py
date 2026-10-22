@@ -6,3 +6,4 @@ DOMAIN_PERMISSIONS += ['periodos.cerrar','periodos.reabrir']
 
 DOMAIN_PERMISSIONS += [f'{r}.{a}' for r in ['vecinos','organizaciones','pertenencias'] for a in ['ver','crear','editar','desactivar']]
 DOMAIN_PERMISSIONS += ['hitos.'+a for a in ['ver','ver_equipo','crear','editar','asignar','avanzar']]
+DOMAIN_PERMISSIONS += ['clasificacion-actividades.'+a for a in ['ver','configurar']]

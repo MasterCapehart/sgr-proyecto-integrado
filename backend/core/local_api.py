@@ -85,6 +85,8 @@ def serialize(obj, fields):
         result.update(conciliada_con=obj.conciliada_con_id,periodo_cerrado=bool(obj.periodo_gestion_id and obj.periodo_gestion.cerrado),periodo_nombre=obj.periodo_gestion.nombre if obj.periodo_gestion_id else obj.periodo,historico_sin_calendario=not bool(obj.periodo_gestion_id))
     if isinstance(obj,SubAtencion): result['tipo_padre_display']=f'{obj.tipo_atencion.codigo} · {obj.tipo_atencion.nombre}'
     if isinstance(obj,Atencion):
+        from .eligibility import display
+        result['elegibilidad']=display(obj)
         linked=getattr(obj,'actividad_origen',None)
         result.update(actividad=linked.pk if linked else None,junta_vecinos=linked.junta_vecinos if linked else '')
         snapshot=obj.catalogos_snapshot or {}
@@ -474,7 +476,8 @@ def create_attention(request,data):
     if data.get('nuevo_compromiso') is not None:obj.captura_hash=fingerprint(data)
     if any(not isinstance(data.get(field,''),str) for field in ['solicitante','descripcion','caso_social'] if data.get(field) is not None): return error('Solicitante, descripción y caso deben ser texto.')
     for field in ['solicitante','descripcion','caso_social']: setattr(obj,field,str(data.get(field) or '').strip() or None)
-    if not obj.solicitante or not obj.descripcion: return error('Solicitante y descripción son obligatorios.',details={f:['Campo obligatorio.'] for f in ['solicitante','descripcion'] if not getattr(obj,f)})
+    obj.solicitante=obj.solicitante or ''
+    if not obj.descripcion:return error('La descripción es obligatoria.',details={'descripcion':['Campo obligatorio.']})
     for field,model in [('tipo_atencion',TipoAtencion),('sub_atencion',SubAtencion)]:
         value=data.get(field)
         if not str(value).isdigit(): return error('Selecciona tipo y subatención.')
@@ -518,6 +521,8 @@ def create_attention(request,data):
         obj.sub_atencion=SubAtencion.objects.select_for_update().get(pk=obj.sub_atencion_id)
         if not obj.tipo_atencion.estado or not obj.sub_atencion.estado:raise ValidationError('El catálogo dejó de estar activo.')
         obj.catalogos_snapshot=catalog_history.attention(obj)
+        from .eligibility import legacy_attention
+        obj.elegibilidad_snapshot=legacy_attention(obj)
         obj.full_clean();obj.save()
         from .auto_codes import assign
         assign(obj,'folio','AT',timezone.localdate())

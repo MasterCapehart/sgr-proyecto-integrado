@@ -831,7 +831,7 @@ class AtencionCiudadanaAPITestCase(TestCase):
         self.assertIn("inactiv", error_info["details"]["sub_atencion"][0])
 
     def test_atencion_rejected_missing_required_fields(self):
-        """T17: Rechaza si faltan solicitante o descripción obligatorios."""
+        """T17: La descripción sigue siendo obligatoria; nombre ausente se conserva sin elegibilidad."""
         payload = {
             "solicitante": "",
             "tipo_atencion": self.tipo_social.pk,
@@ -846,7 +846,7 @@ class AtencionCiudadanaAPITestCase(TestCase):
         self.assertEqual(response.status_code, 400)
         res_data = response.json()
         error_info = res_data.get("error", res_data)
-        self.assertIn("solicitante", error_info["details"])
+        self.assertNotIn("solicitante", error_info["details"])
         self.assertIn("descripcion", error_info["details"])
 
     def test_atencion_server_context_immutable(self):

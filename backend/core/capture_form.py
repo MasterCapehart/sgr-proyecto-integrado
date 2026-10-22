@@ -28,7 +28,7 @@ def create(request):
   if not isinstance(key,str) or not key.strip() or len(key)>64:raise ValidationError('Falta una clave de captura válida.')
   values=data.get('actividad')
   if not isinstance(values,dict):raise ValidationError('Completa los datos del registro.')
-  if set(values)-{'fecha','solicitud','accion','contacto','telefono','sector','item','junta_vecinos','profesional','rut_contacto'}:raise ValidationError('La captura contiene campos no editables.')
+  if set(values)-{'fecha','solicitud','accion','contacto','telefono','sector','item','junta_vecinos','profesional','rut_contacto','beneficiario_usuario'}:raise ValidationError('La captura contiene campos no editables.')
   digest=fingerprint(data)
   previous=prior_response(request,key,digest)
   if previous:return previous
@@ -42,6 +42,7 @@ def create(request):
    domain.apply_fields(request,'actividades',a,values)
    from .neighbors import bind
    if bind(request,a,data.get('vecino')) is False:raise Rejected(api.error('Vecino no encontrado en tu delegación.',404))
+   if a.vecino_id and a.beneficiario_usuario_id:raise ValidationError('Selecciona un vecino o un usuario municipal beneficiario, no ambos.')
    reservation=None
    if '_reserva_codigo' in data:
     from .capture_codes import apply as apply_code
@@ -62,6 +63,8 @@ def create(request):
    linked=followup(request,a,data.get('nuevo_compromiso'))
    if linked is not None:a.compromiso=linked
    from .catalog_history import activity
+   from .eligibility import evaluate_activity
+   a.elegibilidad_snapshot=evaluate_activity(a)
    a.catalogos_snapshot=activity(a);a.full_clean();a.save()
    from .auto_codes import operation_saved
    if reservation is None:operation_saved(a,'actividades',request.user)
@@ -70,7 +73,7 @@ def create(request):
    finish(request,linked,a)
    if a.atencion_id:
     attention=a.atencion
-    attention.compromiso=a.compromiso;attention.save(update_fields=['compromiso'])
+    attention.compromiso=a.compromiso;attention.elegibilidad_snapshot=a.elegibilidad_snapshot;attention.save(update_fields=['compromiso','elegibilidad_snapshot'])
     api.record_event(request,'atenciones',attention.pk,'vincular',None,{'actividad':a.pk,'compromiso':a.compromiso_id})
    api.record_event(request,'actividades',a.pk,'crear',None,domain.representation(a))
   response=api.ok(domain.representation(a));response.status_code=201;return response
@@ -94,11 +97,13 @@ def options(request):
  from django.db.models import Q
  from .models import Usuario,TipoAtencion,SubAtencion
  from .excel_support import items_for,GESTIONES
+ from .eligibility import current,rule_data
  d=api.active_delegation(request)
  social=api.allowed(request.user,'atenciones','crear')
  return api.ok(plantilla=(request.user.cargo.planilla if request.user.cargo_id else '') or 'GENERAL',
-  items=list(items_for(request.user).values('id','codigo','nombre')),
+  items=[dict(id=i.pk,codigo=i.codigo,nombre=i.nombre,regla=rule_data(current(d,i.pk))) for i in items_for(request.user)],
   responsables=[{'id':u.pk,'nombre':u.get_full_name() or u.username} for u in Usuario.objects.filter(is_active=True).filter(Q(delegacion=d)|Q(delegaciones=d)).distinct()],
+  beneficiarios=[dict(id=u.pk,nombre=u.get_full_name() or u.username,es_delegado=bool(u.rol_id and u.rol.nombre.strip().casefold()=='delegado')) for u in Usuario.objects.filter(is_active=True).filter(Q(delegacion=d)|Q(delegaciones=d)).distinct()],
   tipos=list(TipoAtencion.objects.filter(estado=True).values('id','nombre')) if social else [],
   subtipos=list(SubAtencion.objects.filter(estado=True,tipo_atencion__estado=True).values('id','nombre','tipo_atencion')) if social else [],
   gestiones=GESTIONES if social else {})
