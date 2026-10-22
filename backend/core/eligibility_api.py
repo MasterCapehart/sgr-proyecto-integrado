@@ -67,12 +67,17 @@ def preview(request):
     if denied:return denied
     try:
         data=api.body(request)
-        if set(data)-{'item','contacto','telefono','beneficiario_usuario','rut_contacto'}:raise ValidationError('Campos no editables.')
+        if set(data)-{'item','contacto','telefono','beneficiario_usuario','rut_contacto','fecha'}:raise ValidationError('Campos no editables.')
         from .excel_support import items_for
         if type(data.get('item')) is not int:raise ValidationError('Selecciona el tipo de actividad.')
         item=items_for(request.user).filter(pk=data['item']).first()
         if not item:return api.error('Tipo de actividad no autorizado.',404)
-        obj=Actividad(delegacion=api.active_delegation(request),item=item)
+        from datetime import date
+        from .registration_limits import apply as apply_limits,TZ
+        from django.utils import timezone
+        selected_date=data.get('fecha') or str(timezone.localtime(timezone.now(),TZ).date())
+        if not isinstance(selected_date,str):raise ValidationError('Fecha inválida.')
+        obj=Actividad(delegacion=api.active_delegation(request),item=item,autor=request.user,fecha=date.fromisoformat(selected_date))
         for f,maxlen in [('contacto',200),('telefono',20),('rut_contacto',12)]:
             v=data.get(f,'')
             if not isinstance(v,str) or len(v)>maxlen:raise ValidationError('Datos de contacto inválidos.')
@@ -86,5 +91,5 @@ def preview(request):
             user=service.local_users(obj.delegacion).filter(pk=identifier).first()
             if not user:raise ValidationError('Beneficiario fuera de la delegación o inactivo.')
             obj.beneficiario_usuario=user
-        return response(service.evaluate_activity(obj,preview=True))
+        return response(apply_limits(obj,service.evaluate_activity(obj,preview=True),preview=True))
     except (ValidationError,ValueError,TypeError) as e:return api.error('; '.join(e.messages) if isinstance(e,ValidationError) else 'Datos inválidos.')

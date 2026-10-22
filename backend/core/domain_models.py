@@ -43,6 +43,7 @@ class Compromiso(RegistroOperativo):
     estado = models.CharField(max_length=20, default='Ingresado', choices=[(x,x) for x in ['Ingresado','Pendiente','En proceso','Realizado']])
 
 class Actividad(RegistroOperativo):
+    cupo_diario_reservado = models.BooleanField(default=False, editable=False)
     beneficiario_usuario = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.PROTECT, related_name="actividades_beneficiario")
     elegibilidad_snapshot = models.JSONField(null=True, blank=True, editable=False)
     vecino = models.ForeignKey("core.Vecino", null=True, blank=True, on_delete=models.PROTECT, related_name="registros")

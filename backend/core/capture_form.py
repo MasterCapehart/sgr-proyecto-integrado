@@ -35,7 +35,10 @@ def create(request):
   social=data.get('social')
   if social is not None and not isinstance(social,dict):raise ValidationError('Datos sociales inválidos.')
   if social is not None and not api.allowed(request.user,'atenciones','crear'):raise PermissionDenied('No tienes permiso para registrar gestiones sociales.')
+  from .registration_limits import ensure_author,lock_author,apply as apply_limits
+  ensure_author(request.user.pk)
   with transaction.atomic():
+   lock_author(request.user.pk)
    a=Actividad(autor=request.user,delegacion=api.active_delegation(request),cargo=request.user.cargo,
                plantilla=(request.user.cargo.planilla if request.user.cargo_id else '') or 'GENERAL',
                clave_idempotencia=key,captura_hash=digest,unidad=1)
@@ -64,7 +67,7 @@ def create(request):
    if linked is not None:a.compromiso=linked
    from .catalog_history import activity
    from .eligibility import evaluate_activity
-   a.elegibilidad_snapshot=evaluate_activity(a)
+   a.elegibilidad_snapshot=apply_limits(a,evaluate_activity(a))
    a.catalogos_snapshot=activity(a);a.full_clean();a.save()
    from .auto_codes import operation_saved
    if reservation is None:operation_saved(a,'actividades',request.user)
@@ -86,7 +89,7 @@ def create(request):
   if isinstance(ex,ValidationError) and 'key' in locals() and 'digest' in locals():
    previous=prior_response(request,key,digest)
    if previous:return previous
-  return api.error('; '.join(ex.messages) if isinstance(ex,ValidationError) else 'Datos inválidos.')
+  return api.error('; '.join(ex.messages) if isinstance(ex,ValidationError) else 'Datos inválidos.',409 if getattr(ex,'code',None)=='cupo_diario' else 400)
 
 from django.views.decorators.http import require_GET
 
@@ -98,9 +101,11 @@ def options(request):
  from .models import Usuario,TipoAtencion,SubAtencion
  from .excel_support import items_for,GESTIONES
  from .eligibility import current,rule_data
+ from .registration_limits import TZ
+ from django.utils import timezone
  d=api.active_delegation(request)
  social=api.allowed(request.user,'atenciones','crear')
- return api.ok(plantilla=(request.user.cargo.planilla if request.user.cargo_id else '') or 'GENERAL',
+ return api.ok(fecha_municipal=str(timezone.localtime(timezone.now(),TZ).date()),plantilla=(request.user.cargo.planilla if request.user.cargo_id else '') or 'GENERAL',
   items=[dict(id=i.pk,codigo=i.codigo,nombre=i.nombre,regla=rule_data(current(d,i.pk))) for i in items_for(request.user)],
   responsables=[{'id':u.pk,'nombre':u.get_full_name() or u.username} for u in Usuario.objects.filter(is_active=True).filter(Q(delegacion=d)|Q(delegaciones=d)).distinct()],
   beneficiarios=[dict(id=u.pk,nombre=u.get_full_name() or u.username,es_delegado=bool(u.rol_id and u.rol.nombre.strip().casefold()=='delegado')) for u in Usuario.objects.filter(is_active=True).filter(Q(delegacion=d)|Q(delegaciones=d)).distinct()],

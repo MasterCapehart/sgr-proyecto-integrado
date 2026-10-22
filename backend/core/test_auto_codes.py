@@ -19,7 +19,8 @@ class AutomaticCodesTests(TestCase):
   i=ItemMeta.objects.create(codigo='I',nombre='QA')
   r=self.post('operacion/actividades',{'fecha':'2026-10-20','solicitud':'QA','accion':'QA','contacto':'Persona ficticia','telefono':'912345678','sector':'QA','item':i.pk})
   self.assertEqual(r.status_code,201,r.content);obj=r.json()['data'];self.assertRegex(obj['codigo'],r'^SCO3-20261020-\d{6,}$')
-  r=self.client.patch('/api/operacion/actividades/'+str(obj['id'])+'/',{'_version':obj['version'],'fecha':'2026-10-19'},content_type='application/json');self.assertEqual(r.status_code,200,r.content);self.assertEqual(r.json()['data']['codigo'],obj['codigo'])
+  r=self.client.patch('/api/operacion/actividades/'+str(obj['id'])+'/',{'_version':obj['version'],'fecha':'2026-10-19'},content_type='application/json');self.assertEqual(r.status_code,400,r.content)
+  r=self.client.patch('/api/operacion/actividades/'+str(obj['id'])+'/',{'_version':obj['version'],'accion':'Acción corregida'},content_type='application/json');self.assertEqual(r.status_code,200,r.content);self.assertEqual(r.json()['data']['codigo'],obj['codigo'])
  def test_compromiso_codigo_foto_y_folio_automaticos(self):
   r=self.post('operacion/compromisos',{'descripcion':'QA','solicitante':'Persona ficticia','sector':'QA','responsable':self.u.pk,'fecha_comprometida':str(timezone.localdate()),'area_apoyo':'QA','origen':'Interno'})
   self.assertEqual(r.status_code,201,r.content);data=r.json()['data'];self.assertTrue(data['folio'].startswith('TUB-'));self.assertTrue(data['codigo_verificacion_foto'].startswith('FOTO-'))

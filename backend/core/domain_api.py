@@ -202,7 +202,12 @@ def records(request,resource,pk=None,action=None):
         capture_hash=fingerprint(raw_data) if capture_key else ''
         new_followup=data.pop('nuevo_compromiso',None) if resource=='actividades' else None
         if request.method=='PATCH' and new_followup is not None:raise ValidationError('El nuevo compromiso se crea al registrar la actividad.')
+        if resource=='actividades':
+            from .registration_limits import ensure_author,lock_author
+            owner=qs.filter(pk=pk).values_list('autor_id',flat=True).first() if pk else request.user.pk
+            if owner:ensure_author(owner)
         with transaction.atomic():
+            if resource=='actividades' and owner:lock_author(owner)
             if capture_key:
                 prior=Actividad.objects.select_for_update().filter(clave_idempotencia=capture_key).first()
                 if prior:
@@ -225,6 +230,8 @@ def records(request,resource,pk=None,action=None):
                 if resource=='actividades':obj.clave_idempotencia=capture_key;obj.captura_hash=capture_hash;obj.cargo=request.user.cargo;obj.plantilla=(request.user.cargo.planilla if request.user.cargo_id else '') or 'GENERAL'
                 if resource=='compromisos' and not data.get('fecha_solicitud'):obj.fecha_solicitud=timezone.localdate()
             old_item=obj.item_id if resource=='actividades' else None
+            from .registration_limits import previous as prior_limits,apply as apply_limits
+            previous_limits=prior_limits(obj) if resource=='actividades' and before else None
             if resource=='compromisos' and before:
                 from .milestone_api import validate_commitment_edit
                 validate_commitment_edit(request,obj,data)
@@ -240,7 +247,7 @@ def records(request,resource,pk=None,action=None):
             if resource=='actividades':
                 if obj.beneficiario_usuario_id and obj.vecino_id:raise ValidationError('Selecciona un vecino o un usuario municipal beneficiario, no ambos.')
                 from .eligibility import evaluate_activity
-                obj.elegibilidad_snapshot=evaluate_activity(obj,force=bool(before and old_item!=obj.item_id))
+                obj.elegibilidad_snapshot=apply_limits(obj,evaluate_activity(obj,force=bool(before and old_item!=obj.item_id)),previous_limits)
             if resource=='actividades' and (not obj.catalogos_snapshot or old_item!=obj.item_id):
                 from .catalog_history import activity
                 obj.catalogos_snapshot=activity(obj,observed=bool(before and old_item==obj.item_id))
@@ -275,6 +282,7 @@ def records(request,resource,pk=None,action=None):
             if prior:
                 if prior.autor_id!=request.user.pk or prior.delegacion_id!=api.active_delegation(request).pk or prior.captura_hash!=capture_hash:return api.error('La clave corresponde a otra captura.',409)
                 return api.ok(representation(prior),is_duplicate_prevented=True)
+        if getattr(ex,'code',None)=='cupo_diario':return api.error('; '.join(ex.messages),409)
         if isinstance(ex,IntegrityError):return api.error('El registro cambió o existe una versión posterior.',409)
         return api.error('; '.join(ex.messages) if isinstance(ex,ValidationError) else 'Datos inválidos.')
 

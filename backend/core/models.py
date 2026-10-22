@@ -297,3 +297,5 @@ from .community_models import OrganizacionComunitaria, PertenenciaOrganizacion
 from .milestone_models import Hito, TareaHito, AvanceHito
 
 from .eligibility_models import ReglaActividad
+
+from .registration_models import ControlCupoFuncionario
