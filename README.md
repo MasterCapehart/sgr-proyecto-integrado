@@ -38,6 +38,7 @@ Seguir [backend/README.md](backend/README.md). Cada integrante mantiene su propi
 - **Usuario y contexto activo:** identificación del usuario, su rol y la delegación activa.
 - **Mi progreso y pendientes:** resumen personal por mes, compromisos asignados, correcciones, revisiones autorizadas y actividad semanal.
 - **Administración:** mantenedores de delegaciones, roles y usuarios.
+- **Clasificación de actividades:** reglas versionadas por delegación, coordinación/ejecución/otra gestión y motivos de elegibilidad preliminar. No otorga puntos. [Funcionamiento y permisos](docs/integracion/BLOQUE_CLASIFICACION_ELEGIBILIDAD.md).
 - **Ítems y metas:** administración de ítems y configuraciones de metas.
 - **Tipos y subatenciones:** administración de ambos catálogos y sus asociaciones.
 - **Captura unificada:** Mi planilla → Registrar actividad o atención; datos del vecino, junta de vecinos, ficha social y seguimiento opcional en el tubo, sin volver a capturar la solicitud.
@@ -55,7 +56,7 @@ Los permisos deben asignarse explícitamente y los catálogos deben validarse co
 ## Despliegue y versión evaluada
 
 - [SGR en AWS personal](https://54.236.112.203/pages/login.html), última verificación registrada el 21/10/2026.
-- Versión de aplicación evaluada: `55156b2e4c4d8f41977ecb57f7ee4e2a3d37de15`; consultar [/api/version/](https://54.236.112.203/api/version/).
+- Versión de aplicación evaluada: `ed1e8759d86e9ea78f2c5a5a49610fa961b28125`; consultar [/api/version/](https://54.236.112.203/api/version/).
 - [Instalación, configuración y recuperación AWS](docs/entrega/despliegue/README.md).
 - [Resultados, incidencias y estado del paquete de evidencias](docs/entrega/README.md).
 

@@ -1,6 +1,8 @@
 # Clasificación y elegibilidad — incremento local
 
-Estado: implementado para revisión local. No desplegado en AWS.
+Estado: desplegado y verificado en AWS el 21/10/2026. Versión de aplicación `ed1e8759d86e9ea78f2c5a5a49610fa961b28125`.
+
+Acceso: [Clasificación de actividades en AWS](https://54.236.112.203/pages/clasificacion-actividades.html).
 
 ## Dónde probar
 
@@ -45,6 +47,14 @@ Al continuar un expediente social se reemplazan los datos del contacto y se reca
 
 ## Validación
 
-Suite completa:471 pruebas, OK, con un fallo esperado ya marcado. Doce pruebas específicas de este bloque aprobadas, incluyendo aislamiento y reintentos del catálogo, RUN formateado, historia, beneficiario delegado y seguimiento sin nombre.
+Suite completa:473 pruebas, OK, con un fallo esperado ya marcado. Doce pruebas específicas de este bloque aprobadas, incluyendo aislamiento y reintentos del catálogo, RUN formateado, historia, beneficiario delegado y seguimiento sin nombre.
 
 Navegador local: publicación de regla, vista previa de ejecución, exclusión del delegado beneficiario, cambio de expediente sin reutilizar teléfono, guardado sin nombre/teléfono, detalle de motivos y vista móvil. Revisión independiente realizada; corregidos los casos de RUN formateado y vista previa tras cambiar de expediente.
+
+## Despliegue AWS
+
+Respaldo previo de archivos, configuración y base de datos; copia SQL cifrada en S3. Migración `0024_clasificacion_elegibilidad` aplicada y sin pendientes. Salud, versión y hashes de archivos verificados; servicios SGR y Nginx activos.
+
+Pruebas autenticadas con administrador, delegado y funcionario: consulta del catálogo, edición disponible solo para gestores, API de publicación rechazada para funcionario, vista previa sin datos no elegible, captura con nombre y teléfono opcionales, registros históricos sin reclasificación automática y vista móvil. No se publicaron reglas ni se crearon actividades de prueba en AWS.
+
+El catálogo debe configurarse explícitamente por administrador o delegado en cada delegación; el despliegue no habilita tipos por su nombre ni otorga puntos efectivos.
