@@ -2,18 +2,18 @@
 
 ## Versión y entorno comprobados
 
-Última verificación registrada: 22 de octubre de 2026.
+Última verificación registrada: 23 de octubre de 2026.
 
 - URL: https://54.236.112.203/pages/login.html
 - Salud: https://54.236.112.203/api/health/
 - Versión: https://54.236.112.203/api/version/
-- Código evaluado: `180a2dc491b60ab45616d4e2deafdd005517dccd`.
+- Código evaluado: `6032f315ea000f6170b6ad9f3ca3b204aee6eb67`.
 - Región: `us-east-1`.
 - Perfil administrativo local: `sgr-personal`; laboratorio separado: `sgr-aws`.
 
 La cuenta personal contiene una copia independiente de la aplicación del laboratorio. No se sincronizan automáticamente el código ni los datos entre ambos entornos.
 
-Último incremento: [asignación de responsables y contraste de la reunión](../../integracion/transcripcion-reunion/README.md), sin nuevas migraciones (0027 vigente). Respaldo, salud, versión, permisos de asignación, captura, tubo y vista móvil comprobados en AWS. Las evidencias de instalación que siguen corresponden al traslado inicial del18/10/2026.
+Último incremento: [metas por cargo, ítem y período](../../integracion/METAS_POR_CARGO.md), con migración 0028 aplicada. Respaldo cifrado, salud, versión, archivos, formulario en escritorio/móvil y conservación de configuraciones comprobados en AWS. No se cargaron valores reales pendientes de confirmación. Las evidencias de instalación que siguen corresponden al traslado inicial del 18/10/2026.
 
 ## Componentes
 

@@ -1,6 +1,6 @@
 # Metas por cargo, ítem y período
 
-Incremento implementado y probado en local. No implica carga de metas reales ni despliegue en AWS.
+Incremento implementado, probado en local y desplegado en AWS el 23/10/2026. Versión `6032f315ea000f6170b6ad9f3ca3b204aee6eb67`; migración 0028 aplicada. No implica carga de metas reales.
 
 En **Administración → Configuración de metas**, cada configuración puede indicar un cargo. Si se deja vacío, es una meta general. Para cada funcionario e ítem se usa primero la configuración activa de su cargo; si no existe, se utiliza la general. Nunca se suman ambas ni se aplican metas de otro cargo.
 
@@ -15,3 +15,9 @@ El colectivo suma las metas ajustadas y los aportes limitados de cada persona. C
 La matriz de origen contiene diferencias por cargo, por ejemplo la meta de conformación de organizaciones para Territorial 1 y Territorial 3. Este incremento permite representarlas sin duplicar el catálogo de ítems.
 
 La carga se mantiene pendiente de confirmar asignaciones de personas, período, calendarios, metas dinámicas de emergencias y ponderaciones incompletas. No se han incorporado valores supuestos a producción.
+
+## Verificación del despliegue
+
+Respaldo de datos cifrado y archivos anteriores conservados antes de migrar. Salud, versión y hashes de archivos correctos; servicios activos. Formulario con cargo opcional verificado en escritorio y móvil sin errores de JavaScript. Las configuraciones consultadas permanecieron sin cambios; no se guardaron metas durante esta comprobación.
+
+Pruebas locales: 568 ejecutadas, resultado correcto con un fallo esperado preexistente.
