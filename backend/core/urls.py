@@ -79,3 +79,6 @@ from . import congratulations_api
 urlpatterns += [path('reclamos/<int:pk>/respaldos/',congratulations_api.upload),path('reclamos/<int:pk>/respaldos/<int:backing>/archivo/',congratulations_api.download),path('reclamos/<int:pk>/revision/',congratulations_api.review)]
 from . import absence_api
 urlpatterns += [path('ausencias/opciones/',absence_api.options),path('ausencias/resumen/',absence_api.overview),path('ausencias/calendarios/',absence_api.calendars),path('ausencias/calendarios/<int:pk>/',absence_api.calendars),path('ausencias/',absence_api.records),path('ausencias/<int:pk>/',absence_api.records)]
+
+from . import collective
+urlpatterns += [path('cumplimiento/colectivo/',collective.overview)]

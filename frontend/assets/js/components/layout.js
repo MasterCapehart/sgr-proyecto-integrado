@@ -36,7 +36,9 @@
   ICONS['clasificacion-actividades'] = ICONS['items-metas'];
   ICONS['ausencias'] = ICONS['periodos'];
   ICONS['metas-ajustadas'] = ICONS['items-metas'];
+  ICONS['colectivo'] = ICONS['items-metas'];
   const links = [
+    ['colectivo','colectivo','Indicadores colectivos','ausencias.ver_equipo'],
     ['ausencias','ausencias','Ausencias y calendario','ausencias.ver'],
     ['metas-ajustadas','semaforo','Metas ajustadas','ausencias.ver'],
     ['clasificacion-actividades','clasificacion-actividades','Clasificación de actividades','clasificacion-actividades.ver'],
@@ -212,13 +214,13 @@
               ['Gestión diaria', ['actividades', 'atencion', 'casos-sociales', 'compromisos', 'reclamos']],
               ['Planificación', ['hitos']],
               ['Comunidad', ['vecinos','organizaciones']],
-              ['Seguimiento', ['ausencias','metas-ajustadas','evidencias', 'validacion', 'alertas', 'reportes', 'auditoria']],
+              ['Seguimiento', ['ausencias','metas-ajustadas','colectivo','evidencias', 'validacion', 'alertas', 'reportes', 'auditoria']],
               ['Catálogos de consulta', readOnlyCatalogs],
               ['Administración', ['clasificacion-actividades','delegaciones', 'usuarios', 'roles', 'cargos', 'items-metas', 'periodos', 'configuraciones-metas', 'tipos-atencion', 'subatenciones', 'gobierno'].filter(id => !readOnlyCatalogs.includes(id))]
             ];
 
             for (const [label, ids] of groups) {
-              const available = links.filter(x => ids.includes(x[0]) && c.permisos.includes(x[3]) && !(x[0] === 'atencion' && (document.body.dataset.capturePreview || c.permisos.includes('actividades.crear')))).sort((a, b) => ids.indexOf(a[0]) - ids.indexOf(b[0]));
+              const available = links.filter(x => ids.includes(x[0]) && c.permisos.includes(x[3]) && (x[0] !== 'colectivo' || ['administrador','delegado'].includes((c.rol || '').trim().toLowerCase())) && !(x[0] === 'atencion' && (document.body.dataset.capturePreview || c.permisos.includes('actividades.crear')))).sort((a, b) => ids.indexOf(a[0]) - ids.indexOf(b[0]));
               if (!available.length) continue;
               const section = document.createElement('details');
               section.className = 'nav-section';
