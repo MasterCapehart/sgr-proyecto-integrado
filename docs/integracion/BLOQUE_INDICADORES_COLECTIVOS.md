@@ -47,3 +47,7 @@ No se habilita filtro por áreas ni se reconstruye distribución territorial en 
 - Revisión independiente: corregido enlace desde historial a persona no disponible en el selector actual.
 
 Pruebas de datos en bases temporales y demostración SQLite local. Despliegue AWS con respaldo previo cifrado en S3, salud y versión verificadas. Comprobación real de administrador/delegado, bloqueo de funcionario y acceso anónimo, ámbito de delegación, límite de 120 % y vista móvil sin errores JavaScript ni desbordamiento. No se crearon registros de negocio de prueba en producción.
+
+## Corrección de acceso desde Inicio — 23/10/2026
+
+Versión `fb54d1f4741fe41c637c06c4a80985a0987efd87`: actualizada la referencia del menú a `colectivo-2` en las 37 pantallas publicadas para evitar reutilizar el archivo previo sin el enlace. Reproducido con copia antigua del menú, corregido y verificado en AWS desde Inicio hasta el tablero con administrador. Respaldo previo, salud y versión correctos.
