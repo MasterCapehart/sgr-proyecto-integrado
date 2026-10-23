@@ -1,6 +1,7 @@
 """Prorrateo por medias jornadas únicas. No calcula rendimiento ni puntaje."""
 from datetime import date,timedelta
 from decimal import Decimal,ROUND_HALF_UP
+from django.utils import timezone
 from .models import CalendarioFuncionario,ConfiguracionMeta
 from .excel_support import items_for
 SLOTS={'No laboral':set(),'Completa':{0,1},'Mañana':{0},'Tarde':{1}}
@@ -8,7 +9,7 @@ def number(n):return str(Decimal(n).quantize(Decimal('.01'),rounding=ROUND_HALF_
 def parse(v):return date.fromisoformat(str(v))
 def meta_rows(user,period):
     return ConfiguracionMeta.objects.filter(periodo_gestion=period,estado=True,conciliada_con__isnull=True,item__in=items_for(user)).select_related('item').order_by('item__codigo')
-def calculate(cal,period,user):
+def calculate(cal,period,user,delegation=None):
     metas=meta_rows(user,period);planned=set();away=set();rows=[]
     if cal:
         day=parse(period.fecha_inicio);end=parse(period.fecha_fin);off=set(cal.no_laborables)
@@ -26,20 +27,25 @@ def calculate(cal,period,user):
         adjusted=None if not cal or (proportional and ratio is None) else m.meta_esperada*ratio if proportional else m.meta_esperada
         state='Sin calendario' if not cal else 'Sin jornada prevista' if proportional and ratio is None else 'Sin exigibilidad por ausencia' if proportional and available==0 else 'Meta ajustada' if proportional else 'Meta sin prorrateo'
         rows.append(dict(id=m.pk,item=m.item_id,codigo=m.item.codigo,nombre=m.item.nombre,unidad=m.item.unidad_medida,meta_original=number(m.meta_esperada),meta_ajustada=number(adjusted) if adjusted is not None else None,
-            meta_ajustada_exacta=str(adjusted) if adjusted is not None else None,prorrateable=proportional,version_meta=m.version,estado=state,cumplimiento=None,semaforo='Sin evaluación de desempeño'))
+            meta_ajustada_exacta=str(adjusted) if adjusted is not None else None,prorrateable=proportional,ponderacion=number(m.ponderacion),version_meta=m.version,estado=state,cumplimiento=None,semaforo='Sin evaluación de desempeño'))
     state='Sin calendario' if not cal else 'Sin jornada prevista' if not p else 'Sin exigibilidad por ausencia' if not available else 'Disponibilidad calculada'
-    return dict(delegacion=cal.delegacion_id if cal else None,funcionario=user.pk,funcionario_nombre=user.get_full_name() or user.username,periodo=period.pk,periodo_nombre=period.nombre,
+    result=dict(delegacion=cal.delegacion_id if cal else delegation.pk if delegation else None,funcionario=user.pk,funcionario_nombre=user.get_full_name() or user.username,periodo=period.pk,periodo_nombre=period.nombre,
         estado=state,calendario=cal.pk if cal else None,version_calendario=cal.version if cal else None,dias_previstos=number(p) if cal else None,dias_ausencia=number(a) if cal else None,dias_disponibles=number(available) if cal else None,
         factor=str(ratio) if ratio is not None else None,porcentaje_disponibilidad=number(ratio*100) if ratio is not None else None,metas=rows,periodo_cerrado=period.cerrado,
-        alcance='Meta esperada ajustada por disponibilidad. No otorga puntos ni calcula el porcentaje de desempeño; semáforo pendiente del motor de evaluación.')
+        alcance='Meta esperada ajustada por disponibilidad.')
+    today=timezone.localdate()
+    result['evaluado_al']=str(today)
+    result['dias_disponibles_transcurridos']=number(Decimal(sum(1 for d,slot in planned-away if d<=str(today)))/2) if cal else None
+    from .performance import enrich
+    return enrich(result,cal,period,user)
 def closure(period):
     return [calculate(c,period,c.funcionario) for c in period.calendarios_funcionarios.select_related('funcionario').order_by('pk')]
 def summary(delegation,user,period):
     if period.cerrado:
         saved=next((x for x in period.parametros_cierre.get('ajustes_ausencia',[]) if x['delegacion']==delegation.pk and x['funcionario']==user.pk),None)
         if saved:return dict(saved,periodo_cerrado=True,fuente='Parámetros del cierre')
-        result=calculate(None,period,user);result['metas']=[]
+        result=calculate(None,period,user,delegation);result['metas']=[]
         result['alcance']='El cierre no conserva un calendario de este funcionario. No se reconstruyen metas históricas usando su cargo o catálogo actual.'
         return dict(result,fuente='Cierre sin calendario de disponibilidad')
     cal=CalendarioFuncionario.objects.filter(delegacion=delegation,funcionario=user,periodo=period).first()
-    return dict(calculate(cal,period,user),fuente='Calendario vigente')
+    return dict(calculate(cal,period,user,delegation),fuente='Calendario vigente')

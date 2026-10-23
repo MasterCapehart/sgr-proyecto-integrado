@@ -132,6 +132,8 @@ def annul(request,pk):
         with transaction.atomic():
             candidate=domain.scoped(request,'evidencias').filter(pk=pk).values('actividad_id').first()
             if not candidate:return api.error('Evidencia no encontrada.',404)
+            from .performance import lock_periods
+            lock_periods(candidate['actividad_id'])
             activity=Actividad.objects.select_for_update().get(pk=candidate['actividad_id'])
             obj=domain.scoped(request,'evidencias').select_for_update().filter(pk=pk).first()
             if not obj:return api.error('Evidencia no encontrada.',404)

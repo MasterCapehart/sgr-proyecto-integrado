@@ -36,7 +36,7 @@ Migración 0027: CalendarioFuncionario, AusenciaFuncionario y restricciones de u
 
 ## Revisión de fuente y verificación
 
-Se inspeccionó, sin modificar, el libro Copia INACAP 3ER COMPAÑIAS MATRIZ SGR TRIMESTRE 2026 REV.xlsx del proyecto. No se encontró una fórmula de ajuste por ausencias/calendario en la búsqueda de ausencias, vacaciones, licencias, días hábiles y feriados. La proporcionalidad utilizada proviene de la decisión de diseño aprobada por el usuario, no se atribuye al Excel. Los porcentajes históricos del libro no se convierten en reglas nuevas de este bloque.
+Se inspeccionó, sin modificar, el libro Copia INACAP 3ER COMPAÑIAS MATRIZ SGR TRIMESTRE 2026 REV.xlsx del proyecto. Corrección de la revisión inicial: fue incompleta. La hoja SEMAFORO contiene categorías de licencias, vacaciones, emergencias y compensatorios/administrativos en F3:I3, que J4 descuenta de días totales. El sistema aplica el ajuste aprobado por días hábiles explícitos; no se atribuye al libro una fórmula idéntica de calendario laboral. Los porcentajes históricos del libro no se convierten en reglas nuevas de este bloque.
 
 - 35 pruebas de ausencias y períodos correctas:20/5, medias jornadas, solapamientos, feriados, recorte, cero/total, permisos/ámbito, versiones, anulación, privacidad, cierre concurrente y snapshot histórico.
 - Suite completa:525 pruebas correctas, con un fallo esperado preexistente.
