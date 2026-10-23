@@ -1,0 +1,140 @@
+{
+  "fecha": "2026-10-21",
+  "alcance": "Integridad y exportaciones del diseño; no pruebas del sistema futuro",
+  "diagramas_principales": 15,
+  "actualizados": 12,
+  "variantes_sincronizadas": 4,
+  "archivos_manifest": 30,
+  "reglas": "R7 sustituido por tres días; provisionales identificados",
+  "comprobaciones": [
+    "IDs originales conservados",
+    "posiciones principales previas conservadas",
+    "referencias válidas",
+    "PNG con contenido hasta el final",
+    "30 archivos fuente/publicación idénticos",
+    "12 pestañas y PDF12páginas",
+    "respaldo previo conservado"
+  ],
+  "diagramas": [
+    {
+      "archivo": "03_clases/Diagrama_Clases_SGR.drawio",
+      "celdas_antes": 332,
+      "celdas_ahora": 381,
+      "imagen": [
+        3992,
+        7115
+      ],
+      "contenido_hasta_y": 7096
+    },
+    {
+      "archivo": "04_base_de_datos/Modelo_Entidad_Relacion_SGR.drawio",
+      "celdas_antes": 118,
+      "celdas_ahora": 136,
+      "imagen": [
+        3554,
+        5193
+      ],
+      "contenido_hasta_y": 5174
+    },
+    {
+      "archivo": "01_requerimientos/Diagrama_General_Requerimientos_SGR.drawio",
+      "celdas_antes": 16,
+      "celdas_ahora": 31,
+      "imagen": [
+        2396,
+        3684
+      ],
+      "contenido_hasta_y": 3664
+    },
+    {
+      "archivo": "02_casos_de_uso/01_general/Diagrama_Caso_Uso_Resumen_SGR.drawio",
+      "celdas_antes": 39,
+      "celdas_ahora": 45,
+      "imagen": [
+        2694,
+        2186
+      ],
+      "contenido_hasta_y": 2167
+    },
+    {
+      "archivo": "02_casos_de_uso/02_especificos/CU02_gestionar_agenda_y_compromisos/Diagrama_Caso_Uso_Especifico_CU02_SGR.drawio",
+      "celdas_antes": 25,
+      "celdas_ahora": 39,
+      "imagen": [
+        2269,
+        2559
+      ],
+      "contenido_hasta_y": 2539
+    },
+    {
+      "archivo": "02_casos_de_uso/02_especificos/CU05_configurar_funciones_metas_y_periodos/Diagrama_Caso_Uso_Especifico_CU05_SGR.drawio",
+      "celdas_antes": 22,
+      "celdas_ahora": 31,
+      "imagen": [
+        2290,
+        2341
+      ],
+      "contenido_hasta_y": 2322
+    },
+    {
+      "archivo": "02_casos_de_uso/02_especificos/CU09_administrar_organizacion_usuarios_y_catalogos/Diagrama_Caso_Uso_Especifico_CU09_SGR.drawio",
+      "celdas_antes": 19,
+      "celdas_ahora": 31,
+      "imagen": [
+        2238,
+        2341
+      ],
+      "contenido_hasta_y": 2322
+    },
+    {
+      "archivo": "02_casos_de_uso/02_especificos/CU06_monitorear_desempeno_y_alertas/Diagrama_Caso_Uso_Especifico_CU06_SGR.drawio",
+      "celdas_antes": 27,
+      "celdas_ahora": 36,
+      "imagen": [
+        2280,
+        2341
+      ],
+      "contenido_hasta_y": 2322
+    },
+    {
+      "archivo": "02_casos_de_uso/02_especificos/CU04_validar_actividades_y_evidencias/Diagrama_Caso_Uso_Especifico_CU04_SGR.drawio",
+      "celdas_antes": 20,
+      "celdas_ahora": 29,
+      "imagen": [
+        2238,
+        2341
+      ],
+      "contenido_hasta_y": 2322
+    },
+    {
+      "archivo": "02_casos_de_uso/02_especificos/CU01_registrar_actividades_y_servicios/Diagrama_Caso_Uso_Especifico_CU01_SGR.drawio",
+      "celdas_antes": 24,
+      "celdas_ahora": 37,
+      "imagen": [
+        2251,
+        2341
+      ],
+      "contenido_hasta_y": 2322
+    },
+    {
+      "archivo": "02_casos_de_uso/02_especificos/CU03_gestionar_evidencias_y_codigos/Diagrama_Caso_Uso_Especifico_CU03_SGR.drawio",
+      "celdas_antes": 19,
+      "celdas_ahora": 26,
+      "imagen": [
+        2265,
+        2056
+      ],
+      "contenido_hasta_y": 2037
+    },
+    {
+      "archivo": "02_casos_de_uso/02_especificos/CU07_generar_informes_y_buscar_informacion/Diagrama_Caso_Uso_Especifico_CU07_SGR.drawio",
+      "celdas_antes": 19,
+      "celdas_ahora": 25,
+      "imagen": [
+        2280,
+        2056
+      ],
+      "contenido_hasta_y": 2037
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <mxfile host="Electron" agent="Codex">
   <diagram id="cu01-simple" name="Página-1">
-    <mxGraphModel dx="1505" dy="969" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="800" math="0" shadow="0" background="#FFFFFF">
+    <mxGraphModel dx="1505" dy="969" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1600" math="0" shadow="0" background="#FFFFFF">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -12,7 +12,7 @@
           <mxGeometry height="28" width="1000" x="300" y="48" as="geometry" />
         </mxCell>
         <mxCell id="boundary" parent="1" style="swimlane;horizontal=1;startSize=50;rounded=1;whiteSpace=wrap;html=1;swimlaneFillColor=#FFFFFF;fontSize=17;fontStyle=1;spacing=8;strokeWidth=1.6;fillColor=#FFFFFF;strokeColor=#2F2F2F;fontColor=#111111;" value="Sistema de Gestión de Resultados — SGR" vertex="1">
-          <mxGeometry height="680" width="1260" x="300" y="90" as="geometry" />
+          <mxGeometry height="1450.0" width="1260" x="300" y="90" as="geometry" />
         </mxCell>
         <mxCell id="activity" parent="boundary" style="ellipse;whiteSpace=wrap;html=1;fontSize=14;strokeWidth=1.5;fontStyle=1;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;" value="Registrar actividad diaria" vertex="1">
           <mxGeometry height="105" width="340" x="90" y="63" as="geometry" />
@@ -20,39 +20,47 @@
         <mxCell id="validate" parent="boundary" style="ellipse;whiteSpace=wrap;html=1;fontSize=13;strokeWidth=1.5;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;" value="Validar datos y catálogos del registro" vertex="1">
           <mxGeometry height="105" width="340" x="571" y="63" as="geometry" />
         </mxCell>
-        <mxCell id="i1" edge="1" parent="boundary" source="activity" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=auto;endArrow=open;endFill=0;startArrow=none;html=1;rounded=0;dashed=1;dashPattern=7 5;strokeColor=#9E7E61;strokeWidth=1.4;fontSize=11;fontStyle=1;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.35;entryX=0;entryY=0.35;fontColor=#333333;" target="validate" value="«include»">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="i1" edge="1" parent="1" source="activity" style="orthogonalLoop=1;jettySize=auto;endArrow=open;endFill=0;startArrow=none;html=1;dashed=1;dashPattern=7 5;strokeColor=#9E7E61;strokeWidth=1.4;fontSize=11;fontStyle=1;labelBackgroundColor=#FFFFFF;fontColor=#333333;jumpSize=8;edgeStyle=none;noEdgeStyle=1;rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;exitPerimeter=0;entryPerimeter=0;jumpStyle=arc;jumpSize=8;" target="validate" value="«include»">
+          <mxGeometry relative="1" as="geometry" x="0.0" y="0">
+            <Array as="points" />
+            <mxPoint as="offset" x="0" y="-18" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="indicator" parent="boundary" style="ellipse;whiteSpace=wrap;html=1;fontSize=13;strokeWidth=1.5;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;" value="Asociar actividad con indicador" vertex="1">
           <mxGeometry height="105" width="300" x="940" y="154" as="geometry" />
         </mxCell>
-        <mxCell id="i3" edge="1" parent="boundary" source="activity" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=auto;endArrow=open;endFill=0;startArrow=none;html=1;rounded=0;dashed=1;dashPattern=7 5;strokeColor=#9E7E61;strokeWidth=1.4;fontSize=11;fontStyle=1;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.75;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontColor=#333333;" target="indicator" value="«include»">
-          <mxGeometry relative="1" as="geometry">
+        <mxCell id="i3" edge="1" parent="1" source="activity" style="orthogonalLoop=1;jettySize=auto;endArrow=open;endFill=0;startArrow=none;html=1;dashed=1;dashPattern=7 5;strokeColor=#9E7E61;strokeWidth=1.4;fontSize=11;fontStyle=1;labelBackgroundColor=#FFFFFF;entryDx=0;entryDy=0;fontColor=#333333;jumpSize=8;edgeStyle=none;noEdgeStyle=1;rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;exitPerimeter=0;entryPerimeter=0;jumpStyle=arc;jumpSize=8;" target="indicator" value="«include»">
+          <mxGeometry relative="1" as="geometry" x="-0.7903494176372712" y="0">
             <Array as="points">
-              <mxPoint x="412.13" y="217.25" />
-              <mxPoint x="895" y="217.25" />
-              <mxPoint x="895" y="206.5" />
+              <mxPoint x="856.0" y="205.5" />
+              <mxPoint x="856.0" y="296.5" />
             </Array>
+            <mxPoint as="offset" x="0" y="18" />
           </mxGeometry>
         </mxCell>
         <mxCell id="service" parent="boundary" style="ellipse;whiteSpace=wrap;html=1;fontSize=14;strokeWidth=1.5;fontStyle=1;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;" value="Registrar servicio o atención&lt;br&gt;con tipo y subatención" vertex="1">
           <mxGeometry height="105" width="224" x="41" y="268" as="geometry" />
         </mxCell>
-        <mxCell id="i2" edge="1" parent="boundary" source="service" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=auto;endArrow=open;endFill=0;startArrow=none;html=1;rounded=0;dashed=1;dashPattern=7 5;strokeColor=#9E7E61;strokeWidth=1.4;fontSize=11;fontStyle=1;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.35;entryX=0;entryY=0.75;fontColor=#333333;" target="validate" value="«include»">
-          <mxGeometry relative="1" as="geometry">
+        <mxCell id="i2" edge="1" parent="1" source="service" style="orthogonalLoop=1;jettySize=auto;endArrow=open;endFill=0;startArrow=none;html=1;dashed=1;dashPattern=7 5;strokeColor=#9E7E61;strokeWidth=1.4;fontSize=11;fontStyle=1;labelBackgroundColor=#FFFFFF;fontColor=#333333;jumpSize=8;edgeStyle=none;noEdgeStyle=1;rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;exitPerimeter=0;entryPerimeter=0;jumpStyle=arc;jumpSize=8;" target="validate" value="«include»">
+          <mxGeometry relative="1" as="geometry" x="-0.44227005870841485" y="0">
             <Array as="points">
-              <mxPoint x="260.63" y="385" />
-              <mxPoint x="485" y="385" />
-              <mxPoint x="485" y="186" />
-              <mxPoint x="588.87" y="186" />
+              <mxPoint x="850.0" y="410.5" />
+              <mxPoint x="850.0" y="205.5" />
             </Array>
+            <mxPoint as="offset" x="0" y="-18" />
           </mxGeometry>
         </mxCell>
         <mxCell id="person" parent="boundary" style="ellipse;whiteSpace=wrap;html=1;fontSize=13;strokeWidth=1.5;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;" value="Identificar solicitante y caso" vertex="1">
           <mxGeometry height="105" width="270" x="565" y="278" as="geometry" />
         </mxCell>
-        <mxCell id="i4" edge="1" parent="boundary" source="service" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=auto;endArrow=open;endFill=0;startArrow=none;html=1;rounded=0;dashed=1;dashPattern=7 5;strokeColor=#9E7E61;strokeWidth=1.4;fontSize=11;fontStyle=1;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.65;entryX=0;entryY=0.5;fontColor=#333333;" target="person" value="«include»">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="i4" edge="1" parent="1" source="service" style="orthogonalLoop=1;jettySize=auto;endArrow=open;endFill=0;startArrow=none;html=1;dashed=1;dashPattern=7 5;strokeColor=#9E7E61;strokeWidth=1.4;fontSize=11;fontStyle=1;labelBackgroundColor=#FFFFFF;fontColor=#333333;jumpSize=8;edgeStyle=none;noEdgeStyle=1;rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;exitPerimeter=0;entryPerimeter=0;jumpStyle=arc;jumpSize=8;" target="person" value="«include»">
+          <mxGeometry relative="1" as="geometry" x="-0.08064516129032262" y="0">
+            <Array as="points">
+              <mxPoint x="850.0" y="410.5" />
+              <mxPoint x="850.0" y="420.5" />
+            </Array>
+            <mxPoint as="offset" x="0" y="18" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="employee" parent="1" style="shape=umlActor;verticalLabelPosition=top;verticalAlign=bottom;html=1;outlineConnect=0;fontSize=13;fontStyle=1;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;strokeWidth=1.5;" value="Funcionario" vertex="1">
           <mxGeometry height="110" width="55" x="123" y="233" as="geometry" />
@@ -66,39 +74,126 @@
         <mxCell id="commitment" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=13;strokeWidth=1.5;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;" value="Vincular con compromiso de agenda" vertex="1">
           <mxGeometry height="105" width="300" x="1215" y="440" as="geometry" />
         </mxCell>
-        <mxCell id="a1" edge="1" parent="1" source="employee" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=auto;endArrow=none;startArrow=none;html=1;rounded=0;strokeColor=#555555;strokeWidth=1.5;exitX=1;exitY=0.35;entryX=0;entryY=0.5;" target="activity" value="">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="a2" edge="1" parent="1" source="employee" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=auto;endArrow=none;startArrow=none;html=1;rounded=0;strokeColor=#555555;strokeWidth=1.5;exitX=1;exitY=0.65;entryX=0;entryY=0.5;" target="history" value="">
+        <mxCell id="a1" edge="1" parent="1" source="employee" style="orthogonalLoop=1;jettySize=auto;endArrow=none;startArrow=none;html=1;strokeColor=#555555;strokeWidth=1.5;jumpSize=8;edgeStyle=none;noEdgeStyle=1;rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;exitPerimeter=0;entryPerimeter=0;jumpStyle=arc;jumpSize=8;" target="activity" value="">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="250" y="300" />
-              <mxPoint x="250" y="680" />
+              <mxPoint x="375.0" y="288.0" />
+              <mxPoint x="375.0" y="205.5" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="a3" edge="1" parent="1" source="social" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=auto;endArrow=none;startArrow=none;html=1;rounded=0;strokeColor=#555555;strokeWidth=1.5;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="service" value="">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="x1" edge="1" parent="1" source="commitment" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=auto;endArrow=open;endFill=0;startArrow=none;html=1;rounded=0;dashed=1;dashPattern=7 5;strokeColor=#9E7E61;strokeWidth=1.4;fontSize=11;fontStyle=1;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.65;entryY=1;fontColor=#333333;" target="activity" value="«extend»&lt;br&gt;[si deriva de un compromiso]">
-          <mxGeometry relative="1" x="-0.001" as="geometry">
-            <mxPoint as="offset" />
+        <mxCell id="a2" edge="1" parent="1" source="employee" style="orthogonalLoop=1;jettySize=auto;endArrow=none;startArrow=none;html=1;strokeColor=#555555;strokeWidth=1.5;jumpSize=8;edgeStyle=none;noEdgeStyle=1;rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;exitPerimeter=0;entryPerimeter=0;jumpStyle=arc;jumpSize=8;" target="history" value="">
+          <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="1365" y="590" />
-              <mxPoint x="652.5" y="590" />
-              <mxPoint x="652.5" y="255.88" />
+              <mxPoint x="326.0" y="288.0" />
+              <mxPoint x="326.0" y="680.0" />
             </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a3" edge="1" parent="1" source="social" style="orthogonalLoop=1;jettySize=auto;endArrow=none;startArrow=none;html=1;strokeColor=#555555;strokeWidth=1.5;jumpSize=8;edgeStyle=none;noEdgeStyle=1;rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;exitPerimeter=0;entryPerimeter=0;jumpStyle=arc;jumpSize=8;" target="service" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="326.0" y="575.0" />
+              <mxPoint x="326.0" y="410.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="x1" edge="1" parent="1" source="commitment" style="orthogonalLoop=1;jettySize=auto;endArrow=open;endFill=0;startArrow=none;html=1;dashed=1;dashPattern=7 5;strokeColor=#9E7E61;strokeWidth=1.4;fontSize=11;fontStyle=1;labelBackgroundColor=#FFFFFF;fontColor=#333333;jumpSize=8;edgeStyle=none;noEdgeStyle=1;rounded=0;exitX=0;exitY=0.5;entryX=1;entryY=0.5;exitPerimeter=0;entryPerimeter=0;jumpStyle=arc;jumpSize=8;" target="activity" value="«extend»&lt;br&gt;[si deriva de un compromiso]">
+          <mxGeometry relative="1" as="geometry" x="-0.39119170984455953" y="0">
+            <Array as="points">
+              <mxPoint x="745.0" y="492.5" />
+              <mxPoint x="745.0" y="205.5" />
+            </Array>
+            <mxPoint as="offset" x="0" y="18" />
           </mxGeometry>
         </mxCell>
         <mxCell id="context" value="Registrar delegación, responsable y fecha" vertex="1" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=13;strokeWidth=1.5;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;">
           <mxGeometry x="880" y="630" width="300" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="attention_context" edge="1" parent="1" source="service" target="context" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=auto;endArrow=open;endFill=0;startArrow=none;html=1;rounded=0;dashed=1;dashPattern=7 5;strokeColor=#9E7E61;strokeWidth=1.4;fontSize=11;fontStyle=1;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.35;entryX=0;entryY=0.35;fontColor=#333333;exitX=1;exitY=1;entryX=0.5;entryY=0;" value="«include»">
+        <mxCell id="attention_context" edge="1" parent="1" source="service" target="context" style="orthogonalLoop=1;jettySize=auto;endArrow=open;endFill=0;startArrow=none;html=1;dashed=1;dashPattern=7 5;strokeColor=#9E7E61;strokeWidth=1.4;fontSize=11;fontStyle=1;labelBackgroundColor=#FFFFFF;fontColor=#333333;jumpSize=8;edgeStyle=none;noEdgeStyle=1;rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;exitPerimeter=0;entryPerimeter=0;jumpStyle=arc;jumpSize=8;" value="«include»">
+          <mxGeometry relative="1" as="geometry" x="0.4400345125107852" y="0">
+            <Array as="points">
+              <mxPoint x="850.0" y="410.5" />
+              <mxPoint x="850.0" y="675.0" />
+            </Array>
+            <mxPoint as="offset" x="-52" y="0" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nr_actor_0" value="Funcionario" vertex="1" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontSize=14;">
+          <mxGeometry as="geometry" x="105" y="940" width="90" height="110" />
+        </mxCell>
+        <mxCell id="nr_section" value="Ampliación del caso · implementación contrastada 23/10/2026" vertex="1" parent="1" style="text;html=1;strokeColor=none;fillColor=#EDF2F7;align=left;verticalAlign=middle;fontSize=22;fontStyle=1;spacingLeft=14;">
+          <mxGeometry as="geometry" x="350" y="875" width="1160" height="42" />
+        </mxCell>
+        <mxCell id="nr_identify" value="Seleccionar vecino y sus organizaciones" vertex="1" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=14;strokeWidth=1.5;fontStyle=1;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;">
+          <mxGeometry as="geometry" x="370" y="940" width="470" height="105" />
+        </mxCell>
+        <mxCell id="nr_classify" value="Clasificar por catálogo y comprobar elegibilidad" vertex="1" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=14;strokeWidth=1.5;fontStyle=1;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;">
+          <mxGeometry as="geometry" x="990" y="940" width="470" height="105" />
+        </mxCell>
+        <mxCell id="nr_deadline" value="Comprobar tres días y cupo de siete" vertex="1" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=14;strokeWidth=1.5;fontStyle=1;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;">
+          <mxGeometry as="geometry" x="370" y="1130" width="470" height="105" />
+        </mxCell>
+        <mxCell id="nr_late" value="Conservar registro tardío o incompleto sin aporte" vertex="1" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=14;strokeWidth=1.5;fontStyle=1;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;">
+          <mxGeometry as="geometry" x="990" y="1130" width="470" height="105" />
+        </mxCell>
+        <mxCell id="nr_assoc_0_0" source="nr_actor_0" target="nr_identify" value="" edge="1" parent="1" style="html=1;strokeColor=#555555;strokeWidth=1.3;fontSize=12;labelBackgroundColor=#FFFFFF;startArrow=none;endArrow=none;jumpSize=8;edgeStyle=none;noEdgeStyle=1;rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;exitPerimeter=0;entryPerimeter=0;jumpStyle=arc;jumpSize=8;">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="600" y="555" />
-              <mxPoint x="1030" y="555" />
+              <mxPoint x="355.0" y="995.0" />
+              <mxPoint x="355.0" y="992.5" />
             </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nr_assoc_0_1" source="nr_actor_0" target="nr_classify" value="" edge="1" parent="1" style="html=1;strokeColor=#555555;strokeWidth=1.3;fontSize=12;labelBackgroundColor=#FFFFFF;startArrow=none;endArrow=none;jumpSize=8;edgeStyle=none;noEdgeStyle=1;rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;exitPerimeter=0;entryPerimeter=0;jumpStyle=arc;jumpSize=8;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="355.0" y="995.0" />
+              <mxPoint x="355.0" y="1060.0" />
+              <mxPoint x="975.0" y="1060.0" />
+              <mxPoint x="975.0" y="992.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nr_assoc_0_2" source="nr_actor_0" target="nr_deadline" value="" edge="1" parent="1" style="html=1;strokeColor=#555555;strokeWidth=1.3;fontSize=12;labelBackgroundColor=#FFFFFF;startArrow=none;endArrow=none;jumpSize=8;edgeStyle=none;noEdgeStyle=1;rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;exitPerimeter=0;entryPerimeter=0;jumpStyle=arc;jumpSize=8;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="355.0" y="995.0" />
+              <mxPoint x="355.0" y="1182.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nr_assoc_0_3" source="nr_actor_0" target="nr_late" value="" edge="1" parent="1" style="html=1;strokeColor=#555555;strokeWidth=1.3;fontSize=12;labelBackgroundColor=#FFFFFF;startArrow=none;endArrow=none;jumpSize=8;edgeStyle=none;noEdgeStyle=1;rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;exitPerimeter=0;entryPerimeter=0;jumpStyle=arc;jumpSize=8;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="355.0" y="995.0" />
+              <mxPoint x="355.0" y="1115.0" />
+              <mxPoint x="975.0" y="1115.0" />
+              <mxPoint x="975.0" y="1182.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nr_include" source="activity" target="nr_classify" value="«include»" edge="1" parent="1" style="html=1;strokeColor=#555555;strokeWidth=1.3;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=open;endFill=0;dashed=1;jumpSize=8;edgeStyle=none;noEdgeStyle=1;rounded=0;exitX=0;exitY=0.5;entryX=0;entryY=0.5;exitPerimeter=0;entryPerimeter=0;jumpStyle=arc;jumpSize=8;">
+          <mxGeometry relative="1" as="geometry" x="0.5066666666666666" y="0">
+            <Array as="points">
+              <mxPoint x="326.0" y="205.5" />
+              <mxPoint x="326.0" y="1060.0" />
+              <mxPoint x="975.0" y="1060.0" />
+              <mxPoint x="975.0" y="992.5" />
+            </Array>
+            <mxPoint as="offset" x="0" y="18" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nr_rules" value="R4–R9: tres fechas inclusivas en America/Santiago; octava candidata bloqueada. Fecha fija tras guardar. Quitar requisitos libera cupo; recuperarlos exige plazo y cupo. Correcciones de texto conservan candidatura oportuna." vertex="1" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=18;fillColor=#FFFDF2;strokeColor=#C8A951;fontSize=14;align=left;verticalAlign=top;spacing=12;">
+          <mxGeometry as="geometry" x="350" y="1380" width="1160" height="130" />
+        </mxCell>
+        <mxCell id="nr_include_deadline" source="activity" target="nr_deadline" value="«include»" edge="1" parent="1" style="html=1;strokeColor=#555555;strokeWidth=1.3;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=open;endFill=0;dashed=1;jumpSize=8;edgeStyle=none;noEdgeStyle=1;rounded=0;exitX=0;exitY=0.5;entryX=0;entryY=0.5;exitPerimeter=0;entryPerimeter=0;jumpStyle=arc;jumpSize=8;">
+          <mxGeometry relative="1" as="geometry" x="0.018433179723502224" y="0">
+            <Array as="points">
+              <mxPoint x="326.0" y="205.5" />
+              <mxPoint x="326.0" y="1182.5" />
+            </Array>
+            <mxPoint as="offset" x="-52" y="0" />
           </mxGeometry>
         </mxCell>
       </root>

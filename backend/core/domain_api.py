@@ -63,12 +63,16 @@ def validate_version(obj,data):
 
 def apply_fields(request,resource,obj,data):
     if set(data)-set(FIELDS[resource])-{'_version','observacion'}:raise ValidationError('Campos no permitidos.')
+    if resource=='compromisos' and not obj.pk:obj.responsable=request.user
     for field in FIELDS[resource]:
         if field not in data:continue
         value=data[field]
         if field in ['item','compromiso','responsable','profesional','beneficiario_usuario']:
             if field in ['compromiso','profesional','beneficiario_usuario'] and value in ('',None):setattr(obj,field,None);continue
             if isinstance(value,bool) or not str(value).isdigit():raise ValidationError('Referencia inválida.')
+            if resource=='compromisos' and field=='responsable':
+                from .capture_followup import can_assign
+                if int(value)!=obj.responsable_id and not can_assign(request.user):raise PermissionDenied('Sin permiso de gestión del equipo, el responsable eres tú y no puedes reasignar el compromiso.')
             if field=='beneficiario_usuario' and obj.pk and obj.beneficiario_usuario_id==int(value):continue
             if field=='item':
                 from .excel_support import items_for
@@ -121,7 +125,8 @@ def options(request):
     d=api.active_delegation(request)
     from .excel_support import items_for
     from .models import Cargo
-    return api.ok(plantilla=(request.user.cargo.planilla if request.user.cargo_id else '') or 'GENERAL',cargos=list(Cargo.objects.filter(estado=True).values('id','nombre','area')),items=list(items_for(request.user).values('id','codigo','nombre')),responsables=[{'id':u.pk,'nombre':u.get_full_name() or u.username} for u in Usuario.objects.filter(is_active=True).filter(Q(delegacion=d)|Q(delegaciones=d)).distinct()])
+    from .capture_followup import assignees,can_assign
+    return api.ok(puede_asignar_responsable=can_assign(request.user),responsables_compromiso=[{'id':u.pk,'nombre':u.get_full_name() or u.username} for u in assignees(request)],plantilla=(request.user.cargo.planilla if request.user.cargo_id else '') or 'GENERAL',cargos=list(Cargo.objects.filter(estado=True).values('id','nombre','area')),items=list(items_for(request.user).values('id','codigo','nombre')),responsables=[{'id':u.pk,'nombre':u.get_full_name() or u.username} for u in Usuario.objects.filter(is_active=True).filter(Q(delegacion=d)|Q(delegaciones=d)).distinct()])
 
 @require_http_methods(['GET','POST','PATCH'])
 def records(request,resource,pk=None,action=None):

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <mxfile host="Electron" agent="Codex">
   <diagram id="sgr-requirements" name="Diagrama General">
-    <mxGraphModel dx="1632" dy="861" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1280" background="light-dark(#FFFFFF,#121212)" math="0" shadow="0">
+    <mxGraphModel dx="1632" dy="861" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="2520" background="light-dark(#FFFFFF,#121212)" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -46,6 +46,51 @@
         </mxCell>
         <mxCell id="ernf" edge="1" parent="1" source="req000" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startArrow=diamondThin;startFill=1;strokeColor=#9E7E61;strokeWidth=1.5;fontSize=12;fontStyle=1;fontColor=#333333;labelBackgroundColor=#FFFFFF;" target="rnf" value="«containment»">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="nr_heading" value="R1–R13 · CONTRASTE DE IMPLEMENTACIÓN · 23/10/2026" vertex="1" parent="1" style="text;html=1;strokeColor=none;fillColor=#EDF2F7;align=left;verticalAlign=middle;fontSize=22;fontStyle=1;spacingLeft=14;">
+          <mxGeometry as="geometry" x="80" y="1180" width="1520" height="55" />
+        </mxCell>
+        <mxCell id="nr_1" value="&lt;b&gt;R1 · Vecinos y pertenencias&lt;/b&gt;&lt;br&gt;&lt;br&gt;Crear, consultar, modificar y desactivar vecinos. Nombre, teléfono, dirección opcional, territorio y delegación. Varias organizaciones; dirigente es rol del vínculo." vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;fontSize=14;spacing=10;align=left;verticalAlign=top;strokeWidth=1.5;shadow=0;">
+          <mxGeometry as="geometry" x="80" y="1270" width="480" height="210" />
+        </mxCell>
+        <mxCell id="nr_2" value="&lt;b&gt;R2 · Organizaciones comunitarias&lt;/b&gt;&lt;br&gt;&lt;br&gt;Juntas y otras organizaciones: nombre, domicilio legal, territorio, delegación, socios si se conocen, constitución, personalidad jurídica e inscripción; conservar ambos registros." vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;fontSize=14;spacing=10;align=left;verticalAlign=top;strokeWidth=1.5;shadow=0;">
+          <mxGeometry as="geometry" x="600" y="1270" width="480" height="210" />
+        </mxCell>
+        <mxCell id="nr_3" value="&lt;b&gt;R3 · Hitos y festividades&lt;/b&gt;&lt;br&gt;&lt;br&gt;Delegado/administrador crean; delegado/administrador asignan tareas y responsables. Fechas, recursos descripción/cantidad, estado, recurrencia y periodicidad; actividades internas pueden ir al tubo." vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;fontSize=14;spacing=10;align=left;verticalAlign=top;strokeWidth=1.5;shadow=0;">
+          <mxGeometry as="geometry" x="1120" y="1270" width="480" height="210" />
+        </mxCell>
+        <mxCell id="nr_4" value="&lt;b&gt;R4 · Beneficiario delegado&lt;/b&gt;&lt;br&gt;&lt;br&gt;Cuando el propio delegado es beneficiario: Otra gestión y aporte cero. No confundir beneficiario, autor ni destinatario de una felicitación." vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;fontSize=14;spacing=10;align=left;verticalAlign=top;strokeWidth=1.5;shadow=0;">
+          <mxGeometry as="geometry" x="80" y="1510" width="480" height="210" />
+        </mxCell>
+        <mxCell id="nr_5" value="&lt;b&gt;R5 · Identificación para puntuar&lt;/b&gt;&lt;br&gt;&lt;br&gt;Sin nombre o teléfono del vecino/usuario, conservar el registro pero no aportar a puntos ni metas. Mostrar el motivo de exclusión." vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;fontSize=14;spacing=10;align=left;verticalAlign=top;strokeWidth=1.5;shadow=0;">
+          <mxGeometry as="geometry" x="600" y="1510" width="480" height="210" />
+        </mxCell>
+        <mxCell id="nr_6" value="&lt;b&gt;R6 · Cupo diario de siete&lt;/b&gt;&lt;br&gt;&lt;br&gt;Funcionario + fecha de realización: máximo siete actividades potencialmente puntuables, aun pendientes de validar. Bloquear la octava elegible; no consumir cupo con no puntuables." vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;fontSize=14;spacing=10;align=left;verticalAlign=top;strokeWidth=1.5;shadow=0;">
+          <mxGeometry as="geometry" x="1120" y="1510" width="480" height="210" />
+        </mxCell>
+        <mxCell id="nr_7" value="&lt;b&gt;R7* · Plazo de tres días corridos&lt;/b&gt;&lt;br&gt;&lt;br&gt;Regla actualizada: día de actividad + dos días. Lunes–miércoles dentro; jueves fuera. Permitir registro tardío sin puntos/metas. Sustituye bloqueo semanal de altas." vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;fontSize=14;spacing=10;align=left;verticalAlign=top;strokeWidth=1.5;shadow=0;">
+          <mxGeometry as="geometry" x="80" y="1750" width="480" height="210" />
+        </mxCell>
+        <mxCell id="nr_8" value="&lt;b&gt;R8 · Coordinación sin puntaje&lt;/b&gt;&lt;br&gt;&lt;br&gt;Correos, invitaciones, llamados y coordinación se conservan sin puntaje. Solo la ejecución final válida puede aportar; clasificación expresa del catálogo." vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;fontSize=14;spacing=10;align=left;verticalAlign=top;strokeWidth=1.5;shadow=0;">
+          <mxGeometry as="geometry" x="600" y="1750" width="480" height="210" />
+        </mxCell>
+        <mxCell id="nr_9" value="&lt;b&gt;R9 · Catálogo de elegibilidad&lt;/b&gt;&lt;br&gt;&lt;br&gt;Cada tipo define clasificación y posibilidad de puntuar. Aplicar reglas en servidor; la selección no garantiza aporte sin cumplir todas las condiciones." vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;fontSize=14;spacing=10;align=left;verticalAlign=top;strokeWidth=1.5;shadow=0;">
+          <mxGeometry as="geometry" x="1120" y="1750" width="480" height="210" />
+        </mxCell>
+        <mxCell id="nr_10" value="&lt;b&gt;R10 · Cumplimiento validado&lt;/b&gt;&lt;br&gt;Reconocido ≤ meta ajustada exacta × 1,20 por funcionario/ítem/período. Conservar total y exceso. Sin meta o disponibilidad evaluable: neutral." vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;fontSize=14;spacing=10;align=left;verticalAlign=top;strokeWidth=1.5;shadow=0;">
+          <mxGeometry as="geometry" x="80" y="1990" width="480" height="210" />
+        </mxCell>
+        <mxCell id="nr_11" value="&lt;b&gt;R11 · Felicitación formal&lt;/b&gt;&lt;br&gt;Administrador/delegado con permisos registran y revisan por separado. Emisor y respaldo verificables; nueva edición exige revisión. Sin puntaje asignado." vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;fontSize=14;spacing=10;align=left;verticalAlign=top;strokeWidth=1.5;shadow=0;">
+          <mxGeometry as="geometry" x="600" y="1990" width="480" height="210" />
+        </mxCell>
+        <mxCell id="nr_12" value="&lt;b&gt;R12 · Ausencias y meta ajustada&lt;/b&gt;&lt;br&gt;Administrador/delegado con permisos gestionan calendario y ausencias. Meta exacta según disponibilidad. Funcionario consulta lo propio; cierre conserva snapshot." vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;fontSize=14;spacing=10;align=left;verticalAlign=top;strokeWidth=1.5;shadow=0;">
+          <mxGeometry as="geometry" x="1120" y="1990" width="480" height="210" />
+        </mxCell>
+        <mxCell id="nr_13" value="&lt;b&gt;R13 · Indicadores colectivos&lt;/b&gt;&lt;br&gt;Administrador/delegado: equipo y delegación autorizados. Consolidar aporte reconocido y metas; pesos compatibles, cobertura y cierres. Territorio: distribución sin metas." vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#222222;fontColor=#222222;fontSize=14;spacing=10;align=left;verticalAlign=top;strokeWidth=1.5;shadow=0;">
+          <mxGeometry as="geometry" x="80" y="2230" width="480" height="210" />
+        </mxCell>
+        <mxCell id="nr_pending" value="&lt;b&gt;Alcance pendiente&lt;/b&gt;&lt;br&gt;Puntaje integral y aporte de felicitaciones aún no definidos. R13 consolida actividades elegibles validadas; territorio muestra distribución, sin metas territoriales." vertex="1" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=18;fillColor=#FFFDF2;strokeColor=#C8A951;fontSize=14;align=left;verticalAlign=top;spacing=12;">
+          <mxGeometry as="geometry" x="600" y="2230" width="1000" height="210" />
         </mxCell>
       </root>
     </mxGraphModel>

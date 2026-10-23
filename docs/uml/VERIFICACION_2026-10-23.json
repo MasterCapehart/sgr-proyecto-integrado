@@ -1,0 +1,207 @@
+{
+  "date": "2026-10-23",
+  "scope": "Integridad y exportación; no pruebas funcionales ni AWS",
+  "backup": ".integracion/cierre-integral/uml-antes-2026-10-23.zip",
+  "diagram_pairs": 15,
+  "updated_pairs": 12,
+  "new_edges": 0,
+  "geometries_unchanged": true,
+  "visual_review": [
+    "Requerimientos completo reducido",
+    "CU06 completo reducido",
+    "Clases tercio inferior reducido: cajas y notas sin corte visible"
+  ],
+  "limitations": [
+    "No revisión visual exhaustiva de los 15 PNG a escala nativa",
+    "Clases y ER conservan abstracciones lógicas; no equivalen al esquema físico",
+    "No sincronización externa UML ni informe Word"
+  ],
+  "files": [
+    {
+      "file": "03_clases/Diagrama_Clases_SGR.drawio",
+      "cells": 381,
+      "edges": 46,
+      "geometry_and_connections_unchanged": true,
+      "png_size": [
+        4068,
+        7191
+      ],
+      "white_margin_px": 52,
+      "class_compartments_inside_containers": true
+    },
+    {
+      "file": "04_base_de_datos/Modelo_Entidad_Relacion_SGR.drawio",
+      "cells": 136,
+      "edges": 67,
+      "geometry_and_connections_unchanged": true,
+      "png_size": [
+        3634,
+        5273
+      ],
+      "white_margin_px": 57,
+      "class_compartments_inside_containers": null
+    },
+    {
+      "file": "01_requerimientos/Diagrama_General_Requerimientos_SGR.drawio",
+      "cells": 31,
+      "edges": 2,
+      "geometry_and_connections_unchanged": true,
+      "png_size": [
+        2496,
+        3784
+      ],
+      "white_margin_px": 60,
+      "class_compartments_inside_containers": null
+    },
+    {
+      "file": "02_casos_de_uso/01_general/Diagrama_Caso_Uso_Resumen_SGR.drawio",
+      "cells": 45,
+      "edges": 18,
+      "geometry_and_connections_unchanged": true,
+      "png_size": [
+        2794,
+        2286
+      ],
+      "white_margin_px": 58,
+      "class_compartments_inside_containers": null
+    },
+    {
+      "file": "02_casos_de_uso/02_especificos/CU02_gestionar_agenda_y_compromisos/Diagrama_Caso_Uso_Especifico_CU02_SGR.drawio",
+      "cells": 39,
+      "edges": 14,
+      "geometry_and_connections_unchanged": true,
+      "png_size": [
+        2369,
+        2659
+      ],
+      "white_margin_px": 59,
+      "class_compartments_inside_containers": null
+    },
+    {
+      "file": "02_casos_de_uso/02_especificos/CU05_configurar_funciones_metas_y_periodos/Diagrama_Caso_Uso_Especifico_CU05_SGR.drawio",
+      "cells": 31,
+      "edges": 11,
+      "geometry_and_connections_unchanged": true,
+      "png_size": [
+        2390,
+        2441
+      ],
+      "white_margin_px": 59,
+      "class_compartments_inside_containers": null
+    },
+    {
+      "file": "02_casos_de_uso/02_especificos/CU08_colaborar_y_registrar_observaciones/Diagrama_Caso_Uso_Especifico_CU08_SGR.drawio",
+      "cells": 21,
+      "edges": 7,
+      "geometry_and_connections_unchanged": true,
+      "png_size": [
+        2280,
+        1261
+      ],
+      "white_margin_px": 19,
+      "class_compartments_inside_containers": null
+    },
+    {
+      "file": "02_casos_de_uso/02_especificos/CU09_administrar_organizacion_usuarios_y_catalogos/Diagrama_Caso_Uso_Especifico_CU09_SGR.drawio",
+      "cells": 31,
+      "edges": 12,
+      "geometry_and_connections_unchanged": true,
+      "png_size": [
+        2338,
+        2441
+      ],
+      "white_margin_px": 59,
+      "class_compartments_inside_containers": null
+    },
+    {
+      "file": "02_casos_de_uso/02_especificos/CU10_consultar_trazabilidad_y_auditoria/Diagrama_Caso_Uso_Especifico_CU10_SGR.drawio",
+      "cells": 23,
+      "edges": 8,
+      "geometry_and_connections_unchanged": true,
+      "png_size": [
+        2257,
+        1261
+      ],
+      "white_margin_px": 19,
+      "class_compartments_inside_containers": null
+    },
+    {
+      "file": "02_casos_de_uso/02_especificos/CU06_monitorear_desempeno_y_alertas/Diagrama_Caso_Uso_Especifico_CU06_SGR.drawio",
+      "cells": 36,
+      "edges": 14,
+      "geometry_and_connections_unchanged": true,
+      "png_size": [
+        2380,
+        2441
+      ],
+      "white_margin_px": 59,
+      "class_compartments_inside_containers": null
+    },
+    {
+      "file": "02_casos_de_uso/02_especificos/CU11_acceder_y_recuperar_contrasena/Diagrama_Caso_Uso_Especifico_CU11_SGR.drawio",
+      "cells": 20,
+      "edges": 7,
+      "geometry_and_connections_unchanged": true,
+      "png_size": [
+        2262,
+        1261
+      ],
+      "white_margin_px": 19,
+      "class_compartments_inside_containers": null
+    },
+    {
+      "file": "02_casos_de_uso/02_especificos/CU04_validar_actividades_y_evidencias/Diagrama_Caso_Uso_Especifico_CU04_SGR.drawio",
+      "cells": 29,
+      "edges": 10,
+      "geometry_and_connections_unchanged": true,
+      "png_size": [
+        2387,
+        2441
+      ],
+      "white_margin_px": 59,
+      "class_compartments_inside_containers": null
+    },
+    {
+      "file": "02_casos_de_uso/02_especificos/CU01_registrar_actividades_y_servicios/Diagrama_Caso_Uso_Especifico_CU01_SGR.drawio",
+      "cells": 37,
+      "edges": 15,
+      "geometry_and_connections_unchanged": true,
+      "png_size": [
+        2351,
+        2441
+      ],
+      "white_margin_px": 59,
+      "class_compartments_inside_containers": null
+    },
+    {
+      "file": "02_casos_de_uso/02_especificos/CU03_gestionar_evidencias_y_codigos/Diagrama_Caso_Uso_Especifico_CU03_SGR.drawio",
+      "cells": 26,
+      "edges": 8,
+      "geometry_and_connections_unchanged": true,
+      "png_size": [
+        2387,
+        2156
+      ],
+      "white_margin_px": 59,
+      "class_compartments_inside_containers": null
+    },
+    {
+      "file": "02_casos_de_uso/02_especificos/CU07_generar_informes_y_buscar_informacion/Diagrama_Caso_Uso_Especifico_CU07_SGR.drawio",
+      "cells": 25,
+      "edges": 9,
+      "geometry_and_connections_unchanged": true,
+      "png_size": [
+        2380,
+        2156
+      ],
+      "white_margin_px": 59,
+      "class_compartments_inside_containers": null
+    }
+  ],
+  "case_routes": {
+    "diagrams": 12,
+    "connections": 133,
+    "intersections_with_other_vertices": 0,
+    "report": "VERIFICACION_LINEAS_CASOS_2026-10-23.json"
+  }
+}

@@ -19,3 +19,7 @@ El informe de cierre se encuentra directamente en esta carpeta, fuera de `local/
 - [docs/entrega](../entrega/README.md) conserva la revisión de cobertura y pendientes. Esta recopilación no significa aprobación al 100 % ni aceptación del docente.
 
 `manifest.json` registra el origen, tamaño y SHA-256 de los 281 archivos copiados. El campo `origen` conserva la ruta de la fecha de copia; `reubicacion_fuentes` indica la ubicación actual del archivo histórico fuera de docs. No se incluyen entornos privados, contraseñas, cookies de navegador, volcados SQL ni credenciales AWS.
+
+## Revisión integral del incremento — 23/10/2026
+
+[Informe, seis perfiles y ejecución transversal local](local/cierre-integral-2026-10-23/INFORME.md), [matriz R1–R13](local/cierre-integral-2026-10-23/MATRIZ_TRAZABILIDAD.csv) y [definiciones territoriales pendientes](local/cierre-integral-2026-10-23/METAS_TERRITORIALES.md). Incluye resultados recientes, separados de los informes históricos y de AWS.

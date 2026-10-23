@@ -1,0 +1,69 @@
+{
+  "fecha": "2026-10-23",
+  "diagramas": 12,
+  "conexiones": 133,
+  "etiquetas": 52,
+  "criterio": "Rutas ortogonales fuera de cajas de otros vértices, con margen de seguridad. Cruces entre líneas permitidos con saltos visuales. Actores y actividades conservan posición.",
+  "detalle": [
+    {
+      "archivo": "02_casos_de_uso/01_general/Diagrama_Caso_Uso_Resumen_SGR.drawio",
+      "conexiones_verificadas": 18,
+      "intersecciones_con_actividades_actores_titulos": 0
+    },
+    {
+      "archivo": "02_casos_de_uso/02_especificos/CU02_gestionar_agenda_y_compromisos/Diagrama_Caso_Uso_Especifico_CU02_SGR.drawio",
+      "conexiones_verificadas": 14,
+      "intersecciones_con_actividades_actores_titulos": 0
+    },
+    {
+      "archivo": "02_casos_de_uso/02_especificos/CU05_configurar_funciones_metas_y_periodos/Diagrama_Caso_Uso_Especifico_CU05_SGR.drawio",
+      "conexiones_verificadas": 11,
+      "intersecciones_con_actividades_actores_titulos": 0
+    },
+    {
+      "archivo": "02_casos_de_uso/02_especificos/CU08_colaborar_y_registrar_observaciones/Diagrama_Caso_Uso_Especifico_CU08_SGR.drawio",
+      "conexiones_verificadas": 7,
+      "intersecciones_con_actividades_actores_titulos": 0
+    },
+    {
+      "archivo": "02_casos_de_uso/02_especificos/CU09_administrar_organizacion_usuarios_y_catalogos/Diagrama_Caso_Uso_Especifico_CU09_SGR.drawio",
+      "conexiones_verificadas": 12,
+      "intersecciones_con_actividades_actores_titulos": 0
+    },
+    {
+      "archivo": "02_casos_de_uso/02_especificos/CU10_consultar_trazabilidad_y_auditoria/Diagrama_Caso_Uso_Especifico_CU10_SGR.drawio",
+      "conexiones_verificadas": 8,
+      "intersecciones_con_actividades_actores_titulos": 0
+    },
+    {
+      "archivo": "02_casos_de_uso/02_especificos/CU06_monitorear_desempeno_y_alertas/Diagrama_Caso_Uso_Especifico_CU06_SGR.drawio",
+      "conexiones_verificadas": 14,
+      "intersecciones_con_actividades_actores_titulos": 0
+    },
+    {
+      "archivo": "02_casos_de_uso/02_especificos/CU11_acceder_y_recuperar_contrasena/Diagrama_Caso_Uso_Especifico_CU11_SGR.drawio",
+      "conexiones_verificadas": 7,
+      "intersecciones_con_actividades_actores_titulos": 0
+    },
+    {
+      "archivo": "02_casos_de_uso/02_especificos/CU04_validar_actividades_y_evidencias/Diagrama_Caso_Uso_Especifico_CU04_SGR.drawio",
+      "conexiones_verificadas": 10,
+      "intersecciones_con_actividades_actores_titulos": 0
+    },
+    {
+      "archivo": "02_casos_de_uso/02_especificos/CU01_registrar_actividades_y_servicios/Diagrama_Caso_Uso_Especifico_CU01_SGR.drawio",
+      "conexiones_verificadas": 15,
+      "intersecciones_con_actividades_actores_titulos": 0
+    },
+    {
+      "archivo": "02_casos_de_uso/02_especificos/CU03_gestionar_evidencias_y_codigos/Diagrama_Caso_Uso_Especifico_CU03_SGR.drawio",
+      "conexiones_verificadas": 8,
+      "intersecciones_con_actividades_actores_titulos": 0
+    },
+    {
+      "archivo": "02_casos_de_uso/02_especificos/CU07_generar_informes_y_buscar_informacion/Diagrama_Caso_Uso_Especifico_CU07_SGR.drawio",
+      "conexiones_verificadas": 9,
+      "intersecciones_con_actividades_actores_titulos": 0
+    }
+  ]
+}

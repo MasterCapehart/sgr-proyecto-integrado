@@ -1,6 +1,6 @@
 # Diagramas UML del SGR
 
-Diagramas que aparecen en `Informe_Diagramas_y_Cuadros_Descriptivos_SGR.docx`. Cada imagen PNG se acompaña de su archivo editable draw.io. Los originales locales se conservaron sin modificaciones.
+Colección basada en `Informe_Diagramas_y_Cuadros_Descriptivos_SGR.docx`, ampliada el 21/10/2026 con los nuevos requerimientos R1–R13 y las decisiones posteriores del usuario. Cada PNG tiene su editable draw.io. Se conservan carpetas, nombres y numeración CU01–CU11; el respaldo y la sincronización externa del 21/10 son antecedentes históricos; la actualización actual se encuentra en esta carpeta.
 
 | Diagrama | Imagen | Editable |
 |---|---|---|
@@ -28,10 +28,32 @@ Diagramas que aparecen en `Informe_Diagramas_y_Cuadros_Descriptivos_SGR.docx`. C
 
 ## Alcance y versiones
 
-Esta colección conserva exactamente las imágenes del informe indicado. No mezcla respaldos históricos ni recortes de ampliación con los diagramas completos. Las ilustraciones decorativas de la plantilla Word no son diagramas UML y no se incluyen.
+El contraste del 23/10/2026 actualiza 12 diagramas desde su estado del 21/10, conservando las posiciones, conexiones y módulos existentes. CU08, CU10 y CU11 conservan su contenido. Los bloques implementados se distinguen del diseño lógico de clases y datos: sus nombres no son una exportación del esquema físico y no acreditan todas las funciones históricas del modelo.
 
-El diagrama de clases y el modelo entidad-relación corresponden al diseño documentado en ese informe. No deben interpretarse como una exportación del esquema físico actualmente desplegado: el modelo físico AWS de 39 tablas y la base local de 82 tablas son versiones distintas. Esta publicación no modifica ni certifica funcionalidad de la aplicación.
+La regla vigente usa **tres fechas calendario inclusivas en America/Santiago** (`backend/core/registration_limits.py`, fecha de realización + 2 días), con siete candidaturas por autor y fecha entre sus delegaciones. La fecha queda fija; retirar requisitos libera cupo y recuperarlos exige plazo y cupo. El cierre semanal no sustituye esta regla de registro.
 
-`manifest.json` registra el origen y SHA-256 de los 30 archivos para comprobar que las copias son idénticas.
+Administrador y delegado, con rol activo y permisos explícitos, gestionan felicitaciones y ausencias. El funcionario mantiene consulta individual y tareas propias. Los demás perfiles conservan sus permisos existentes: no reciben automáticamente acceso a estos nuevos módulos.
 
-No se incluyen credenciales, respaldos SQL, datos de usuarios ni archivos privados de despliegue.
+R10 reconoce actividades candidatas validadas con respaldos aprobados hasta el **120 % de la meta ajustada exacta por persona/ítem/período**. R13 consolida ese aporte y las metas, normaliza pesos compatibles y muestra cobertura y resultados conservados al cierre. El territorio ofrece distribución operativa; **no existen metas territoriales ni un puntaje integral**. Las felicitaciones tienen revisión formal, sin incorporación a ese cálculo.
+
+Clases y entidad-relación conservan abstracciones del diseño anterior (por ejemplo SerieHito y entidades de aportes). Su presencia no implica tablas desplegadas. La recurrencia real es manual vinculada. Para modelos físicos y reglas ejecutables prevalecen migraciones y servicios del código.
+
+[Alcance, decisiones y trazabilidad R1–R13](ACTUALIZACION_REQUERIMIENTOS_2026-10-21.md).
+
+`manifest.json` registra SHA-256 y tamaño actuales de los 30 archivos; conserva la referencia y hashes de procedencia anteriores. La revisión del 23/10 se limita a `docs/uml`; los originales externos `UML/` y el informe Word requieren sincronización separada.
+
+Respaldo previo local: `UML/99_Respaldos/Antes_Nuevos_Requerimientos_2026-10-21.zip`. No se incluyen credenciales, respaldos SQL ni datos reales de personas.
+
+## Revisión de conexiones — 21/10/2026
+
+Se revisaron el resumen general y CU01–CU11: 133 conexiones con rutas ortogonales que evitan las cajas de otras actividades, actores y títulos; 52 etiquetas de relación reubicadas fuera de esos elementos. Se conservaron posiciones de actores/actividades y relaciones existentes. Los cruces entre líneas se distinguen con saltos visuales. Editables, imágenes y consolidados sincronizados. Informe de control: `VERIFICACION_LINEAS_CASOS_2026-10-21.json`. CU08, CU10 y CU11 solo reciben ajustes de trazado, no cambios funcionales.
+
+## Revisión de recortes de clases — 21/10/2026
+
+Versión detallada y conceptual comprobadas: 161 compartimentos de texto medidos, sin desbordamiento. Cajas con desajustes de pocos píxeles ampliadas; atributos, operaciones y posiciones principales conservados. PNG/JPG/PDF/SVG regenerados con márgenes de seguridad. Control: `VERIFICACION_CLASES_2026-10-21.json`.
+
+## Contraste de implementación — 23/10/2026
+
+[Trazabilidad y límites actuales](TRAZABILIDAD_IMPLEMENTACION_2026-10-23.md). [Control de integridad y exportaciones](VERIFICACION_2026-10-23.json). Las verificaciones históricas del 21/10 siguen disponibles como antecedentes; no sustituyen pruebas funcionales actuales.
+
+Control de trazado del 23/10: 133 conexiones en 12 diagramas de casos, sin atravesar otros vértices; geometrías y terminales conservados. Informe: `VERIFICACION_LINEAS_CASOS_2026-10-23.json`.

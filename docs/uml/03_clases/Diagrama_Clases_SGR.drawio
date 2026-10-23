@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <mxfile host="app.diagrams.net">
   <diagram name="Clases SGR">
-    <mxGraphModel page="1" pageWidth="4700" pageHeight="4600" background="#FFFFFF" grid="1" gridSize="20">
+    <mxGraphModel page="1" pageWidth="4700" pageHeight="8050" background="#FFFFFF" grid="1" gridSize="20">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -26,7 +26,7 @@
         <mxCell id="title" value="Sistema de Gestión de Resultados — Diagrama de clases" vertex="1" parent="1" style="text;html=1;fontSize=32;fontStyle=1;align=left;strokeColor=none;fillColor=none;">
           <mxGeometry x="100" y="20" width="4200" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="subtitle" value="Modelo de dominio y servicios · un único lienzo · atributos privados y operaciones públicas" vertex="1" parent="1" style="text;html=1;fontSize=20;align=left;fontColor=#475467;strokeColor=none;fillColor=none;">
+        <mxCell id="subtitle" value="Modelo lógico de dominio y servicios · implementación contrastada 23/10/2026; no esquema físico" vertex="1" parent="1" style="text;html=1;fontSize=20;align=left;fontColor=#475467;strokeColor=none;fillColor=none;">
           <mxGeometry x="100" y="85" width="4200" height="45" as="geometry" />
         </mxCell>
         <mxCell id="Delegacion" value="Delegacion" vertex="1" parent="1" style="swimlane;html=1;startSize=42;horizontal=1;collapsible=0;fontSize=19;fontStyle=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#344054;strokeWidth=1.4;">
@@ -137,17 +137,17 @@
         <mxCell id="Permiso_ops" value="" vertex="1" parent="Permiso" style="text;html=1;align=left;verticalAlign=top;fontSize=16;spacingLeft=12;spacingTop=5;strokeColor=none;fillColor=none;">
           <mxGeometry x="0" y="137" width="540.0" height="14" as="geometry" />
         </mxCell>
-        <mxCell id="PersonaSolicitante" value="PersonaSolicitante" vertex="1" parent="1" style="swimlane;html=1;startSize=42;horizontal=1;collapsible=0;fontSize=19;fontStyle=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#344054;strokeWidth=1.4;">
-          <mxGeometry x="2440.0" y="280.0" width="540.0" height="240.0" as="geometry" />
+        <mxCell id="PersonaSolicitante" value="PersonaSolicitante / Vecino" vertex="1" parent="1" style="swimlane;html=1;startSize=42;horizontal=1;collapsible=0;fontSize=19;fontStyle=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#344054;strokeWidth=1.4;">
+          <mxGeometry x="2440.0" y="280.0" width="540.0" height="430" as="geometry" />
         </mxCell>
-        <mxCell id="PersonaSolicitante_attrs" value="-referencia: String&lt;br&gt;-telefonoProtegido: String [0..1]&lt;br&gt;-correoProtegido: String [0..1]&lt;br&gt;-baseAcceso: String&lt;br&gt;-anonimizadoEn: DateTime [0..1]" vertex="1" parent="PersonaSolicitante" style="text;html=1;align=left;verticalAlign=top;fontSize=16;spacingLeft=12;spacingTop=6;strokeColor=none;fillColor=none;">
-          <mxGeometry x="0" y="42" width="540.0" height="144" as="geometry" />
+        <mxCell id="PersonaSolicitante_attrs" value="-nombre / referencia: String&lt;br&gt;-telefonoProtegido: String [0..1]&lt;br&gt;-direccion: String [0..1]&lt;br&gt;-territorio: Territorio [1]&lt;br&gt;-delegacion: Delegacion [1]&lt;br&gt;-activo: Boolean&lt;br&gt;-correoProtegido: String [0..1]&lt;br&gt;-baseAcceso: String&lt;br&gt;-anonimizadoEn: DateTime [0..1]" vertex="1" parent="PersonaSolicitante" style="text;html=1;align=left;verticalAlign=top;fontSize=16;spacingLeft=12;spacingTop=6;strokeColor=none;fillColor=none;">
+          <mxGeometry x="0" y="42" width="540.0" height="265" as="geometry" />
         </mxCell>
         <mxCell id="PersonaSolicitante_sep" value="" vertex="1" parent="PersonaSolicitante" style="shape=line;strokeColor=#344054;">
-          <mxGeometry x="0" y="186" width="540.0" height="1" as="geometry" />
+          <mxGeometry x="0" y="307" width="540.0" height="1" as="geometry" />
         </mxCell>
-        <mxCell id="PersonaSolicitante_ops" value="+anonimizar(): void" vertex="1" parent="PersonaSolicitante" style="text;html=1;align=left;verticalAlign=top;fontSize=16;spacingLeft=12;spacingTop=5;strokeColor=none;fillColor=none;">
-          <mxGeometry x="0" y="189" width="540.0" height="41" as="geometry" />
+        <mxCell id="PersonaSolicitante_ops" value="+consultar(): void&lt;br&gt;+modificar(): void&lt;br&gt;+desactivar(): void&lt;br&gt;+anonimizar(): void" vertex="1" parent="PersonaSolicitante" style="text;html=1;align=left;verticalAlign=top;fontSize=16;spacingLeft=12;spacingTop=5;strokeColor=none;fillColor=none;">
+          <mxGeometry x="0" y="311" width="540.0" height="115" as="geometry" />
         </mxCell>
         <mxCell id="CasoSocial" value="CasoSocial" vertex="1" parent="1" style="swimlane;html=1;startSize=42;horizontal=1;collapsible=0;fontSize=19;fontStyle=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#344054;strokeWidth=1.4;">
           <mxGeometry x="3160.0" y="280.0" width="540.0" height="160.0" as="geometry" />
@@ -192,7 +192,7 @@
           <mxGeometry x="0" y="215" width="540.0" height="41" as="geometry" />
         </mxCell>
         <mxCell id="Actividad" value="Actividad" vertex="1" parent="1" style="swimlane;html=1;startSize=42;horizontal=1;collapsible=0;fontSize=19;fontStyle=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#344054;strokeWidth=1.4;">
-          <mxGeometry x="3160.0" y="740.0" width="540.0" height="360.0" as="geometry" />
+          <mxGeometry x="3160.0" y="740.0" width="540.0" height="369.0" as="geometry" />
         </mxCell>
         <mxCell id="Actividad_attrs" value="-codigoEvidencia: String {readOnly}&lt;br&gt;-fecha: Date&lt;br&gt;-solicitudProblema: String&lt;br&gt;-accionRealizada: String&lt;br&gt;-contacto: PersonaSolicitante [0..1]&lt;br&gt;-territorio: Territorio [0..1]&lt;br&gt;-tipo: ValorCatalogo [1]&lt;br&gt;-funcionario: Funcionario [1]&lt;br&gt;-metaObjetivo: ConfiguracionMeta [1]" vertex="1" parent="Actividad" style="text;html=1;align=left;verticalAlign=top;fontSize=16;spacingLeft=12;spacingTop=6;strokeColor=none;fillColor=none;">
           <mxGeometry x="0" y="42" width="540.0" height="248" as="geometry" />
@@ -204,7 +204,7 @@
           <mxGeometry x="0" y="293" width="540.0" height="68" as="geometry" />
         </mxCell>
         <mxCell id="Servicio" value="Servicio" vertex="1" parent="1" style="swimlane;html=1;startSize=42;horizontal=1;collapsible=0;fontSize=19;fontStyle=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#344054;strokeWidth=1.4;">
-          <mxGeometry x="3880.0" y="910" width="540.0" height="200.0" as="geometry" />
+          <mxGeometry x="3880.0" y="910" width="540.0" height="211.0" as="geometry" />
         </mxCell>
         <mxCell id="Servicio_attrs" value="-codigo: String&lt;br&gt;-nombre: String&lt;br&gt;-tipo: ValorCatalogo [1]&lt;br&gt;-subtipo: ValorCatalogo [0..1]&lt;br&gt;-activo: Boolean" vertex="1" parent="Servicio" style="text;html=1;align=left;verticalAlign=top;fontSize=16;spacingLeft=12;spacingTop=6;strokeColor=none;fillColor=none;">
           <mxGeometry x="0" y="42" width="540.0" height="144" as="geometry" />
@@ -252,7 +252,7 @@
           <mxGeometry x="0" y="189" width="540.0" height="68" as="geometry" />
         </mxCell>
         <mxCell id="VersionConfiguracion" value="VersionConfiguracion" vertex="1" parent="1" style="swimlane;html=1;startSize=42;horizontal=1;collapsible=0;fontSize=19;fontStyle=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#344054;strokeWidth=1.4;">
-          <mxGeometry x="820.0" y="1840.0" width="540.0" height="280.0" as="geometry" />
+          <mxGeometry x="820.0" y="1840.0" width="540.0" height="290.0" as="geometry" />
         </mxCell>
         <mxCell id="VersionConfiguracion_attrs" value="-numero: Integer&lt;br&gt;-vigenteDesde: Date&lt;br&gt;-vigenteHasta: Date [0..1]&lt;br&gt;-publicada: Boolean&lt;br&gt;-creadaPor: Usuario [1]&lt;br&gt;-motivo: String&lt;br&gt;-umbralColectivo: Decimal" vertex="1" parent="VersionConfiguracion" style="text;html=1;align=left;verticalAlign=top;fontSize=16;spacingLeft=12;spacingTop=6;strokeColor=none;fillColor=none;">
           <mxGeometry x="0" y="42" width="540.0" height="196" as="geometry" />
@@ -312,7 +312,7 @@
           <mxGeometry x="0" y="163" width="540.0" height="14" as="geometry" />
         </mxCell>
         <mxCell id="AjusteResultado" value="AjusteResultado" vertex="1" parent="1" style="swimlane;html=1;startSize=42;horizontal=1;collapsible=0;fontSize=19;fontStyle=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#344054;strokeWidth=1.4;">
-          <mxGeometry x="100.0" y="2760.0" width="540.0" height="200.0" as="geometry" />
+          <mxGeometry x="100.0" y="2760.0" width="540.0" height="211.0" as="geometry" />
         </mxCell>
         <mxCell id="AjusteResultado_attrs" value="-valorAplicado: Decimal&lt;br&gt;-motivo: String&lt;br&gt;-fecha: DateTime&lt;br&gt;-responsable: Usuario [1]&lt;br&gt;-regla: ReglaAjuste [1]" vertex="1" parent="AjusteResultado" style="text;html=1;align=left;verticalAlign=top;fontSize=16;spacingLeft=12;spacingTop=6;strokeColor=none;fillColor=none;">
           <mxGeometry x="0" y="42" width="540.0" height="144" as="geometry" />
@@ -1216,6 +1216,163 @@
         </mxCell>
         <mxCell id="r35_label" value="autoriza" vertex="1" parent="1" style="text;html=1;fontSize=15;fillColor=#FFFFFF;strokeColor=none;align=center;spacing=0;">
           <mxGeometry x="1661.0" y="1069.0" width="58" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="nr_heading" value="7. Dominio lógico · contraste R1–R13 · 23/10/2026" vertex="1" parent="1" style="text;html=1;strokeColor=none;fillColor=#EDF2F7;align=left;verticalAlign=middle;fontSize=22;fontStyle=1;spacingLeft=14;">
+          <mxGeometry as="geometry" x="100" y="4480" width="4320" height="55" />
+        </mxCell>
+        <mxCell id="nr_OrganizacionComunitaria" value="OrganizacionComunitaria" vertex="1" parent="1" style="swimlane;html=1;startSize=42;horizontal=1;collapsible=0;fontSize=19;fontStyle=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#344054;strokeWidth=1.4;">
+          <mxGeometry as="geometry" x="100" y="4620" width="850" height="538" />
+        </mxCell>
+        <mxCell id="nr_OrganizacionComunitaria_attrs" value="-nombre: String&lt;br&gt;-tipo: String&lt;br&gt;-domicilioLegal: String&lt;br&gt;-territorio: Territorio [1]&lt;br&gt;-delegacion: Delegacion [1]&lt;br&gt;-sociosActivos: Integer [0..1]&lt;br&gt;-fechaConstitucion: Date&lt;br&gt;-registroPersonalidadJuridica: String&lt;br&gt;-fechaInscripcion: Date&lt;br&gt;-numeroRegistro: String&lt;br&gt;-activa: Boolean" vertex="1" parent="nr_OrganizacionComunitaria" style="text;html=1;align=left;verticalAlign=top;fontSize=16;spacingLeft=12;spacingTop=6;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="0" y="42" width="850" height="372" />
+        </mxCell>
+        <mxCell id="nr_OrganizacionComunitaria_sep" value="" vertex="1" parent="nr_OrganizacionComunitaria" style="line;strokeColor=#344054;">
+          <mxGeometry as="geometry" x="0" y="414" width="850" height="1" />
+        </mxCell>
+        <mxCell id="nr_OrganizacionComunitaria_ops" value="+crear(): void&lt;br&gt;+modificar(): void&lt;br&gt;+desactivar(): void" vertex="1" parent="nr_OrganizacionComunitaria" style="text;html=1;align=left;verticalAlign=top;fontSize=16;spacingLeft=12;spacingTop=6;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="0" y="420" width="850" height="116" />
+        </mxCell>
+        <mxCell id="nr_PertenenciaOrganizacion" value="PertenenciaOrganizacion" vertex="1" parent="1" style="swimlane;html=1;startSize=42;horizontal=1;collapsible=0;fontSize=19;fontStyle=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#344054;strokeWidth=1.4;">
+          <mxGeometry as="geometry" x="1630" y="4620" width="850" height="282" />
+        </mxCell>
+        <mxCell id="nr_PertenenciaOrganizacion_attrs" value="-vecino: PersonaSolicitante [1]&lt;br&gt;-organizacion: OrganizacionComunitaria [1]&lt;br&gt;-rol: String {integrante, dirigente}&lt;br&gt;-activa: Boolean" vertex="1" parent="nr_PertenenciaOrganizacion" style="text;html=1;align=left;verticalAlign=top;fontSize=16;spacingLeft=12;spacingTop=6;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="0" y="42" width="850" height="148" />
+        </mxCell>
+        <mxCell id="nr_PertenenciaOrganizacion_sep" value="" vertex="1" parent="nr_PertenenciaOrganizacion" style="line;strokeColor=#344054;">
+          <mxGeometry as="geometry" x="0" y="190" width="850" height="1" />
+        </mxCell>
+        <mxCell id="nr_PertenenciaOrganizacion_ops" value="+cambiarRol(rol: String): void&lt;br&gt;+desactivar(): void" vertex="1" parent="nr_PertenenciaOrganizacion" style="text;html=1;align=left;verticalAlign=top;fontSize=16;spacingLeft=12;spacingTop=6;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="0" y="196" width="850" height="84" />
+        </mxCell>
+        <mxCell id="nr_SerieHito" value="SerieHito" vertex="1" parent="1" style="swimlane;html=1;startSize=42;horizontal=1;collapsible=0;fontSize=19;fontStyle=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#344054;strokeWidth=1.4;">
+          <mxGeometry as="geometry" x="3160" y="4620" width="850" height="218" />
+        </mxCell>
+        <mxCell id="nr_SerieHito_attrs" value="-nombre: String&lt;br&gt;-periodicidad: String&lt;br&gt;-activa: Boolean" vertex="1" parent="nr_SerieHito" style="text;html=1;align=left;verticalAlign=top;fontSize=16;spacingLeft=12;spacingTop=6;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="0" y="42" width="850" height="116" />
+        </mxCell>
+        <mxCell id="nr_SerieHito_sep" value="" vertex="1" parent="nr_SerieHito" style="line;strokeColor=#344054;">
+          <mxGeometry as="geometry" x="0" y="158" width="850" height="1" />
+        </mxCell>
+        <mxCell id="nr_SerieHito_ops" value="+programarRealizacion(): Hito" vertex="1" parent="nr_SerieHito" style="text;html=1;align=left;verticalAlign=top;fontSize=16;spacingLeft=12;spacingTop=6;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="0" y="164" width="850" height="52" />
+        </mxCell>
+        <mxCell id="nr_Hito" value="Hito" vertex="1" parent="1" style="swimlane;html=1;startSize=42;horizontal=1;collapsible=0;fontSize=19;fontStyle=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#344054;strokeWidth=1.4;">
+          <mxGeometry as="geometry" x="100" y="5350" width="850" height="442" />
+        </mxCell>
+        <mxCell id="nr_Hito_attrs" value="-nombre: String&lt;br&gt;-descripcion: String&lt;br&gt;-inicio: Date&lt;br&gt;-termino: Date [0..1]&lt;br&gt;-territorio: Territorio [1]&lt;br&gt;-delegacion: Delegacion [1]&lt;br&gt;-serie: SerieHito [0..1]&lt;br&gt;-estado: String&lt;br&gt;-creadoPor: Usuario [1]" vertex="1" parent="nr_Hito" style="text;html=1;align=left;verticalAlign=top;fontSize=16;spacingLeft=12;spacingTop=6;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="0" y="42" width="850" height="308" />
+        </mxCell>
+        <mxCell id="nr_Hito_sep" value="" vertex="1" parent="nr_Hito" style="line;strokeColor=#344054;">
+          <mxGeometry as="geometry" x="0" y="350" width="850" height="1" />
+        </mxCell>
+        <mxCell id="nr_Hito_ops" value="+asignarResponsable(): void&lt;br&gt;+asignarActividad(): void" vertex="1" parent="nr_Hito" style="text;html=1;align=left;verticalAlign=top;fontSize=16;spacingLeft=12;spacingTop=6;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="0" y="356" width="850" height="84" />
+        </mxCell>
+        <mxCell id="nr_RecursoHito" value="RecursoHito" vertex="1" parent="1" style="swimlane;html=1;startSize=42;horizontal=1;collapsible=0;fontSize=19;fontStyle=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#344054;strokeWidth=1.4;">
+          <mxGeometry as="geometry" x="1630" y="5350" width="850" height="218" />
+        </mxCell>
+        <mxCell id="nr_RecursoHito_attrs" value="-hito: Hito [1]&lt;br&gt;-descripcion: String&lt;br&gt;-cantidad: Decimal" vertex="1" parent="nr_RecursoHito" style="text;html=1;align=left;verticalAlign=top;fontSize=16;spacingLeft=12;spacingTop=6;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="0" y="42" width="850" height="116" />
+        </mxCell>
+        <mxCell id="nr_RecursoHito_sep" value="" vertex="1" parent="nr_RecursoHito" style="line;strokeColor=#344054;">
+          <mxGeometry as="geometry" x="0" y="158" width="850" height="1" />
+        </mxCell>
+        <mxCell id="nr_RecursoHito_ops" value="+actualizarCantidad(): void" vertex="1" parent="nr_RecursoHito" style="text;html=1;align=left;verticalAlign=top;fontSize=16;spacingLeft=12;spacingTop=6;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="0" y="164" width="850" height="52" />
+        </mxCell>
+        <mxCell id="nr_AsignacionHito" value="AsignacionHito" vertex="1" parent="1" style="swimlane;html=1;startSize=42;horizontal=1;collapsible=0;fontSize=19;fontStyle=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#344054;strokeWidth=1.4;">
+          <mxGeometry as="geometry" x="3160" y="5350" width="850" height="218" />
+        </mxCell>
+        <mxCell id="nr_AsignacionHito_attrs" value="-hito: Hito [1]&lt;br&gt;-funcionario: Funcionario [1]&lt;br&gt;-asignadoPor: Usuario [1]" vertex="1" parent="nr_AsignacionHito" style="text;html=1;align=left;verticalAlign=top;fontSize=16;spacingLeft=12;spacingTop=6;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="0" y="42" width="850" height="116" />
+        </mxCell>
+        <mxCell id="nr_AsignacionHito_sep" value="" vertex="1" parent="nr_AsignacionHito" style="line;strokeColor=#344054;">
+          <mxGeometry as="geometry" x="0" y="158" width="850" height="1" />
+        </mxCell>
+        <mxCell id="nr_AsignacionHito_ops" value="+asignarActividad(): void" vertex="1" parent="nr_AsignacionHito" style="text;html=1;align=left;verticalAlign=top;fontSize=16;spacingLeft=12;spacingTop=6;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="0" y="164" width="850" height="52" />
+        </mxCell>
+        <mxCell id="nr_AusenciaFuncionario" value="AusenciaFuncionario" vertex="1" parent="1" style="swimlane;html=1;startSize=42;horizontal=1;collapsible=0;fontSize=19;fontStyle=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#344054;strokeWidth=1.4;">
+          <mxGeometry as="geometry" x="100" y="6080" width="850" height="346" />
+        </mxCell>
+        <mxCell id="nr_AusenciaFuncionario_attrs" value="-funcionario: Funcionario [1]&lt;br&gt;-tipo: String&lt;br&gt;-inicio: Date&lt;br&gt;-termino: Date&lt;br&gt;-registradaPor: Usuario [1]&lt;br&gt;-justificacion: String&lt;br&gt;-vigente: Boolean" vertex="1" parent="nr_AusenciaFuncionario" style="text;html=1;align=left;verticalAlign=top;fontSize=16;spacingLeft=12;spacingTop=6;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="0" y="42" width="850" height="244" />
+        </mxCell>
+        <mxCell id="nr_AusenciaFuncionario_sep" value="" vertex="1" parent="nr_AusenciaFuncionario" style="line;strokeColor=#344054;">
+          <mxGeometry as="geometry" x="0" y="286" width="850" height="1" />
+        </mxCell>
+        <mxCell id="nr_AusenciaFuncionario_ops" value="+diasHabilesEn(p: PeriodoMedicion): Decimal" vertex="1" parent="nr_AusenciaFuncionario" style="text;html=1;align=left;verticalAlign=top;fontSize=16;spacingLeft=12;spacingTop=6;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="0" y="292" width="850" height="52" />
+        </mxCell>
+        <mxCell id="nr_Felicitacion" value="Felicitacion" vertex="1" parent="1" style="swimlane;html=1;startSize=42;horizontal=1;collapsible=0;fontSize=19;fontStyle=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#344054;strokeWidth=1.4;">
+          <mxGeometry as="geometry" x="1630" y="6080" width="850" height="474" />
+        </mxCell>
+        <mxCell id="nr_Felicitacion_attrs" value="-emisor: PersonaSolicitante [1]&lt;br&gt;-destinatario: String&lt;br&gt;-fechaRecepcion: Date&lt;br&gt;-descripcion: String&lt;br&gt;-respaldoVerificable: String&lt;br&gt;-registradaPor: Usuario [1]&lt;br&gt;-validadaPor: Usuario [0..1]&lt;br&gt;-validadaEn: DateTime [0..1]&lt;br&gt;-estado: String&lt;br&gt;-observacion: String" vertex="1" parent="nr_Felicitacion" style="text;html=1;align=left;verticalAlign=top;fontSize=16;spacingLeft=12;spacingTop=6;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="0" y="42" width="850" height="340" />
+        </mxCell>
+        <mxCell id="nr_Felicitacion_sep" value="" vertex="1" parent="nr_Felicitacion" style="line;strokeColor=#344054;">
+          <mxGeometry as="geometry" x="0" y="382" width="850" height="1" />
+        </mxCell>
+        <mxCell id="nr_Felicitacion_ops" value="+validar(actor: Usuario): void&lt;br&gt;+rechazar(motivo: String): void" vertex="1" parent="nr_Felicitacion" style="text;html=1;align=left;verticalAlign=top;fontSize=16;spacingLeft=12;spacingTop=6;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="0" y="388" width="850" height="84" />
+        </mxCell>
+        <mxCell id="nr_ReglaElegibilidad" value="ReglaElegibilidad" vertex="1" parent="1" style="swimlane;html=1;startSize=42;horizontal=1;collapsible=0;fontSize=19;fontStyle=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#344054;strokeWidth=1.4;">
+          <mxGeometry as="geometry" x="3160" y="6080" width="850" height="346" />
+        </mxCell>
+        <mxCell id="nr_ReglaElegibilidad_attrs" value="-tipoActividad: ValorCatalogo [1]&lt;br&gt;-clasificacion: String&lt;br&gt;-puedePuntuar: Boolean&lt;br&gt;-plazoDiasCorridos: Integer = 3&lt;br&gt;-cupoDiario: Integer = 7&lt;br&gt;-topePorcentaje: Decimal = 120&lt;br&gt;-version: Integer" vertex="1" parent="nr_ReglaElegibilidad" style="text;html=1;align=left;verticalAlign=top;fontSize=16;spacingLeft=12;spacingTop=6;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="0" y="42" width="850" height="244" />
+        </mxCell>
+        <mxCell id="nr_ReglaElegibilidad_sep" value="" vertex="1" parent="nr_ReglaElegibilidad" style="line;strokeColor=#344054;">
+          <mxGeometry as="geometry" x="0" y="286" width="850" height="1" />
+        </mxCell>
+        <mxCell id="nr_ReglaElegibilidad_ops" value="+evaluar(a: Actividad): Boolean" vertex="1" parent="nr_ReglaElegibilidad" style="text;html=1;align=left;verticalAlign=top;fontSize=16;spacingLeft=12;spacingTop=6;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="0" y="292" width="850" height="52" />
+        </mxCell>
+        <mxCell id="nr_CupoDiarioFuncionario" value="CupoDiarioFuncionario" vertex="1" parent="1" style="swimlane;html=1;startSize=42;horizontal=1;collapsible=0;fontSize=19;fontStyle=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#344054;strokeWidth=1.4;">
+          <mxGeometry as="geometry" x="100" y="6810" width="850" height="250" />
+        </mxCell>
+        <mxCell id="nr_CupoDiarioFuncionario_attrs" value="-funcionario: Funcionario [1]&lt;br&gt;-fechaRealizacion: Date&lt;br&gt;-reservasVigentes: Integer {0..7}" vertex="1" parent="nr_CupoDiarioFuncionario" style="text;html=1;align=left;verticalAlign=top;fontSize=16;spacingLeft=12;spacingTop=6;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="0" y="42" width="850" height="116" />
+        </mxCell>
+        <mxCell id="nr_CupoDiarioFuncionario_sep" value="" vertex="1" parent="nr_CupoDiarioFuncionario" style="line;strokeColor=#344054;">
+          <mxGeometry as="geometry" x="0" y="158" width="850" height="1" />
+        </mxCell>
+        <mxCell id="nr_CupoDiarioFuncionario_ops" value="+reservarAtomicamente(): Boolean&lt;br&gt;+liberarSegunPolitica(): void" vertex="1" parent="nr_CupoDiarioFuncionario" style="text;html=1;align=left;verticalAlign=top;fontSize=16;spacingLeft=12;spacingTop=6;strokeColor=none;fillColor=none;">
+          <mxGeometry as="geometry" x="0" y="164" width="850" height="84" />
+        </mxCell>
+        <mxCell id="nr_rel_0" source="nr_OrganizacionComunitaria" target="nr_PertenenciaOrganizacion" value="1 — 0..*" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;strokeColor=#555555;strokeWidth=1.3;fontSize=12;labelBackgroundColor=#FFFFFF;startArrow=none;endArrow=none;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="nr_rel_1" source="nr_SerieHito" target="nr_Hito" value="0..1 — 0..*" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;strokeColor=#555555;strokeWidth=1.3;fontSize=12;labelBackgroundColor=#FFFFFF;startArrow=none;endArrow=none;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="3585" y="5260" />
+              <mxPoint x="525" y="5260" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nr_rel_2" source="nr_Hito" target="nr_RecursoHito" value="1 — 0..*" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;strokeColor=#555555;strokeWidth=1.3;fontSize=12;labelBackgroundColor=#FFFFFF;startArrow=none;endArrow=none;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="nr_rel_3" source="nr_Hito" target="nr_AsignacionHito" value="1 — 0..*" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;strokeColor=#555555;strokeWidth=1.3;fontSize=12;labelBackgroundColor=#FFFFFF;startArrow=none;endArrow=none;exitX=0.5;exitY=0;entryX=0.5;entryY=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="525" y="5310" />
+              <mxPoint x="3585" y="5310" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nr_person_relation" value="&lt;b&gt;Pertenencias&lt;/b&gt;&lt;br&gt;PersonaSolicitante/Vecino 1 — 0..* PertenenciaOrganizacion.&lt;br&gt;Organización 1 — 0..* PertenenciaOrganizacion.&lt;br&gt;Rol dirigente en el vínculo; pertenencia múltiple implementada; sin duplicado activo." vertex="1" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=18;fillColor=#FFFDF2;strokeColor=#C8A951;fontSize=14;align=left;verticalAlign=top;spacing=12;">
+          <mxGeometry as="geometry" x="1800" y="6860" width="1550" height="180" />
+        </mxCell>
+        <mxCell id="nr_activity_extension" value="&lt;b&gt;Actividad · atributos de ampliación (misma clase)&lt;/b&gt;&lt;br&gt;-hito: Hito [0..1]; -asignacionHito: AsignacionHito [0..1]&lt;br&gt;-reglaAplicada: ReglaElegibilidad [1]; -origen: String&lt;br&gt;-beneficiarioDelegado: Boolean; -motivoSinAporte: String [0..1]&lt;br&gt;Registrar fecha de realización y fecha de servidor; actividad interna no exige vecino ficticio. Nombre/teléfono faltantes conservan trazabilidad con aporte cero." vertex="1" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=18;fillColor=#FFFDF2;strokeColor=#C8A951;fontSize=14;align=left;verticalAlign=top;spacing=12;">
+          <mxGeometry as="geometry" x="100" y="7620" width="1350" height="260" />
+        </mxCell>
+        <mxCell id="nr_calculation" value="&lt;b&gt;Metas y cálculo · servicios implementados&lt;/b&gt;&lt;br&gt;Meta ajustada por disponibilidad exacta; 20 − 5 = 75%. Actividades candidatas validadas y respaldos aprobados: reconocido ≤ meta ajustada × 1,20 por persona/ítem/período. R13 suma reconocido/metas y normaliza pesos compatibles; cobertura y cierres preservados. Sin puntaje integral." vertex="1" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=18;fillColor=#FFFDF2;strokeColor=#C8A951;fontSize=14;align=left;verticalAlign=top;spacing=12;">
+          <mxGeometry as="geometry" x="1630" y="7620" width="1350" height="260" />
+        </mxCell>
+        <mxCell id="nr_class_pending" value="&lt;b&gt;Permisos y alcance lógico&lt;/b&gt;&lt;br&gt;Administrador/delegado: hitos, felicitaciones y ausencias, con permisos y delegación autorizada. Funcionario: tareas propias y consulta individual. R13: consolidado autorizado y distribución territorial sin metas. SerieHito y entidades de cálculo son abstracciones lógicas; no tablas físicas. Puntaje integral pendiente." vertex="1" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=18;fillColor=#FFFDF2;strokeColor=#C8A951;fontSize=14;align=left;verticalAlign=top;spacing=12;">
+          <mxGeometry as="geometry" x="3160" y="7620" width="1260" height="260" />
         </mxCell>
       </root>
     </mxGraphModel>

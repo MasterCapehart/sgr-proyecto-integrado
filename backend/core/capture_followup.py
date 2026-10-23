@@ -9,6 +9,15 @@ from . import local_api as api
 from .models import Compromiso,Usuario,Atencion,Actividad
 
 
+def can_assign(user):
+    return bool(user.is_superuser or api.allowed(user,'compromisos','editar_equipo'))
+
+def assignees(request):
+    d=api.active_delegation(request)
+    qs=Usuario.objects.filter(is_active=True).filter(Q(delegacion=d)|Q(delegaciones=d)).distinct()
+    return qs if can_assign(request.user) else qs.filter(pk=request.user.pk)
+
+
 def fingerprint(data):
     return hashlib.sha256(json.dumps(data,sort_keys=True,separators=(',',':'),cls=DjangoJSONEncoder).encode()).hexdigest()
 
@@ -54,8 +63,8 @@ def options(request):
     if not api.allowed(request.user,'compromisos','crear') or not (api.allowed(request.user,'atenciones','crear') or api.allowed(request.user,'actividades','crear')):return api.error('No tienes permiso para registrar seguimiento.',403)
     d=api.active_delegation(request)
     if d is None:return api.error('Selecciona una delegación autorizada.',403)
-    qs=Usuario.objects.filter(is_active=True).filter(Q(delegacion=d)|Q(delegaciones=d)).distinct()
-    return api.ok(responsables=[{'id':u.pk,'nombre':u.get_full_name() or u.username} for u in qs])
+    qs=assignees(request)
+    return api.ok(puede_asignar_responsable=can_assign(request.user),responsables=[{'id':u.pk,'nombre':u.get_full_name() or u.username} for u in qs])
 
 
 @require_GET

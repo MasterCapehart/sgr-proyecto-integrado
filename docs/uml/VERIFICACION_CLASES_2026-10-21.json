@@ -1,0 +1,44 @@
+{
+  "fecha": "2026-10-21",
+  "tipo": "Control de presentación, no prueba de implementación",
+  "compartimentos_texto_medidos": 161,
+  "texto_fuera_de_espacio": 0,
+  "cajas_ajustadas": [
+    "Servicio",
+    "conceptual:EventoAuditoria",
+    "AjusteResultado",
+    "Actividad"
+  ],
+  "versiones": [
+    {
+      "archivo": "/Users/danielflores/Desktop/Proyecto Integrado/UML/04_Diagrama_de_Clases/Diagrama_Clases_SGR.drawio",
+      "png_dimensiones": [
+        4068,
+        7191
+      ],
+      "contenido": [
+        52,
+        63,
+        4001,
+        7132
+      ],
+      "margenes_minimos_px": 52,
+      "compartimentos_dentro_de_cajas": true
+    },
+    {
+      "archivo": "/Users/danielflores/Desktop/Proyecto Integrado/UML/04_Diagrama_de_Clases/Version_Conceptual_18_Clases/Diagrama_Clases_SGR.drawio",
+      "png_dimensiones": [
+        4007,
+        7191
+      ],
+      "contenido": [
+        53,
+        63,
+        3948,
+        7132
+      ],
+      "margenes_minimos_px": 53,
+      "compartimentos_dentro_de_cajas": true
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "fecha": "2026-10-21",
+  "resultado": "sin conexiones entre bloques; relaciones internas conservadas",
+  "archivos": [
+    {
+      "archivo": "/Users/danielflores/Desktop/Proyecto Integrado/sgr-proyecto-integrado/docs/uml/02_casos_de_uso/02_especificos/CU01_registrar_actividades_y_servicios/Diagrama_Caso_Uso_Especifico_CU01_SGR.drawio",
+      "trazos_desplazados_corregidos": 4
+    },
+    {
+      "archivo": "/Users/danielflores/Desktop/Proyecto Integrado/UML/02_Casos_de_Uso/02_Especificos/CU-01: Registrar actividades y servicios/Diagrama_Caso_Uso_Especifico_CU01_SGR.drawio",
+      "trazos_desplazados_corregidos": 4
+    },
+    {
+      "archivo": "/Users/danielflores/Desktop/Proyecto Integrado/UML/02_Casos_de_Uso/01_General/Diagrama_Caso_Uso_General_SGR_Revisado.drawio",
+      "trazos_desplazados_corregidos": 4
+    },
+    {
+      "archivo": "/Users/danielflores/Desktop/Proyecto Integrado/UML/02_Casos_de_Uso/01_General/DiagramasCasos deUso.drawio",
+      "trazos_desplazados_corregidos": 4
+    },
+    {
+      "archivo": "/Users/danielflores/Desktop/Proyecto Integrado/UML/02_Casos_de_Uso/01_General/Casos_de_Uso_SGR_Todas_las_Paginas.drawio",
+      "trazos_desplazados_corregidos": 4
+    }
+  ]
+}

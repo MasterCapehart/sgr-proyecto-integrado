@@ -1,0 +1,55 @@
+{
+  "fecha": "2026-10-23",
+  "entorno": "SQLite local aislado 8014",
+  "datos": "Ficticios; perfiles de fixtures y permisos de migraciones; no cuentas AWS",
+  "resultados": [
+    {
+      "rol": "Administrador",
+      "login": true,
+      "pagina": "colectivo",
+      "menu_colectivo": true,
+      "movil_sin_desbordamiento": true,
+      "errores_js": []
+    },
+    {
+      "rol": "Delegado",
+      "login": true,
+      "pagina": "hitos",
+      "menu_colectivo": true,
+      "movil_sin_desbordamiento": true,
+      "errores_js": []
+    },
+    {
+      "rol": "Funcionario",
+      "login": true,
+      "pagina": "registro-trabajo",
+      "menu_colectivo": false,
+      "movil_sin_desbordamiento": true,
+      "errores_js": []
+    },
+    {
+      "rol": "Coordinador",
+      "login": true,
+      "pagina": "tubo-trabajo",
+      "menu_colectivo": false,
+      "movil_sin_desbordamiento": true,
+      "errores_js": []
+    },
+    {
+      "rol": "Verificador",
+      "login": true,
+      "pagina": "validacion",
+      "menu_colectivo": false,
+      "movil_sin_desbordamiento": true,
+      "errores_js": []
+    },
+    {
+      "rol": "Consulta",
+      "login": true,
+      "pagina": "desempeno",
+      "menu_colectivo": false,
+      "movil_sin_desbordamiento": true,
+      "errores_js": []
+    }
+  ]
+}
