@@ -119,6 +119,8 @@ class ConfiguracionMeta(models.Model):
     Conserva la historia y valida referencias sin fórmulas inventadas.
     """
     item = models.ForeignKey(ItemMeta, on_delete=models.PROTECT, related_name='configuraciones_meta')
+    cargo = models.ForeignKey('Cargo', null=True, blank=True, on_delete=models.PROTECT, related_name='metas_configuradas')
+    alcance_cargo = models.GeneratedField(expression=models.functions.Coalesce('cargo_id', models.Value(0)), output_field=models.BigIntegerField(), db_persist=True)
     periodo = models.CharField(max_length=50, default='2026-Anual')
     periodo_gestion = models.ForeignKey(PeriodoGestion, null=True, blank=True, on_delete=models.PROTECT, related_name='metas')
     conciliada_con = models.ForeignKey('self', null=True, blank=True, on_delete=models.PROTECT, related_name='duplicados_conciliados', editable=False)
@@ -127,7 +129,7 @@ class ConfiguracionMeta(models.Model):
     estado = models.BooleanField(default=True)
 
     class Meta:
-        constraints = [models.UniqueConstraint(fields=['item', 'periodo_gestion'], name='meta_unica_item_periodo_gestion')]
+        constraints = [models.UniqueConstraint(fields=['item', 'periodo_gestion', 'alcance_cargo'], name='meta_unica_item_periodo_cargo')]
 
     def __str__(self):
         return f"Meta {self.item.codigo} ({self.periodo}): {self.meta_esperada}"

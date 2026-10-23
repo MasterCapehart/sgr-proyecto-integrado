@@ -27,7 +27,7 @@ def transition(request,pk,action):
             before=api.snapshot(p,api.RESOURCES['periodos'][1]);catalog_history.record(request,'periodos',p)
             if closing:
                 metas=list(p.metas.select_for_update().filter(conciliada_con__isnull=True).order_by('pk'))
-                p.parametros_cierre={'capturado_en':timezone.now().isoformat(),'metas':[{'id':m.pk,'version':m.version,'item':m.item_id,'item_nombre':m.item.nombre,'meta_esperada':str(m.meta_esperada),'ponderacion':str(m.ponderacion),'estado':m.estado} for m in metas],'alcance':'Parámetros conservados; no incluye resultados de un motor de cálculo.'}
+                p.parametros_cierre={'capturado_en':timezone.now().isoformat(),'metas':[{'id':m.pk,'version':m.version,'item':m.item_id,'cargo':m.cargo_id,'cargo_nombre':m.cargo.nombre if m.cargo_id else None,'item_nombre':m.item.nombre,'meta_esperada':str(m.meta_esperada),'ponderacion':str(m.ponderacion),'estado':m.estado} for m in metas],'alcance':'Parámetros conservados; no incluye resultados de un motor de cálculo.'}
             if closing:
                 from .absences import closure
                 p.parametros_cierre['ajustes_ausencia']=closure(p)

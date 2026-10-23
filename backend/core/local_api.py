@@ -36,7 +36,7 @@ RESOURCES = {
  'tipos-atencion': (TipoAtencion, ['codigo','nombre','descripcion','estado']),
  'subatenciones': (SubAtencion, ['codigo','nombre','descripcion','tipo_atencion','estado']),
  'items-metas': (ItemMeta, ['codigo','nombre','descripcion','unidad_medida','cargos','estado']),
- 'configuraciones-metas': (ConfiguracionMeta, ['item','periodo','periodo_gestion','meta_esperada','ponderacion','estado']),
+ 'configuraciones-metas': (ConfiguracionMeta, ['item','cargo','periodo','periodo_gestion','meta_esperada','ponderacion','estado']),
  'atenciones': (Atencion, ['folio','solicitante','tipo_atencion','sub_atencion','descripcion','delegacion','delegacion_responsable','usuario','fecha_registro','caso_social','numero_gestion','rut_solicitante','telefono_solicitante','requiere_visita','fecha_visita','fecha_entrega_informe','fecha_entrega_beneficio','gestion_realizada','fecha_visita_programada','fecha_visita_realizada','tipo_gestion','compromiso','estado']),
 }
 ACTIONS = ['ver','crear','editar','desactivar','exportar']
@@ -311,10 +311,10 @@ def validate_data(obj, data, resource, request, creating=False):
             # Una misma fila de ítem serializa creaciones y cambios concurrentes.
             # No altera ni elimina configuraciones históricas preexistentes.
             ItemMeta.objects.select_for_update().get(pk=obj.item_id)
-            duplicates=ConfiguracionMeta.objects.filter(item_id=obj.item_id,conciliada_con__isnull=True).exclude(pk=obj.pk)
+            duplicates=ConfiguracionMeta.objects.filter(item_id=obj.item_id,cargo_id=obj.cargo_id,conciliada_con__isnull=True).exclude(pk=obj.pk)
             duplicates=duplicates.filter(periodo_gestion_id=obj.periodo_gestion_id) if obj.periodo_gestion_id else duplicates.filter(periodo_gestion__isnull=True,periodo__iexact=obj.periodo)
             if duplicates.exists():
-                raise ValidationError({'periodo':'Ya existe una meta para este ítem y período. Edita la configuración existente.'})
+                raise ValidationError({'periodo':'Ya existe una meta para este ítem, cargo y período. Edita la configuración existente.'})
         if Decimal(str(obj.meta_esperada))<=0 or not 0<Decimal(str(obj.ponderacion))<=100: raise ValidationError('Meta positiva y ponderación entre 0 y 100.')
     if obj.pk and hasattr(obj,'estado') and not obj.estado:
         relations=[]
@@ -322,10 +322,11 @@ def validate_data(obj, data, resource, request, creating=False):
         if isinstance(obj,Delegacion): relations=[obj.usuario_set.filter(is_active=True), obj.usuarios_autorizados.filter(is_active=True),obj.atenciones_origen.all(),obj.atenciones_responsable.all()]
         if isinstance(obj,TipoAtencion): relations=[obj.subatenciones.filter(estado=True),obj.atenciones.all()]
         if isinstance(obj,SubAtencion): relations=[obj.atenciones.all()]
-        if isinstance(obj,Cargo): relations=[obj.usuario_set.filter(is_active=True),obj.items.filter(estado=True)]
+        if isinstance(obj,Cargo): relations=[obj.usuario_set.filter(is_active=True),obj.items.filter(estado=True),obj.metas_configuradas.filter(estado=True)]
         if isinstance(obj,ItemMeta): relations=[obj.configuraciones_meta.filter(estado=True)]
         if any(q.exists() for q in relations): raise ValidationError('No se puede desactivar: existen registros relacionados.')
-    obj.full_clean(exclude=['password'] if isinstance(obj,Usuario) else None)
+    # El alcance se calcula en la base; la duplicidad se valida arriba bajo bloqueo.
+    obj.full_clean(exclude=['password'] if isinstance(obj,Usuario) else ['alcance_cargo'] if isinstance(obj,ConfiguracionMeta) else None)
 
 @require_http_methods(['GET','POST','PUT','PATCH','DELETE'])
 def crud(request, resource, pk=None, action=None):

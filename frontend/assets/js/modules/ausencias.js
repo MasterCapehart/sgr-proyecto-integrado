@@ -18,7 +18,7 @@
   const week=el('div','week-grid');['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'].forEach((day,i)=>{const n=field(week,day,'day-'+i,'select');choices(n,opts.jornadas,c?.semana[i]||(i<5?'Completa':'No laboral'));});body.append(week);
   const off=field(body,'Fechas no laborables / feriados','off','textarea',c?.no_laborables.join('\n')||'',false);off.placeholder='Una fecha por línea: AAAA-MM-DD';body.append(el('p','help','Incluye solo fechas del período seleccionado; no se descuentan como ausencias.'));
   const set=el('fieldset');set.append(el('legend',null,'Metas que se ajustan proporcionalmente'));
-  for(const m of data.data.metas)check(set,m.codigo+' · '+m.nombre+' · Meta base '+number(m.meta_original),'meta-'+m.id,c?c.metas_prorrateables.includes(m.id):true);
+  for(const m of data.data.metas)check(set,m.codigo+' · '+m.nombre+' · Meta base '+number(m.meta_original),'meta-'+m.id,c?m.prorrateable:true);
   if(!data.data.metas.length)set.append(el('p','help','No hay metas vigentes asignadas a los ítems del funcionario en este período.'));body.append(set);
   const reason=field(body,'Motivo administrativo de la configuración','reason','textarea',c?.motivo||'');reason.maxLength=500;
   const confirmed=check(body,'Confirmo que revisé la jornada y todos los días no laborables del período.','confirmed');confirmed.required=true;

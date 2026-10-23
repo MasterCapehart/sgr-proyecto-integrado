@@ -2,13 +2,20 @@
 from datetime import date,timedelta
 from decimal import Decimal,ROUND_HALF_UP
 from django.utils import timezone
+from django.db.models import Q, Exists, OuterRef
 from .models import CalendarioFuncionario,ConfiguracionMeta
 from .excel_support import items_for
 SLOTS={'No laboral':set(),'Completa':{0,1},'Mañana':{0},'Tarde':{1}}
 def number(n):return str(Decimal(n).quantize(Decimal('.01'),rounding=ROUND_HALF_UP))
 def parse(v):return date.fromisoformat(str(v))
 def meta_rows(user,period):
-    return ConfiguracionMeta.objects.filter(periodo_gestion=period,estado=True,conciliada_con__isnull=True,item__in=items_for(user)).select_related('item').order_by('item__codigo')
+    base=ConfiguracionMeta.objects.filter(periodo_gestion=period,estado=True,conciliada_con__isnull=True,item__in=items_for(user))
+    if user.cargo_id:
+        specific=base.filter(item_id=OuterRef('item_id'),cargo_id=user.cargo_id)
+        base=base.annotate(tiene_especifica=Exists(specific)).filter(Q(cargo_id=user.cargo_id)|Q(cargo__isnull=True,tiene_especifica=False))
+    else:
+        base=base.filter(cargo__isnull=True)
+    return base.select_related('item','cargo').order_by('item__codigo')
 def calculate(cal,period,user,delegation=None):
     metas=meta_rows(user,period);planned=set();away=set();rows=[]
     if cal:
@@ -22,12 +29,13 @@ def calculate(cal,period,user,delegation=None):
                 away.update((str(day),slot) for slot in SLOTS[a.jornada]);day+=timedelta(days=1)
         away &= planned
     p=Decimal(len(planned))/2;a=Decimal(len(away))/2;available=p-a;ratio=available/p if p else None
+    proportional_items=set(ConfiguracionMeta.objects.filter(pk__in=cal.metas_prorrateables,periodo_gestion=period).values_list('item_id',flat=True)) if cal else set()
     for m in metas:
-        proportional=bool(cal and m.pk in cal.metas_prorrateables)
+        proportional=m.item_id in proportional_items
         adjusted=None if not cal or (proportional and ratio is None) else m.meta_esperada*ratio if proportional else m.meta_esperada
         state='Sin calendario' if not cal else 'Sin jornada prevista' if proportional and ratio is None else 'Sin exigibilidad por ausencia' if proportional and available==0 else 'Meta ajustada' if proportional else 'Meta sin prorrateo'
         rows.append(dict(id=m.pk,item=m.item_id,codigo=m.item.codigo,nombre=m.item.nombre,unidad=m.item.unidad_medida,meta_original=number(m.meta_esperada),meta_ajustada=number(adjusted) if adjusted is not None else None,
-            meta_ajustada_exacta=str(adjusted) if adjusted is not None else None,prorrateable=proportional,ponderacion=number(m.ponderacion),version_meta=m.version,estado=state,cumplimiento=None,semaforo='Sin evaluación de desempeño'))
+            meta_ajustada_exacta=str(adjusted) if adjusted is not None else None,prorrateable=proportional,ponderacion=number(m.ponderacion),version_meta=m.version,cargo_meta=m.cargo_id,cargo_meta_nombre=m.cargo.nombre if m.cargo_id else None,estado=state,cumplimiento=None,semaforo='Sin evaluación de desempeño'))
     state='Sin calendario' if not cal else 'Sin jornada prevista' if not p else 'Sin exigibilidad por ausencia' if not available else 'Disponibilidad calculada'
     result=dict(delegacion=cal.delegacion_id if cal else delegation.pk if delegation else None,funcionario=user.pk,funcionario_nombre=user.get_full_name() or user.username,periodo=period.pk,periodo_nombre=period.nombre,
         estado=state,calendario=cal.pk if cal else None,version_calendario=cal.version if cal else None,dias_previstos=number(p) if cal else None,dias_ausencia=number(a) if cal else None,dias_disponibles=number(available) if cal else None,
