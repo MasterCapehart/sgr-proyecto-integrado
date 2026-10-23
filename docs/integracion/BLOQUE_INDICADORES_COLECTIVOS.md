@@ -1,6 +1,6 @@
 # Indicadores colectivos — R13
 
-Estado: implementado y verificado en local el 23/10/2026. Pendiente de despliegue AWS. Sin migraciones ni modificaciones al Excel o a los diagramas.
+Estado: implementado, verificado en local y desplegado en AWS el 23/10/2026. Versión `2e076870bb31a2779804b64f8340902c5ce0322b`. Sin migraciones ni modificaciones al Excel o a los diagramas.
 
 ## Consulta
 
@@ -46,4 +46,4 @@ No se habilita filtro por áreas ni se reconstruye distribución territorial en 
 - Navegador Edge local: respuesta real, vista de escritorio/móvil sin desbordamiento, menú autorizado, bloqueo de funcionario y ausencia de errores JavaScript.
 - Revisión independiente: corregido enlace desde historial a persona no disponible en el selector actual.
 
-Pruebas únicamente en bases temporales y demostración SQLite local. Producción permanece sin cambios en este bloque.
+Pruebas de datos en bases temporales y demostración SQLite local. Despliegue AWS con respaldo previo cifrado en S3, salud y versión verificadas. Comprobación real de administrador/delegado, bloqueo de funcionario y acceso anónimo, ámbito de delegación, límite de 120 % y vista móvil sin errores JavaScript ni desbordamiento. No se crearon registros de negocio de prueba en producción.
