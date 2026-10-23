@@ -7,13 +7,13 @@
 - URL: https://54.236.112.203/pages/login.html
 - Salud: https://54.236.112.203/api/health/
 - Versión: https://54.236.112.203/api/version/
-- Código evaluado: `fb54d1f4741fe41c637c06c4a80985a0987efd87`.
+- Código evaluado: `180a2dc491b60ab45616d4e2deafdd005517dccd`.
 - Región: `us-east-1`.
 - Perfil administrativo local: `sgr-personal`; laboratorio separado: `sgr-aws`.
 
 La cuenta personal contiene una copia independiente de la aplicación del laboratorio. No se sincronizan automáticamente el código ni los datos entre ambos entornos.
 
-Último incremento: [indicadores colectivos por delegación](../../integracion/BLOQUE_INDICADORES_COLECTIVOS.md), sin nuevas migraciones (0027 vigente). Respaldo, salud, versión, permisos por rol, tablero colectivo y vista móvil comprobados en AWS. Las evidencias de instalación que siguen corresponden al traslado inicial del18/10/2026.
+Último incremento: [asignación de responsables y contraste de la reunión](../../integracion/transcripcion-reunion/README.md), sin nuevas migraciones (0027 vigente). Respaldo, salud, versión, permisos de asignación, captura, tubo y vista móvil comprobados en AWS. Las evidencias de instalación que siguen corresponden al traslado inicial del18/10/2026.
 
 ## Componentes
 

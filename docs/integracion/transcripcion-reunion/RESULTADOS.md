@@ -17,6 +17,10 @@ La comprobación se centralizó en el servidor para exigir gestión de equipo cu
 
 El fallo esperado de la regresión pertenece a `core.tests_acceso_permisos.LoginLogoutTests.test_login_se_bloquea_tras_intentos_fallidos`, usando rutas antiguas. No se ocultó ni se convirtió en fallo nuevo del acceso vigente.
 
-Fuente de aceptación nueva: `backend/core/test_followup_assignment.py`. Esta corrección y la matriz de la reunión se mantienen en local, pendientes de publicación.
+Fuente de aceptación nueva: `backend/core/test_followup_assignment.py`. Esta corrección, la matriz y la documentación de revisión se publican con el despliegue registrado a continuación.
 
 Revisión independiente del cambio: no se identificaron regresiones concretas; se comprobó la separación entre responsables del tubo, profesionales de seguridad y filtros generales. Los hitos conservan su circuito de asignación autorizado propio.
+
+## Despliegue AWS — 23/10/2026
+
+Versión `180a2dc491b60ab45616d4e2deafdd005517dccd`. Respaldo de archivos/configuración y SQL cifrado en S3 antes del cambio; verificados hashes de partida y paquete, migraciones sin pendientes, servicios activos, salud y versión. [Comprobación de interfaz y permisos en AWS](aws-asignacion.json): administrador selecciona responsable; funcionario queda fijo en su cuenta; intento de alta directa a otra persona rechazado con 403; captura y formulario directo del tubo, apoyo opcional y móvil correctos. No se crearon actividades ni compromisos de prueba. Abrir captura puede reservar técnicamente un código sin crear actividad. Los resultados locales se conservan separados de esta comprobación remota.

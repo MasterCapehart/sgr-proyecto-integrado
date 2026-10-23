@@ -33,7 +33,7 @@ La prueba de interfaz usa una base SQLite independiente y datos ficticios en `12
 ## Correcciones y artefactos
 
 - Añadida cobertura explícita de seis roles y del flujo transversal, sin cambiar reglas de negocio que ya pasaban.
-- Corregido texto de Inicio: ya existe cumplimiento de actividades; el puntaje integral sigue pendiente. Cambio local en `frontend/index.html`, pendiente de publicar.
+- Corregido texto de Inicio: ya existe cumplimiento de actividades; el puntaje integral sigue pendiente. Cambio en `frontend/index.html`, publicado con el despliegue posterior de registro/tubo del 23/10/2026.
 - Diagramas contrastados con código: tres fechas inclusivas, siete candidaturas, gestor administrador/delegado, candidatura frente a aporte validado, límite del 120 %, ausencias y colectivo. Se mantienen las carpetas y las conexiones.
 - [Requerimientos, reglas, historias y aceptación](REQUERIMIENTOS_Y_TRAZABILIDAD.md).
 - [Matriz R1–R13 en CSV](MATRIZ_TRAZABILIDAD.csv).
@@ -47,7 +47,7 @@ La prueba de interfaz usa una base SQLite independiente y datos ficticios en `12
 4. **Diseño frente a esquema**: clases y ER siguen siendo modelos lógicos y conservan abstracciones históricas. No son una exportación física de todas las tablas. El informe Word y la copia externa `UML/` no se regeneraron; prevalecen los pares revisados en `docs/uml`.
 5. La inspección visual UML fue representativa, más validación geométrica de todos los pares; no se afirma lectura exhaustiva de los 15 PNG a escala nativa.
 
-No se modificó la base operativa ni el Excel, no se crearon datos de prueba en AWS y no se publicó este cierre documental.
+No se modificó la base operativa ni el Excel, no se crearon datos de prueba en AWS ; el cierre documental se publicó posteriormente junto con la corrección de registro/tubo.
 
 ## Contraste posterior de la transcripción
 

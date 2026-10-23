@@ -43,4 +43,4 @@ Se mantiene el permiso existente de gestión de equipo (`compromisos.editar_equi
 
 ## Qué no se afirma
 
-No se verificó la asignación real de todos los cargos, permisos y catálogos en AWS. No se eliminaron conversaciones ni se hizo obligatorio el cargo para toda cuenta basándose en una transcripción ambigua. No se actualizó el Excel ni se publicó esta corrección. La valoración institucional y los tres componentes pospuestos no se presentan como terminados.
+No se verificó la asignación real de todos los cargos, permisos y catálogos en AWS. No se eliminaron conversaciones ni se hizo obligatorio el cargo para toda cuenta basándose en una transcripción ambigua. No se actualizó el Excel. Esta corrección se publicó posteriormente en AWS y GitHub; véase el registro de despliegue en RESULTADOS.md. La valoración institucional y los tres componentes pospuestos no se presentan como terminados.

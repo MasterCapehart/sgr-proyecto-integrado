@@ -1,0 +1,22 @@
+{
+  "entorno": "AWS personal",
+  "fecha": "2026-10-23",
+  "resultados": [
+    {
+      "perfil": "Funcionario",
+      "responsable_propio_fijo": true,
+      "seleccion_autorizada": false,
+      "apoyo_opcional": true,
+      "movil": true,
+      "errores_js": []
+    },
+    {
+      "perfil": "Administrador",
+      "responsable_propio_fijo": false,
+      "seleccion_autorizada": true,
+      "apoyo_opcional": true,
+      "movil": true,
+      "errores_js": []
+    }
+  ]
+}
