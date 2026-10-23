@@ -56,7 +56,7 @@ Los permisos deben asignarse explícitamente y los catálogos deben validarse co
 ## Despliegue y versión evaluada
 
 - [SGR en AWS personal](https://54.236.112.203/pages/login.html), última verificación registrada el 22/10/2026.
-- Versión de aplicación evaluada: `906c43693f1a080f95c5b5e3aeef2beece0dc1b6`; consultar [/api/version/](https://54.236.112.203/api/version/).
+- Versión de aplicación evaluada: `95df8a8c453bf31a0c07c040cbfbe031c8a4a239`; consultar [/api/version/](https://54.236.112.203/api/version/).
 - [Instalación, configuración y recuperación AWS](docs/entrega/despliegue/README.md).
 - [Resultados, incidencias y estado del paquete de evidencias](docs/entrega/README.md).
 

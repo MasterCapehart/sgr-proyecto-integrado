@@ -1,6 +1,6 @@
 # Cumplimiento validado y tope del 120 % — R10
 
-Estado: implementado y verificado en local el 22/10/2026. Sin despliegue AWS. Sin nuevas migraciones.
+Estado: implementado, verificado en local y desplegado en AWS el 22/10/2026. Versión de aplicación `95df8a8c453bf31a0c07c040cbfbe031c8a4a239`. Sin nuevas migraciones (0027 vigente).
 
 ## Base y decisiones
 
@@ -52,4 +52,4 @@ Revisión y anulación de evidencias bloquean primero los períodos que contiene
 - Revisión independiente detectó el caso de meta no prorrateable sin disponibilidad; corregido y cubierto con prueba roja/verde.
 - Sin cambios pendientes de modelos/migraciones ni errores de sintaxis JS o espacios del diff.
 
-Solo datos ficticios en SQLite local y base temporal de pruebas. Sin modificaciones al Excel, diagramas, producción ni repositorio remoto.
+Las pruebas con 13 actividades y cruces de tope usaron únicamente datos ficticios en SQLite local y base temporal. En AWS se verificaron salud, versión, archivos, permisos por rol, resumen autorizado y pantalla móvil, sin crear calendarios, ausencias ni actividades de prueba. Se conservó un respaldo cifrado de la base antes del despliegue. Sin modificaciones al Excel ni a los diagramas.
