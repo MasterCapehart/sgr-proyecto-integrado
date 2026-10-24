@@ -1,6 +1,6 @@
 # Gestión reservada a administrador y delegado
 
-Fecha: 24/10/2026. Estado: implementado en local; pendiente de despliegue.
+Fecha: 24/10/2026. Estado: desplegado y verificado en AWS.
 
 Corrige H01 y H02 de la auditoría de requerimientos del 23/10/2026.
 
@@ -20,3 +20,7 @@ Se reprodujo primero la creación indebida (201 en lugar de 403). La regresión 
 Las 30 pruebas de gestión reservada, hitos y elegibilidad pasan en local.
 
 Revisión general: 591 pruebas ejecutadas; 590 pasan y se mantiene un fallo esperado preexistente de acceso en las rutas heredadas de pruebas. No aparecieron nuevos fallos. También se verificaron la sintaxis del módulo de hitos y los cambios de formato.
+
+## Despliegue en AWS
+
+24/10/2026: versión `03a853c31d8f2cc4e5d2526430d8203cdd061043`. Servicio y servidor web activos, salud correcta y cuatro archivos instalados con hashes verificados. Respaldo previo de archivos y base de datos cifrado en S3; no hay nuevas migraciones. Consulta autenticada con administrador, delegado y funcionario confirma capacidades de gestión verdaderas para los dos primeros y falsas para el funcionario. La verificación no creó ni modificó registros de negocio.
