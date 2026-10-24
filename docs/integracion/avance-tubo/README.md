@@ -39,3 +39,9 @@ Este ajuste visual está en local, pendiente de despliegue. No modifica cálculo
 El usuario eligió reunir todo el resumen en una sola tarjeta horizontal: total, porcentaje, realizados, por completar y vencidos, con barra fina. Se eliminan las cuatro tarjetas adicionales únicamente cuando existe el indicador del tubo; los demás módulos conservan sus tarjetas. Los vencidos son un subconjunto de los compromisos por completar, no una cantidad que deba sumarse al total.
 
 La página local se mostró directamente con la sesión de demostración ya iniciada y resultado8/10=80 %. Sin cambios de cálculo ni datos. Esta variante reemplaza visualmente al ajuste compacto previo y permanece pendiente de desplegar.
+
+## Integración de tarjeta única en AWS —23/10/2026
+
+Versión `54f0c6fa55048db9536572be8d2c8688b773b610`. Se integran los dos ajustes visuales posteriores: indicador compacto y resumen único sin cuatro tarjetas adicionales. No cambia el cálculo ni los registros. La versión anterior33fd14d conserva la evidencia funcional del cálculo.
+
+Respaldo SQL cifrado y archivos anteriores conservados antes de instalar; hashes de partida y de publicación correctos. Salud y versión verificadas; servicios activos, sin migraciones pendientes. Consulta real mediante navegador integrado con administrador: D01 muestra1 realizado de1,0 por completar y0 vencidos, con100 % y barra accesible. Se verificó visualmente una sola tarjeta. Se dejó la página de AWS abierta con sesión iniciada; no se editaron datos de negocio.

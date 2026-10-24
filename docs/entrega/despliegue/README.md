@@ -7,13 +7,13 @@
 - URL: https://54.236.112.203/pages/login.html
 - Salud: https://54.236.112.203/api/health/
 - Versión: https://54.236.112.203/api/version/
-- Código evaluado: `33fd14d9bb1ca654d7c6b69ab972b086f92ec94f`.
+- Código evaluado: `54f0c6fa55048db9536572be8d2c8688b773b610`.
 - Región: `us-east-1`.
 - Perfil administrativo local: `sgr-personal`; laboratorio separado: `sgr-aws`.
 
 La cuenta personal contiene una copia independiente de la aplicación del laboratorio. No se sincronizan automáticamente el código ni los datos entre ambos entornos.
 
-Último incremento: [porcentaje de compromisos completados del tubo](../../integracion/avance-tubo/README.md), sin nuevas migraciones (0028 vigente). Respaldo cifrado, salud, versión, hashes, porcentajes comparados con los registros autorizados, estado vacío y escritorio/móvil verificados en AWS con administrador y funcionario. Sin cambios en compromisos. Las evidencias de instalación que siguen corresponden al traslado inicial del 18/10/2026.
+Último incremento: [tarjeta única del avance del tubo](../../integracion/avance-tubo/README.md), sin nuevas migraciones (0028 vigente). Respaldo cifrado, salud, versión y hashes verificados. Consulta autenticada en AWS: una sola tarjeta con1 realizado de1 y100 %, sin las cuatro tarjetas adicionales. No se editaron registros. Las evidencias de instalación que siguen corresponden al traslado inicial del18/10/2026.
 
 ## Componentes
 
