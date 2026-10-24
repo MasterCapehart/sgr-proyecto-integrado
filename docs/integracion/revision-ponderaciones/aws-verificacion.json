@@ -1,0 +1,98 @@
+{
+  "version": "56d64c7ae960076c11df57264ab35ace725f106a",
+  "salud": "ok",
+  "periodo": 4,
+  "metas": 49,
+  "cargos": 12,
+  "anonimo_bloqueado": true,
+  "periodo_invalido_400": true,
+  "movil": true,
+  "errores_js": [],
+  "metas_y_cuentas_sin_cambios": true,
+  "pautas": [
+    {
+      "cargo": "APOYO ADMINISTRATIVO",
+      "metas": 4,
+      "suma": "95.00",
+      "faltante": "5.00",
+      "estado": "Incompleta"
+    },
+    {
+      "cargo": "COOR SERV. COMU",
+      "metas": 7,
+      "suma": "80.00",
+      "faltante": "20.00",
+      "estado": "Incompleta"
+    },
+    {
+      "cargo": "GESTOR SOCIAL 1",
+      "metas": 4,
+      "suma": "85.00",
+      "faltante": "15.00",
+      "estado": "Incompleta"
+    },
+    {
+      "cargo": "GESTOR SOCIAL 2",
+      "metas": 4,
+      "suma": "85.00",
+      "faltante": "15.00",
+      "estado": "Incompleta"
+    },
+    {
+      "cargo": "GESTOR SOCIAL 3",
+      "metas": 4,
+      "suma": "85.00",
+      "faltante": "15.00",
+      "estado": "Incompleta"
+    },
+    {
+      "cargo": "GESTOR SOCIAL 4",
+      "metas": 4,
+      "suma": "85.00",
+      "faltante": "15.00",
+      "estado": "Incompleta"
+    },
+    {
+      "cargo": "GESTOR SOCIAL 5",
+      "metas": 4,
+      "suma": "85.00",
+      "faltante": "15.00",
+      "estado": "Incompleta"
+    },
+    {
+      "cargo": "PLANIFICACIÓN Y GESTIÓN",
+      "metas": 2,
+      "suma": "45.00",
+      "faltante": "55.00",
+      "estado": "Incompleta"
+    },
+    {
+      "cargo": "TERRITORIAL OO.CC. 1",
+      "metas": 4,
+      "suma": "70.00",
+      "faltante": "30.00",
+      "estado": "Incompleta"
+    },
+    {
+      "cargo": "TERRITORIAL OO.CC. 2",
+      "metas": 4,
+      "suma": "70.00",
+      "faltante": "30.00",
+      "estado": "Incompleta"
+    },
+    {
+      "cargo": "TERRITORIAL OO.CC. 3",
+      "metas": 4,
+      "suma": "70.00",
+      "faltante": "30.00",
+      "estado": "Incompleta"
+    },
+    {
+      "cargo": "TERRITORIAL OO.CC. 4",
+      "metas": 4,
+      "suma": "70.00",
+      "faltante": "30.00",
+      "estado": "Incompleta"
+    }
+  ]
+}

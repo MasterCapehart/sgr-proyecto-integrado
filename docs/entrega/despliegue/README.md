@@ -7,13 +7,13 @@
 - URL: https://54.236.112.203/pages/login.html
 - Salud: https://54.236.112.203/api/health/
 - Versión: https://54.236.112.203/api/version/
-- Código evaluado: `6032f315ea000f6170b6ad9f3ca3b204aee6eb67`.
+- Código evaluado: `56d64c7ae960076c11df57264ab35ace725f106a`.
 - Región: `us-east-1`.
 - Perfil administrativo local: `sgr-personal`; laboratorio separado: `sgr-aws`.
 
 La cuenta personal contiene una copia independiente de la aplicación del laboratorio. No se sincronizan automáticamente el código ni los datos entre ambos entornos.
 
-Último incremento: [metas por cargo, ítem y período](../../integracion/METAS_POR_CARGO.md), con migración 0028 aplicada. Respaldo cifrado, salud, versión, archivos, formulario en escritorio/móvil y conservación de configuraciones comprobados en AWS. No se cargaron valores reales pendientes de confirmación. Las evidencias de instalación que siguen corresponden al traslado inicial del 18/10/2026.
+Último incremento: [revisión de ponderaciones por cargo y período](../../integracion/revision-ponderaciones/README.md), sin nuevas migraciones (0028 vigente). Respaldo cifrado, salud, versión, hashes, acceso autenticado, consulta de las49 metas para12 cargos y escritorio/móvil verificados en AWS. Metas y cuentas conservadas sin cambios. Las evidencias de instalación que siguen corresponden al traslado inicial del18/10/2026.
 
 ## Componentes
 
