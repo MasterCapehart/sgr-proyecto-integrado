@@ -36,6 +36,23 @@
     heading.append(node('h2', null, 'Resumen operativo'), node('span', 'kpi-context', 'Datos reales · Delegación activa'));
     section.append(heading);
 
+    if (data.completion) {
+      const completion=data.completion;
+      const panel=node('article','kpi-card kpi-info');panel.style.marginBottom='16px';
+      panel.setAttribute('aria-label','Avance de los compromisos');
+      panel.append(node('h3','kpi-label','Compromisos completados'));
+      const hasResults=completion.porcentaje!==null;
+      const text=hasResults?Number(completion.porcentaje).toLocaleString('es-CL',{maximumFractionDigits:2})+' %':'Sin compromisos';
+      const value=node('p','kpi-value',text);value.dataset.tubeProgress='';panel.append(value);
+      if(hasResults){
+        panel.append(node('p','kpi-help',completion.realizados+' de '+completion.total+' realizados · '+completion.por_completar+' por completar.'));
+        const progress=node('progress');progress.max=100;progress.value=Number(completion.porcentaje_exacto);progress.style.width='100%';progress.style.accentColor='#2563eb';
+        progress.setAttribute('aria-label','Porcentaje de compromisos completados');progress.setAttribute('aria-valuetext',text+' · '+completion.realizados+' de '+completion.total+' realizados');panel.append(progress);
+      }else panel.append(node('p','kpi-help','No hay compromisos con los filtros actuales.'));
+      panel.append(node('p','kpi-help','Según los filtros actuales y tus permisos, incluyendo todas las páginas. Es avance operativo; no otorga puntaje.'));
+      section.append(panel);
+    }
+
     const grid = node('div', 'kpi-grid');
     for (const metric of data.cards) {
       const article = node('article', 'kpi-card kpi-' + (metric.tone || 'neutral'));

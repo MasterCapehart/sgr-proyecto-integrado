@@ -1,5 +1,6 @@
 """Conteos operativos autorizados; no calcula desempeño ni cumplimiento de metas."""
 from datetime import datetime, time, timedelta
+from decimal import Decimal, ROUND_HALF_UP
 from django.db.models import Count, Q
 from django.utils import timezone
 from django.views.decorators.http import require_http_methods
@@ -28,7 +29,13 @@ def resource_kpis(qs,resource):
         v=qs.aggregate(total=count(),mes=count(Q(fecha_registro__gte=start,fecha_registro__lt=end)),tipos=Count('tipo_atencion_id',distinct=True),casos=Count('caso_social',filter=~Q(caso_social=''),distinct=True))
         cards=[card('total','Atenciones registradas',v['total']),card('mes','Atenciones de este mes',v['mes'],'info',help='Desde el día 1 hasta hoy.'),card('tipos','Tipos de atención utilizados',v['tipos']),card('casos','Casos sociales registrados',v['casos'],help='Códigos de caso distintos; no equivale a personas únicas.')]
     else:return None
-    return dict(cards=cards,generated_at=timezone.now().isoformat(),scope='Todos los resultados de los filtros aplicados, no solo esta página.')
+    result=dict(cards=cards,generated_at=timezone.now().isoformat(),scope='Todos los resultados de los filtros aplicados, no solo esta página.')
+    if resource=='compromisos':
+        percentage=Decimal(v['realizados'])*100/Decimal(v['total']) if v['total'] else None
+        result['completion']=dict(total=v['total'],realizados=v['realizados'],por_completar=v['total']-v['realizados'],
+            porcentaje=str(percentage.quantize(Decimal('.01'),rounding=ROUND_HALF_UP)) if percentage is not None else None,
+            porcentaje_exacto=str(percentage) if percentage is not None else None)
+    return result
 
 @require_http_methods(['GET'])
 def overview(request):

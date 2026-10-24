@@ -18,7 +18,7 @@ Los documentos académicos explicitan fórmulas; no todo está pendiente. No obs
 |---|---|---|---|
 | CAL-A | I01: 8/10=80 %, peso40 →32 puntos. I02:10/20=50 %, peso60 →30. Total62 | Resumen real de metas devuelve32 y30; suma62. Índice de persona del colectivo coincide en62 cuando pesos suman100 | Coincide para pauta completa del ensayo |
 | CAL-B | Tope antiguo150: avance20/meta10, peso40 →60; más30 →90 | Regla nueva120: reconoce12 de20, cumplimiento120 %, aporte48; más30 →78 | Diferencia correcta por R10 posterior; no volver a150 |
-| CAL-C | 10 compromisos:8 realizados,1 pendiente,1 en proceso →80 %/20 % | KPI real entrega total10, realizados8 y en curso2. No entrega porcentaje del tubo ni aporte ponderado | Conteos correctos; porcentaje y aporte de puntaje pendientes |
+| CAL-C | 10 compromisos:8 realizados,1 pendiente,1 en proceso →80 %/20 % | KPI real entrega total10, realizados8 y en curso2. Incremento local posterior: porcentaje80 %, sin aporte ponderado | Conteos y porcentaje verificados en local; aporte de puntaje pendiente |
 | CAL-D | Calendario de ensayo de30 días inclusivos; día15 →50 %, antes0 y después100 | Configurado explícitamente con7 días laborables, calcula30 días,50 % al15 y100 % después; antes devuelve objetivo sin evaluación (null) | Coincide dentro/después; diferencia explícita antes del inicio: neutral |
 | CAL-E | Esperado50:29,99 rojo;30 y49,99 ámbar;50 verde | Función de color del colectivo devuelve los cuatro colores esperados;29,999 sigue rojo antes de redondear | Coincide en la función de color probada |
 | CAL-F | Umbral colectivo80:79,99 no alcanza,80 alcanza; tubo80 %/meta80 %=100 % del ítem | No hay servicio de evaluación por umbral80 configurable ni ítem porcentual del tubo integrado en el motor cuantitativo | Pendiente; no se marca como prueba aprobada |
@@ -61,3 +61,5 @@ Resultado: **6 pruebas correctas**, en base temporal con datos ficticios. [Salid
 Estas pruebas usan registros/evidencias de fixture para contrastar fórmulas existentes; no prueban el flujo completo de ingreso, cupos y revisión por interfaz. Esos controles tienen sus pruebas independientes.
 
 Comprobación conjunta con cumplimiento y colectivos: **29 pruebas correctas**. [Salida conjunta](pruebas-relacionadas.txt). No se modificaron los servicios de cálculo.
+
+Actualización local posterior: [porcentaje operativo del tubo](../avance-tubo/README.md) implementa CAL-C; su incorporación al puntaje integral permanece pendiente.

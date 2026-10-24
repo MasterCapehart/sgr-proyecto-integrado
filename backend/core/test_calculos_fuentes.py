@@ -46,7 +46,10 @@ class CalculosFuentesTests(TestCase):
   data=resource_kpis(Compromiso.objects.all(),'compromisos')
   cards={r['key']:r['value'] for r in data['cards']}
   self.assertEqual(cards['total'],10);self.assertEqual(cards['realizados'],8);self.assertEqual(cards['en_curso'],2)
-  # El KPI entrega conteos, no un campo de cumplimiento porcentual del tubo.
+  self.assertEqual(data['completion']['porcentaje'],'80.00')
+  self.assertEqual(data['completion']['realizados'],8)
+  self.assertEqual(data['completion']['por_completar'],2)
+  # Es avance operativo; no un aporte al puntaje integral.
   self.assertNotIn('cumplimiento',data)
  def test_cal_d_calendario_explicito_inclusivo_y_limites(self):
   self.p.fecha_inicio=date(2026,10,1);self.p.fecha_fin=date(2026,10,30);self.p.save()
