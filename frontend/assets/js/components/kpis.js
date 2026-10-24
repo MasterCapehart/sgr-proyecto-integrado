@@ -35,19 +35,23 @@
 
     const heading = node('div', 'kpi-heading');
     heading.append(node('h2', null, data.completion?'Avance del tubo':'Resumen operativo'), node('span', 'kpi-context', 'Datos reales · Delegación activa'));
-    section.append(heading);
+    if(!data.completion)section.append(heading);
 
     if (data.completion) {
       const completion=data.completion;
       const panel=node('article','tube-completion');
       panel.setAttribute('aria-label','Avance de los compromisos');
       const header=node('div','tube-completion-header'),copy=node('div','tube-completion-copy');
-      copy.append(node('h3',null,'Compromisos completados'));
+      copy.append(node('h2',null,'Avance del tubo'));
       const hasResults=completion.porcentaje!==null;
       const text=hasResults?Number(completion.porcentaje).toLocaleString('es-CL',{maximumFractionDigits:2})+' %':'Sin compromisos';
-      copy.append(node('p','tube-completion-detail',hasResults?completion.realizados+' de '+completion.total+' realizados · '+completion.por_completar+' por completar':'No hay compromisos con los filtros actuales.'));
+      copy.append(node('p','tube-completion-detail',hasResults?completion.total+' compromisos en total':'No hay compromisos con los filtros actuales.'));
       const value=node('p','tube-completion-value',text);value.dataset.tubeProgress='';
       if(!hasResults)value.classList.add('is-empty');header.append(copy,value);panel.append(header);
+      const breakdown=node('p','tube-completion-breakdown');
+      const overdue=data.cards.find(metric=>metric.key==='vencidos')?.value??0;
+      for(const [amount,label] of [[completion.realizados,'realizados'],[completion.por_completar,'por completar'],[overdue,'vencidos']]){const item=node('span');item.append(node('strong',null,Number(amount).toLocaleString('es-CL')),document.createTextNode(' '+label));breakdown.append(item);}
+      if(hasResults)panel.append(breakdown);
       if(hasResults){
         const progress=node('progress','tube-completion-track');progress.max=100;progress.value=Number(completion.porcentaje_exacto);
         progress.setAttribute('aria-label','Porcentaje de compromisos completados');progress.setAttribute('aria-valuetext',text+' · '+completion.realizados+' de '+completion.total+' realizados');panel.append(progress);
@@ -73,7 +77,7 @@
       if (metric.help) article.append(node('p', 'kpi-help', metric.help));
       grid.append(article);
     }
-    section.append(grid);
+    if(!data.completion)section.append(grid);
 
     const caption = node('p', 'kpi-scope', data.scope || '');
     if (data.generated_at) {

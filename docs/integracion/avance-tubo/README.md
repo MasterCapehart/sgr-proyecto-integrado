@@ -33,3 +33,9 @@ Los compromisos consultados antes y después permanecen idénticos. No se guarda
 A petición del usuario se redujo el tamaño del indicador, con porcentaje lateral, barra fina, texto breve y tarjetas secundarias compactas. Se añadió una hoja de estilos limitada al componente del tubo; las otras vistas mantienen sus indicadores previos. Se actualizó la referencia de caché en las seis páginas publicadas que consumen el componente.
 
 Este ajuste visual está en local, pendiente de despliegue. No modifica cálculo ni datos. Vista comprobada en el navegador integrado con sesión de demostración iniciada y página del tubo abierta directamente. Para presentar futuras vistas locales, iniciar sesión mediante el acceso normal antes de entregar la página; no desactivar autenticación ni añadir un bypass.
+
+## Variante de tarjeta única — vista local
+
+El usuario eligió reunir todo el resumen en una sola tarjeta horizontal: total, porcentaje, realizados, por completar y vencidos, con barra fina. Se eliminan las cuatro tarjetas adicionales únicamente cuando existe el indicador del tubo; los demás módulos conservan sus tarjetas. Los vencidos son un subconjunto de los compromisos por completar, no una cantidad que deba sumarse al total.
+
+La página local se mostró directamente con la sesión de demostración ya iniciada y resultado8/10=80 %. Sin cambios de cálculo ni datos. Esta variante reemplaza visualmente al ajuste compacto previo y permanece pendiente de desplegar.
