@@ -11,6 +11,10 @@ from .eligibility_models import CLASIFICACIONES
 
 RESOURCE='clasificacion-actividades'
 
+def can_configure(user):
+    from .milestone_api import manager
+    return manager(user) and api.allowed(user,RESOURCE,'configurar')
+
 def response(data=None,**extra):
     r=api.ok(data,**extra);r['Cache-Control']='private, no-store';return r
 
@@ -24,6 +28,7 @@ def replay(request,key,digest):
 def catalog(request,pk=None):
     denied=domain.gate(request,RESOURCE,'ver' if request.method=='GET' else 'configurar')
     if denied:return denied
+    if request.method=='POST' and not can_configure(request.user):return api.error('Solo administrador y delegado pueden publicar reglas de actividades.',403)
     try:
         d=api.active_delegation(request)
         items=ItemMeta.objects.filter(estado=True)
@@ -35,7 +40,7 @@ def catalog(request,pk=None):
                 return response(dict(id=item.pk,nombre=item.nombre,codigo=item.codigo,regla=service.rule_data(rules.first()),historial=[service.rule_data(r) for r in rules]))
             if request.GET.get('q'):items=items.filter(Q(nombre__icontains=request.GET['q'][:100])|Q(codigo__icontains=request.GET['q'][:100]))
             page=Paginator(items.order_by('nombre','pk'),20).get_page(request.GET.get('page',1))
-            return response(results=[dict(id=i.pk,nombre=i.nombre,codigo=i.codigo,regla=service.rule_data(service.current(d,i.pk))) for i in page],count=page.paginator.count,page=page.number,total_pages=page.paginator.num_pages,puede_configurar=api.allowed(request.user,RESOURCE,'configurar'),clasificaciones=CLASIFICACIONES)
+            return response(results=[dict(id=i.pk,nombre=i.nombre,codigo=i.codigo,regla=service.rule_data(service.current(d,i.pk))) for i in page],count=page.paginator.count,page=page.number,total_pages=page.paginator.num_pages,puede_configurar=can_configure(request.user),clasificaciones=CLASIFICACIONES)
         if not pk:return api.error('Selecciona el tipo de actividad.',405)
         data=api.body(request)
         if set(data)!={'_version','clasificacion','valida_para_puntuar','motivo','clave_idempotencia'}:raise ValidationError('Completa los datos de la regla; hay campos faltantes o no editables.')

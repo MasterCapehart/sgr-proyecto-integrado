@@ -18,8 +18,11 @@ TASK_FIELDS = ['nombre','descripcion','responsable','fecha_limite']
 def response(data=None, status=200, **extra):
     r=api.ok(data, **extra);r.status_code=status;r['Cache-Control']='private, no-store';return r
 
+def manager(user):
+    return bool(user.is_active and (user.is_superuser or (user.rol_id and user.rol.estado and user.rol.nombre.strip().casefold() in ['administrador', 'delegado'])))
+
 def permitted(request, action):
-    return api.allowed(request.user, 'hitos', action)
+    return api.allowed(request.user, 'hitos', action) and (action not in ['crear', 'editar', 'asignar'] or manager(request.user))
 
 def visible(request):
     qs=Hito.objects.filter(delegacion=api.active_delegation(request))
@@ -114,7 +117,7 @@ def handle_error(ex):
 def options(request):
     denied=domain.gate(request,'hitos','ver')
     if denied:return denied
-    return response(estados=ESTADOS_HITO, responsables=[dict(id=u.pk,nombre=name(u)) for u in people(request)] if permitted(request,'asignar') else [])
+    return response(puede_crear=permitted(request,'crear'), estados=ESTADOS_HITO, responsables=[dict(id=u.pk,nombre=name(u)) for u in people(request)] if permitted(request,'asignar') else [])
 
 def replay(request,key,digest):
     h=Hito.objects.filter(clave_idempotencia=key).first()
@@ -126,6 +129,7 @@ def replay(request,key,digest):
 def records(request,pk=None):
     denied=domain.gate(request,'hitos','ver' if request.method=='GET' else 'crear' if request.method=='POST' else 'editar')
     if denied:return denied
+    if request.method!='GET' and not manager(request.user):return api.error('Solo administrador y delegado pueden gestionar hitos.',403)
     if (request.method=='POST' and pk) or (request.method=='PATCH' and not pk):return api.error('Método no permitido.',405)
     try:
         if request.method=='GET':
@@ -166,6 +170,7 @@ def records(request,pk=None):
 def tasks(request,hito_id=None,pk=None,action=None):
     denied=domain.gate(request,'hitos','avanzar' if action=='avances' else 'asignar')
     if denied:return denied
+    if action!='avances' and not manager(request.user):return api.error('Solo administrador y delegado pueden gestionar las actividades del hito.',403)
     if (pk is None and request.method!='POST') or (action and request.method!='POST') or (pk and not action and request.method!='PATCH'):return api.error('Método no permitido.',405)
     try:
         data=api.body(request)
