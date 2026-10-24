@@ -82,3 +82,6 @@ urlpatterns += [path('ausencias/opciones/',absence_api.options),path('ausencias/
 
 from . import collective
 urlpatterns += [path('cumplimiento/colectivo/',collective.overview)]
+
+from . import weight_review
+urlpatterns += [path('configuraciones-metas/revision-ponderaciones/',weight_review.overview)]

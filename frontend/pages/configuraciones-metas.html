@@ -23,14 +23,25 @@
         <div>
           <p class="eyebrow">Catálogo y administración</p>
           <h1>Configuración de metas</h1>
-          <p class="sub">Asocia cada meta a un período registrado y abierto. El motor de cálculo no está incluido.</p>
+          <p class="sub">Define metas y ponderaciones por cargo y período. Revisa la pauta antes de utilizarla para una evaluación completa.</p>
         </div>
         <button class="button" type="button" id="btn-nuevo">+ Nueva meta</button>
       </div>
 
       <div class="notice" style="margin-bottom: 24px;">
-        Los períodos cerrados protegen sus metas. Las configuraciones antiguas sin calendario conservan su etiqueta histórica. Registrar una meta no calcula desempeño ni semáforos.
+        Los períodos cerrados protegen sus metas. Las configuraciones antiguas sin calendario conservan su etiqueta histórica. Registrar una meta no aprueba la pauta ni completa los componentes pendientes del puntaje integral.
       </div>
+
+      <section class="card" id="weight-review" aria-labelledby="weight-title" style="padding:24px; margin-bottom:24px; min-width:0;">
+        <h2 id="weight-title">Revisión de ponderaciones</h2>
+        <p>Comprueba cuánto suman los pesos de cada cargo. Esta revisión no cambia las metas.</p>
+        <div class="toolbar" style="padding:0; flex-wrap:wrap;">
+          <label for="weight-period"><span>Período de la pauta</span><select id="weight-period" style="max-width:100%;"><option value="">Selecciona un período…</option></select></label>
+          <button type="button" class="button secondary" id="weight-refresh">Revisar pauta</button>
+        </div>
+        <p id="weight-status" role="status" aria-live="polite">Cargando períodos…</p>
+        <div id="weight-results" style="min-width:0;"></div>
+      </section>
 
       <div class="card" style="padding: 0; margin-bottom: 24px;">
         <div class="toolbar">
@@ -113,7 +124,8 @@
   <script defer src="../assets/js/api-local.js"></script>
 <script defer src="../assets/js/modules/borradores.js"></script>
 <script defer src="../assets/js/components/layout.js?v=colectivo-2"></script>
-  <script defer src="../assets/js/modules/mantenedor-comun.js?v=metas-cargo-1"></script>
+  <script defer src="../assets/js/modules/mantenedor-comun.js?v=pauta-1"></script>
+  <script defer src="../assets/js/modules/revision-ponderaciones.js?v=1"></script>
   <script defer src="../assets/js/app.js"></script>
 </body>
 </html>
