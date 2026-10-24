@@ -1,0 +1,26 @@
+{
+  "version": "33fd14d9bb1ca654d7c6b69ab972b086f92ec94f",
+  "salud": "ok",
+  "resultados": [
+    {
+      "perfil": "Administrador",
+      "total": 1,
+      "realizados": 1,
+      "porcentaje": "100.00",
+      "vacio_neutral": true,
+      "movil": true,
+      "sin_errores_js": true,
+      "compromisos_sin_cambios": true
+    },
+    {
+      "perfil": "Funcionario",
+      "total": 0,
+      "realizados": 0,
+      "porcentaje": null,
+      "vacio_neutral": true,
+      "movil": true,
+      "sin_errores_js": true,
+      "compromisos_sin_cambios": true
+    }
+  ]
+}

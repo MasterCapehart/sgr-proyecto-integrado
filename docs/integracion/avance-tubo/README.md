@@ -1,6 +1,6 @@
 # Porcentaje de compromisos completados
 
-Implementado y verificado en local. No desplegado en AWS por este incremento. Sin migraciones ni cambios de datos productivos.
+Implementado, verificado en local y desplegado en AWS el 23/10/2026. Versión `33fd14d9bb1ca654d7c6b69ab972b086f92ec94f`. Sin migraciones ni cambios de datos productivos.
 
 ## Uso y alcance
 
@@ -21,3 +21,9 @@ Plan de pruebas de segunda evaluación, B3, CAL-C, página7. Fórmula del Excel 
 23 pruebas relacionadas correctas, con5 específicas de porcentaje, neutralidad, estados/filtros, redondeo/actualización y privacidad de persona/delegación. [Resultado local](pruebas-locales.txt). Se actualizó la prueba de contraste CAL-C para exigir80 % en la respuesta.
 
 Edge local:8/10=80 %, barra accesible, filtros, estado vacío y móvil sin desbordamiento ni errores JavaScript. Datos ficticios únicamente en SQLite local y base de pruebas temporal. Revisión independiente sin defectos concretos.
+
+## Verificación AWS
+
+[Resultados](aws-verificacion.json). Salud y versión correctas. Administrador:1 compromiso autorizado y realizado →100 %. Funcionario:sin compromisos autorizados →estado neutral, sin barra ni porcentaje numérico. Se compararon los conteos contra todas las páginas de registros autorizados. Filtro sin resultados, vista móvil sin desbordamiento y ausencia de errores JavaScript comprobados para ambos perfiles.
+
+Los compromisos consultados antes y después permanecen idénticos. No se guardaron compromisos de prueba ni se alteraron sus estados. La autenticación produce su auditoría normal. Sin migraciones nuevas; respaldo previo cifrado en S3 y servicios activos.
