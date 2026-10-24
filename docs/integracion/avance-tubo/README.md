@@ -27,3 +27,9 @@ Edge local:8/10=80 %, barra accesible, filtros, estado vacío y móvil sin desbo
 [Resultados](aws-verificacion.json). Salud y versión correctas. Administrador:1 compromiso autorizado y realizado →100 %. Funcionario:sin compromisos autorizados →estado neutral, sin barra ni porcentaje numérico. Se compararon los conteos contra todas las páginas de registros autorizados. Filtro sin resultados, vista móvil sin desbordamiento y ausencia de errores JavaScript comprobados para ambos perfiles.
 
 Los compromisos consultados antes y después permanecen idénticos. No se guardaron compromisos de prueba ni se alteraron sus estados. La autenticación produce su auditoría normal. Sin migraciones nuevas; respaldo previo cifrado en S3 y servicios activos.
+
+## Ajuste visual local posterior
+
+A petición del usuario se redujo el tamaño del indicador, con porcentaje lateral, barra fina, texto breve y tarjetas secundarias compactas. Se añadió una hoja de estilos limitada al componente del tubo; las otras vistas mantienen sus indicadores previos. Se actualizó la referencia de caché en las seis páginas publicadas que consumen el componente.
+
+Este ajuste visual está en local, pendiente de despliegue. No modifica cálculo ni datos. Vista comprobada en el navegador integrado con sesión de demostración iniciada y página del tubo abierta directamente. Para presentar futuras vistas locales, iniciar sesión mediante el acceso normal antes de entregar la página; no desactivar autenticación ni añadir un bypass.
