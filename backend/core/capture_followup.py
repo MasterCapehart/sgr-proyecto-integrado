@@ -40,6 +40,7 @@ def create(request,source,details,existing=None):
     obj=Compromiso(autor=request.user,delegacion=api.active_delegation(request))
     from .domain_api import apply_fields
     apply_fields(request,'compromisos',obj,values)
+    obj.vecino_id=getattr(source,'vecino_id',None)
     obj.save()
     from .auto_codes import operation_saved
     operation_saved(obj,'compromisos',request.user)
@@ -86,3 +87,16 @@ def origins(request,pk):
         qs=Atencion.objects.filter(compromiso=obj).filter(Q(delegacion=d)|Q(delegacion_responsable=d)).order_by('pk')
         for a in qs[:100]:rows.append(dict(tipo='atencion',id=a.pk,codigo=a.folio,descripcion=a.descripcion,url='/pages/atencion-detalle.html?id='+str(a.pk)))
     return api.ok(results=rows)
+
+
+@require_GET
+def source_options(request):
+    from .domain_api import gate,scoped
+    denied=gate(request,'compromisos','crear')
+    if denied:return denied
+    if not api.allowed(request.user,'actividades','ver'):return api.error('Sin permiso para consultar actividades.',403)
+    q=request.GET.get('q','').strip()
+    if len(q)<3:return api.ok(results=[])
+    qs=scoped(request,'actividades').filter(Q(solicitud__icontains=q)|Q(contacto__icontains=q)|Q(codigo__icontains=q))
+    if not api.allowed(request.user,'actividades','editar_equipo'):qs=qs.filter(autor=request.user)
+    return api.ok(results=[dict(id=a.pk,codigo=a.codigo,solicitud=a.solicitud,contacto=a.contacto,sector=a.sector,fecha=str(a.fecha),vecino=a.vecino_id,compromiso=a.compromiso_id) for a in qs[:20]])

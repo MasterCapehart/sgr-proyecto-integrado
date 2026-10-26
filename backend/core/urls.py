@@ -85,3 +85,5 @@ urlpatterns += [path('cumplimiento/colectivo/',collective.overview)]
 
 from . import weight_review
 urlpatterns += [path('configuraciones-metas/revision-ponderaciones/',weight_review.overview)]
+
+urlpatterns += [path('seguimiento/registros/',capture_followup.source_options)]

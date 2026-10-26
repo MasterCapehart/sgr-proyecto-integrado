@@ -35,7 +35,7 @@ def prior(request,key,digest):
 
 @require_POST
 def search(request):
- denied=domain.gate(request,'vecinos','crear') if api.allowed(request.user,'vecinos','crear') else domain.gate(request,'actividades','crear')
+ denied=domain.gate(request,'vecinos','crear') if api.allowed(request.user,'vecinos','crear') else domain.gate(request,'compromisos','crear') if api.allowed(request.user,'compromisos','crear') else domain.gate(request,'actividades','crear')
  if denied:return denied
  try:
   data=api.body(request);q=data.get('q','')

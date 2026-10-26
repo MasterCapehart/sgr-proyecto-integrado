@@ -17,7 +17,7 @@ from .models import Actividad, Evidencia, Compromiso, RevisionEvidencia, Seguimi
 MODELS={'actividades':Actividad,'evidencias':Evidencia,'compromisos':Compromiso}
 FIELDS={
  'actividades':['fecha','solicitud','accion','contacto','telefono','sector','item','compromiso','unidad','plantilla','profesional','junta_vecinos','rut_contacto','beneficiario_usuario'],
- 'compromisos':['fecha_solicitud','descripcion','solicitante','sector','responsable','fecha_comprometida','area_apoyo','origen','estado','unidad','codigo_verificacion_foto'],
+ 'compromisos':['vecino','fecha_solicitud','descripcion','solicitante','sector','responsable','fecha_comprometida','area_apoyo','origen','estado','unidad','codigo_verificacion_foto'],
 }
 
 def scoped(request,resource):
@@ -67,7 +67,14 @@ def apply_fields(request,resource,obj,data):
     for field in FIELDS[resource]:
         if field not in data:continue
         value=data[field]
-        if field in ['item','compromiso','responsable','profesional','beneficiario_usuario']:
+        if field=='vecino':
+            from .models import Vecino
+            if value in ('',None):obj.vecino=None;continue
+            if isinstance(value,bool) or not str(value).isdigit():raise ValidationError('Selecciona un vecino válido.')
+            related=Vecino.objects.filter(pk=value,delegacion=obj.delegacion).first()
+            if related is None or (not related.activo and obj.vecino_id!=related.pk):raise ValidationError('El vecino no está disponible en esta delegación.')
+            obj.vecino=related
+        elif field in ['item','compromiso','responsable','profesional','beneficiario_usuario']:
             if field in ['compromiso','profesional','beneficiario_usuario'] and value in ('',None):setattr(obj,field,None);continue
             if isinstance(value,bool) or not str(value).isdigit():raise ValidationError('Referencia inválida.')
             if resource=='compromisos' and field=='responsable':
@@ -99,6 +106,7 @@ def apply_fields(request,resource,obj,data):
             if field=='fecha_solicitud' and value in ('',None):obj.fecha_solicitud=None;continue
             if not isinstance(value,str) or not value.strip():raise ValidationError(f'{field}: campo obligatorio de texto.')
             setattr(obj,field,value.strip())
+    if resource=='compromisos' and obj.vecino_id and ('vecino' in data or not obj.pk):obj.solicitante=obj.vecino.nombre
     if resource=='actividades':
         import re
         if obj.telefono and not re.fullmatch(r'\+?[0-9 ()-]{8,20}',obj.telefono):raise ValidationError('Teléfono inválido.')
@@ -201,6 +209,7 @@ def records(request,resource,pk=None,action=None):
             return upload(request)
         data=api.body(request)
         raw_data=dict(data)
+        source_id=data.pop('actividad_origen',None) if resource=='compromisos' and request.method=='POST' else None
         from .capture_followup import fingerprint
         capture_key=data.pop('clave_idempotencia',None) if resource=='actividades' and request.method=='POST' else None
         if capture_key is not None and (not isinstance(capture_key,str) or not capture_key.strip() or len(capture_key)>64):raise ValidationError('Clave de idempotencia inválida.')
@@ -212,6 +221,15 @@ def records(request,resource,pk=None,action=None):
             owner=qs.filter(pk=pk).values_list('autor_id',flat=True).first() if pk else request.user.pk
             if owner:ensure_author(owner)
         with transaction.atomic():
+            source=None
+            if source_id is not None:
+                if isinstance(source_id,bool) or not str(source_id).isdigit():raise ValidationError('Selecciona un registro de origen válido.')
+                if not api.allowed(request.user,'actividades','ver'):return api.error('Sin permiso para consultar el registro de origen.',403)
+                source=scoped(request,'actividades').select_for_update().filter(pk=source_id).first()
+                if source is None:return api.error('Registro de origen no encontrado.',404)
+                if source.autor_id!=request.user.pk and not api.allowed(request.user,'actividades','editar_equipo'):return api.error('Sin permiso para vincular este registro.',403)
+                if source.compromiso_id or (source.atencion_id and source.atencion.compromiso_id):return api.error('Este registro ya tiene un compromiso en el tubo. Abre su seguimiento.',409)
+                data.update(descripcion=source.solicitud,solicitante=source.contacto,sector=source.sector,fecha_solicitud=str(source.fecha),vecino=source.vecino_id)
             if resource=='actividades' and owner:lock_author(owner)
             if capture_key:
                 prior=Actividad.objects.select_for_update().filter(clave_idempotencia=capture_key).first()
@@ -261,6 +279,12 @@ def records(request,resource,pk=None,action=None):
                 validate_transition(request,obj,before,data)
             if before:obj.version+=1
             obj.save()
+            if source is not None:
+                source.compromiso=obj;source.version+=1;source.save(update_fields=['compromiso','version'])
+                if source.atencion_id:
+                    type(source.atencion).objects.filter(pk=source.atencion_id).update(compromiso=obj)
+                obj.codigo_verificacion_foto=source.codigo;obj.save(update_fields=['codigo_verificacion_foto'])
+                api.record_event(request,'actividades',source.pk,'editar',None,representation(source))
             if resource=='actividades' and obj.atencion_id:
                 type(obj.atencion).objects.filter(pk=obj.atencion_id).update(elegibilidad_snapshot=obj.elegibilidad_snapshot)
             if not before:

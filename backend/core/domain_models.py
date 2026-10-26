@@ -28,6 +28,7 @@ class RegistroOperativo(models.Model):
         ordering = ['-id']
 
 class Compromiso(RegistroOperativo):
+    vecino = models.ForeignKey("core.Vecino", null=True, blank=True, on_delete=models.PROTECT, related_name="compromisos")
     unidad = models.PositiveIntegerField(default=1)
     codigo_verificacion_foto = models.CharField(max_length=100,blank=True,default='')
     cierre_actual = models.ForeignKey("core.CierreCompromiso",null=True,blank=True,on_delete=models.PROTECT,related_name="+")
