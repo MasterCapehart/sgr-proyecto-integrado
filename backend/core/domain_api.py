@@ -7,7 +7,7 @@ from pathlib import Path
 from django.core.exceptions import ValidationError, PermissionDenied
 from django.core.paginator import Paginator
 from django.db import transaction, IntegrityError
-from django.db.models import Q
+from django.db.models import Q, Case, When, Value, IntegerField
 from django.http import FileResponse, HttpResponse
 from django.utils import timezone
 from django.views.decorators.http import require_http_methods
@@ -21,7 +21,15 @@ FIELDS={
 }
 
 def scoped(request,resource):
-    qs=MODELS[resource].objects.filter(delegacion=api.active_delegation(request)).order_by('fecha_comprometida','id') if resource=='compromisos' else MODELS[resource].objects.filter(delegacion=api.active_delegation(request)).order_by('-id')
+    qs=MODELS[resource].objects.filter(delegacion=api.active_delegation(request))
+    if resource=='compromisos':
+        qs=qs.annotate(prioridad_tubo=Case(
+            When(estado='Realizado',then=Value(4)),
+            When(fecha_comprometida__lt=timezone.localdate(),then=Value(0)),
+            When(estado='Ingresado',then=Value(1)),
+            When(estado='Pendiente',then=Value(2)),
+            default=Value(3),output_field=IntegerField())).order_by('prioridad_tubo','fecha_comprometida','id')
+    else:qs=qs.order_by('-id')
     if not api.allowed(request.user,resource,'ver_equipo') and not (resource=='evidencias' and api.allowed(request.user,'evidencias','revisar')):
         if resource=='compromisos': qs=qs.filter(Q(autor=request.user)|Q(responsable=request.user))
         elif resource=='evidencias': qs=qs.filter(actividad__autor=request.user)
@@ -54,6 +62,12 @@ def representation(obj):
         r['seguimientos']=[{'fecha':x.fecha.isoformat(),'autor':x.autor.username,'estado_anterior':x.estado_anterior,'estado_nuevo':x.estado_nuevo,'observacion':x.observacion,'fecha_anterior':str(x.fecha_anterior),'fecha_nueva':str(x.fecha_nueva),'responsable_anterior':x.responsable_anterior.username,'responsable_nuevo':x.responsable_nuevo.username} for x in obj.seguimientos.select_related('autor','responsable_anterior','responsable_nuevo')]
     else:
         r.update(actividad=obj.actividad_id,codigo_actividad=obj.actividad.codigo,descripcion=obj.descripcion,nombre_archivo=obj.nombre_archivo,tamano=obj.tamano,sha256=obj.sha256,reemplaza=obj.reemplaza_id,vigente=not hasattr(obj,'siguiente_version'),archivo_url=f'/api/operacion/evidencias/{obj.pk}/archivo/')
+        a=obj.actividad
+        r['actividad_autor']=a.autor_id
+        r['actividad_solicitud']=a.solicitud
+        r['actividad_contexto']=dict(id=a.pk,codigo=a.codigo,fecha=str(a.fecha),solicitud=a.solicitud,accion=a.accion,sector=a.sector,estado=a.estado)
+        states=list(a.evidencias.filter(siguiente_version__isnull=True).exclude(estado='Anulada').values_list('estado',flat=True))
+        r['revision_resumen']=dict(total=len(states),aprobadas=states.count('Aprobada'),pendientes=states.count('Pendiente'),correcciones=states.count('Corrección'),rechazadas=states.count('Rechazada'))
         r['revisiones']=[{'fecha':x.fecha.isoformat(),'autor':x.autor.username,'decision':x.decision,'observacion':x.observacion,'version_evidencia':x.version_evidencia} for x in obj.revisiones.select_related('autor')]
     return json.loads(json.dumps(r,cls=DjangoJSONEncoder))
 
@@ -385,6 +399,7 @@ def review(request,pk):
             activity=Actividad.objects.select_for_update().get(pk=obj.actividad_id)
             current=activity.evidencias.filter(siguiente_version__isnull=True)
             states=set(current.exclude(estado='Anulada').values_list('estado',flat=True));activity.estado='Validada' if states=={'Aprobada'} else 'Corrección' if 'Corrección' in states else 'Rechazada' if 'Rechazada' in states else 'Pendiente';activity.version+=1;activity.save()
+            obj.actividad=activity
             api.record_event(request,'evidencias',obj.pk,'revisar',before,representation(obj))
             api.record_event(request,'actividades',activity.pk,'validar',None,representation(activity))
         return api.ok(representation(obj))

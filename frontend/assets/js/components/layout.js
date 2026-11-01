@@ -185,7 +185,7 @@
               }
               try {
                 await SGRApi.send('/api/contexto/cambiar-delegacion/', { delegacion_id: Number(select.value) });
-                SGRDrafts.cleanAll();
+                window.SGRDrafts?.cleanAll();
                 location.reload();
               } catch (e) {
                 select.value = previous;
@@ -254,7 +254,7 @@
             })).isConfirmed) return;
             try {
               await SGRApi.send('/api/logout/', {});
-              SGRDrafts.cleanAll();
+              window.SGRDrafts?.cleanAll();
               sessionStorage.clear();
               location.href = basePath + 'pages/login.html';
             } catch (e) {

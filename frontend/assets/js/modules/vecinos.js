@@ -40,7 +40,9 @@ window.SGRNeighbors = {
         }
       } catch(error) { if (requestVersion === version) message(error.message); }
     }
-    $('neighbor-find').onclick = search;
+    let searchTimer;
+    $('neighbor-search').addEventListener('input',()=>{clearTimeout(searchTimer);version++;$('neighbor-results').replaceChildren();if($('neighbor-search').value.trim().length>=3)searchTimer=setTimeout(search,300);else message('Escribe al menos tres letras del nombre o el RUN completo.');});
+    $('neighbor-find').onclick = ()=>{clearTimeout(searchTimer);search();};
     $('neighbor-search').onkeydown = event => { if (event.key === 'Enter') { event.preventDefault(); search(); } };
     $('neighbor-clear').onclick = () => {
       selected = null; version++; affiliations.hidden=true;affiliations.replaceChildren(); $('contact').readOnly = false; $('run').readOnly = false;
