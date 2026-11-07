@@ -1,0 +1,17 @@
+Hola, {{ nombre }}:
+
+Te confirmamos que la contraseña de tu cuenta en el Sistema de Gestión de Resultados (SGR) se cambió el {{ fecha_cambio }}.
+
+Usuario: {{ usuario }}
+
+Los enlaces y códigos que se hayan enviado antes de este cambio ya no son válidos.
+
+Si fuiste tú, no necesitas hacer nada.
+Si no reconoces este cambio, solicita de inmediato la recuperación de contraseña en {{ url_recuperacion }} y avisa al administrador de tu delegación.
+
+Este correo no contiene tu contraseña. El SGR nunca te la pedirá por correo.
+
+No respondas a este mensaje.
+
+Sistema de Gestión de Resultados (SGR)
+{{ nombre_institucion }}
