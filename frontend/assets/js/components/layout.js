@@ -46,7 +46,7 @@
     ['vecinos','vecinos','Vecinos','vecinos.ver'],
     ['organizaciones','organizaciones','Juntas y organizaciones','organizaciones.ver'],
     ['alertas', 'alertas', 'Alertas operativas', 'alertas.ver'],
-    ['gobierno', 'gobierno', 'Reglas y permisos', 'gobierno.ver'],
+    ['gobierno', 'gobierno', 'Reglas del flujo', 'gobierno.ver'],
     ['reclamos', 'reclamos', 'Reclamos y felicitaciones', 'reclamos.ver'],
     ['actividades', 'desempeno', 'Mi planilla de trabajo', 'actividades.ver'],
     ['evidencias', 'evidencias', 'Evidencias', 'evidencias.ver'],
@@ -210,6 +210,20 @@
               c.permisos.includes(id + '.ver') &&
               !['crear', 'editar', 'desactivar','configurar'].some(action => c.permisos.includes(id + '.' + action))
             );
+            // DA06: la miga de estos catálogos muestra el mismo grupo que el menú para el perfil.
+            const da06Catalogs = ['clasificacion-actividades', 'tipos-atencion', 'subatenciones'];
+            if (da06Catalogs.includes(currentPage)) {
+              const sectionName = readOnlyCatalogs.includes(currentPage) ? 'Catálogos de consulta' : 'Administración';
+              const syncCrumb = () => {
+                const crumb = document.querySelector('#main-content .crumb');
+                if (!crumb || !/^SGR \/ [^/]+ \//.test(crumb.textContent)) return;
+                const fixed = crumb.textContent.replace(/^SGR \/ [^/]+ \//, 'SGR / ' + sectionName + ' /');
+                if (crumb.textContent !== fixed) crumb.textContent = fixed;
+              };
+              syncCrumb();
+              const mainEl = document.getElementById('main-content');
+              if (mainEl) new MutationObserver(syncCrumb).observe(mainEl, { childList: true, subtree: true });
+            }
             const groups = [
               ['Gestión diaria', ['actividades', 'atencion', 'casos-sociales', 'compromisos', 'reclamos']],
               ['Planificación', ['hitos']],

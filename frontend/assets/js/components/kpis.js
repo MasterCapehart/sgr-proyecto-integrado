@@ -34,7 +34,7 @@
     section.classList.toggle('has-tube-completion',Boolean(data.completion));
 
     const heading = node('div', 'kpi-heading');
-    heading.append(node('h2', null, data.completion?'Avance del tubo':'Resumen operativo'), node('span', 'kpi-context', 'Datos reales · Delegación activa'));
+    heading.append(node('h2', null, data.completion?'Avance del tubo':'Resumen operativo'), node('span', 'kpi-context', 'Datos del sistema · Delegación activa'));
     if(!data.completion)section.append(heading);
 
     if (data.completion) {
