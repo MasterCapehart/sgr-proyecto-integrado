@@ -77,3 +77,11 @@ class TrackingIncrementTests(TestCase):
   target=Usuario.objects.create_user('destino_no_autorizado',delegacion=self.d)
   r=self.send('/api/operacion/compromisos/',dict(descripcion='Prueba negativa',sector='QA',responsable=target.pk,fecha_comprometida=str(timezone.localdate()),origen='Interno'))
   self.assertEqual(r.status_code,403,r.content)
+
+ def test_fecha_social_respeta_dia_local_santiago(self):
+  from datetime import datetime,timezone as dt_timezone
+  from .models import Atencion
+  from .tracking import shared_values
+  a=Atencion(fecha_registro=datetime(2026,11,14,1,0,tzinfo=dt_timezone.utc),descripcion='QA',solicitante='QA')
+  with timezone.override('America/Santiago'):
+   self.assertEqual(str(shared_values(a)['fecha_solicitud']),'2026-11-13')

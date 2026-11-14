@@ -9,7 +9,7 @@ def shared_values(source):
  if isinstance(source,Actividad):
   return dict(descripcion=source.solicitud,solicitante=source.contacto,fecha_solicitud=source.fecha,telefono=source.telefono,rut=source.rut_contacto,sector=source.sector,vecino_id=source.vecino_id,territorio_catalogo_id=source.territorio_catalogo_id)
  if isinstance(source,Atencion):
-  return dict(descripcion=source.descripcion,solicitante=source.solicitante,fecha_solicitud=source.fecha_registro.date() if source.fecha_registro else timezone.localdate(),telefono=source.telefono_solicitante,rut=source.rut_solicitante,sector='',vecino_id=None,territorio_catalogo_id=None)
+  return dict(descripcion=source.descripcion,solicitante=source.solicitante,fecha_solicitud=timezone.localtime(source.fecha_registro).date() if source.fecha_registro else timezone.localdate(),telefono=source.telefono_solicitante,rut=source.rut_solicitante,sector='',vecino_id=None,territorio_catalogo_id=None)
  return dict(descripcion=source.descripcion,solicitante=source.solicitante,fecha_solicitud=source.fecha_solicitud,telefono=(source.vecino.telefono if source.vecino_id else ''),rut=(source.vecino.rut or '' if source.vecino_id else ''),sector=source.sector,vecino_id=source.vecino_id,territorio_catalogo_id=source.territorio_catalogo_id)
 
 def validate_link(request,source,commitment):

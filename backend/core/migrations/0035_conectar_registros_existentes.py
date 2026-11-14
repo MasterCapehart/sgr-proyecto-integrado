@@ -1,6 +1,7 @@
 """Conecta referencias inequívocas sin inventar asignaciones ni datos históricos."""
 import uuid
 from django.db import migrations
+from django.utils import timezone
 
 def connect(apps,schema_editor):
  db=schema_editor.connection.alias
@@ -22,7 +23,7 @@ def connect(apps,schema_editor):
   if a.compromiso_id and Activity.objects.using(db).filter(compromiso_id=a.compromiso_id).count()==1 and not Attention.objects.using(db).filter(compromiso_id=a.compromiso_id).exclude(pk=a.atencion_id).exists():
    Commitment.objects.using(db).filter(pk=a.compromiso_id,registro_gestion__isnull=True).update(registro_gestion_id=r.pk)
  for a in Attention.objects.using(db).filter(registro_gestion__isnull=True).order_by('pk').iterator():
-  r=create(a,'Gestión social',a.descripcion,a.solicitante,a.fecha_registro.date(),telefono=a.telefono_solicitante,rut=a.rut_solicitante)
+  r=create(a,'Gestión social',a.descripcion,a.solicitante,timezone.localtime(a.fecha_registro).date(),telefono=a.telefono_solicitante,rut=a.rut_solicitante)
   Attention.objects.using(db).filter(pk=a.pk).update(registro_gestion_id=r.pk)
   if a.compromiso_id and not Activity.objects.using(db).filter(compromiso_id=a.compromiso_id).exists() and Attention.objects.using(db).filter(compromiso_id=a.compromiso_id).count()==1:
    Commitment.objects.using(db).filter(pk=a.compromiso_id,registro_gestion__isnull=True).update(registro_gestion_id=r.pk)
