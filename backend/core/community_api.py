@@ -9,10 +9,10 @@ from . import local_api as api,domain_api as domain,neighbors
 from .capture_followup import fingerprint
 from .models import Vecino,OrganizacionComunitaria as Organizacion,PertenenciaOrganizacion as Pertenencia
 
-ORG_FIELDS=('nombre','tipo','domicilio_legal','territorio','socios_activos','fecha_constitucion','registro_personalidad_juridica','fecha_inscripcion','numero_registro')
+ORG_FIELDS=('territorio_catalogo','nombre','tipo','domicilio_legal','territorio','socios_activos','fecha_constitucion','registro_personalidad_juridica','fecha_inscripcion','numero_registro')
 
-def org_data(o):return dict(id=o.pk,version=o.version,activo=o.activo,delegacion=o.delegacion_id,**{f:getattr(o,f) for f in ORG_FIELDS})
-def membership_data(p):return dict(id=p.pk,version=p.version,activo=p.activo,vecino=p.vecino_id,vecino_nombre=p.vecino.nombre,vecino_activo=p.vecino.activo,organizacion=p.organizacion_id,organizacion_nombre=p.organizacion.nombre,organizacion_activa=p.organizacion.activo,rol=p.rol)
+def org_data(o):return dict(id=o.pk,version=o.version,activo=o.activo,codigo=str(o.codigo),creado=o.creado.isoformat(),modificado=o.modificado.isoformat(),delegacion=o.delegacion_id,**{f:(o.territorio_catalogo_id if f=='territorio_catalogo' else getattr(o,f)) for f in ORG_FIELDS})
+def membership_data(p):return dict(id=p.pk,version=p.version,activo=p.activo,vecino=p.vecino_id,vecino_nombre=p.vecino.nombre,vecino_activo=p.vecino.activo,organizacion=p.organizacion_id,organizacion_nombre=p.organizacion.nombre,organizacion_activa=p.organizacion.activo,creado=p.creado.isoformat(),modificado=p.modificado.isoformat(),rol=p.rol,cargo_especifico=p.cargo_especifico,fecha_incorporacion=str(p.fecha_incorporacion) if p.fecha_incorporacion else None)
 def neighbor_data(o):
  d=neighbors.representation(o);d['pertenencias']=[membership_data(p) for p in o.pertenencias.select_related('vecino','organizacion')];return d
 
@@ -30,11 +30,15 @@ def serialize(resource,obj):return {'vecinos':neighbor_data,'organizaciones':org
 def fields(obj,data,allowed):
  for f,v in data.items():
   if f not in allowed:raise ValidationError('Campo no editable: '+f)
+  if f=='territorio_catalogo':
+   from .territories import bind
+   bind(obj,v)
+   continue
   if f=='socios_activos':
    if v in ['',None]:v=None
    elif isinstance(v,bool) or not str(v).isdigit():raise ValidationError('Socios activos debe ser un entero no negativo.')
    else:v=int(v)
-  elif f in ['fecha_constitucion','fecha_inscripcion']:
+  elif f in ['fecha_constitucion','fecha_inscripcion','fecha_incorporacion']:
    if v in ['',None]:v=None
    elif not isinstance(v,str):raise ValidationError('Fecha inválida.')
   else:
@@ -91,7 +95,9 @@ def resource(request,resource,pk=None,action=None):
    if obj and not obj.activo:raise ValidationError('Reactiva el registro antes de editarlo.')
    if resource=='vecinos':
     if not obj:raise ValidationError('Usa el formulario de registro de vecinos.')
-    fields(obj,data,neighbors.EDIT_FIELDS)
+    if set(data)&{'nombre','nombres','apellidos','correo'}:neighbors.identity(data,obj)
+    if data.get('correo') and scoped(request,'vecinos').filter(correo__iexact=data['correo']).exclude(pk=obj.pk).exists():return api.error('Este correo ya está registrado en la delegación.',409)
+    fields(obj,data,neighbors.EDIT_FIELDS+('territorio_catalogo',))
    elif resource=='organizaciones':
     if obj:fields(obj,data,ORG_FIELDS)
     else:
@@ -103,16 +109,16 @@ def resource(request,resource,pk=None,action=None):
    else:
     if obj:
      if not obj.vecino.activo or not obj.organizacion.activo:raise ValidationError('No puedes cambiar una pertenencia con vecino u organización inactivos.')
-     fields(obj,data,('rol',))
+     fields(obj,data,('rol','cargo_especifico','fecha_incorporacion'))
     else:
-     if set(data)-{'vecino','organizacion','rol'}:raise ValidationError('Hay campos no editables.')
+     if set(data)-{'vecino','organizacion','rol','cargo_especifico','fecha_incorporacion'}:raise ValidationError('Hay campos no editables.')
      ids=[data.get('vecino'),data.get('organizacion')]
      if any(isinstance(v,bool) or not str(v).isdigit() for v in ids):raise ValidationError('Selecciona vecino y organización.')
      v=scoped(request,'vecinos').select_for_update().filter(pk=ids[0]).first();o=scoped(request,'organizaciones').select_for_update().filter(pk=ids[1]).first()
      if v is None or o is None:return api.error('Vecino u organización no encontrados.',404)
      if not v.activo or not o.activo:raise ValidationError('Vecino y organización deben estar activos.')
      if Pertenencia.objects.filter(vecino=v,organizacion=o).exists():return api.error('La pertenencia ya existe. Consúltala o reactívala.',409)
-     obj=Pertenencia(vecino=v,organizacion=o,rol=data.get('rol',''),creado_por=request.user);obj.full_clean()
+     obj=Pertenencia(vecino=v,organizacion=o,rol=data.get('rol',''),cargo_especifico=data.get('cargo_especifico',''),fecha_incorporacion=data.get('fecha_incorporacion') or None,creado_por=request.user);obj.full_clean()
    if pk:obj.version+=1
    obj.save();api.record_event(request,resource,obj.pk,'editar' if pk else 'crear',before,serialize(resource,obj));r=response(serialize(resource,obj));r.status_code=200 if pk else 201;return r
  except IntegrityError:

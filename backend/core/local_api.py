@@ -28,14 +28,14 @@ from .models import (Delegacion, Rol, Usuario, TipoAtencion, SubAtencion, ItemMe
 logger = logging.getLogger(__name__)
 
 RESOURCES = {
- 'periodos': (PeriodoGestion, ['codigo','nombre','fecha_inicio','fecha_fin','estado']),
- 'cargos': (Cargo, ['codigo','nombre','area','planilla','estado']),
- 'delegaciones': (Delegacion, ['codigo','nombre','direccion','comuna','estado']),
+ 'periodos': (PeriodoGestion, ['anio','numero','codigo','nombre','fecha_inicio','fecha_fin','estado']),
+ 'cargos': (Cargo, ['descripcion','codigo','nombre','area','planilla','estado']),
+ 'delegaciones': (Delegacion, ['delegado','codigo','nombre','direccion','comuna','estado']),
  'roles': (Rol, ['nombre','descripcion','alcance','permisos','estado']),
  'usuarios': (Usuario, ['username','first_name','last_name','email','rut','rol','cargo','delegacion','delegaciones','is_active']),
  'tipos-atencion': (TipoAtencion, ['codigo','nombre','descripcion','estado']),
  'subatenciones': (SubAtencion, ['codigo','nombre','descripcion','tipo_atencion','estado']),
- 'items-metas': (ItemMeta, ['codigo','nombre','descripcion','unidad_medida','cargos','estado']),
+ 'items-metas': (ItemMeta, ['tipo','requiere_evidencia','codigo','nombre','descripcion','unidad_medida','cargos','estado']),
  'configuraciones-metas': (ConfiguracionMeta, ['item','cargo','periodo','periodo_gestion','meta_esperada','ponderacion','estado']),
  'atenciones': (Atencion, ['folio','solicitante','tipo_atencion','sub_atencion','descripcion','delegacion','delegacion_responsable','usuario','fecha_registro','caso_social','numero_gestion','rut_solicitante','telefono_solicitante','requiere_visita','fecha_visita','fecha_entrega_informe','fecha_entrega_beneficio','gestion_realizada','fecha_visita_programada','fecha_visita_realizada','tipo_gestion','compromiso','estado']),
 }
@@ -89,6 +89,10 @@ def serialize(obj, fields):
         result['elegibilidad']=display(obj)
         linked=getattr(obj,'actividad_origen',None)
         result.update(actividad=linked.pk if linked else None,junta_vecinos=linked.junta_vecinos if linked else '')
+        if obj.registro_gestion_id:
+            registry=obj.registro_gestion
+            result.update(descripcion=registry.descripcion,solicitante=registry.solicitante,telefono_solicitante=registry.telefono,rut_solicitante=registry.rut,registro_gestion=registry.pk,version_gestion=registry.version)
+            if linked:result['gestion_realizada']=linked.accion
         snapshot=obj.catalogos_snapshot or {}
         result.update(usuario_nombre=obj.usuario.get_full_name() or obj.usuario.username,tipo_nombre=snapshot.get('tipo_atencion',{}).get('nombre',obj.tipo_atencion.nombre),subatencion_nombre=snapshot.get('sub_atencion',{}).get('nombre',obj.sub_atencion.nombre),catalogos_snapshot=snapshot or None,historia_catalogos='Captura posterior; etiqueta original no garantizada' if snapshot.get('observada') else 'Captura al registrar' if snapshot else 'Sin captura histórica; etiqueta actual')
     if isinstance(obj,Usuario): result['estado']=obj.is_active; result['nombre']=obj.get_full_name() or obj.username
@@ -233,6 +237,8 @@ def options(request):
             'items-metas':list(ItemMeta.objects.filter(estado=True).values('id','nombre','codigo'))}
     if allowed(request.user,'usuarios','crear') or allowed(request.user,'usuarios','editar'):
         result['roles']=list(Rol.objects.filter(estado=True).values('id','nombre'))
+    if allowed(request.user,'delegaciones','editar') or allowed(request.user,'delegaciones','crear'):
+        result['delegados']=[{'id':u.pk,'nombre':u.get_full_name() or u.username} for u in Usuario.objects.filter(is_active=True).filter(Q(delegacion__in=delegations(request.user))|Q(delegaciones__in=delegations(request.user))).distinct()]
     if allowed(request.user,'roles'): result['permisos']=PERMISSIONS
     return ok(result)
 
@@ -261,6 +267,22 @@ def validate_data(obj, data, resource, request, creating=False):
             if f.get_internal_type() in ['CharField','TextField','EmailField'] and value is not None and not isinstance(value,str): raise ValidationError({key:'Se requiere texto.'})
             if f.get_internal_type()=='BooleanField' and not isinstance(value,bool): raise ValidationError({key:'Debe ser verdadero o falso.'})
             setattr(obj,key,value.strip() if isinstance(value,str) else value)
+    if isinstance(obj,Delegacion) and obj.delegado_id:
+        if not obj.delegado.is_active or not (obj.delegado.delegacion_id==obj.pk or obj.pk and obj.delegado.delegaciones.filter(pk=obj.pk).exists()):raise ValidationError({'delegado':'Selecciona un delegado activo de esta delegación.'})
+    if isinstance(obj,PeriodoGestion):
+        # Legacy periods without quarter metadata remain readable; new quarter fields are strictly validated.
+        if obj.anio is not None or obj.numero is not None:
+            if isinstance(obj.anio,bool) or isinstance(obj.numero,bool):raise ValidationError('Año y trimestre deben ser enteros.')
+            try:obj.anio=int(obj.anio);obj.numero=int(obj.numero)
+            except (TypeError,ValueError):raise ValidationError('Indica año y número del trimestre.')
+            from datetime import date
+            import calendar
+            try:
+                start=date(obj.anio,(obj.numero-1)*3+1,1)
+                end=date(obj.anio,obj.numero*3,calendar.monthrange(obj.anio,obj.numero*3)[1])
+            except (ValueError,TypeError):raise ValidationError('Trimestre inválido: número de 1 a 4 y año válido.')
+            if str(obj.fecha_inicio)!=str(start) or str(obj.fecha_fin)!=str(end):raise ValidationError({'fecha_inicio':'Las fechas deben coincidir con el año y trimestre seleccionados.'})
+            if PeriodoGestion.objects.filter(anio=obj.anio,numero=obj.numero).exclude(pk=obj.pk).exists():raise ValidationError('Ya existe este año y trimestre.')
     missing={key:['Campo obligatorio.'] for key in ['codigo','nombre'] if hasattr(obj,key) and not getattr(obj,key)}
     if missing: raise ValidationError(missing)
     for key in ['codigo','nombre']:
@@ -497,6 +519,11 @@ def create_attention(request,data):
     try:validate_social(obj,data)
     except ValidationError as ex:return error('; '.join(ex.messages))
     with transaction.atomic():
+        if obj.compromiso_id:
+            from .tracking import validate_link
+            from .models import Compromiso
+            obj.compromiso=Compromiso.objects.select_for_update().get(pk=obj.compromiso_id)
+            validate_link(request,obj,obj.compromiso)
         if data.get('nuevo_caso'):
             from .auto_codes import assign
             case=CasoSocial.objects.create(codigo='TMP-'+uuid.uuid4().hex,solicitante=' '.join(obj.solicitante.casefold().split()))
@@ -525,6 +552,8 @@ def create_attention(request,data):
         from .eligibility import legacy_attention
         obj.elegibilidad_snapshot=legacy_attention(obj)
         obj.full_clean();obj.save()
+        from .tracking import sync_source
+        sync_source(obj)
         from .auto_codes import assign
         assign(obj,'folio','AT',timezone.localdate())
         from .capture_followup import finish

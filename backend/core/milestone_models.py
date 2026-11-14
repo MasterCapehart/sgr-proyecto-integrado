@@ -6,6 +6,9 @@ from django.db import models
 ESTADOS_HITO = ['Planificado', 'En preparación', 'En ejecución', 'Finalizado', 'Cancelado']
 
 class Hito(models.Model):
+    codigo=models.UUIDField(default=uuid.uuid4,unique=True,editable=False)
+    activo=models.BooleanField(default=True)
+    territorio_catalogo=models.ForeignKey("core.Territorio",null=True,blank=True,on_delete=models.PROTECT,related_name="hito_registros")
     delegacion = models.ForeignKey('core.Delegacion', on_delete=models.PROTECT)
     nombre = models.CharField(max_length=200)
     descripcion = models.TextField(max_length=5000)
@@ -20,6 +23,7 @@ class Hito(models.Model):
     hito_anterior = models.ForeignKey('self', null=True, blank=True, on_delete=models.PROTECT)
     autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='+')
     creado = models.DateTimeField(auto_now_add=True)
+    modificado = models.DateTimeField(auto_now=True)
     version = models.PositiveIntegerField(default=1, editable=False)
     clave_idempotencia = models.CharField(max_length=64, unique=True, default=uuid.uuid4, editable=False)
     captura_hash = models.CharField(max_length=64, editable=False)
@@ -36,6 +40,7 @@ class TareaHito(models.Model):
     compromiso = models.OneToOneField('core.Compromiso', null=True, blank=True, on_delete=models.PROTECT, related_name='tarea_hito')
     autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='+')
     creado = models.DateTimeField(auto_now_add=True)
+    modificado = models.DateTimeField(auto_now=True)
     version = models.PositiveIntegerField(default=1, editable=False)
     class Meta:
         ordering = ['fecha_limite', 'pk']
@@ -47,5 +52,6 @@ class AvanceHito(models.Model):
     porcentaje = models.PositiveSmallIntegerField()
     observacion = models.TextField(max_length=2000)
     creado = models.DateTimeField(auto_now_add=True)
+    modificado = models.DateTimeField(auto_now=True)
     class Meta:
         ordering = ['-pk']

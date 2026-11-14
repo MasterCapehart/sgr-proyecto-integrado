@@ -1,13 +1,14 @@
 """Directorio vecinal acotado a la delegación activa y al permiso de captura."""
 import re
 from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 from django.db import IntegrityError,transaction
 from django.views.decorators.http import require_POST
 from . import local_api as api,domain_api as domain
 from .capture_followup import fingerprint
 from .models import Vecino
 
-FIELDS=('nombre','rut','telefono','sector','junta_vecinos')
+FIELDS=('nombre','nombres','apellidos','correo','rut','telefono','sector','junta_vecinos')
 EDIT_FIELDS=FIELDS+('direccion',)
 
 def normalize_rut(value):
@@ -22,8 +23,24 @@ def normalize_rut(value):
  if digit!=expected:raise ValidationError('El dígito verificador del RUN no es válido.')
  return number+'-'+digit
 
+def identity(values, existing=None):
+ for field in ('nombres','apellidos'):
+  if not isinstance(values.get(field,getattr(existing,field,'')),str):raise ValidationError('Los nombres y apellidos deben ser texto.')
+  values[field]=' '.join(values.get(field,getattr(existing,field,'')).split())
+ if values['nombres'] or values['apellidos']:
+  if not values['nombres']:raise ValidationError('Indica los nombres del vecino.')
+  values['nombre']=' '.join(filter(None,[values['nombres'],values['apellidos']]))
+ if 'correo' in values:
+  if not isinstance(values['correo'],str):raise ValidationError('El correo debe ser texto.')
+  values['correo']=values['correo'].strip().lower()
+  if values['correo']:validate_email(values['correo'])
+ return values
+
 def representation(obj):
  data=dict(id=obj.pk,version=obj.version,activo=obj.activo,delegacion=obj.delegacion_id,**{field:getattr(obj,field) or '' for field in EDIT_FIELDS})
+ data['creado']=obj.creado.isoformat()
+ if hasattr(obj,'modificado'):data['modificado']=obj.modificado.isoformat()
+ data['territorio_catalogo']=obj.territorio_catalogo_id
  data['organizaciones']=[dict(id=p.organizacion_id,nombre=p.organizacion.nombre,rol=p.rol,tipo=p.organizacion.tipo) for p in obj.pertenencias.select_related('organizacion').filter(activo=True,organizacion__activo=True)]
  return data
 
@@ -56,18 +73,24 @@ def create(request):
  if denied:return denied
  try:
   data=api.body(request)
-  if set(data)-set(EDIT_FIELDS)-{'clave_idempotencia'}:raise ValidationError('Hay campos no editables.')
+  if set(data)-set(EDIT_FIELDS)-{'clave_idempotencia','territorio_catalogo'}:raise ValidationError('Hay campos no editables.')
+  territory=data.pop('territorio_catalogo',None)
   key=data.get('clave_idempotencia')
   if not isinstance(key,str) or not key.strip() or len(key)>64:raise ValidationError('Falta una clave válida de registro vecinal.')
   if any(not isinstance(data.get(f,''),str) for f in EDIT_FIELDS):raise ValidationError('Los datos del vecino deben ser texto.')
-  values={f:data.get(f,'').strip() for f in EDIT_FIELDS};values['nombre']=' '.join(values['nombre'].split());values['rut']=normalize_rut(values['rut'])
+  values={f:data.get(f,'').strip() for f in EDIT_FIELDS};values['nombre']=' '.join(values['nombre'].split());values['rut']=normalize_rut(values['rut']);identity(values)
   if len(values['nombre'])<2:raise ValidationError('Indica el nombre del vecino.')
   if values['telefono'] and not re.fullmatch(r'\+?[0-9 ()-]{8,20}',values['telefono']):raise ValidationError('Teléfono inválido.')
-  digest=fingerprint({f:v for f,v in values.items() if f!='direccion' or v});previous=prior(request,key,digest)
+  digest_values={f:v for f,v in values.items() if f not in ('direccion','nombres','apellidos','correo') or v}
+  if territory is not None:digest_values['territorio_catalogo']=territory
+  digest=fingerprint(digest_values);previous=prior(request,key,digest)
   if previous:return previous
   d=api.active_delegation(request)
+  if values['correo'] and Vecino.objects.filter(delegacion=d,correo__iexact=values['correo']).exists():return api.error('Este correo ya está registrado en la delegación.',409)
   with transaction.atomic():
    obj=Vecino(delegacion=d,creado_por=request.user,clave_idempotencia=key,captura_hash=digest,**{**values,'rut':values['rut'] or None})
+   from .territories import bind as bind_territory
+   bind_territory(obj,territory)
    obj.full_clean();obj.save();api.record_event(request,'vecinos',obj.pk,'crear',None,representation(obj))
   response=api.ok(representation(obj));response.status_code=201;return response
  except IntegrityError:
@@ -77,6 +100,7 @@ def create(request):
   if 'digest' in locals():
    previous=prior(request,key,digest)
    if previous:return previous
+   if values.get('correo') and Vecino.objects.filter(delegacion=d,correo__iexact=values['correo']).exists():return api.error('Este correo ya está registrado en la delegación.',409)
    if values['rut'] and Vecino.objects.filter(delegacion=d,rut=values['rut']).exists():return api.error('Este RUN ya está registrado en la delegación.',409)
   return api.error('; '.join(ex.messages))
  except (TypeError,ValueError):return api.error('Datos inválidos.')

@@ -50,7 +50,7 @@ class PersonalProgressTests(TestCase):
 
     def test_resumen_personal_no_confunde_equipo_ni_delegacion(self):
         self.activity(); self.activity(autor=self.other); self.activity(delegacion=self.foreign)
-        self.commitment(estado='Realizado')
+        self.commitment(estado='Cerrado')
         self.commitment(autor=self.other, responsable=self.u)
         self.commitment(responsable=self.other)
         data = self.get_data()
@@ -98,7 +98,7 @@ class PersonalProgressTests(TestCase):
         old = timezone.make_aware(datetime.combine(start - timedelta(days=2), time.min))
         Compromiso.objects.filter(pk=late.pk).update(creado=old)
         self.commitment(fecha_comprometida=self.today + timedelta(days=2))
-        self.commitment(fecha_comprometida=self.today - timedelta(days=10), estado='Realizado')
+        self.commitment(fecha_comprometida=self.today - timedelta(days=10), estado='Cerrado')
         data = self.get_data()
         self.assertEqual(data['pending']['commitments'], 2)
         self.assertEqual(data['pending']['overdue'], 1)

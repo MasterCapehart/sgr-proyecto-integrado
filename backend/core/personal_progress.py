@@ -59,7 +59,7 @@ def overview(request):
     if activities is not None:
         month_data['activities'] = monthly(activities).count()
     if commitments is not None:
-        v = monthly(commitments).aggregate(total=Count('pk'), closed=Count('pk', filter=Q(estado='Realizado')))
+        v = monthly(commitments).aggregate(total=Count('pk'), closed=Count('pk', filter=Q(estado__in=['Realizado','Cerrado'])))
         month_data['commitments'] = dict(v, percent=round(v['closed'] * 100 / v['total']) if v['total'] else None)
     if evidence is not None:
         month_data['evidence'] = monthly(evidence).aggregate(
@@ -78,7 +78,7 @@ def overview(request):
     pending = dict(commitments=None, overdue=None, correction=None, review=None, drafts=None, waiting=None, activity_correction=None)
     tasks = []
     if commitments is not None:
-        opened = commitments.exclude(estado='Realizado')
+        opened = commitments.exclude(estado__in=['Cerrado','No aplica'])
         pending['commitments'] = opened.count()
         pending['overdue'] = opened.filter(fecha_comprometida__lt=today).count()
         for obj in opened.order_by('fecha_comprometida', 'pk')[:5]:

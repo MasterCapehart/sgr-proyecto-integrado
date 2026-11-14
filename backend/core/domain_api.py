@@ -16,8 +16,8 @@ from .models import Actividad, Evidencia, Compromiso, RevisionEvidencia, Seguimi
 
 MODELS={'actividades':Actividad,'evidencias':Evidencia,'compromisos':Compromiso}
 FIELDS={
- 'actividades':['fecha','solicitud','accion','contacto','telefono','sector','item','compromiso','unidad','plantilla','profesional','junta_vecinos','rut_contacto','beneficiario_usuario'],
- 'compromisos':['vecino','fecha_solicitud','descripcion','solicitante','sector','responsable','fecha_comprometida','area_apoyo','origen','estado','unidad','codigo_verificacion_foto'],
+ 'actividades':['asignacion_meta','hito','territorio_catalogo','fecha','solicitud','accion','contacto','telefono','sector','item','compromiso','unidad','plantilla','profesional','junta_vecinos','rut_contacto','beneficiario_usuario'],
+ 'compromisos':['resultado','territorio_catalogo','vecino','fecha_solicitud','descripcion','solicitante','sector','responsable','fecha_comprometida','area_apoyo','origen','estado','unidad','codigo_verificacion_foto'],
 }
 
 def scoped(request,resource):
@@ -30,7 +30,7 @@ def scoped(request,resource):
             When(estado='Pendiente',then=Value(2)),
             default=Value(3),output_field=IntegerField())).order_by('prioridad_tubo','fecha_comprometida','id')
     else:qs=qs.order_by('-id')
-    if not api.allowed(request.user,resource,'ver_equipo') and not (resource=='evidencias' and api.allowed(request.user,'evidencias','revisar')):
+    if resource!='compromisos' and not api.allowed(request.user,resource,'ver_equipo') and not (resource=='evidencias' and api.allowed(request.user,'evidencias','revisar')):
         if resource=='compromisos': qs=qs.filter(Q(autor=request.user)|Q(responsable=request.user))
         elif resource=='evidencias': qs=qs.filter(actividad__autor=request.user)
         else: qs=qs.filter(autor=request.user)
@@ -69,6 +69,9 @@ def representation(obj):
         states=list(a.evidencias.filter(siguiente_version__isnull=True).exclude(estado='Anulada').values_list('estado',flat=True))
         r['revision_resumen']=dict(total=len(states),aprobadas=states.count('Aprobada'),pendientes=states.count('Pendiente'),correcciones=states.count('Corrección'),rechazadas=states.count('Rechazada'))
         r['revisiones']=[{'fecha':x.fecha.isoformat(),'autor':x.autor.username,'decision':x.decision,'observacion':x.observacion,'version_evidencia':x.version_evidencia} for x in obj.revisiones.select_related('autor')]
+    if isinstance(obj,(Actividad,Compromiso)):
+        from .tracking import representation as tracking_representation
+        r=tracking_representation(obj,r)
     return json.loads(json.dumps(r,cls=DjangoJSONEncoder))
 
 def validate_version(obj,data):
@@ -81,7 +84,20 @@ def apply_fields(request,resource,obj,data):
     for field in FIELDS[resource]:
         if field not in data:continue
         value=data[field]
-        if field=='vecino':
+        if field=='asignacion_meta':
+            continue
+        elif field=='hito':
+            from .models import Hito
+            if value in ('',None):obj.hito=None;continue
+            if isinstance(value,bool) or not str(value).isdigit():raise ValidationError('Selecciona un hito válido.')
+            h=Hito.objects.filter(pk=value,delegacion=obj.delegacion,activo=True).first()
+            if h is None:raise ValidationError('Hito no disponible en tu delegación.')
+            if not (request.user.is_superuser or (request.user.rol_id and request.user.rol.nombre.strip().lower() in ['administrador','delegado']) or h.responsables.filter(pk=request.user.pk).exists()):raise PermissionDenied('No eres responsable de este hito.')
+            obj.hito=h
+        elif field=='territorio_catalogo':
+            from .territories import bind
+            bind(obj,value)
+        elif field=='vecino':
             from .models import Vecino
             if value in ('',None):obj.vecino=None;continue
             if isinstance(value,bool) or not str(value).isdigit():raise ValidationError('Selecciona un vecino válido.')
@@ -98,7 +114,11 @@ def apply_fields(request,resource,obj,data):
             if field=='item':
                 from .excel_support import items_for
                 related=items_for(request.user).filter(pk=value).first()
-            elif field=='compromiso': related=scoped(request,'compromisos').filter(pk=value).first()
+            elif field=='compromiso':
+                related=scoped(request,'compromisos').select_for_update().filter(pk=value).first()
+                if related and obj.compromiso_id!=related.pk:
+                    from .tracking import validate_link
+                    validate_link(request,obj,related)
             else: related=Usuario.objects.filter(pk=value,is_active=True).filter(Q(delegacion=obj.delegacion)|Q(delegaciones=obj.delegacion)).distinct().first()
             if related is None:raise ValidationError(f'{field}: registro inactivo o fuera de la delegación.')
             setattr(obj,field,related)
@@ -116,6 +136,7 @@ def apply_fields(request,resource,obj,data):
             elif value not in PROFILES or (not request.user.is_superuser and value!=(selected or 'GENERAL')):raise ValidationError('Planilla no autorizada para tu función.')
             obj.plantilla=value
         else:
+            if field=='resultado' and value in ('',None):obj.resultado='';continue
             if (field in ['codigo_verificacion_foto','junta_vecinos','area_apoyo'] or (resource=='actividades' and field in ['contacto','telefono']) or (resource=='compromisos' and field=='solicitante')) and value in ['',None]:setattr(obj,field,'');continue
             if field=='fecha_solicitud' and value in ('',None):obj.fecha_solicitud=None;continue
             if not isinstance(value,str) or not value.strip():raise ValidationError(f'{field}: campo obligatorio de texto.')
@@ -133,6 +154,9 @@ def apply_fields(request,resource,obj,data):
         try: requested=date.fromisoformat(str(obj.fecha_solicitud));promised=date.fromisoformat(str(obj.fecha_comprometida))
         except ValueError:raise ValidationError('Fecha de solicitud o compromiso inválida.')
         if requested>promised:raise ValidationError('La fecha de compromiso no puede preceder a la solicitud.')
+    if resource=='actividades' and ('asignacion_meta' in data or obj.asignacion_meta_id):
+        from .goal_api import bind_activity
+        bind_activity(obj,data.get('asignacion_meta',obj.asignacion_meta_id))
     obj.full_clean()
 
 def gate(request,resource,action):
@@ -181,8 +205,8 @@ def records(request,resource,pk=None,action=None):
             if resource=='actividades' and request.GET.get('plantilla'):qs=qs.filter(plantilla=request.GET['plantilla'])
             if request.GET.get('estado'):qs=qs.filter(estado=request.GET['estado'])
             if request.GET.get('sector') and resource!='evidencias':qs=qs.filter(sector__icontains=request.GET['sector'])
-            if resource=='compromisos' and request.GET.get('plazo')=='vencido':qs=qs.filter(fecha_comprometida__lt=timezone.localdate()).exclude(estado='Realizado')
-            if resource=='compromisos' and request.GET.get('plazo')=='hoy':qs=qs.filter(fecha_comprometida=timezone.localdate()).exclude(estado='Realizado')
+            if resource=='compromisos' and request.GET.get('plazo')=='vencido':qs=qs.filter(fecha_comprometida__lt=timezone.localdate()).exclude(estado__in=['Cerrado','No aplica'])
+            if resource=='compromisos' and request.GET.get('plazo')=='hoy':qs=qs.filter(fecha_comprometida=timezone.localdate()).exclude(estado__in=['Cerrado','No aplica'])
             for key in ['autor','item','actividad','responsable','cargo']:
                 if request.GET.get(key) and key in [f.name for f in MODELS[resource]._meta.fields]:qs=qs.filter(**{key:request.GET[key]})
             datefield='fecha' if resource=='actividades' else 'fecha_comprometida' if resource=='compromisos' else 'creado__date'
@@ -256,7 +280,11 @@ def records(request,resource,pk=None,action=None):
                     lock_commitment_hito(request,pk)
                 obj=qs.select_for_update().filter(pk=pk).first()
                 if not obj:return api.error('Registro no encontrado.',404)
-                if obj.autor_id!=request.user.pk and not (resource=='compromisos' and obj.responsable_id==request.user.pk) and not api.allowed(request.user,resource,'editar_equipo'):return api.error('No puedes editar registros de otro responsable.',403)
+                if resource=='compromisos':
+                    if obj.responsable_id!=request.user.pk and not (request.user.is_superuser or (request.user.rol_id and request.user.rol.nombre.strip().casefold() in ['administrador','delegado'] and api.allowed(request.user,resource,'editar_equipo'))):return api.error('Solo el responsable o la gestión autorizada del equipo puede editar este seguimiento.',403)
+                    from .tracking import validate_shared_edit
+                    validate_shared_edit(obj,data)
+                elif obj.autor_id!=request.user.pk and not api.allowed(request.user,resource,'editar_equipo'):return api.error('No puedes editar registros de otro responsable.',403)
                 if resource=='actividades' and obj.estado not in ['Borrador','Corrección','Rechazada']:return api.error('Solo se editan actividades en borrador o devueltas.')
                 conflict=validate_version(obj,data)
                 if conflict:return conflict
@@ -293,6 +321,9 @@ def records(request,resource,pk=None,action=None):
                 validate_transition(request,obj,before,data)
             if before:obj.version+=1
             obj.save()
+            from .tracking import sync_source,ensure_commitment
+            if resource=='actividades':sync_source(obj)
+            elif resource=='compromisos':ensure_commitment(obj,source)
             if source is not None:
                 source.compromiso=obj;source.version+=1;source.save(update_fields=['compromiso','version'])
                 if source.atencion_id:

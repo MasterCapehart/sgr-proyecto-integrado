@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.utils import timezone
 from django.core.files.uploadedfile import SimpleUploadedFile
 from .models import Usuario, Delegacion, ItemMeta, Rol
 
@@ -42,7 +43,7 @@ class OperacionDominio(TestCase):
  def test_archivo_no_permitido(self):
   a=self.activity();r=self.client.post('/api/operacion/evidencias/',{'actividad':a['id'],'descripcion':'No seguro','archivo':SimpleUploadedFile('pagina.html',b'<html>contenido</html>')});self.assertEqual(r.status_code,400)
  def test_compromiso_y_mensaje_reales(self):
-  r=self.client.post('/api/operacion/compromisos/',{'descripcion':'Resolver solicitud','solicitante':'Vecina','sector':'Centro','responsable':self.u.pk,'fecha_comprometida':'2026-11-01','area_apoyo':'Operaciones','origen':'Interno'},content_type='application/json');self.assertEqual(r.status_code,201,r.content)
+  r=self.client.post('/api/operacion/compromisos/',{'descripcion':'Resolver solicitud','solicitante':'Vecina','sector':'Centro','responsable':self.u.pk,'fecha_comprometida':str(timezone.localdate()),'area_apoyo':'Operaciones','origen':'Interno'},content_type='application/json');self.assertEqual(r.status_code,201,r.content)
   c=r.json()['data'];url=f"/api/operacion/compromisos/{c['id']}/mensajes/"
   self.assertEqual(self.client.post(url,{'contenido':'Primer seguimiento'},content_type='application/json').status_code,201)
   self.assertEqual(self.client.get(url).json()['results'][0]['contenido'],'Primer seguimiento')
@@ -88,4 +89,4 @@ class OperacionDominio(TestCase):
   c=Compromiso.objects.create(delegacion=self.d,autor=self.u,responsable=self.u,descripcion='Prueba',solicitante='Vecina',sector='Centro',fecha_comprometida='2026-11-01',area_apoyo='Operaciones',origen='Interno')
   self.client.raise_request_exception=False
   for value in [None,123,[]]:
-   r=self.client.patch(f'/api/operacion/compromisos/{c.pk}/',{'_version':1,'estado':'En proceso','observacion':value},content_type='application/json');self.assertEqual(r.status_code,400,r.content[:200]);c.refresh_from_db();self.assertEqual(c.estado,'Ingresado');self.assertEqual(c.version,1)
+   r=self.client.patch(f'/api/operacion/compromisos/{c.pk}/',{'_version':1,'estado':'En proceso','observacion':value},content_type='application/json');self.assertEqual(r.status_code,400,r.content[:200]);c.refresh_from_db();self.assertEqual(c.estado,'Pendiente');self.assertEqual(c.version,1)

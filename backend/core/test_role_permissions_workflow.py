@@ -176,7 +176,7 @@ class RolePermissionsWorkflowTests(TestCase):
         r_rev = self.client.post('/api/operacion/evidencias/1/revisar/', {'decision': 'Aprobada'}, content_type='application/json')
         self.assertEqual(r_rev.status_code, 403)
 
-    def test_coordinador_puede_dar_seguimiento_al_equipo(self):
+    def test_coordinador_consulta_sin_reasignar_al_equipo(self):
         """El coordinador visualiza registros de otros miembros del equipo y puede dar seguimiento a compromisos."""
         # Creamos una actividad y compromiso a nombre del funcionario
         actividad = Actividad.objects.create(
@@ -228,9 +228,9 @@ class RolePermissionsWorkflowTests(TestCase):
             },
             content_type='application/json'
         )
-        self.assertEqual(r_patch.status_code, 200, r_patch.content)
+        self.assertEqual(r_patch.status_code, 403, r_patch.content)
         compromiso.refresh_from_db()
-        self.assertEqual(compromiso.responsable, self.user_coordinador)
+        self.assertNotEqual(compromiso.responsable, self.user_coordinador)
 
     def test_recorrido_registro_tubo_evidencia_revision_correccion(self):
         """

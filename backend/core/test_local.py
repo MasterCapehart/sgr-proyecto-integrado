@@ -142,7 +142,8 @@ class FlujoLocal(TestCase):
     def test_excel_no_ejecuta_formulas(self):
         ItemMeta.objects.create(codigo='FORM',nombre='=1+2')
         sheet=load_workbook(BytesIO(self.client.get('/api/items-metas/export/').content)).active
-        self.assertEqual(sheet.cell(2,3).data_type,'s')
+        column=next(c.column for c in sheet[1] if c.value=='Nombre del Ítem')
+        self.assertEqual(sheet.cell(2,column).data_type,'s')
 
     def request_recovery(self):
         self.client.logout();r=self.send('/api/recuperacion/',{'email':self.user.email});self.assertEqual(r.status_code,200)

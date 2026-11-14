@@ -87,3 +87,11 @@ from . import weight_review
 urlpatterns += [path('configuraciones-metas/revision-ponderaciones/',weight_review.overview)]
 
 urlpatterns += [path('seguimiento/registros/',capture_followup.source_options)]
+
+from . import territories
+urlpatterns += [path('territorios/',territories.records),path('territorios/<int:pk>/',territories.records),path('territorios/<int:pk>/estado/',territories.records,{'action':'estado'})]
+
+from django.urls import include
+urlpatterns += [path("asignaciones-metas/",include("core.goal_urls"))]
+
+urlpatterns += [path('',include('core.letter_urls'))]

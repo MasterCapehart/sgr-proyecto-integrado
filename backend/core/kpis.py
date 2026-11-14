@@ -16,8 +16,8 @@ def resource_kpis(qs,resource):
         v=qs.aggregate(total=count(),pendientes=count(Q(estado='Pendiente')),validadas=count(Q(estado='Validada')),devueltas=count(Q(estado__in=['Corrección','Rechazada'])))
         cards=[card('total','Actividades registradas',v['total']),card('pendientes','Pendientes de validación',v['pendientes'],'warning'),card('validadas','Actividades validadas',v['validadas'],'success'),card('devueltas','Devueltas para revisión',v['devueltas'],'warning')]
     elif resource=='compromisos':
-        v=qs.aggregate(total=count(),en_curso=count(Q(estado__in=['Pendiente','En proceso'])),realizados=count(Q(estado='Realizado')),vencidos=count(Q(fecha_comprometida__lt=timezone.localdate())&~Q(estado='Realizado')))
-        cards=[card('total','Compromisos registrados',v['total']),card('en_curso','Pendientes / en proceso',v['en_curso'],'info'),card('realizados','Compromisos realizados',v['realizados'],'success'),card('vencidos','Compromisos vencidos',v['vencidos'],'danger',help='Plazo anterior a hoy y aún sin realizar.')]
+        v=qs.aggregate(total=count(),en_curso=count(Q(estado__in=['Pendiente','En proceso'])),realizados=count(Q(estado__in=['Realizado','Cerrado'])),no_aplica=count(Q(estado='No aplica')),cerrados=count(Q(estado='Cerrado')),vencidos=count(Q(fecha_comprometida__lt=timezone.localdate())&~Q(estado__in=['Cerrado','No aplica'])))
+        cards=[card('total','Compromisos registrados',v['total']),card('en_curso','Pendientes / en proceso',v['en_curso'],'info'),card('realizados','Compromisos realizados',v['realizados'],'success'),card('vencidos','Compromisos vencidos',v['vencidos'],'danger',help='Plazo anterior a hoy y sin cierre formal.')]
     elif resource=='evidencias':
         v=qs.aggregate(total=count(),pendientes=count(Q(estado='Pendiente')),aprobadas=count(Q(estado='Aprobada')),devueltas=count(Q(estado__in=['Corrección','Rechazada'])),anuladas=count(Q(estado='Anulada')))
         cards=[card('total','Evidencias registradas',v['total'],help=f"Incluye versiones; {v['anuladas']} anuladas."),card('pendientes','Pendientes de revisión',v['pendientes'],'warning'),card('aprobadas','Evidencias aprobadas',v['aprobadas'],'success'),card('devueltas','Corrección / rechazadas',v['devueltas'],'warning')]
@@ -32,7 +32,7 @@ def resource_kpis(qs,resource):
     result=dict(cards=cards,generated_at=timezone.now().isoformat(),scope='Todos los resultados de los filtros aplicados, no solo esta página.')
     if resource=='compromisos':
         percentage=Decimal(v['realizados'])*100/Decimal(v['total']) if v['total'] else None
-        result['completion']=dict(total=v['total'],realizados=v['realizados'],por_completar=v['total']-v['realizados'],
+        result['completion']=dict(total=v['total'],realizados=v['realizados'],por_completar=v['total']-v['realizados']-v['no_aplica'],no_aplica=v['no_aplica'],cerrados=v['cerrados'],
             porcentaje=str(percentage.quantize(Decimal('.01'),rounding=ROUND_HALF_UP)) if percentage is not None else None,
             porcentaje_exacto=str(percentage) if percentage is not None else None)
     return result
@@ -51,6 +51,6 @@ def overview(request):
     if api.allowed(request.user,'actividades','ver'):
         cards.append(card('actividades','Actividades registradas',domain.scoped(request,'actividades').count(),help='Según tu permiso de consulta.'))
     if api.allowed(request.user,'compromisos','ver'):
-        v=domain.scoped(request,'compromisos').aggregate(abiertos=Count('pk',filter=~Q(estado='Realizado')),vencidos=Count('pk',filter=Q(fecha_comprometida__lt=timezone.localdate())&~Q(estado='Realizado')))
-        cards.extend([card('abiertos','Compromisos abiertos',v['abiertos'],'info'),card('vencidos','Compromisos vencidos',v['vencidos'],'danger',help='Plazo anterior a hoy y aún sin realizar.')])
+        v=domain.scoped(request,'compromisos').aggregate(abiertos=Count('pk',filter=~Q(estado__in=['Cerrado','No aplica'])),vencidos=Count('pk',filter=Q(fecha_comprometida__lt=timezone.localdate())&~Q(estado__in=['Cerrado','No aplica'])))
+        cards.extend([card('abiertos','Compromisos abiertos',v['abiertos'],'info'),card('vencidos','Compromisos vencidos',v['vencidos'],'danger',help='Plazo anterior a hoy y sin cierre formal.')])
     return api.ok(dict(cards=cards,generated_at=timezone.now().isoformat(),scope='Delegación activa · historial disponible según tus permisos.'))

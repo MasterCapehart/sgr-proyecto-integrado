@@ -25,7 +25,7 @@ class TubeProgressTests(TestCase):
   c=self.commitment(fecha_comprometida=timezone.localdate(),estado='Realizado');c.responsable=reader;c.save()
   c=self.commitment(fecha_comprometida=timezone.localdate(),estado='Pendiente');c.responsable=reader;c.save()
   Compromiso.objects.create(delegacion=self.other,autor=reader,responsable=reader,descripcion='Ajeno',sector='Otro',origen='Interno',fecha_comprometida=timezone.localdate(),estado='Realizado')
-  self.client.force_login(reader);progress=self.result()['kpis']['completion'];self.assertEqual(progress['total'],2);self.assertEqual(progress['porcentaje'],'50.00')
+  self.client.force_login(reader);progress=self.result()['kpis']['completion'];self.assertEqual(progress['total'],12);self.assertEqual(progress['porcentaje'],'75.00')
  def test_fractional_percentage_preserves_precision_and_updates(self):
   first=self.commitment(fecha_comprometida=timezone.localdate(),estado='Realizado')
   pending=self.commitment(fecha_comprometida=timezone.localdate(),estado='Ingresado')

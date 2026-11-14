@@ -10,6 +10,7 @@ def ruta_evidencia(instance, filename):
     return f'evidencias/{uuid.uuid4().hex}/{uuid.uuid4().hex}'
 
 class Cargo(models.Model):
+    descripcion = models.TextField(blank=True,default="")
     planilla = models.CharField(max_length=20,blank=True,default='',choices=[(x,x) for x in ['AP_ADM','COOR_DISERCO','T_OC','G_SOC','PLAN_CON','GES_SEG']])
     version = models.PositiveIntegerField(default=1, editable=False)
     codigo = models.CharField(max_length=20, unique=True)
@@ -28,6 +29,10 @@ class RegistroOperativo(models.Model):
         ordering = ['-id']
 
 class Compromiso(RegistroOperativo):
+    registro_gestion = models.OneToOneField("core.RegistroGestion",null=True,blank=True,on_delete=models.PROTECT,related_name="seguimiento")
+    resultado = models.TextField(max_length=5000,blank=True,default="")
+    fecha_cierre = models.DateTimeField(null=True,blank=True,editable=False)
+    territorio_catalogo=models.ForeignKey("core.Territorio",null=True,blank=True,on_delete=models.PROTECT,related_name="compromiso_registros")
     vecino = models.ForeignKey("core.Vecino", null=True, blank=True, on_delete=models.PROTECT, related_name="compromisos")
     unidad = models.PositiveIntegerField(default=1)
     codigo_verificacion_foto = models.CharField(max_length=100,blank=True,default='')
@@ -41,9 +46,13 @@ class Compromiso(RegistroOperativo):
     fecha_comprometida = models.DateField()
     area_apoyo = models.CharField(max_length=150, blank=True, default="")
     origen = models.CharField(max_length=10, choices=[('Interno','Interno'),('Externo','Externo')])
-    estado = models.CharField(max_length=20, default='Ingresado', choices=[(x,x) for x in ['Ingresado','Pendiente','En proceso','Realizado']])
+    estado = models.CharField(max_length=20, default='Pendiente', choices=[(x,x) for x in ['Ingresado','Pendiente','En proceso','Realizado','Cerrado','No aplica']])
 
 class Actividad(RegistroOperativo):
+    registro_gestion = models.OneToOneField("core.RegistroGestion",null=True,blank=True,on_delete=models.PROTECT,related_name="actividad")
+    asignacion_meta = models.ForeignKey("core.AsignacionMeta",null=True,blank=True,on_delete=models.PROTECT,related_name="actividades")
+    hito = models.ForeignKey("core.Hito",null=True,blank=True,on_delete=models.PROTECT,related_name="actividades")
+    territorio_catalogo=models.ForeignKey("core.Territorio",null=True,blank=True,on_delete=models.PROTECT,related_name="actividad_registros")
     cupo_diario_reservado = models.BooleanField(default=False, editable=False)
     beneficiario_usuario = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.PROTECT, related_name="actividades_beneficiario")
     elegibilidad_snapshot = models.JSONField(null=True, blank=True, editable=False)

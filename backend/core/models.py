@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 class Delegacion(models.Model):
+    delegado = models.ForeignKey("core.Usuario",null=True,blank=True,on_delete=models.PROTECT,related_name="delegaciones_a_cargo")
     version = models.PositiveIntegerField(default=1, editable=False)
     codigo = models.CharField(max_length=20, unique=True, null=True, blank=True)
     nombre = models.CharField(max_length=100, unique=True)
@@ -76,6 +77,8 @@ class SubAtencion(CatalogoBase):
 
 
 class ItemMeta(CatalogoBase):
+    tipo = models.CharField(max_length=30, default="Actividad", choices=[("Actividad","Actividad"),("Gestión social","Gestión social")])
+    requiere_evidencia = models.BooleanField(default=False)
     cargos = models.ManyToManyField("core.Cargo", blank=True, related_name="items")
     """
     Catálogo de Ítems medibles y criterios de evaluación SGR (Tarea T16).
@@ -92,6 +95,8 @@ class ItemMeta(CatalogoBase):
 
 
 class PeriodoGestion(CatalogoBase):
+    anio = models.PositiveSmallIntegerField(null=True,blank=True)
+    numero = models.PositiveSmallIntegerField(null=True,blank=True)
     """Calendario explícito; cerrado es independiente del estado activo del catálogo."""
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
@@ -136,6 +141,7 @@ class ConfiguracionMeta(models.Model):
 
 
 class Atencion(models.Model):
+    registro_gestion = models.ForeignKey("core.RegistroGestion",null=True,blank=True,on_delete=models.PROTECT,related_name="atenciones")
     elegibilidad_snapshot = models.JSONField(null=True, blank=True, editable=False)
     fecha_visita_programada = models.DateField(null=True, blank=True)
     fecha_visita_realizada = models.DateField(null=True, blank=True)
@@ -271,6 +277,17 @@ class AccesoFallido(models.Model):
     creado = models.DateTimeField(auto_now_add=True, db_index=True)
 
 class Vecino(models.Model):
+    modificado = models.DateTimeField(auto_now=True)
+    correo_unico = models.CharField(max_length=254,null=True,blank=True,editable=False)
+    def save(self,*args,**kwargs):
+        self.correo=(self.correo or '').strip().lower()
+        self.correo_unico=self.correo or None
+        super().save(*args,**kwargs)
+
+    nombres = models.CharField(max_length=100,blank=True,default="")
+    apellidos = models.CharField(max_length=100,blank=True,default="")
+    correo = models.EmailField(blank=True,default="")
+    territorio_catalogo = models.ForeignKey("core.Territorio",null=True,blank=True,on_delete=models.PROTECT,related_name="vecinos")
     direccion = models.CharField(max_length=250, blank=True, default="")
     activo = models.BooleanField(default=True)
     version = models.PositiveIntegerField(default=1, editable=False)
@@ -287,7 +304,7 @@ class Vecino(models.Model):
 
     class Meta:
         ordering = ['nombre', 'pk']
-        constraints = [models.UniqueConstraint(fields=['delegacion','rut'], name='vecino_rut_delegacion_unico')]
+        constraints = [models.UniqueConstraint(fields=['delegacion','rut'], name='vecino_rut_delegacion_unico'),models.UniqueConstraint(fields=['delegacion','correo_unico'],name='vecino_correo_delegacion_unico')]
 
 from .domain_models import Cargo, DerivacionActividad, Actividad, Evidencia, RevisionEvidencia, Compromiso, SeguimientoCompromiso, Conversacion, Mensaje
 from .closure_models import VersionCatalogo, PoliticaOperativa, CierreCompromiso, AlertaLocal
@@ -302,3 +319,10 @@ from .eligibility_models import ReglaActividad
 
 from .registration_models import ControlCupoFuncionario
 from .absence_models import CalendarioFuncionario,AusenciaFuncionario
+
+from .territory_models import Territorio
+
+from .goal_models import AsignacionMeta
+
+from .letter_models import Carta, DocumentoCarta
+from .tracking_models import RegistroGestion

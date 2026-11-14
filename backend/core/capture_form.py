@@ -28,7 +28,7 @@ def create(request):
   if not isinstance(key,str) or not key.strip() or len(key)>64:raise ValidationError('Falta una clave de captura válida.')
   values=data.get('actividad')
   if not isinstance(values,dict):raise ValidationError('Completa los datos del registro.')
-  if set(values)-{'fecha','solicitud','accion','contacto','telefono','sector','item','junta_vecinos','profesional','rut_contacto','beneficiario_usuario'}:raise ValidationError('La captura contiene campos no editables.')
+  if set(values)-{'asignacion_meta','hito','territorio_catalogo','fecha','solicitud','accion','contacto','telefono','sector','item','junta_vecinos','profesional','rut_contacto','beneficiario_usuario'}:raise ValidationError('La captura contiene campos no editables.')
   digest=fingerprint(data)
   previous=prior_response(request,key,digest)
   if previous:return previous
@@ -69,6 +69,8 @@ def create(request):
    from .eligibility import evaluate_activity
    a.elegibilidad_snapshot=apply_limits(a,evaluate_activity(a))
    a.catalogos_snapshot=activity(a);a.full_clean();a.save()
+   from .tracking import sync_source
+   sync_source(a)
    from .auto_codes import operation_saved
    if reservation is None:operation_saved(a,'actividades',request.user)
    else:

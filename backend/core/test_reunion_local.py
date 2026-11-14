@@ -23,7 +23,7 @@ class ReunionLocalTests(domain_helpers.OperacionDominio):
   c=Compromiso.objects.create(delegacion=self.d,autor=self.u,responsable=self.u,descripcion='Pendiente de ejecutar',sector='Centro',fecha_comprometida=timezone.localdate(),origen='Interno');Actividad.objects.filter(pk=a['id']).update(compromiso=c)
   self.client.force_login(self.reviewer());r=self.decide(e1);self.assertEqual(r.status_code,200,r.content)
   self.assertEqual(r.json()['data']['actividad_contexto']['estado'],'Pendiente');self.assertEqual(r.json()['data']['revision_resumen']['pendientes'],1)
-  r=self.decide(e2);self.assertEqual(r.status_code,200);self.assertEqual(r.json()['data']['actividad_contexto']['estado'],'Validada');c.refresh_from_db();self.assertEqual(c.estado,'Ingresado')
+  r=self.decide(e2);self.assertEqual(r.status_code,200);self.assertEqual(r.json()['data']['actividad_contexto']['estado'],'Validada');c.refresh_from_db();self.assertEqual(c.estado,'Pendiente')
  def test_orden_prioriza_vencidos_y_deja_realizados_al_final(self):
   today=timezone.localdate();items=[]
   for name,status,delta in [('Cerrado','Realizado',-10),('En curso','En proceso',2),('Pendiente','Pendiente',2),('Ingresado','Ingresado',3),('Vencido','En proceso',-1)]:

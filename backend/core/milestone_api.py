@@ -1,5 +1,7 @@
 """Hitos por delegación, responsables y planificación interna sin puntuación."""
+from datetime import timedelta
 from decimal import Decimal, InvalidOperation
+from django.conf import settings
 from django.core.exceptions import ValidationError, PermissionDenied
 from django.core.paginator import Paginator
 from django.db import transaction, IntegrityError
@@ -12,7 +14,7 @@ from .models import Hito, TareaHito, AvanceHito, Usuario, Compromiso
 from .milestone_models import ESTADOS_HITO
 
 CLOSED = ['Finalizado', 'Cancelado']
-FIELDS = ['nombre','descripcion','fecha_inicio','fecha_termino','territorio','recursos','estado','recurrente','periodicidad','hito_anterior']
+FIELDS = ['territorio_catalogo','nombre','descripcion','fecha_inicio','fecha_termino','territorio','recursos','estado','recurrente','periodicidad','hito_anterior']
 TASK_FIELDS = ['nombre','descripcion','responsable','fecha_limite']
 
 def response(data=None, status=200, **extra):
@@ -36,7 +38,7 @@ def people(request):
 def name(user):return user.get_full_name() or user.username
 
 def task_data(t):
-    return dict(id=t.pk, version=t.version, nombre=t.nombre, descripcion=t.descripcion,
+    return dict(id=t.pk, version=t.version,creado=t.creado.isoformat(),modificado=t.modificado.isoformat(), nombre=t.nombre, descripcion=t.descripcion,
         responsable=t.responsable_id, responsable_nombre=name(t.responsable),fecha_limite=str(t.fecha_limite),
         porcentaje=t.porcentaje, origen='Interno', compromiso=t.compromiso_id,
         estado_tubo=t.compromiso.estado if t.compromiso_id else None,
@@ -45,17 +47,40 @@ def task_data(t):
 def hito_data(request,h,detail=False):
     data=api.serialize(h,FIELDS+['responsables']);data['responsables_nombres']=[dict(id=u.pk,nombre=name(u)) for u in h.responsables.all()]
     data['fecha_inicio']=str(h.fecha_inicio);data['fecha_termino']=str(h.fecha_termino) if h.fecha_termino else None
-    data.update(delegacion=h.delegacion_id, puede_editar=permitted(request,'editar'),puede_asignar=permitted(request,'asignar'),puede_avanzar=permitted(request,'avanzar'),cerrado=h.estado in CLOSED)
+    data.update(codigo=str(h.codigo),creado=h.creado.isoformat(),modificado=h.modificado.isoformat(),activo=h.activo,alerta=alert(h),delegacion=h.delegacion_id, puede_editar=permitted(request,'editar'),puede_asignar=permitted(request,'asignar'),puede_avanzar=permitted(request,'avanzar'),cerrado=not h.activo or h.estado in CLOSED)
     if detail:
         tasks=h.tareas.select_related('responsable','compromiso')
         if not permitted(request,'ver_equipo'):tasks=tasks.filter(responsable=request.user)
         data['tareas']=[task_data(t) for t in tasks]
+        activities=h.actividades.all() if api.allowed(request.user,'actividades','ver') else h.actividades.none()
+        if not permitted(request,'ver_equipo'):activities=activities.filter(autor=request.user)
+        data['actividades']=[dict(id=a.pk,folio=a.folio,fecha=str(a.fecha),descripcion=a.accion) for a in activities]
     return data
+
+def alert(h):
+    if not h.activo:return 'Inactivo'
+    if h.estado in CLOSED:return h.estado
+    today=timezone.localdate()
+    if (h.fecha_termino or h.fecha_inicio)<today:return 'Vencido'
+    if today<=h.fecha_inicio<=today+timedelta(days=getattr(settings,'SGR_HITO_PROXIMO_DIAS',7)):return 'Próximo'
+    return h.estado
+
+def filter_alert(qs,value):
+    today=timezone.localdate()
+    if value=='Inactivo':return qs.filter(activo=False)
+    qs=qs.filter(activo=True)
+    if value in CLOSED:return qs.filter(estado=value)
+    qs=qs.exclude(estado__in=CLOSED)
+    overdue=Q(fecha_termino__lt=today)|Q(fecha_termino__isnull=True,fecha_inicio__lt=today)
+    if value=='Vencido':return qs.filter(overdue)
+    if value=='Próximo':return qs.exclude(overdue).filter(fecha_inicio__gte=today,fecha_inicio__lte=today+timedelta(days=getattr(settings,'SGR_HITO_PROXIMO_DIAS',7)))
+    raise ValidationError('Filtro de alerta inválido.')
 
 def version(obj,data):
     if isinstance(data.get('_version'),bool) or data.pop('_version',None)!=obj.version:raise ValidationError('VERSION_CONFLICT')
 
 def opened(h):
+    if not h.activo:raise ValidationError('El hito está inactivo; su historial se conserva.')
     if h.estado in CLOSED:raise ValidationError('El hito está finalizado o cancelado; su historial se conserva sin cambios.')
 
 def resource_lines(value):
@@ -83,6 +108,10 @@ def apply_hito(request,h,data):
     if h.pk and h.tareas.exclude(responsable__in=users).exists():raise ValidationError('No puedes retirar a un responsable con tareas; reasígnalas primero.')
     for f,v in data.items():
         if f=='responsables':continue
+        if f=='territorio_catalogo':
+            from .territories import bind
+            bind(h,v)
+            continue
         if f=='recursos':v=resource_lines(v)
         elif f=='recurrente':
             if type(v) is not bool:raise ValidationError('Recurrencia inválida.')
@@ -101,7 +130,7 @@ def apply_hito(request,h,data):
     h.full_clean()
     if h.fecha_termino and h.fecha_termino<h.fecha_inicio:raise ValidationError('El término no puede ser anterior al inicio.')
     if h.estado=='Finalizado' and h.pk:
-        if h.tareas.exclude(porcentaje=100).exists() or h.tareas.filter(compromiso__isnull=False).exclude(compromiso__estado='Realizado').exists():raise ValidationError('Completa las tareas y cierra sus compromisos antes de finalizar.')
+        if h.tareas.exclude(compromiso__estado='No aplica').exclude(porcentaje=100).exists() or h.tareas.filter(compromiso__isnull=False).exclude(compromiso__estado__in=['Cerrado','No aplica']).exists():raise ValidationError('Completa las tareas y cierra sus compromisos antes de finalizar; No aplica conserva el avance real.')
     if not h.pk and h.estado in CLOSED:raise ValidationError('Crea el hito en un estado de planificación o ejecución.')
     return users
 
@@ -137,6 +166,8 @@ def records(request,pk=None):
             if pk:
                 h=qs.filter(pk=pk).first()
                 return response(hito_data(request,h,True)) if h else api.error('Hito no encontrado.',404)
+            if request.GET.get('activo','activos') in ['activos','inactivos']:qs=qs.filter(activo=request.GET.get('activo','activos')=='activos')
+            if request.GET.get('alerta'):qs=filter_alert(qs,request.GET['alerta'])
             if request.GET.get('q'):qs=qs.filter(nombre__icontains=request.GET['q'][:100])
             if request.GET.get('estado'):qs=qs.filter(estado=request.GET['estado'])
             page=Paginator(qs,20).get_page(request.GET.get('page',1))
@@ -146,7 +177,14 @@ def records(request,pk=None):
             if pk:
                 h=visible(request).select_for_update().filter(pk=pk).first()
                 if not h:return api.error('Hito no encontrado.',404)
-                version(h,data);opened(h);before=hito_data(request,h)
+                version(h,data);before=hito_data(request,h)
+                if 'activo' in data:
+                    if set(data)!={'activo','motivo'} or type(data['activo']) is not bool or not isinstance(data['motivo'],str) or not data['motivo'].strip() or len(data['motivo'])>2000:raise ValidationError('Indica el estado y un motivo obligatorio de hasta 2000 caracteres.')
+                    h.activo=data['activo'];h.version+=1;h.save()
+                    after=hito_data(request,h,True)
+                    api.record_event(request,'hitos',h.pk,'activar' if h.activo else 'desactivar',before,dict(after,motivo=data['motivo'].strip()))
+                    return response(after)
+                opened(h)
                 if 'responsables' in data and not permitted(request,'asignar'):raise PermissionDenied('No puedes asignar responsables.')
             else:
                 if not permitted(request,'asignar'):raise PermissionDenied('No puedes asignar responsables.')
@@ -197,6 +235,8 @@ def tasks(request,hito_id=None,pk=None,action=None):
                 c.full_clean();c.save()
                 from .auto_codes import operation_saved
                 operation_saved(c,'compromisos',request.user)
+                from .tracking import ensure_commitment
+                ensure_commitment(c)
                 t.compromiso=c;t.version+=1;t.save()
                 api.record_event(request,'compromisos',c.pk,'crear',None,dict(hito=h.pk,tarea=t.pk,origen='Interno',folio=c.folio))
             else:
@@ -223,7 +263,7 @@ def validate_commitment_edit(request,obj,data):
     task=getattr(obj,'tarea_hito',None)
     if task is None:return
     opened(task.hito)
-    allowed={'_version','estado','observacion'}
+    allowed={'_version','estado','observacion','resultado'}
     if permitted(request,'asignar'):allowed|={'descripcion','responsable','fecha_comprometida','area_apoyo'}
     if set(data)-allowed:raise ValidationError('El compromiso pertenece a un hito interno. Solo su gestor reasigna responsables o plazos; el origen interno se conserva.')
     if 'responsable' in data and (not task.hito.responsables.filter(pk=data['responsable'],is_active=True).exists() or not people(request).filter(pk=data['responsable']).exists()):raise ValidationError('El responsable debe pertenecer al hito.')
