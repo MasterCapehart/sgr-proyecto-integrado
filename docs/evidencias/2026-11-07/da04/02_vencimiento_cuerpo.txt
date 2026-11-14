@@ -1,0 +1,16 @@
+Hola, {{ nombre }}:
+
+El enlace para activar tu cuenta en el Sistema de Gestión de Resultados (SGR) ya no es válido, porque venció o ya fue utilizado.
+
+Usuario: {{ usuario }}
+
+Para obtener un enlace nuevo, contacta al administrador de tu delegación. El enlace anterior no puede volver a usarse.
+
+Si ya activaste tu cuenta, ignora este mensaje e ingresa con tu contraseña en:
+
+{{ url_sistema }}
+
+No respondas a este mensaje.
+
+Sistema de Gestión de Resultados (SGR)
+{{ nombre_institucion }}

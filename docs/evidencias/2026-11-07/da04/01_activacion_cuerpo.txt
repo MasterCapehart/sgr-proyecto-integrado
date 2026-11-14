@@ -1,0 +1,20 @@
+Hola, {{ nombre }}:
+
+Se creó una cuenta para ti en el Sistema de Gestión de Resultados (SGR) de las Delegaciones Municipales.
+
+Usuario: {{ usuario }}
+
+Para activarla, ingresa al siguiente enlace y crea tu contraseña:
+
+{{ enlace_activacion }}
+
+Este enlace es de un solo uso y vence en {{ vigencia_texto }}.
+Al ingresar, el sistema te pedirá crear una contraseña nueva. Nadie más la conocerá: ni el administrador ni el equipo del SGR.
+
+Si el enlace venció, solicita uno nuevo al administrador de tu delegación.
+Si no esperabas este correo, ignóralo; la cuenta no se activará sin tu acción.
+
+No respondas a este mensaje y no compartas el enlace con otras personas.
+
+Sistema de Gestión de Resultados (SGR)
+{{ nombre_institucion }}

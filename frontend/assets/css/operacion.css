@@ -1079,3 +1079,13 @@ body .swal2-container.swal2-top-end .swal2-popup.swal2-toast .swal2-title {
 .button.mobilemenu{display:inline-flex;margin:10px 16px;align-self:flex-start}
 #site-sidebar[hidden]{display:none!important}
 .layout.sidebar-collapsed{grid-template-columns:minmax(0,1fr)}
+
+
+
+/* DA08: ajustes visuales acotados. Solo presentación; no cambia datos ni comportamiento. */
+.local-pagination select{padding:8px 36px 8px 12px;border:1px solid #bbc3cd;border-radius:6px;background-color:#fff;color:#202a35;font:inherit}
+label[for="audit-search"]{display:block;margin:20px 0 6px;font-size:12px;font-weight:bold;text-transform:uppercase;letter-spacing:.3px}
+#audit-search{display:block;width:100%;max-width:520px;min-height:40px;padding:8px 10px;border:1px solid #bbc3cd;border-radius:6px;background:#fff;font:inherit}
+#audit-search:focus{border-color:#AD0000;outline:2px solid #fee2e2}
+.toolbar .field:has(input[id^="classification-"][name="q"]){flex:1 1 280px;max-width:420px}
+input[id^="classification-"][name="q"]{width:100%;min-height:40px}
