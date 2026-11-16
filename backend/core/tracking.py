@@ -73,7 +73,7 @@ def representation(obj,result):
  if isinstance(obj,Compromiso):
   result['resultado']=obj.resultado;result['fecha_cierre']=obj.fecha_cierre.isoformat() if obj.fecha_cierre else None
   result['datos_desde_origen']=bool(obj.registro_gestion_id and (Actividad.objects.filter(registro_gestion_id=obj.registro_gestion_id).exists() or Atencion.objects.filter(registro_gestion_id=obj.registro_gestion_id).exists()))
-  result['vencido']=obj.fecha_comprometida<timezone.localdate() and obj.estado not in TERMINAL
+  result['vencido']=obj.fecha_comprometida<timezone.localdate() and obj.estado not in ('Realizado',*TERMINAL)
  if obj.registro_gestion_id:
   r=obj.registro_gestion;result['codigo_gestion']=r.codigo
   if isinstance(obj,Compromiso):result.update(descripcion=r.descripcion,solicitante=r.solicitante,fecha_solicitud=r.fecha_solicitud,sector=r.sector,vecino=r.vecino_id,territorio_catalogo=r.territorio_catalogo_id,telefono=r.telefono,rut_contacto=r.rut)

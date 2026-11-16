@@ -36,7 +36,10 @@ def enrich(result,cal,period,user):
     result.update(regla_cumplimiento=dict(version=1,tope_porcentaje='120',umbral_naranjo_relativo='60',orden='Fecha de realización, fecha de registro e identificador',aporte_por_actividad='1',limite_detalle=DETAIL_LIMIT),
         objetivo_al_dia=number(goal) if goal is not None else None,umbral_naranjo=number(goal*WARNING_FACTOR) if goal is not None else None)
     for row in result['metas']:
-        records=grouped.get(row['item'],[]);target=Decimal(row['meta_ajustada_exacta']) if row['meta_ajustada_exacta'] is not None else None
+        records=grouped.get(row['item'],[])
+        if row.get('asignacion_meta'):
+            records=[(a,excluded) for a,excluded in records if a.asignacion_meta_id==row['asignacion_meta']]
+        target=Decimal(row['meta_ajustada_exacta']) if row['meta_ajustada_exacta'] is not None else None
         ceiling=target*MAXIMUM/100 if target is not None and target>0 and available>0 else None
         recognized=Decimal(0);valid=0;details=[];partial=0;above=0
         for activity,excluded in records:

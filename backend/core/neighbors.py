@@ -23,6 +23,24 @@ def normalize_rut(value):
  if digit!=expected:raise ValidationError('El dígito verificador del RUN no es válido.')
  return number+'-'+digit
 
+def normalize_phone(value):
+ if not isinstance(value,str):raise ValidationError('El teléfono debe ser texto.')
+ if not value.strip():raise ValidationError('Indica el teléfono del vecino.')
+ if not re.fullmatch(r'\+?[0-9 ()-]+',value.strip()):raise ValidationError('Teléfono chileno inválido. Indica nueve dígitos, con o sin +56.')
+ raw=re.sub(r'[ ()-]','',value.strip())
+ if raw.startswith('+56'):raw=raw[3:]
+ elif raw.startswith('56') and len(raw)==11:raw=raw[2:]
+ if not re.fullmatch(r'[2-9][0-9]{8}',raw):raise ValidationError('Teléfono chileno inválido. Indica nueve dígitos, con o sin +56.')
+ return '+56'+raw
+
+def required_contact(values,existing=None):
+ """Valida el estado final al crear/editar; no altera registros históricos al consultarlos."""
+ rut=normalize_rut(values.get('rut',getattr(existing,'rut','')))
+ if not rut:raise ValidationError('Indica el RUN del vecino.')
+ values['rut']=rut
+ values['telefono']=normalize_phone(values.get('telefono',getattr(existing,'telefono','')))
+ return values
+
 def identity(values, existing=None):
  for field in ('nombres','apellidos'):
   if not isinstance(values.get(field,getattr(existing,field,'')),str):raise ValidationError('Los nombres y apellidos deben ser texto.')
@@ -78,9 +96,8 @@ def create(request):
   key=data.get('clave_idempotencia')
   if not isinstance(key,str) or not key.strip() or len(key)>64:raise ValidationError('Falta una clave válida de registro vecinal.')
   if any(not isinstance(data.get(f,''),str) for f in EDIT_FIELDS):raise ValidationError('Los datos del vecino deben ser texto.')
-  values={f:data.get(f,'').strip() for f in EDIT_FIELDS};values['nombre']=' '.join(values['nombre'].split());values['rut']=normalize_rut(values['rut']);identity(values)
+  values={f:data.get(f,'').strip() for f in EDIT_FIELDS};values['nombre']=' '.join(values['nombre'].split());required_contact(values);identity(values)
   if len(values['nombre'])<2:raise ValidationError('Indica el nombre del vecino.')
-  if values['telefono'] and not re.fullmatch(r'\+?[0-9 ()-]{8,20}',values['telefono']):raise ValidationError('Teléfono inválido.')
   digest_values={f:v for f,v in values.items() if f not in ('direccion','nombres','apellidos','correo') or v}
   if territory is not None:digest_values['territorio_catalogo']=territory
   digest=fingerprint(digest_values);previous=prior(request,key,digest)

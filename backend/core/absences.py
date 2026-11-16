@@ -1,4 +1,12 @@
-"""Prorrateo por medias jornadas únicas. No calcula rendimiento ni puntaje."""
+"""Disponibilidad y plan evaluable por funcionario, delegación y período.
+
+Si existen asignaciones individuales activas, constituyen el plan completo:
+no se agregan ítems de la configuración por cargo ni sus ponderaciones.
+Sin asignaciones activas se conserva el cálculo legado por cargo.
+La baja posterior de un catálogo/periodo no borra asignaciones ya realizadas;
+solo estado de la propia asignación determina su vigencia en períodos abiertos.
+Los períodos cerrados se leen desde el resultado conservado, sin recalcular.
+"""
 from datetime import date,timedelta
 from decimal import Decimal,ROUND_HALF_UP
 from django.utils import timezone
@@ -17,7 +25,15 @@ def meta_rows(user,period):
         base=base.filter(cargo__isnull=True)
     return base.select_related('item','cargo').order_by('item__codigo')
 def calculate(cal,period,user,delegation=None):
-    metas=meta_rows(user,period);planned=set();away=set();rows=[]
+    from .goal_models import AsignacionMeta
+    delegation_id=cal.delegacion_id if cal else delegation.pk if delegation else None
+    individual=list(AsignacionMeta.objects.filter(funcionario=user,periodo=period,delegacion_id=delegation_id,estado=True).select_related('item').order_by('item__codigo'))
+    # A personal plan is evaluated as a whole; role defaults are a legacy fallback
+    # only when no active assignment exists in this person/delegation/period.
+    configured=list(meta_rows(user,period))
+    configured_by_item={m.item_id:m.pk for m in configured}
+    metas=[] if individual else configured
+    planned=set();away=set();rows=[]
     if cal:
         day=parse(period.fecha_inicio);end=parse(period.fecha_fin);off=set(cal.no_laborables)
         while day<=end:
@@ -30,12 +46,14 @@ def calculate(cal,period,user,delegation=None):
         away &= planned
     p=Decimal(len(planned))/2;a=Decimal(len(away))/2;available=p-a;ratio=available/p if p else None
     proportional_items=set(ConfiguracionMeta.objects.filter(pk__in=cal.metas_prorrateables,periodo_gestion=period).values_list('item_id',flat=True)) if cal else set()
-    for m in metas:
+    for m in metas+individual:
+        assigned=isinstance(m,AsignacionMeta)
+        original=m.cantidad_objetivo if assigned else m.meta_esperada
         proportional=m.item_id in proportional_items
-        adjusted=None if not cal or (proportional and ratio is None) else m.meta_esperada*ratio if proportional else m.meta_esperada
+        adjusted=None if not cal or (proportional and ratio is None) else original*ratio if proportional else original
         state='Sin calendario' if not cal else 'Sin jornada prevista' if proportional and ratio is None else 'Sin exigibilidad por ausencia' if proportional and available==0 else 'Meta ajustada' if proportional else 'Meta sin prorrateo'
-        rows.append(dict(id=m.pk,item=m.item_id,codigo=m.item.codigo,nombre=m.item.nombre,unidad=m.item.unidad_medida,meta_original=number(m.meta_esperada),meta_ajustada=number(adjusted) if adjusted is not None else None,
-            meta_ajustada_exacta=str(adjusted) if adjusted is not None else None,prorrateable=proportional,ponderacion=number(m.ponderacion),version_meta=m.version,cargo_meta=m.cargo_id,cargo_meta_nombre=m.cargo.nombre if m.cargo_id else None,estado=state,cumplimiento=None,semaforo='Sin evaluación de desempeño'))
+        rows.append(dict(id=m.pk,item=m.item_id,codigo=m.item.codigo,nombre=m.item.nombre,unidad=m.item.unidad_medida,meta_original=number(original),meta_ajustada=number(adjusted) if adjusted is not None else None,
+            meta_ajustada_exacta=str(adjusted) if adjusted is not None else None,prorrateable=proportional,ponderacion=number(m.ponderacion),version_meta=m.version,cargo_meta=None if assigned else m.cargo_id,cargo_meta_nombre=None if assigned or not m.cargo_id else m.cargo.nombre,asignacion_meta=m.pk if assigned else None,configuracion_meta=configured_by_item.get(m.item_id) if assigned else m.pk,fuente_meta='Asignación individual' if assigned else 'Configuración por cargo',estado=state,cumplimiento=None,semaforo='Sin evaluación de desempeño'))
     state='Sin calendario' if not cal else 'Sin jornada prevista' if not p else 'Sin exigibilidad por ausencia' if not available else 'Disponibilidad calculada'
     result=dict(delegacion=cal.delegacion_id if cal else delegation.pk if delegation else None,funcionario=user.pk,funcionario_nombre=user.get_full_name() or user.username,periodo=period.pk,periodo_nombre=period.nombre,
         estado=state,calendario=cal.pk if cal else None,version_calendario=cal.version if cal else None,dias_previstos=number(p) if cal else None,dias_ausencia=number(a) if cal else None,dias_disponibles=number(available) if cal else None,

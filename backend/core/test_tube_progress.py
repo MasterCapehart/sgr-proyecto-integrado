@@ -33,3 +33,30 @@ class TubeProgressTests(TestCase):
   progress=self.result()['kpis']['completion'];self.assertEqual(progress['porcentaje'],'33.33');self.assertTrue(progress['porcentaje_exacto'].startswith('33.3333'))
   pending.estado='Realizado';pending.save();self.assertEqual(self.result()['kpis']['completion']['porcentaje'],'66.67')
   first.estado='En proceso';first.save();self.assertEqual(self.result()['kpis']['completion']['porcentaje'],'33.33')
+
+ def test_default_order_prioritizes_open_deadlines_and_keeps_completed_last(self):
+  from datetime import timedelta
+  today=timezone.localdate()
+  closed=self.commitment(fecha_comprometida=today-timedelta(days=9),estado='Cerrado')
+  done=self.commitment(fecha_comprometida=today-timedelta(days=8),estado='Realizado')
+  later=self.commitment(fecha_comprometida=today+timedelta(days=5),estado='Ingresado')
+  next_due=self.commitment(fecha_comprometida=today+timedelta(days=1),estado='En proceso')
+  overdue=self.commitment(fecha_comprometida=today-timedelta(days=1),estado='Pendiente')
+  ids=[row['id'] for row in self.result()['results']]
+  self.assertEqual(ids[:3],[overdue.pk,next_due.pk,later.pk])
+  self.assertEqual(set(ids[3:]),{closed.pk,done.pk})
+  filtered=self.result(estado='Realizado')['results']
+  self.assertEqual([row['id'] for row in filtered],[done.pk])
+
+ def test_completed_commitments_are_not_overdue_or_pending_today(self):
+  from datetime import timedelta
+  today=timezone.localdate()
+  for state in ['Realizado','Cerrado','No aplica']:
+   self.commitment(fecha_comprometida=today-timedelta(days=2),estado=state)
+   self.commitment(fecha_comprometida=today,estado=state)
+  overdue=self.commitment(fecha_comprometida=today-timedelta(days=1),estado='En proceso')
+  due=self.commitment(fecha_comprometida=today,estado='Pendiente')
+  rows=self.result()['results']
+  self.assertTrue(all(not row['vencido'] for row in rows if row['estado'] in ['Realizado','Cerrado','No aplica']))
+  self.assertEqual([row['id'] for row in self.result(plazo='vencido')['results']],[overdue.pk])
+  self.assertEqual([row['id'] for row in self.result(plazo='hoy')['results']],[due.pk])

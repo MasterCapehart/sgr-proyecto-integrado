@@ -108,8 +108,17 @@ def options(request):
  d=api.active_delegation(request)
  social=api.allowed(request.user,'atenciones','crear')
  from .capture_followup import assignees,can_assign
- return api.ok(puede_asignar_responsable=can_assign(request.user),responsables_compromiso=[{'id':u.pk,'nombre':u.get_full_name() or u.username} for u in assignees(request)],fecha_municipal=str(timezone.localtime(timezone.now(),TZ).date()),plantilla=(request.user.cargo.planilla if request.user.cargo_id else '') or 'GENERAL',
-  items=[dict(id=i.pk,codigo=i.codigo,nombre=i.nombre,regla=rule_data(current(d,i.pk))) for i in items_for(request.user)],
+ from datetime import date
+ from .goal_api import capture_assignments,representation as assignment_data
+ from .models import ItemMeta
+ today=timezone.localtime(timezone.now(),TZ).date()
+ try:day=date.fromisoformat(request.GET.get('fecha',str(today)))
+ except (ValueError,TypeError):return api.error('Fecha inválida. Usa YYYY-MM-DD.')
+ assigned=capture_assignments(request.user,d,day)
+ assigned_periods=capture_assignments(request.user,d,None)
+ allowed_items=ItemMeta.objects.filter(Q(pk__in=items_for(request.user).values('pk'))|Q(pk__in=[a.item_id for a in assigned])).filter(estado=True).distinct()
+ return api.ok(asignaciones=[assignment_data(a) for a in assigned],periodos_asignados=list(dict.fromkeys(a.periodo.nombre for a in assigned_periods)),puede_asignar_responsable=can_assign(request.user),responsables_compromiso=[{'id':u.pk,'nombre':u.get_full_name() or u.username} for u in assignees(request)],fecha_municipal=str(timezone.localtime(timezone.now(),TZ).date()),plantilla=(request.user.cargo.planilla if request.user.cargo_id else '') or 'GENERAL',
+  items=[dict(id=i.pk,codigo=i.codigo,nombre=i.nombre,regla=rule_data(current(d,i.pk))) for i in allowed_items],
   responsables=[{'id':u.pk,'nombre':u.get_full_name() or u.username} for u in Usuario.objects.filter(is_active=True).filter(Q(delegacion=d)|Q(delegaciones=d)).distinct()],
   beneficiarios=[dict(id=u.pk,nombre=u.get_full_name() or u.username,es_delegado=bool(u.rol_id and u.rol.nombre.strip().casefold()=='delegado')) for u in Usuario.objects.filter(is_active=True).filter(Q(delegacion=d)|Q(delegaciones=d)).distinct()],
   tipos=list(TipoAtencion.objects.filter(estado=True).values('id','nombre')) if social else [],

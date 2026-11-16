@@ -28,5 +28,5 @@ class ReunionLocalTests(domain_helpers.OperacionDominio):
   today=timezone.localdate();items=[]
   for name,status,delta in [('Cerrado','Realizado',-10),('En curso','En proceso',2),('Pendiente','Pendiente',2),('Ingresado','Ingresado',3),('Vencido','En proceso',-1)]:
    items.append(Compromiso.objects.create(autor=self.u,delegacion=self.d,responsable=self.u,descripcion=name,estado=status,fecha_comprometida=today+timedelta(days=delta),sector='Centro',origen='Interno'))
-  r=self.client.get('/api/operacion/compromisos/',{'page_size':2});self.assertEqual([o['descripcion'] for o in r.json()['results']],['Vencido','Ingresado'])
-  full=self.client.get('/api/operacion/compromisos/',{'page_size':100}).json()['results'];self.assertEqual([o['descripcion'] for o in full],['Vencido','Ingresado','Pendiente','En curso','Cerrado'])
+  r=self.client.get('/api/operacion/compromisos/',{'page_size':2});self.assertEqual([o['descripcion'] for o in r.json()['results']],['Vencido','En curso'])
+  full=self.client.get('/api/operacion/compromisos/',{'page_size':100}).json()['results'];self.assertEqual([o['descripcion'] for o in full],['Vencido','En curso','Pendiente','Ingresado','Cerrado'])

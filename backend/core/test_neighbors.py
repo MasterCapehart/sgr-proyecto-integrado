@@ -37,8 +37,8 @@ class NeighborTests(TestCase):
   self.assertEqual(self.post(self.data(rut='12345678-9')).status_code,400)
   self.assertEqual(self.post(self.data(delegacion=self.other_d.pk)).status_code,400)
   self.assertEqual(self.post(self.data(nombre=True)).status_code,400)
- def test_busqueda_vacia_no_lista_todo_y_nombre_sin_run_permitido(self):
-  r=self.post(self.data(rut=''));self.assertEqual(r.status_code,201,r.content)
+ def test_busqueda_vacia_no_lista_todo_y_run_obligatorio(self):
+  r=self.post(self.data(rut=''));self.assertEqual(r.status_code,400,r.content)
   self.assertEqual(self.search('').json()['results'],[]);self.assertEqual(self.search('pe').json()['results'],[])
  def test_vecino_no_puede_atribuirse_a_otro_nombre(self):
   r=self.post(self.data());self.assertEqual(r.status_code,201,r.content)
@@ -46,7 +46,7 @@ class NeighborTests(TestCase):
  def test_cambiar_telefono_snapshot_no_cambia_padron(self):
   r=self.post(self.data());self.assertEqual(r.status_code,201,r.content);v=r.json()['data'];data=self.payload(vecino=v['id']);data['actividad'].update(contacto=v['nombre'],telefono='987654321')
   response=self.post_capture(data);self.assertEqual(response.status_code,201,response.content)
-  self.assertEqual(self.search(v['rut']).json()['results'][0]['telefono'],'912345678');self.assertEqual(Actividad.objects.get().telefono,'987654321')
+  self.assertEqual(self.search(v['rut']).json()['results'][0]['telefono'],'+56912345678');self.assertEqual(Actividad.objects.get().telefono,'987654321')
  def test_run_con_cero_inicial_no_crea_otro_vecino(self):
   r=self.post(self.data(rut='1234567-4'));self.assertEqual(r.status_code,201,r.content)
   self.assertEqual(self.post(self.data(rut='01234567-4')).status_code,409)
@@ -73,3 +73,27 @@ class NeighborTests(TestCase):
    return None if calls==1 else original(*args)
   with patch.object(neighbors,'prior',side_effect=visible_after_first):
    r=self.post(data);self.assertEqual(r.status_code,200,r.content)
+
+ def test_registro_exige_run_y_telefono_y_junta_sigue_opcional(self):
+  for field in ('rut','telefono'):
+   for value in ('', '   ', None):
+    with self.subTest(field=field,value=value):
+     self.assertEqual(self.post(self.data(**{field:value})).status_code,400)
+   data=self.data();data.pop(field);self.assertEqual(self.post(data).status_code,400)
+  r=self.post(self.data(junta_vecinos=''));self.assertEqual(r.status_code,201,r.content)
+ def test_telefono_chileno_normalizado_y_formatos_invalidos(self):
+  for phone in ('12345678','+1 202 555 0123','abcdefghi','+56 9 1234 567'):
+   with self.subTest(phone=phone):self.assertEqual(self.post(self.data(telefono=phone)).status_code,400)
+  r=self.post(self.data(telefono='+56 (9) 1234-5678'));self.assertEqual(r.status_code,201,r.content);self.assertEqual(r.json()['data']['telefono'],'+56912345678')
+ def test_edicion_exige_identidad_completa_sin_borrar_historicos(self):
+  from .models import Vecino
+  v=Vecino.objects.create(nombre='Vecino histórico',delegacion=self.d,creado_por=self.u,clave_idempotencia=uuid.uuid4().hex,captura_hash='x')
+  url=f'/api/vecinos/{v.pk}/'
+  r=self.client.patch(url,{'_version':v.version,'sector':'Cambio'},content_type='application/json');self.assertEqual(r.status_code,400,r.content)
+  v.refresh_from_db();self.assertEqual(v.sector,'');self.assertIsNone(v.rut)
+  r=self.client.post(url+'estado/',{'_version':v.version,'activo':False,'motivo':'Histórico incompleto'},content_type='application/json');self.assertEqual(r.status_code,200,r.content)
+  r=self.client.post(url+'estado/',{'_version':r.json()['data']['version'],'activo':True,'motivo':'Completar datos'},content_type='application/json');self.assertEqual(r.status_code,200,r.content)
+  r=self.client.patch(url,{'_version':r.json()['data']['version'],'rut':'12.345.678-5','telefono':'56 2 2345 6789'},content_type='application/json');self.assertEqual(r.status_code,200,r.content);self.assertEqual(r.json()['data']['telefono'],'+56223456789')
+  version=r.json()['data']['version']
+  for change in ({'rut':''},{'telefono':''},{'rut':'12345678-9'},{'telefono':'12345678'}):
+   r=self.client.patch(url,{'_version':version,**change},content_type='application/json');self.assertEqual(r.status_code,400,r.content)

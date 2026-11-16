@@ -10,7 +10,7 @@ class CommunityIncrementTests(TestCase):
  org=community_tests.CommunityTests.org
  def test_identidad_separada_correo_y_nombre_historico(self):
   import uuid
-  data=dict(nombres='Ana María',apellidos='Pérez Soto',correo='ANA@example.cl',clave_idempotencia=uuid.uuid4().hex)
+  data=dict(rut='22222222-2',telefono='912345678',nombres='Ana María',apellidos='Pérez Soto',correo='ANA@example.cl',clave_idempotencia=uuid.uuid4().hex)
   r=self.send('/api/vecinos/',data);self.assertEqual(r.status_code,201,r.content)
   v=r.json()['data'];self.assertEqual(v['nombre'],'Ana María Pérez Soto');self.assertEqual(v['correo'],'ana@example.cl')
   data['clave_idempotencia']=uuid.uuid4().hex;data['correo']='ana@EXAMPLE.CL';self.assertEqual(self.send('/api/vecinos/',data).status_code,409)
@@ -30,7 +30,7 @@ class CommunityIncrementTests(TestCase):
   self.assertEqual(self.send(f'/api/vecinos/{b["id"]}/',dict(_version=b['version'],nombres=42),'patch').status_code,400)
   self.assertEqual(self.send(f'/api/vecinos/{b["id"]}/',dict(_version=b['version'],correo='sin arroba'),'patch').status_code,400)
   session=self.client.session;session['delegacion_activa']=self.other_d.pk;session.save()
-  r=self.send('/api/vecinos/',dict(nombre='Otra delegación',correo='directorio@example.cl',clave_idempotencia=uuid.uuid4().hex));self.assertEqual(r.status_code,201,r.content)
+  r=self.send('/api/vecinos/',dict(rut='12345678-5',telefono='912345678',nombre='Otra delegación',correo='directorio@example.cl',clave_idempotencia=uuid.uuid4().hex));self.assertEqual(r.status_code,201,r.content)
  def test_fechas_participacion_y_timestamps_no_editables(self):
   o=self.org();v=self.neighbor();self.assertTrue(o['modificado'])
   data=dict(vecino=v['id'],organizacion=o['id'],rol='Integrante',fecha_incorporacion='no-fecha')

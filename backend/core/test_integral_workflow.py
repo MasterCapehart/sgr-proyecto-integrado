@@ -45,7 +45,7 @@ class IntegralWorkflowTests(TestCase):
   self.define_rule()
   organization=self.post('/api/organizaciones/',dict(nombre='Junta integral ficticia',tipo='Junta de vecinos',territorio='Territorio ficticio',clave_idempotencia=uuid.uuid4().hex))
   self.client.force_login(self.worker)
-  neighbor=self.post('/api/vecinos/',dict(nombre='Vecino integral ficticio',telefono='912345678',sector='Territorio ficticio',clave_idempotencia=uuid.uuid4().hex))
+  neighbor=self.post('/api/vecinos/',dict(nombre='Vecino integral ficticio',rut='12345678-5',telefono='912345678',sector='Territorio ficticio',clave_idempotencia=uuid.uuid4().hex))
   self.client.force_login(self.u);membership=self.post('/api/pertenencias/',dict(vecino=neighbor['id'],organizacion=organization['id'],rol='Dirigente'));self.assertEqual(membership['rol'],'Dirigente')
   self.client.force_login(self.worker);a=self.capture(neighbor['id']);self.assertTrue(a['elegibilidad']['potencialmente_puntuable']);self.assertIsNotNone(a['compromiso']);self.assertIsNotNone(a['atencion']);self.assertEqual(Compromiso.objects.count(),1)
   c=Compromiso.objects.get();self.assertEqual(c.codigo_verificacion_foto,a['codigo']);self.assertEqual(Atencion.objects.get().compromiso_id,c.pk)

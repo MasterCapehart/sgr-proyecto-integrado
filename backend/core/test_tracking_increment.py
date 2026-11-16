@@ -85,3 +85,17 @@ class TrackingIncrementTests(TestCase):
   a=Atencion(fecha_registro=datetime(2026,11,14,1,0,tzinfo=dt_timezone.utc),descripcion='QA',solicitante='QA')
   with timezone.override('America/Santiago'):
    self.assertEqual(str(shared_values(a)['fecha_solicitud']),'2026-11-13')
+
+ def test_responsable_sigue_compromiso_sin_cambiar_validacion(self):
+  a=self.send('/api/operacion/actividades/',helpers.UnifiedCaptureTests.activity(self,nuevo_compromiso=helpers.UnifiedCaptureTests.follow(self))).json()['data']
+  activity=Actividad.objects.get(pk=a['id']);activity.estado='Validada';activity.save()
+  original_version=activity.version
+  role=Rol.objects.create(nombre='Responsable seguimiento QA',permisos=['compromisos.ver','compromisos.editar'])
+  self.u.is_superuser=False;self.u.rol=role;self.u.save()
+  c=Compromiso.objects.get(pk=a['compromiso'])
+  for state in ['En proceso','Realizado']:
+   result=self.send(f'/api/operacion/compromisos/{c.pk}/',dict(_version=c.version,estado=state,observacion='Seguimiento documentado '+state),'patch')
+   self.assertEqual(result.status_code,200,result.content);c.refresh_from_db()
+   activity.refresh_from_db();self.assertEqual(activity.estado,'Validada');self.assertEqual(activity.version,original_version)
+  self.assertEqual(list(c.seguimientos.order_by('fecha').values_list('estado_nuevo',flat=True)),['En proceso','Realizado'])
+  self.assertIsNone(c.fecha_cierre)

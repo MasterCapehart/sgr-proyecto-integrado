@@ -29,6 +29,16 @@ def quarter(period):
     month=period.numero*3
     if period.fecha_inicio!=date(period.anio,month-2,1) or period.fecha_fin!=date(period.anio,month,calendar.monthrange(period.anio,month)[1]):raise ValidationError('Las fechas deben corresponder al año y trimestre indicados.')
 
+def capture_assignments(user,delegation,day):
+    """Asignaciones propias disponibles para capturar, sin permiso administrativo."""
+    rows=AsignacionMeta.objects.filter(funcionario=user,delegacion=delegation,estado=True,item__estado=True,periodo__estado=True,periodo__cerrado=False).select_related('item','periodo','funcionario').order_by('periodo__fecha_inicio','item__nombre','pk')
+    valid=[]
+    for assignment in rows:
+        try:quarter(assignment.periodo)
+        except ValidationError:continue
+        if day is None or assignment.periodo.fecha_inicio<=day<=assignment.periodo.fecha_fin:valid.append(assignment)
+    return valid
+
 def number(value,label,max_digits):
     if isinstance(value,bool):raise ValidationError(label+' inválida.')
     try:result=Decimal(str(value))

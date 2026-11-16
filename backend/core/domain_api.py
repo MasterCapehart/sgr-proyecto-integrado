@@ -24,11 +24,9 @@ def scoped(request,resource):
     qs=MODELS[resource].objects.filter(delegacion=api.active_delegation(request))
     if resource=='compromisos':
         qs=qs.annotate(prioridad_tubo=Case(
-            When(estado='Realizado',then=Value(4)),
+            When(estado__in=['Realizado','Cerrado','No aplica'],then=Value(2)),
             When(fecha_comprometida__lt=timezone.localdate(),then=Value(0)),
-            When(estado='Ingresado',then=Value(1)),
-            When(estado='Pendiente',then=Value(2)),
-            default=Value(3),output_field=IntegerField())).order_by('prioridad_tubo','fecha_comprometida','id')
+            default=Value(1),output_field=IntegerField())).order_by('prioridad_tubo','fecha_comprometida','id')
     else:qs=qs.order_by('-id')
     if resource!='compromisos' and not api.allowed(request.user,resource,'ver_equipo') and not (resource=='evidencias' and api.allowed(request.user,'evidencias','revisar')):
         if resource=='compromisos': qs=qs.filter(Q(autor=request.user)|Q(responsable=request.user))
@@ -114,6 +112,13 @@ def apply_fields(request,resource,obj,data):
             if field=='item':
                 from .excel_support import items_for
                 related=items_for(request.user).filter(pk=value).first()
+                assignment_id=data.get('asignacion_meta',getattr(obj,'asignacion_meta_id',None))
+                if related is None and resource=='actividades' and type(assignment_id) is int:
+                    # La asignación explícita puede ampliar el catálogo del cargo;
+                    # bind_activity comprueba propietario, período, fecha y delegación.
+                    from .goal_models import AsignacionMeta
+                    assignment=AsignacionMeta.objects.select_related('item').filter(pk=assignment_id,funcionario_id=obj.autor_id,delegacion_id=obj.delegacion_id,item_id=value,estado=True,item__estado=True).first()
+                    if assignment:related=assignment.item
             elif field=='compromiso':
                 related=scoped(request,'compromisos').select_for_update().filter(pk=value).first()
                 if related and obj.compromiso_id!=related.pk:
@@ -205,8 +210,8 @@ def records(request,resource,pk=None,action=None):
             if resource=='actividades' and request.GET.get('plantilla'):qs=qs.filter(plantilla=request.GET['plantilla'])
             if request.GET.get('estado'):qs=qs.filter(estado=request.GET['estado'])
             if request.GET.get('sector') and resource!='evidencias':qs=qs.filter(sector__icontains=request.GET['sector'])
-            if resource=='compromisos' and request.GET.get('plazo')=='vencido':qs=qs.filter(fecha_comprometida__lt=timezone.localdate()).exclude(estado__in=['Cerrado','No aplica'])
-            if resource=='compromisos' and request.GET.get('plazo')=='hoy':qs=qs.filter(fecha_comprometida=timezone.localdate()).exclude(estado__in=['Cerrado','No aplica'])
+            if resource=='compromisos' and request.GET.get('plazo')=='vencido':qs=qs.filter(fecha_comprometida__lt=timezone.localdate()).exclude(estado__in=['Realizado','Cerrado','No aplica'])
+            if resource=='compromisos' and request.GET.get('plazo')=='hoy':qs=qs.filter(fecha_comprometida=timezone.localdate()).exclude(estado__in=['Realizado','Cerrado','No aplica'])
             for key in ['autor','item','actividad','responsable','cargo']:
                 if request.GET.get(key) and key in [f.name for f in MODELS[resource]._meta.fields]:qs=qs.filter(**{key:request.GET[key]})
             datefield='fecha' if resource=='actividades' else 'fecha_comprometida' if resource=='compromisos' else 'creado__date'

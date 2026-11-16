@@ -41,7 +41,7 @@ class TerritoryTests(TestCase):
   self.assertEqual(self.send('/api/operacion/actividades/',payload).status_code,400)
 
  def test_vecino_vinculado_y_delegacion_ajena(self):
-  t=self.create();data=dict(nombre='Vecino ficticio territorial',telefono='912345678',sector='Texto original',territorio_catalogo=t['id'],clave_idempotencia=uuid.uuid4().hex)
+  t=self.create();data=dict(nombre='Vecino ficticio territorial',rut='12345678-5',telefono='912345678',sector='Texto original',territorio_catalogo=t['id'],clave_idempotencia=uuid.uuid4().hex)
   r=self.send('/api/vecinos/',data);self.assertEqual(r.status_code,201,r.content);v=r.json()['data'];self.assertEqual(v['territorio_catalogo'],t['id']);self.assertEqual(v['sector'],'Texto original')
   session=self.client.session;session['delegacion_activa']=self.other_d.pk;session.save();data['clave_idempotencia']=uuid.uuid4().hex
   self.assertEqual(self.send('/api/vecinos/',data).status_code,400)

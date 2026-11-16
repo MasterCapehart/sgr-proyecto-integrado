@@ -97,6 +97,7 @@ def resource(request,resource,pk=None,action=None):
     if not obj:raise ValidationError('Usa el formulario de registro de vecinos.')
     if set(data)&{'nombre','nombres','apellidos','correo'}:neighbors.identity(data,obj)
     if data.get('correo') and scoped(request,'vecinos').filter(correo__iexact=data['correo']).exclude(pk=obj.pk).exists():return api.error('Este correo ya está registrado en la delegación.',409)
+    neighbors.required_contact(data,obj)
     fields(obj,data,neighbors.EDIT_FIELDS+('territorio_catalogo',))
    elif resource=='organizaciones':
     if obj:fields(obj,data,ORG_FIELDS)
