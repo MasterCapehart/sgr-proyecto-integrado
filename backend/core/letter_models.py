@@ -16,7 +16,7 @@ def document_path(instance,name):return f'cartas/{instance.carta_id}/{uuid.uuid4
 class Carta(models.Model):
     codigo=models.CharField(max_length=36,unique=True,default=code,editable=False)
     delegacion=models.ForeignKey('core.Delegacion',on_delete=models.PROTECT)
-    numero_carta=models.CharField(max_length=100)
+    numero_carta=models.CharField(max_length=100,blank=True,default='')
     fecha=models.DateField()
     remitente=models.CharField(max_length=200)
     destinatario=models.CharField(max_length=200)

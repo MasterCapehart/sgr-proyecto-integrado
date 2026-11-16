@@ -90,3 +90,23 @@ class LetterAPITests(TestCase):
         r=self.send(url+'reabrir/',dict(_version=2,motivo='Corrección ficticia autorizada'));self.assertEqual(r.status_code,200,r.content)
         self.assertEqual(r.json()['data']['estado'],'En proceso');self.assertIsNone(r.json()['data']['fecha_cierre'])
         self.assertEqual(r.json()['data']['historial'][0]['datos']['motivo'],'Corrección ficticia autorizada')
+
+class LetterReservationTests(TestCase):
+    setUp=LetterAPITests.setUp
+    send=LetterAPITests.send
+    create=LetterAPITests.create
+    def reserve(self):
+        r=self.send('/api/cartas/reservar-folio/',{});self.assertEqual(r.status_code,200,r.content);return r.json()['data']
+    def test_reserve_visible_unique_without_creating_letter(self):
+        a,b=self.reserve(),self.reserve();self.assertNotEqual(a['codigo'],b['codigo']);self.assertRegex(a['codigo'],r'^CAR-\d{4}-R\d+$');self.assertEqual(Carta.objects.count(),0)
+    def test_optional_original_number_and_same_reserved_code(self):
+        a=self.reserve();c,data=self.create(numero_carta='',_reserva_folio=a['reserva']);self.assertEqual(c['codigo'],a['codigo']);self.assertEqual(c['numero_carta'],'')
+        again=self.send('/api/cartas/',data);self.assertEqual(again.status_code,200);self.assertEqual(again.json()['data']['codigo'],a['codigo'])
+        data['clave_idempotencia']=uuid.uuid4().hex;self.assertEqual(self.send('/api/cartas/',data).status_code,400)
+    def test_invalid_form_does_not_consume_reservation(self):
+        a=self.reserve();data=dict(numero_carta='',fecha='2026-01-01',remitente='',destinatario='QA',materia='QA',clave_idempotencia=uuid.uuid4().hex,_reserva_folio=a['reserva'])
+        self.assertEqual(self.send('/api/cartas/',data).status_code,400);data['remitente']='Persona ficticia';self.assertEqual(self.send('/api/cartas/',data).status_code,201)
+    def test_reservation_cannot_be_stolen_or_forged(self):
+        a=self.reserve();self.client.force_login(self.other)
+        d=dict(numero_carta='',fecha='2026-01-01',remitente='QA',destinatario='QA',materia='QA',clave_idempotencia=uuid.uuid4().hex,_reserva_folio=a['reserva'])
+        self.assertEqual(self.send('/api/cartas/',d).status_code,400);d['_reserva_folio']='alterado';self.assertEqual(self.send('/api/cartas/',d).status_code,400)

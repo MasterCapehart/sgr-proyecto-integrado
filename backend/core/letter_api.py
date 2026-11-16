@@ -104,8 +104,18 @@ def records(request,pk=None,action=None):
                 if not isinstance(key,str) or not key.strip() or len(key)>64:raise ValidationError('Falta clave idempotente de registro.')
                 digest=fingerprint(data);prior=replay(request,key,digest)
                 if prior:return prior
-                c=Carta(delegacion=api.active_delegation(request),responsable=request.user,creado_por=request.user,clave_idempotencia=key,captura_hash=digest);apply(c,data,request)
-            c.save();after=serialize(c)
+                reservation=data.pop('_reserva_folio',None)
+                event=None
+                if reservation is not None:
+                    from .letter_reservation import use
+                    event=use(request,reservation)
+                c=Carta(delegacion=api.active_delegation(request),responsable=request.user,creado_por=request.user,clave_idempotencia=key,captura_hash=digest)
+                if event:c.codigo=event.despues['codigo']
+                apply(c,data,request)
+            c.save()
+            if not pk and event is not None:
+                event.despues['consumido']=True;event.registro=c.pk;event.save(update_fields=['despues','registro'])
+            after=serialize(c)
             if action=='reabrir':after['motivo']=data['motivo'].strip()
             api.record_event(request,'cartas',c.pk,action or ('editar' if pk else 'crear'),before,after)
             r=response(serialize(c,True,request.user));r.status_code=200 if pk else 201;return r
