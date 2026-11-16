@@ -5,17 +5,19 @@
  const button=(text,fn)=>{const b=el('button',text);b.className='button secondary';b.type='button';b.onclick=fn;return b;};
  function field(form,label,name,type,value=''){const wrap=el('label',label),n=el(type==='select'?'select':type==='textarea'?'textarea':'input');wrap.className='field';n.name=name;if(n.tagName==='INPUT')n.type=type;n.value=value;wrap.append(n);form.append(wrap);return n;}
  function editor(a){
-  const d=el('dialog'),f=el('form'),h=el('h2',a?'Editar asignación':'Asignar meta individual');d.className='community-dialog';f.className='body grid';h.className='modalhead';d.append(h,f);const controls={};
+  const d=el('dialog'),f=el('form'),h=el('h2',a?'Editar asignación':'Asignar meta individual');d.className='community-dialog sgr-dialog';d.setAttribute('aria-label',h.textContent);const header=el('div');header.className='modalhead';header.append(h,button('Cerrar',()=>d.close()));h.className='';f.className='sgr-form';const content=el('div');content.className='sgr-scroll sgr-grid';content.append(el('h3','1. Funcionario, meta y trimestre'));d.append(header,f);f.append(content);const controls={};
   for(const [k,label,options] of [['funcionario','Funcionario',state.opciones.funcionarios],['item','Meta',state.opciones.items],['periodo','Trimestre',state.opciones.periodos]]){
-   const n=field(f,label,k,'select');n.required=true;n.add(new Option('Selecciona…',''));
+   const n=field(content,label+' *',k,'select');if(k==='item')n.parentElement.classList.add('sgr-full');n.required=true;n.add(new Option('Selecciona…',''));
    const all=[...options];if(a&&!all.some(x=>x.id===a[k]))all.push({id:a[k],nombre:a[k+'_nombre']+' (histórico)'});
    for(const v of all)n.add(new Option(v.nombre+(v.cerrado?' · cerrado':''),v.id));n.value=a?.[k]??'';n.disabled=!!a;controls[k]=n;
   }
-  for(const [k,label] of [['cantidad_objetivo','Cantidad objetivo'],['ponderacion','Ponderación (%)']]){const n=field(f,label,k,'number',a?.[k]??'');n.required=true;n.min=k==='cantidad_objetivo'?'0.01':'0';n.max=k==='ponderacion'?'100':'9999999999.99';n.step='0.01';controls[k]=n;}
-  controls.observacion=field(f,'Observación','observacion','textarea',a?.observacion??'');controls.observacion.maxLength=2000;
-  const active=field(f,'Estado','estado','select');active.add(new Option('Activa','true'));active.add(new Option('Inactiva','false'));active.value=String(a?.estado??true);controls.estado=active;
-  f.append(el('p','Las ponderaciones activas por funcionario y trimestre pueden sumar hasta 100 %. La cantidad objetivo corresponde a esta asignación individual.'));
-  const msg=el('p');msg.setAttribute('role','status');f.append(msg);const save=el('button','Guardar');save.className='button';save.type='submit';f.append(save,button('Cancelar',()=>d.close()));
+  content.append(controls.item.parentElement);
+  content.append(el('h3','2. Objetivo y ponderación'));
+  for(const [k,label] of [['cantidad_objetivo','Cantidad objetivo'],['ponderacion','Ponderación (%)']]){const n=field(content,label+' *',k,'number',a?.[k]??'');n.required=true;n.min=k==='cantidad_objetivo'?'0.01':'0';n.max=k==='ponderacion'?'100':'9999999999.99';n.step='0.01';controls[k]=n;}
+  controls.observacion=field(content,'Observación · opcional','observacion','textarea',a?.observacion??'');controls.observacion.maxLength=2000;
+  const active=field(content,'Estado','estado','select');active.add(new Option('Activa','true'));active.add(new Option('Inactiva','false'));active.value=String(a?.estado??true);controls.estado=active;
+  const help=el('p','Las ponderaciones activas por funcionario y trimestre pueden sumar hasta 100 %. La cantidad objetivo corresponde a esta asignación individual.');help.className='sgr-help sgr-full';content.append(help);
+  const msg=el('p');msg.setAttribute('role','alert');msg.className='sgr-full';content.append(msg);const save=el('button','Guardar');save.className='button primary';save.type='submit';const footer=el('div');footer.className='sgr-footer';footer.append(button('Cancelar',()=>d.close()),save);f.append(footer);
   f.onsubmit=async e=>{e.preventDefault();if(save.disabled||!f.reportValidity())return;save.disabled=true;try{const data=Object.fromEntries(Object.entries(controls).map(([k,n])=>[k,['funcionario','item','periodo'].includes(k)?Number(n.value):k==='estado'?n.value==='true':n.value]));if(a)data._version=a.version;await api.send('/api/asignaciones-metas/'+(a?a.id+'/':''),data,a?'PATCH':'POST');d.close();await load();}catch(e){msg.textContent=e.message;}finally{save.disabled=false;}};
   d.onclose=()=>d.remove();document.body.append(d);d.showModal();
  }
