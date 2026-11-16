@@ -46,7 +46,7 @@
     ['territorios','territorios','Territorios','territorios.ver'],
     ['colectivo','colectivo','Indicadores colectivos','ausencias.ver_equipo'],
     ['ausencias','ausencias','Ausencias y calendario','ausencias.ver'],
-    ['metas-ajustadas','semaforo','Metas ajustadas','ausencias.ver'],
+    ['metas-ajustadas','semaforo','Semáforo','ausencias.ver'],
     ['clasificacion-actividades','clasificacion-actividades','Clasificación de actividades','clasificacion-actividades.ver'],
     ['hitos','hitos','Hitos y festividades','hitos.ver'],
     ['vecinos','vecinos','Vecinos','vecinos.ver'],
