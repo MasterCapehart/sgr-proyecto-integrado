@@ -122,3 +122,33 @@ class IncrementCatalogTests(TestCase):
   url=f'/api/delegaciones/{self.d.pk}/'
   r=self.client.patch(url,dict(_version=self.d.version,delegado=self.other.pk),content_type='application/json');self.assertEqual(r.status_code,400,r.content)
   r=self.client.patch(url,dict(_version=self.d.version,delegado=self.u.pk),content_type='application/json');self.assertEqual(r.status_code,200,r.content)
+
+class QuarterOptionsRegressionTests(TestCase):
+ setUp=GoalAssignmentTests.setUp
+ send=GoalAssignmentTests.send
+ payload=GoalAssignmentTests.payload
+ create=GoalAssignmentTests.create
+ def test_invalid_period_not_offered_but_remains_in_filter(self):
+  bad=PeriodoGestion.objects.create(codigo='BADMETA',nombre='Periodo incompleto',fecha_inicio='2026-07-01',fecha_fin='2026-09-30')
+  result=self.client.get('/api/asignaciones-metas/').json()
+  self.assertNotIn(bad.pk,[p['id'] for p in result['opciones']['periodos']])
+  self.assertIn(bad.pk,[p['id'] for p in result['opciones']['periodos_filtro']])
+ def test_closed_period_not_offered_for_new_assignment(self):
+  self.p.cerrado=True;self.p.save()
+  result=self.client.get('/api/asignaciones-metas/').json()
+  self.assertNotIn(self.p.pk,[p['id'] for p in result['opciones']['periodos']])
+ def test_legacy_quarter_metadata_repair_preserves_dates_and_allows_assignment(self):
+  import importlib
+  from django.apps import apps
+  p=PeriodoGestion.objects.create(codigo='LEGACYMETA',nombre='Julio–septiembre 2026 · referencia Excel',fecha_inicio='2026-07-01',fecha_fin='2026-09-30')
+  invalid=PeriodoGestion.objects.create(codigo='PARTIALMETA',nombre='Fechas parciales',fecha_inicio='2026-07-02',fecha_fin='2026-09-30')
+  conflict=PeriodoGestion.objects.create(codigo='CONFLICTMETA',nombre='Contradicción',anio=2025,fecha_inicio='2026-07-01',fecha_fin='2026-09-30')
+  repair=importlib.import_module('core.migrations.0037_completar_trimestres_historicos').complete_quarters
+  from django.db import connection
+  with connection.schema_editor() as editor:repair(apps,editor)
+  p.refresh_from_db();invalid.refresh_from_db();conflict.refresh_from_db()
+  self.assertEqual((p.anio,p.numero),(2026,3));self.assertEqual(str(p.fecha_inicio),'2026-07-01');self.assertEqual(str(p.fecha_fin),'2026-09-30')
+  self.assertIsNone(invalid.anio);self.assertIsNone(conflict.numero)
+  d=self.payload();d['periodo']=p.pk;self.create(d)
+  with connection.schema_editor() as editor:repair(apps,editor)
+  p.refresh_from_db();self.assertEqual((p.anio,p.numero),(2026,3))

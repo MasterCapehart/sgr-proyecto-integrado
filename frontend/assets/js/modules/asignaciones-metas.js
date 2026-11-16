@@ -11,6 +11,7 @@
    const all=[...options];if(a&&!all.some(x=>x.id===a[k]))all.push({id:a[k],nombre:a[k+'_nombre']+' (histórico)'});
    for(const v of all)n.add(new Option(v.nombre+(v.cerrado?' · cerrado':''),v.id));n.value=a?.[k]??'';n.disabled=!!a;controls[k]=n;
   }
+  if(!a&&!state.opciones.periodos.length){const warning=el('p','No hay trimestres abiertos con configuración válida. Revisa el año, número y fechas en Administración → Períodos.');warning.className='sgr-help sgr-full';content.append(warning);}
   content.append(controls.item.parentElement);
   content.append(el('h3','2. Objetivo y ponderación'));
   for(const [k,label] of [['cantidad_objetivo','Cantidad objetivo'],['ponderacion','Ponderación (%)']]){const n=field(content,label+' *',k,'number',a?.[k]??'');n.required=true;n.min=k==='cantidad_objetivo'?'0.01':'0';n.max=k==='ponderacion'?'100':'9999999999.99';n.step='0.01';controls[k]=n;}
@@ -23,7 +24,7 @@
  }
  async function load(){const main=document.querySelector('#main-content');try{
   state=await api.request('/api/asignaciones-metas/?'+new URLSearchParams({page,periodo:filter}));main.replaceChildren(el('p','SGR / Planificación'),el('h1','Asignaciones individuales de metas'),el('p','Define cantidades y ponderaciones para cada funcionario y trimestre. Los trimestres cerrados conservan su historial.'));
-  const toolbar=el('div');toolbar.className='toolbar';main.append(toolbar);if(state.puede_crear)toolbar.append(button('+ Asignar meta',()=>editor()));const select=field(toolbar,'Filtrar trimestre','filtro','select');select.add(new Option('Todos',''));for(const p of state.opciones.periodos)select.add(new Option(p.nombre,p.id));select.value=filter;select.onchange=()=>{filter=select.value;page=1;load();};
+  const toolbar=el('div');toolbar.className='toolbar';main.append(toolbar);if(state.puede_crear)toolbar.append(button('+ Asignar meta',()=>editor()));const select=field(toolbar,'Filtrar trimestre','filtro','select');select.add(new Option('Todos',''));for(const p of (state.opciones.periodos_filtro||state.opciones.periodos))select.add(new Option(p.nombre,p.id));select.value=filter;select.onchange=()=>{filter=select.value;page=1;load();};
   const table=el('table'),head=el('tr');for(const s of ['Funcionario','Meta','Trimestre','Objetivo','Ponderación','Estado','Acciones'])head.append(el('th',s));const thead=el('thead');thead.append(head);table.append(thead);const body=el('tbody');
   for(const a of state.results){const row=el('tr');for(const v of [a.funcionario_nombre,a.item_nombre,a.periodo_nombre,a.cantidad_objetivo,a.ponderacion+' %',a.cerrado?'Trimestre cerrado':a.estado?'Activa':'Inactiva'])row.append(el('td',v));const cell=el('td');if(state.puede_editar&&!a.cerrado)cell.append(button('Editar / desactivar',()=>editor(a)));row.append(cell);body.append(row);}table.append(body);const wrap=el('div');wrap.className='tablewrap';wrap.append(table);main.append(wrap);if(!state.results.length)main.append(el('p','No hay asignaciones para este filtro.'));
   const status=el('p',`${state.count} asignaciones · Página ${state.page} de ${state.total_pages}`);status.setAttribute('role','status');main.append(status);const prev=button('Anterior',()=>{page--;load();}),next=button('Siguiente',()=>{page++;load();});prev.disabled=page<=1;next.disabled=page>=state.total_pages;main.append(prev,next);

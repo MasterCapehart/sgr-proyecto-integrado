@@ -64,7 +64,15 @@ def assignments(request,pk=None):
         page=Paginator(qs,30).get_page(request.GET.get('page',1))
         d=api.active_delegation(request)
         people=Usuario.objects.filter(is_active=True).filter(Q(delegacion=d)|Q(delegaciones=d)).distinct() if manager(request.user) else Usuario.objects.filter(pk=request.user.pk)
-        return api.ok(results=[representation(x) for x in page],count=page.paginator.count,page=page.number,total_pages=page.paginator.num_pages,puede_crear=manager(request.user) and api.allowed(request.user,RESOURCE,'crear'),puede_editar=manager(request.user) and api.allowed(request.user,RESOURCE,'editar'),opciones=dict(funcionarios=[dict(id=u.pk,nombre=u.get_full_name() or u.username) for u in people],items=list(ItemMeta.objects.filter(estado=True).values('id','nombre','tipo','unidad_medida','requiere_evidencia')),periodos=list(PeriodoGestion.objects.filter(estado=True).values('id','nombre','anio','numero','cerrado'))))
+        periods=list(PeriodoGestion.objects.order_by('-fecha_inicio','pk'))
+        available=[]
+        for period in periods:
+            if not period.estado or period.cerrado:continue
+            try:quarter(period)
+            except ValidationError:continue
+            available.append(dict(id=period.pk,nombre=period.nombre,anio=period.anio,numero=period.numero,cerrado=False))
+        period_filters=[dict(id=p.pk,nombre=p.nombre,anio=p.anio,numero=p.numero,cerrado=p.cerrado) for p in periods]
+        return api.ok(results=[representation(x) for x in page],count=page.paginator.count,page=page.number,total_pages=page.paginator.num_pages,puede_crear=manager(request.user) and api.allowed(request.user,RESOURCE,'crear'),puede_editar=manager(request.user) and api.allowed(request.user,RESOURCE,'editar'),opciones=dict(funcionarios=[dict(id=u.pk,nombre=u.get_full_name() or u.username) for u in people],items=list(ItemMeta.objects.filter(estado=True).values('id','nombre','tipo','unidad_medida','requiere_evidencia')),periodos=available,periodos_filtro=period_filters))
     try:
         data=api.body(request)
         if set(data)-{'funcionario','item','periodo','cantidad_objetivo','ponderacion','observacion','estado','_version'}:raise ValidationError('Hay campos no editables.')
