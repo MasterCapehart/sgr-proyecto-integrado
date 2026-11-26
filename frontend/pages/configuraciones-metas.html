@@ -61,12 +61,12 @@
         </div>
 
         <div class="tablewrap">
-          <table aria-label="Listado de ítems y metas">
+          <table aria-label="Listado de configuración de metas">
             <thead>
               <tr>
                 <th scope="col">Código</th>
-                <th scope="col">Nombre del Ítem</th>
-                <th scope="col">Descripción Operativa</th>
+                <th scope="col">Ítem</th>
+                <th scope="col">Período de gestión</th>
                 <th scope="col">Estado</th>
                 <th scope="col">Acciones</th>
               </tr>
@@ -85,24 +85,24 @@
       <dialog id="modal-editor">
         <form id="form-editor" method="dialog" novalidate>
           <div class="modalhead">
-            <h2 id="modal-title">Nuevo Ítem</h2>
+            <h2 id="modal-title">Nueva meta</h2>
             <button type="button" class="linkbtn" id="modal-close" style="font-size: 16px;">✕</button>
           </div>
           <div class="modalbody grid">
             <div class="field">
               <label for="campo-codigo">Código <span class="required" aria-hidden="true">*</span></label>
-              <input type="text" id="campo-codigo" name="codigo" placeholder="ej. IT05" required>
+              <input type="text" id="campo-codigo" name="codigo" placeholder="Código de la meta" required>
             </div>
             <div class="field">
-              <label for="campo-nombre">Nombre del Ítem <span class="required" aria-hidden="true">*</span></label>
-              <input type="text" id="campo-nombre" name="nombre" placeholder="ej. Operativos en Terreno" required>
+              <label for="campo-nombre">Ítem <span class="required" aria-hidden="true">*</span></label>
+              <input type="text" id="campo-nombre" name="nombre" placeholder="Ítem asignado" required>
             </div>
             <div class="field full">
               <label for="campo-desc">Descripción <span class="required" aria-hidden="true">*</span></label>
-              <input type="text" id="campo-desc" name="descripcion" placeholder="Criterio de medición operativa" required>
+              <input type="text" id="campo-desc" name="descripcion" placeholder="Detalle de la asignación" required>
             </div>
             <div class="field full">
-              <label for="campo-estado">Estado del ítem</label>
+              <label for="campo-estado">Estado de la meta</label>
               <select id="campo-estado" name="estado">
                 <option value="Activo">Activo</option>
                 <option value="Inactivo">Inactivo</option>
@@ -111,7 +111,7 @@
           </div>
           <div class="modalfoot">
             <button type="button" class="button secondary" id="modal-cancel">Cancelar</button>
-            <button type="submit" class="button primary" id="modal-save">Guardar ítem</button>
+            <button type="submit" class="button primary" id="modal-save">Guardar meta</button>
           </div>
         </form>
       </dialog>
