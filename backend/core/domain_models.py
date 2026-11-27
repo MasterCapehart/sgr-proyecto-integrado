@@ -79,7 +79,19 @@ class Actividad(RegistroOperativo):
     sector = models.CharField(max_length=150)
     item = models.ForeignKey('core.ItemMeta', on_delete=models.PROTECT)
     compromiso = models.ForeignKey(Compromiso, on_delete=models.PROTECT, null=True, blank=True, related_name='actividades')
-    estado = models.CharField(max_length=25, default='Borrador', choices=[(x,x) for x in ['Borrador','Pendiente','Validada','Corrección','Rechazada']])
+    estado = models.CharField(max_length=35, default='Borrador', choices=[(x,x) for x in ['Borrador','Pendiente','Aprobada y pondera','Aprobada y no pondera','Solicitud de antecedentes','Rechazada','Anulada','Validada','Corrección']])
+
+class RevisionActividad(models.Model):
+    actividad = models.ForeignKey(Actividad, on_delete=models.PROTECT, related_name='revisiones')
+    autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    fecha = models.DateTimeField(auto_now_add=True)
+    decision = models.CharField(max_length=35, choices=[(x,x) for x in ['Pendiente','Aprobada y pondera','Aprobada y no pondera','Solicitud de antecedentes','Rechazada','Anulada']])
+    pondera = models.BooleanField(default=False)
+    observacion = models.TextField(max_length=2000)
+    version_actividad = models.PositiveIntegerField()
+
+    class Meta:
+        ordering = ['-id']
 
 class Evidencia(RegistroOperativo):
     actividad = models.ForeignKey(Actividad, on_delete=models.PROTECT, related_name='evidencias')

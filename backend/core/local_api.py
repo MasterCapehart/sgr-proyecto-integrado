@@ -222,6 +222,13 @@ def recovery(request, step='solicitar'):
             user.set_password(password); user.codigo_recuperacion=None; user.version+=1; user.save()
             EventoLocal.objects.create(usuario=user,recurso='usuarios',registro=user.pk,accion='cambiar_clave',antes={'credencial':'anterior','version':previous_version},despues={'credencial':'renovada','version':user.version},origen=request.META.get('REMOTE_ADDR'),delegacion=user.delegacion)
             RecuperacionAcceso.objects.filter(usuario=user,consumido=False).update(consumido=True)
+            try:
+                send_mail(
+                    'SGR: confirmación de actualización de contraseña',
+                    'Tu contraseña ha sido actualizada exitosamente en el Sistema de Gestión de Resultados (SGR).\nSi tú no realizaste este cambio, contacta de inmediato al administrador del sistema.',
+                    settings.DEFAULT_FROM_EMAIL,[user.email],fail_silently=True
+                )
+            except Exception:pass
             request.session.pop('recovery_id',None)
         return ok(message='Contraseña actualizada. Inicia sesión con tu nueva contraseña.')
     except ValidationError as ex: return error('Revisa los datos.',details={'campos':ex.messages})
@@ -311,9 +318,16 @@ def validate_data(obj, data, resource, request, creating=False):
         if not request.user.is_superuser and (obj.is_superuser or obj.is_staff or obj.rol.alcance=='global' or set(obj.rol.permisos)-set(request.user.rol.permisos)): raise ValidationError('No puedes administrar una cuenta con privilegios superiores.')
         if obj.pk==request.user.pk and not obj.is_active: raise ValidationError('No puedes desactivar tu propia cuenta.')
         password=incoming.get('password')
+        activar_por_correo=bool(incoming.get('activar_por_correo'))
         if password is not None and not isinstance(password,str):raise ValidationError({'password':'La contraseña debe ser texto.'})
-        if creating and not password: raise ValidationError({'password':'Contraseña obligatoria.'})
-        if password: validate_password(password,obj); obj.set_password(password)
+        if creating and not password:
+            if activar_por_correo:
+                obj.set_unusable_password()
+                obj._activar_por_correo=True
+            else:
+                raise ValidationError({'password':'Campo obligatorio.'})
+        elif password:
+            validate_password(password,obj); obj.set_password(password)
         obj._delegaciones=ds
     if isinstance(obj,ItemMeta) and 'cargos' in incoming:
         ids=incoming['cargos']
@@ -447,6 +461,20 @@ def crud(request, resource, pk=None, action=None):
             catalog_saved(obj,resource)
             if hasattr(obj,'_delegaciones'): obj.delegaciones.set(obj._delegaciones)
             if hasattr(obj,'_cargos'): obj.cargos.set(obj._cargos)
+            if getattr(obj,'_activar_por_correo',False):
+                from .models import RecuperacionAcceso
+                import secrets, uuid
+                code=f'{secrets.randbelow(1000000):06d}'
+                identifier=uuid.uuid4()
+                rec=RecuperacionAcceso.objects.create(usuario=obj,identificador=identifier,codigo_hash=make_password(code),vence=timezone.now()+timedelta(days=2))
+                try:
+                    send_mail(
+                        'SGR: activación de tu cuenta de usuario',
+                        f'Hola {obj.first_name},\n\nSe ha creado tu cuenta en el Sistema de Gestión de Resultados (SGR).\nTu usuario es: {obj.username}\nTu código de activación para tu primer ingreso es: {code}\n\nVence en 48 horas.\n\nMunicipalidad de La Serena · SGR',
+                        settings.DEFAULT_FROM_EMAIL,[obj.email],fail_silently=True
+                    )
+                except Exception:pass
+                record_event(request,'usuarios',obj.pk,'activacion_emitida',None,{'email':obj.email})
             catalog_history.record(request,resource,obj)
             record_event(request,resource,obj.pk,verb,previous,snapshot(obj,fields))
             response=ok(serialize(obj,fields),message='Cambio guardado.')

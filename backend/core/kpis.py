@@ -13,7 +13,7 @@ def resource_kpis(qs,resource):
     # Se recibe el mismo QuerySet filtrado del listado, antes de paginar.
     def count(condition=None):return Count('pk',filter=condition,distinct=True)
     if resource=='actividades':
-        v=qs.aggregate(total=count(),pendientes=count(Q(estado='Pendiente')),validadas=count(Q(estado='Validada')),devueltas=count(Q(estado__in=['Corrección','Rechazada'])))
+        v=qs.aggregate(total=count(),pendientes=count(Q(estado='Pendiente')),validadas=count(Q(estado__in=['Validada','Aprobada y pondera','Aprobada y no pondera'])),devueltas=count(Q(estado__in=['Corrección','Rechazada','Solicitud de antecedentes'])))
         cards=[card('total','Actividades registradas',v['total']),card('pendientes','Pendientes de validación',v['pendientes'],'warning'),card('validadas','Actividades validadas',v['validadas'],'success'),card('devueltas','Devueltas para revisión',v['devueltas'],'warning')]
     elif resource=='compromisos':
         v=qs.aggregate(total=count(),en_curso=count(Q(estado__in=['Pendiente','En proceso'])),realizados=count(Q(estado__in=['Realizado','Cerrado'])),no_aplica=count(Q(estado='No aplica')),cerrados=count(Q(estado='Cerrado')),vencidos=count(Q(fecha_comprometida__lt=timezone.localdate())&~Q(estado__in=['Cerrado','No aplica'])))

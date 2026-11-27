@@ -97,7 +97,7 @@ def overview(request):
         pending['drafts'] = drafts.count()
         for obj in drafts.only('id', 'solicitud')[:3]:
             tasks.append(task('draft', obj, obj.solicitud, f'pages/desempeno.html?registro={obj.pk}', 'normal'))
-        corrections = activities.filter(estado__in=['Corrección', 'Rechazada'])
+        corrections = activities.filter(estado__in=['Corrección', 'Rechazada', 'Solicitud de antecedentes'])
         if corrective is not None:
             corrections = corrections.exclude(pk__in=corrective.values('actividad_id'))
         pending['activity_correction'] = corrections.count()

@@ -12,7 +12,7 @@ from django.http import FileResponse, HttpResponse
 from django.utils import timezone
 from django.views.decorators.http import require_http_methods
 from . import local_api as api
-from .models import Actividad, Evidencia, Compromiso, RevisionEvidencia, SeguimientoCompromiso, Conversacion, Mensaje, Usuario, ItemMeta
+from .models import Actividad, Evidencia, Compromiso, RevisionEvidencia, RevisionActividad, SeguimientoCompromiso, Conversacion, Mensaje, Usuario, ItemMeta
 
 MODELS={'actividades':Actividad,'evidencias':Evidencia,'compromisos':Compromiso}
 FIELDS={
@@ -46,6 +46,8 @@ def representation(obj):
         r['derivaciones']=[{'fecha':x.fecha.isoformat(),'autor':x.autor.get_full_name() or x.autor.username,'destino':x.destino,'motivo':x.motivo,'estado':x.estado} for x in obj.derivaciones.select_related('autor')]
         r['evidencias_actuales']=[{'id':e.pk,'archivo':e.nombre_archivo,'estado':e.estado,'url':f'/api/operacion/evidencias/{e.pk}/archivo/'} for e in obj.evidencias.filter(siguiente_version__isnull=True)]
         r['imagen_verificacion']='Sí' if r['evidencias_actuales'] else 'No'
+        r['revisiones']=[{'id':x.pk,'fecha':x.fecha.isoformat(),'autor':x.autor.get_full_name() or x.autor.username,'decision':x.decision,'pondera':x.pondera,'observacion':x.observacion,'version_actividad':x.version_actividad} for x in obj.revisiones.select_related('autor').order_by('-pk')]
+        r['ultima_revision']=r['revisiones'][0] if r['revisiones'] else None
     elif isinstance(obj,Compromiso):
         r.update(api.serialize(obj,FIELDS['compromisos']));r.update(folio=obj.folio,responsable_nombre=obj.responsable.get_full_name() or obj.responsable.username,vencido=obj.fecha_comprometida<timezone.localdate() and obj.estado!='Realizado')
         from .operating_policy import current
@@ -193,9 +195,13 @@ def records(request,resource,pk=None,action=None):
                 return api.ok(representation(obj)) if obj else api.error('Registro no encontrado.',404)
             search=request.GET.get('search','').strip()
             if search:
-                query=Q(descripcion__icontains=search) if resource!='actividades' else Q(solicitud__icontains=search)|Q(accion__icontains=search)
-                code='codigo' if resource=='actividades' else 'folio' if resource=='compromisos' else 'nombre_archivo'
-                qs=qs.filter(query|Q(**{code+'__icontains':search}))
+                if resource=='actividades':
+                    query=Q(solicitud__icontains=search)|Q(accion__icontains=search)|Q(codigo__icontains=search)|Q(contacto__icontains=search)|Q(rut_contacto__icontains=search)|Q(vecino__rut__icontains=search)|Q(vecino__nombres__icontains=search)|Q(vecino__apellidos__icontains=search)
+                elif resource=='compromisos':
+                    query=Q(descripcion__icontains=search)|Q(folio__icontains=search)|Q(solicitante__icontains=search)|Q(codigo_verificacion_foto__icontains=search)|Q(vecino__rut__icontains=search)|Q(vecino__nombres__icontains=search)|Q(vecino__apellidos__icontains=search)
+                else:
+                    query=Q(descripcion__icontains=search)|Q(nombre_archivo__icontains=search)
+                qs=qs.filter(query)
             from .excel_support import COLUMN_FILTERS
             for key,value in request.GET.items():
                 if key.startswith('col_') and value:
@@ -290,7 +296,13 @@ def records(request,resource,pk=None,action=None):
                     from .tracking import validate_shared_edit
                     validate_shared_edit(obj,data)
                 elif obj.autor_id!=request.user.pk and not api.allowed(request.user,resource,'editar_equipo'):return api.error('No puedes editar registros de otro responsable.',403)
-                if resource=='actividades' and obj.estado not in ['Borrador','Corrección','Rechazada']:return api.error('Solo se editan actividades en borrador o devueltas.')
+                if resource=='actividades':
+                    if obj.estado in ['Validada','Aprobada y pondera','Aprobada y no pondera']:
+                        return api.error('Solo se editan actividades en borrador o devueltas. Las actividades aprobadas están bloqueadas y no admiten modificaciones.',400)
+                    if obj.estado=='Anulada':
+                        return api.error('Solo se editan actividades en borrador o devueltas. Las actividades anuladas están bloqueadas y no admiten modificaciones.',400)
+                    if obj.estado not in ['Borrador','Pendiente','Solicitud de antecedentes','Corrección','Rechazada']:
+                        return api.error('Solo se editan actividades en borrador o devueltas.',400)
                 conflict=validate_version(obj,data)
                 if conflict:return conflict
                 before=representation(obj)
@@ -324,6 +336,9 @@ def records(request,resource,pk=None,action=None):
             if resource=='compromisos':
                 from .closure_workflow import validate_transition
                 validate_transition(request,obj,before,data)
+            if resource=='actividades' and before:
+                if before.get('estado') in ['Solicitud de antecedentes','Corrección','Rechazada']:
+                    obj.estado='Pendiente'
             if before:obj.version+=1
             obj.save()
             from .tracking import sync_source,ensure_commitment
@@ -369,7 +384,8 @@ def upload(request):
     data=request.POST;file=request.FILES.get('archivo');activity=scoped(request,'actividades').filter(pk=data.get('actividad') if str(data.get('actividad','')).isdigit() else 0).first()
     if not activity:return api.error('Actividad no encontrada.',404)
     if not api.allowed(request.user,'actividades','editar') or (activity.autor_id!=request.user.pk and not api.allowed(request.user,'actividades','editar_equipo')):return api.error('No puedes adjuntar a esta actividad.',403)
-    if activity.estado=='Validada':return api.error('La actividad está validada; conserva el respaldo.')
+    if activity.estado in ['Validada','Aprobada y pondera','Aprobada y no pondera']:return api.error('La actividad está validada / aprobada; no admite nuevos respaldos.',400)
+    if activity.estado=='Anulada':return api.error('La actividad está anulada; no admite respaldos.',400)
     if not file or file.size>10*1024*1024 or file.size==0:return api.error('Adjunta un archivo de hasta 10 MB.')
     signature=file.read(12);file.seek(0);ext=Path(file.name).suffix.lower()
     mime='application/pdf' if ext=='.pdf' and signature.startswith(b'%PDF-') else 'image/png' if ext=='.png' and signature.startswith(b'\x89PNG\r\n\x1a\n') else 'image/jpeg' if ext in ['.jpg','.jpeg'] and signature.startswith(b'\xff\xd8\xff') else None
@@ -380,7 +396,8 @@ def upload(request):
     try:
         with transaction.atomic():
             activity=Actividad.objects.select_for_update().get(pk=activity.pk)
-            if activity.estado=='Validada':raise ValidationError('La actividad ya está validada.')
+            if activity.estado in ['Validada','Aprobada y pondera','Aprobada y no pondera']:raise ValidationError('La actividad ya está aprobada.')
+            if activity.estado=='Anulada':raise ValidationError('La actividad está anulada.')
             previous=None
             if data.get('reemplaza'):
                 previous=Evidencia.objects.select_for_update().filter(pk=data['reemplaza'],actividad=activity).first()
@@ -440,6 +457,70 @@ def review(request,pk):
             api.record_event(request,'actividades',activity.pk,'validar',None,representation(activity))
         return api.ok(representation(obj))
     except (ValidationError,ValueError,TypeError):return api.error('Datos de revisión inválidos.')
+
+@require_http_methods(['POST'])
+def review_activity(request,pk):
+    denied=gate(request,'actividades','revisar') if api.allowed(request.user,'actividades','revisar') else gate(request,'evidencias','revisar')
+    if denied and not (request.user.is_superuser or api.allowed(request.user,'actividades','revisar') or api.allowed(request.user,'evidencias','revisar')):
+        return api.error('No tienes permiso para revisar actividades.',403)
+    try:
+        data=api.body(request)
+        with transaction.atomic():
+            from .performance import lock_periods
+            lock_periods(pk)
+            activity=Actividad.objects.select_for_update().filter(pk=pk).first()
+            if not activity:return api.error('Actividad no encontrada.',404)
+            if request.user.pk==activity.autor_id:return api.error('El autor no puede revisar su propia actividad.',400)
+            conflict=validate_version(activity,data)
+            if conflict:return conflict
+            allowed_decisions=['Aprobada y pondera','Aprobada y no pondera','Solicitud de antecedentes','Rechazada','Anulada']
+            decision=data.get('decision')
+            if decision not in allowed_decisions:return api.error('Decisión inválida.',400)
+            observation=data.get('observacion')
+            if not isinstance(observation,str) or not observation.strip() or len(observation)>2000:
+                return api.error('Indica una observación de hasta 2000 caracteres.',400)
+            before=representation(activity)
+            pondera=(decision=='Aprobada y pondera')
+            activity.estado=decision
+            activity.version+=1
+            activity.save()
+            RevisionActividad.objects.create(
+                actividad=activity,autor=request.user,decision=decision,
+                pondera=pondera,observacion=observation.strip(),version_actividad=activity.version
+            )
+            api.record_event(request,'actividades',activity.pk,'revisar',before,representation(activity))
+        return api.ok(representation(activity))
+    except (ValidationError,ValueError,TypeError):
+        return api.error('Datos de revisión inválidos.')
+
+@require_http_methods(['POST'])
+def annul_activity(request,pk):
+    if not (request.user.is_superuser or api.allowed(request.user,'actividades','revisar') or api.allowed(request.user,'actividades','editar_equipo') or api.allowed(request.user,'evidencias','revisar')):
+        return api.error('No tienes permiso para anular actividades.',403)
+    try:
+        data=api.body(request)
+        motivo=data.get('motivo') or data.get('observacion')
+        if not isinstance(motivo,str) or not motivo.strip() or len(motivo)>2000:
+            return api.error('Indica un motivo de anulación de hasta 2000 caracteres.',400)
+        with transaction.atomic():
+            from .performance import lock_periods
+            lock_periods(pk)
+            activity=Actividad.objects.select_for_update().filter(pk=pk).first()
+            if not activity:return api.error('Actividad no encontrada.',404)
+            conflict=validate_version(activity,data)
+            if conflict:return conflict
+            before=representation(activity)
+            activity.estado='Anulada'
+            activity.version+=1
+            activity.save()
+            RevisionActividad.objects.create(
+                actividad=activity,autor=request.user,decision='Anulada',
+                pondera=False,observacion=motivo.strip(),version_actividad=activity.version
+            )
+            api.record_event(request,'actividades',activity.pk,'anular',before,representation(activity))
+        return api.ok(representation(activity))
+    except (ValidationError,ValueError,TypeError):
+        return api.error('Datos de anulación inválidos.')
 
 @require_http_methods(['GET','POST'])
 def messages(request,resource,pk):

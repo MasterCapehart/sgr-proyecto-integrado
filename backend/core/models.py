@@ -306,7 +306,7 @@ class Vecino(models.Model):
         ordering = ['nombre', 'pk']
         constraints = [models.UniqueConstraint(fields=['delegacion','rut'], name='vecino_rut_delegacion_unico'),models.UniqueConstraint(fields=['delegacion','correo_unico'],name='vecino_correo_delegacion_unico')]
 
-from .domain_models import Cargo, DerivacionActividad, Actividad, Evidencia, RevisionEvidencia, Compromiso, SeguimientoCompromiso, Conversacion, Mensaje
+from .domain_models import Cargo, DerivacionActividad, Actividad, Evidencia, RevisionEvidencia, RevisionActividad, Compromiso, SeguimientoCompromiso, Conversacion, Mensaje
 from .closure_models import VersionCatalogo, PoliticaOperativa, CierreCompromiso, AlertaLocal
 
 from .matrix_models import Reclamo,RespaldoFelicitacion,RevisionFelicitacion

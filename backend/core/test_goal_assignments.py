@@ -152,3 +152,24 @@ class QuarterOptionsRegressionTests(TestCase):
   d=self.payload();d['periodo']=p.pk;self.create(d)
   with connection.schema_editor() as editor:repair(apps,editor)
   p.refresh_from_db();self.assertEqual((p.anio,p.numero),(2026,3))
+ def test_command_migrar_configuraciones_planes(self):
+  from django.core.management import call_command
+  from io import StringIO
+  from decimal import Decimal
+  from .models import Cargo, ConfiguracionMeta
+  from .goal_models import AsignacionMeta
+  cargo = Cargo.objects.create(codigo='CARGO-TEST', nombre='Cargo Test Migracion')
+  self.u.cargo = cargo; self.u.save()
+  cfg = ConfiguracionMeta.objects.create(item=self.i, cargo=cargo, periodo=self.p.codigo, periodo_gestion=self.p, meta_esperada=50, ponderacion=100)
+  out = StringIO()
+  call_command('migrar_configuraciones_planes', '--periodo', self.p.codigo, stdout=out)
+  self.assertIn('"modo": "simular"', out.getvalue())
+  self.assertFalse(AsignacionMeta.objects.filter(funcionario=self.u, item=self.i, periodo=self.p).exists())
+  out_apply = StringIO()
+  admin = Usuario.objects.create_superuser('admin_migra', 'adminm@test.local', 'PassMigra!123')
+  call_command('migrar_configuraciones_planes', '--apply', '--periodo', self.p.codigo, '--usuario', 'admin_migra', '--motivo', 'Carga inicial plan', stdout=out_apply)
+  self.assertTrue(AsignacionMeta.objects.filter(funcionario=self.u, item=self.i, periodo=self.p).exists())
+  asig = AsignacionMeta.objects.get(funcionario=self.u, item=self.i, periodo=self.p)
+  self.assertEqual(asig.cantidad_objetivo, Decimal('50'))
+  self.assertEqual(asig.ponderacion, Decimal('100'))
+  self.assertTrue(asig.estado)
