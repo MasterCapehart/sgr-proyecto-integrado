@@ -37,6 +37,9 @@ def capture_assignments(user,delegation,day):
     for assignment in rows:
         try:quarter(assignment.periodo)
         except ValidationError:continue
+        snap=assignment.snapshot or {}
+        if snap.get('es_propuesta') or not snap.get('plan_aprobado',True) or (snap.get('procedencia')=='propuesta_migrada' and not snap.get('plan_aprobado')):
+            continue
         if day is None or assignment.periodo.fecha_inicio<=day<=assignment.periodo.fecha_fin:valid.append(assignment)
     return valid
 
@@ -153,6 +156,9 @@ def bind_activity(activity,assignment_id):
     period=PeriodoGestion.objects.select_for_update().get(pk=prior.periodo_id)
     Usuario.objects.select_for_update().get(pk=prior.funcionario_id)
     obj=AsignacionMeta.objects.select_for_update().get(pk=prior.pk)
+    snap=obj.snapshot or {}
+    if snap.get('es_propuesta') or not snap.get('plan_aprobado',True) or (snap.get('procedencia')=='propuesta_migrada' and not snap.get('plan_aprobado')):
+        raise ValidationError('La meta seleccionada es una propuesta no aprobada; no está disponible para registrar trabajo.')
     if period.cerrado or not period.estado or not obj.estado or obj.funcionario_id!=activity.autor_id or obj.item_id!=activity.item_id or obj.delegacion_id!=activity.delegacion_id or not period.fecha_inicio<=day<=period.fecha_fin:raise ValidationError('La asignación debe estar activa y corresponder al funcionario, meta, delegación y fecha del registro en un trimestre abierto.')
     quarter(period)
     activity.asignacion_meta=obj

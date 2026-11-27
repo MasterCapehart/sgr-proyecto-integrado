@@ -180,6 +180,9 @@ class CorrectionsSuiteTests(TestCase):
         self.assertEqual(res.status_code, 200)
         data = res.json()['data']
         self.assertIn('attentions_url', data['month'])
+        self.assertIn('desde=', data['month']['attentions_url'])
+        self.assertIn('hasta=', data['month']['attentions_url'])
+        self.assertIn('delegacion=', data['month']['attentions_url'])
         self.assertIn('activities_url', data['month'])
         self.assertIn('commitments_url', data['month'])
         self.assertIn('evidence_url', data['month'])
@@ -243,7 +246,7 @@ class CorrectionsSuiteTests(TestCase):
         }
         res = collective.consolidate([u1_summary, u2_summary])
         self.assertFalse(res['pesos_compatibles'])
-        self.assertIsNone(res['cumplimiento'])
+        self.assertEqual(res['cumplimiento'], '85.00')
         self.assertEqual(res['items'][0]['cumplimiento'], '85.00')
 
     # 8. Tiempos de gestión social: fechas correctas, sin negativos, faltantes no calculables
@@ -254,3 +257,39 @@ class CorrectionsSuiteTests(TestCase):
         self.assertIsNone(excel_api.diff_days(d2, d1))
         self.assertIsNone(excel_api.diff_days(d1, None))
         self.assertIsNone(excel_api.diff_days(None, d2))
+
+    def test_propuesta_meta_no_disponible_para_captura_trabajo(self):
+        from core.goal_api import capture_assignments, bind_activity
+        from django.core.exceptions import ValidationError
+        asig_prop = AsignacionMeta.objects.create(
+            autor=self.admin, funcionario=self.func_d1, delegacion=self.d1, item=self.item, periodo=self.periodo,
+            cantidad_objetivo=10, ponderacion=50, estado=True,
+            snapshot={'es_propuesta': True, 'plan_aprobado': False}
+        )
+        avail = capture_assignments(self.func_d1, self.d1, date(2026, 2, 15))
+        self.assertNotIn(asig_prop, avail)
+
+        act = Actividad(
+            autor=self.func_d1, delegacion=self.d1, item=self.item, fecha=date(2026, 2, 15),
+            solicitud='S', accion='A', contacto='C', telefono='912345678'
+        )
+        with self.assertRaises(ValidationError):
+            bind_activity(act, asig_prop.pk)
+
+    def test_tiempo_primera_gestion_no_prioriza_programada(self):
+        from core.models import Atencion, TipoAtencion, SubAtencion
+        tipo = TipoAtencion.objects.create(codigo='T01', nombre='Social')
+        sub = SubAtencion.objects.create(codigo='S01', nombre='SubSocial', tipo_atencion=tipo)
+        at = Atencion.objects.create(
+            caso_social='CS-QA-01', usuario=self.func_d1, delegacion=self.d1, delegacion_responsable=self.d1,
+            tipo_atencion=tipo, sub_atencion=sub, solicitante='Vecino',
+            fecha_visita_programada=date(2026, 2, 25),  # Programada 24 días después en el futuro
+            fecha_visita_realizada=date(2026, 2, 4),    # Realizada 3 días después
+            numero_gestion=1, estado=True
+        )
+        Atencion.objects.filter(pk=at.pk).update(fecha_registro=timezone.make_aware(timezone.datetime(2026, 2, 1, 10, 0)))
+        at.refresh_from_db()
+        summary = excel_api.case_summary([at])
+        # Debe medir contra la fecha realizada (3 días), NO contra la programada futura (24 días)
+        self.assertEqual(summary['tiempo_ingreso_primera'], 3)
+

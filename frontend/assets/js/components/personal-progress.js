@@ -10,12 +10,12 @@
   const link = (title, url) => {
     const a = node('a', 'progress-link', title);
     // Solo enlaces locales a pantallas conocidas; nunca esquemas externos.
-    if (/^pages\/[a-z-]+\.html(?:\?[a-z]+=[0-9]+)?$/.test(url)) a.href = url;
+    if (/^pages\/[a-z-]+\.html(?:\?[a-zA-Z0-9_=&%-]+)?$/.test(url)) a.href = url;
     return a;
   };
   function metric(title, value, help, url) {
     const card = node(url ? 'a' : 'article', 'personal-metric');
-    if (url) {
+    if (url && /^pages\/[a-z-]+\.html(?:\?[a-zA-Z0-9_=&%-]+)?$/.test(url)) {
       card.href = url;
       card.style.display = 'block';
       card.style.textDecoration = 'none';
@@ -130,20 +130,55 @@
     const section = node('section', 'personal-progress'); section.setAttribute('aria-label', 'Mi progreso personal');
     const header = node('div', 'personal-progress-header'); const text = node('div');
     text.append(node('p', 'eyebrow', 'Tu gestión personal'), node('h2', 'personal-progress-title', 'Mi progreso'));
-    const label = node('label', 'personal-period'); label.append(node('span', null, 'Mes del resumen'));
+    const label = node('label', 'personal-period'); label.append(node('span', null, 'Período del resumen'));
     const select = node('select'); label.append(select);
+    
+    // Opciones iniciales de meses recientes mientras cargan los períodos
     const now = new Date();
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < 6; i++) {
       const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
-      const value = date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0');
+      const value = 'mes:' + date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0');
       select.add(new Option(date.toLocaleDateString('es-CL', { month: 'long', year: 'numeric' }), value));
     }
     header.append(text, label); const body = node('div'); body.setAttribute('aria-live', 'polite'); section.append(header, body); before.before(section);
     let revision = 0;
+    let periodsPopulated = false;
     const load = async () => {
       const current = ++revision; body.setAttribute('aria-busy', 'true');
       body.replaceChildren(node('p', 'progress-loading', 'Cargando tus pendientes y progreso…'));
-      try { const result = await SGRApi.request('/api/mi-progreso/?mes=' + encodeURIComponent(select.value)); if (current === revision) render(body, result.data); }
+      const val = select.value || '';
+      const queryParam = val.startsWith('trimestre:')
+        ? '?trimestre=' + encodeURIComponent(val.replace('trimestre:', ''))
+        : '?mes=' + encodeURIComponent(val.replace('mes:', ''));
+      try {
+        const result = await SGRApi.request('/api/mi-progreso/' + queryParam);
+        if (current === revision) {
+          if (!periodsPopulated && result.data && Array.isArray(result.data.periodos) && result.data.periodos.length > 0) {
+            periodsPopulated = true;
+            const currentSelected = select.value;
+            select.replaceChildren();
+            const groupTrimestres = document.createElement('optgroup');
+            groupTrimestres.label = 'Trimestres de gestión';
+            for (const p of result.data.periodos) {
+              const opt = new Option(p.nombre + (p.cerrado ? ' (Cerrado)' : ''), 'trimestre:' + p.id);
+              groupTrimestres.append(opt);
+            }
+            select.append(groupTrimestres);
+            const groupMeses = document.createElement('optgroup');
+            groupMeses.label = 'Meses recientes';
+            for (let i = 0; i < 6; i++) {
+              const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+              const mVal = 'mes:' + date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0');
+              groupMeses.append(new Option(date.toLocaleDateString('es-CL', { month: 'long', year: 'numeric' }), mVal));
+            }
+            select.append(groupMeses);
+            if (currentSelected && select.querySelector(`option[value="${currentSelected}"]`)) {
+              select.value = currentSelected;
+            }
+          }
+          render(body, result.data);
+        }
+      }
       catch (e) {
         if (current !== revision) return;
         const message = node('div', 'notice neutral'); message.append(node('p', null, 'No se pudo cargar tu progreso. No se muestran cifras incompletas.'));

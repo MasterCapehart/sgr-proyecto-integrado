@@ -33,8 +33,11 @@ def overview(request):
     period_param = request.GET.get('mes')
     from .models import PeriodoGestion
     active_period = None
-    if trimestre_id and str(trimestre_id).isdigit():
-        active_period = PeriodoGestion.objects.filter(pk=int(trimestre_id)).first()
+    if trimestre_id:
+        if str(trimestre_id).isdigit():
+            active_period = PeriodoGestion.objects.filter(pk=int(trimestre_id)).first()
+        else:
+            active_period = PeriodoGestion.objects.filter(Q(codigo=trimestre_id)|Q(nombre=trimestre_id)).first()
 
     if active_period:
         start = active_period.fecha_inicio
@@ -67,11 +70,15 @@ def overview(request):
     def monthly(qs, field='creado'):
         return qs.filter(**{field+'__gte': bounds(start), field+'__lt': bounds(end)})
 
+    d_start = start.strftime('%Y-%m-%d')
+    d_end = (end - timedelta(days=1)).strftime('%Y-%m-%d')
+    p_code = active_period.codigo if active_period else ''
+    p_param = f'&periodo={p_code}' if p_code else ''
     month_data = dict(
-        attentions=None, attentions_url='pages/ingreso-atencion.html',
-        activities=None, activities_url='pages/desempeno.html',
-        commitments=None, commitments_url='pages/tubo-trabajo.html',
-        evidence=None, evidence_url='pages/evidencias.html'
+        attentions=None, attentions_url=f'pages/ingreso-atencion.html?desde={d_start}&hasta={d_end}&delegacion={delegation.pk}',
+        activities=None, activities_url=f'pages/desempeno.html?desde={d_start}&hasta={d_end}&delegacion={delegation.pk}{p_param}',
+        commitments=None, commitments_url=f'pages/tubo-trabajo.html?desde={d_start}&hasta={d_end}&delegacion={delegation.pk}',
+        evidence=None, evidence_url=f'pages/evidencias.html?desde={d_start}&hasta={d_end}&delegacion={delegation.pk}{p_param}'
     )
     if attentions is not None:
         month_data['attentions'] = monthly(attentions, 'fecha_registro').count()

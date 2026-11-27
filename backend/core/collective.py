@@ -52,6 +52,12 @@ def consolidate(summaries):
         items.append(g)
     items.sort(key=lambda r:r['codigo']);persons.sort(key=lambda r:r['nombre'].casefold())
     value,goal=metric(items)
+    if value is None:
+        eval_persons=[p for p in persons if p.get('cumplimiento_exacto') is not None]
+        if eval_persons:
+            value=sum((D(p['cumplimiento_exacto']) for p in eval_persons),D(0))/len(eval_persons)
+            goals=[D(s.get('objetivo_al_dia')) for s in summaries if s.get('objetivo_al_dia') is not None]
+            goal=sum(goals,D(0))/len(goals) if len(goals)==len(eval_persons) else None
     return dict(items=items,personas=persons,cumplimiento=absences.number(value) if value is not None else None,semaforo=status(value,goal),evaluados=sum(p['cumplimiento'] is not None for p in persons),sin_evaluacion=sum(p['cumplimiento'] is None for p in persons),distribucion={color:sum(p['semaforo']==color for p in persons) for color in ['Verde','Naranjo','Rojo','Sin evaluación']},parcial=any(p['items_sin_evaluacion'] or not p['items_evaluados'] for p in persons),pesos_compatibles=all(i['peso'] is not None for i in items if i['cumplimiento'] is not None))
 
 @require_http_methods(['GET'])

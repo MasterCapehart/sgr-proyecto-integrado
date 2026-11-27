@@ -82,7 +82,7 @@ def case_summary(records):
     for number,key in [(1,'primera'),(2,'segunda'),(3,'tercera')]:
         row=next((r for r in rows if r.numero_gestion==number),None);result[key]=(row.tipo_gestion or 'Registrada sin tipo especificado') if row else 'Sin registrar'
     g1 = next((r for r in rows if r.numero_gestion==1), first)
-    g1_fecha = g1.fecha_visita_programada or g1.fecha_visita or timezone.localtime(g1.fecha_registro).date()
+    g1_fecha = g1.fecha_visita_realizada or g1.fecha_visita or timezone.localtime(g1.fecha_registro).date()
     t1 = diff_days(result['fecha_ingreso'], g1_fecha)
     t2 = diff_days(result['programada'], result['realizada'] or latest('fecha_visita'))
     t3 = diff_days(result['realizada'] or latest('fecha_visita'), result['informe'])
