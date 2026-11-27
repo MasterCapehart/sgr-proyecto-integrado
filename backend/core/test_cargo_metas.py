@@ -83,4 +83,4 @@ class CargoCalendarTests(TestCase):
   response=self.client.get('/api/cumplimiento/colectivo/',{'periodo':self.p.pk})
   self.assertEqual(response.status_code,200,response.content)
   data=response.json()['data'];self.assertEqual(data['items'][0]['meta'],'50.00')
-  self.assertFalse(data['pesos_compatibles']);self.assertIsNone(data['cumplimiento'])
+  self.assertFalse(data['pesos_compatibles']);self.assertEqual(data['cumplimiento'],'0.00')

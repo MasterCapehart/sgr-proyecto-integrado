@@ -38,8 +38,10 @@ def validate_social(obj,data):
         if digit!=expected:raise ValidationError('El dígito verificador del RUN no es válido.')
         obj.rut_solicitante=rut
     if (obj.fecha_visita_programada or obj.fecha_visita_realizada) and not obj.requiere_visita:raise ValidationError('Indica que requiere visita antes de informar sus fechas.')
+    if obj.fecha_visita_programada and obj.fecha_visita_realizada and obj.fecha_visita_realizada<obj.fecha_visita_programada:raise ValidationError('La visita realizada no puede ser anterior a la visita programada.')
     if obj.fecha_visita_realizada and obj.fecha_visita_realizada>timezone.localdate():raise ValidationError('La visita realizada no puede estar en el futuro.')
     if obj.fecha_visita and not obj.requiere_visita:raise ValidationError('Indica que requiere visita antes de programar su fecha.')
+    if obj.fecha_visita_realizada and obj.fecha_entrega_informe and obj.fecha_entrega_informe<obj.fecha_visita_realizada:raise ValidationError('La entrega del informe no puede preceder a la visita realizada.')
     if obj.fecha_entrega_informe and obj.fecha_entrega_beneficio and obj.fecha_entrega_beneficio<obj.fecha_entrega_informe:raise ValidationError('La entrega del beneficio no puede preceder al informe registrado en esta gestión.')
 
 EXCEL_COLUMNS={

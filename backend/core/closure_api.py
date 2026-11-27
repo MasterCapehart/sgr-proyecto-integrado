@@ -36,10 +36,10 @@ def governance(request):
     try:
         data=api.body(request);motivo=reason(data);transitions=data.get('transiciones');validated=data.get('validar',False)
         if not isinstance(validated,bool):return api.error('La confirmación debe ser booleana.')
-        if not isinstance(transitions,dict) or set(transitions)!=set(STATES):return api.error('Configura los cuatro estados de agenda.')
+        if not isinstance(transitions,dict) or set(transitions)!=set(STATES):return api.error('Configura todos los estados de agenda.')
         for state,targets in transitions.items():
             if not isinstance(targets,list) or len(targets)!=len(set(str(x) for x in targets)) or any(not isinstance(x,str) or x not in STATES or x==state for x in targets):return api.error('Transiciones inválidas.')
-        if transitions['Realizado']:return api.error('La reapertura usa una operación separada y autorizada; Realizado no tiene salidas ordinarias.')
+        if transitions['Cerrado'] or transitions['No aplica']:return api.error('Los estados terminales solo se reabren mediante la acción autorizada.')
         with transaction.atomic():
             # Serializa los cambios incluso antes de que exista la primera política.
             from .models import Delegacion
@@ -67,9 +67,9 @@ def sync_alerts(request):
         if not api.allowed(request.user,resource,'ver'):visible[resource]=[];continue
         qs=domain.scoped(request,resource);visible[resource]=list(qs.values_list('pk',flat=True))
         if resource=='compromisos':
-            for c in qs.filter(fecha_comprometida__lt=timezone.localdate()).exclude(estado='Realizado'):
+            for c in qs.filter(fecha_comprometida__lt=timezone.localdate()).exclude(estado__in=['Cerrado','No aplica']):
                 key=f'compromiso:{c.pk}:{c.fecha_comprometida}:{c.cierres.count()}'
-                obj,_=AlertaLocal.objects.get_or_create(clave=key,defaults={'delegacion':c.delegacion,'responsable':c.responsable,'recurso':resource,'registro':c.pk,'tipo':'vencimiento','motivo':f'Compromiso sin realizar; fecha comprometida {c.fecha_comprometida}.','fecha_referencia':c.fecha_comprometida})
+                obj,_=AlertaLocal.objects.get_or_create(clave=key,defaults={'delegacion':c.delegacion,'responsable':c.responsable,'recurso':resource,'registro':c.pk,'tipo':'vencimiento','motivo':f'Compromiso sin cierre; fecha comprometida {c.fecha_comprometida}.','fecha_referencia':c.fecha_comprometida})
                 active_keys.append(key)
                 if obj.responsable_id!=c.responsable_id:obj.responsable=c.responsable;obj.version+=1;obj.save(update_fields=['responsable','version'])
         else:
@@ -163,9 +163,10 @@ def reopen(request,pk):
             if not obj:return api.error('Compromiso no encontrado.',404)
             conflict=domain.validate_version(obj,data)
             if conflict:return conflict
-            if obj.estado!='Realizado':return api.error('Solo se reabre un compromiso realizado.')
-            before=domain.representation(obj);obj.estado='En proceso';obj.cierre_actual=None;obj.version+=1;obj.save()
-            SeguimientoCompromiso.objects.create(compromiso=obj,autor=request.user,estado_anterior='Realizado',estado_nuevo=obj.estado,observacion='Reapertura: '+motivo,responsable_anterior=obj.responsable,responsable_nuevo=obj.responsable,fecha_anterior=obj.fecha_comprometida,fecha_nueva=obj.fecha_comprometida)
+            if obj.estado not in ['Cerrado','No aplica']:return api.error('Solo se reabre un compromiso cerrado o no aplicable.')
+            if not request.user.is_superuser and not (request.user.rol_id and request.user.rol.nombre.strip().casefold() in ['administrador','delegado']):return api.error('La reapertura requiere un administrador o delegado autorizado.',403)
+            before=domain.representation(obj);obj.estado='En proceso';obj.cierre_actual=None;obj.fecha_cierre=None;obj.version+=1;obj.save()
+            SeguimientoCompromiso.objects.create(compromiso=obj,autor=request.user,estado_anterior=before['estado'],estado_nuevo=obj.estado,observacion='Reapertura: '+motivo,responsable_anterior=obj.responsable,responsable_nuevo=obj.responsable,fecha_anterior=obj.fecha_comprometida,fecha_nueva=obj.fecha_comprometida)
             api.record_event(request,'compromisos',obj.pk,'reabrir',before,domain.representation(obj))
         return api.ok(domain.representation(obj))
     except (ValidationError,ValueError,TypeError):return api.error('Datos de reapertura inválidos.')

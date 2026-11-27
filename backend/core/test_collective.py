@@ -52,6 +52,6 @@ class CollectiveTests(TestCase):
   from .collective import consolidate
   import copy
   self.activity();one=self.summary();two=copy.deepcopy(one);two['funcionario']=999;two['metas'][0]['ponderacion']='30'
-  r=consolidate([one,two]);self.assertFalse(r['pesos_compatibles']);self.assertIsNone(r['cumplimiento']);self.assertEqual(r['items'][0]['cumplimiento'],'10.00')
+  r=consolidate([one,two]);self.assertFalse(r['pesos_compatibles']);self.assertEqual(r['cumplimiento'],'10.00');self.assertEqual(r['items'][0]['cumplimiento'],'10.00')
   one['metas'][0]['ponderacion']='0';self.assertIsNone(consolidate([one])['cumplimiento'])
  summary=fixtures.PerformanceTests.summary

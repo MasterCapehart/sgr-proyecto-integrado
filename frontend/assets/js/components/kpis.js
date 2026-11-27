@@ -50,7 +50,7 @@
       if(!hasResults)value.classList.add('is-empty');header.append(copy,value);panel.append(header);
       const breakdown=node('p','tube-completion-breakdown');
       const overdue=data.cards.find(metric=>metric.key==='vencidos')?.value??0;
-      for(const [amount,label] of [[completion.realizados,'realizados'],[completion.por_completar,'por completar'],[overdue,'vencidos']]){const item=node('span');item.append(node('strong',null,Number(amount).toLocaleString('es-CL')),document.createTextNode(' '+label));breakdown.append(item);}
+      for(const [amount,label] of [[completion.realizados,'realizados (incluye cerrados)'],[completion.no_aplica||0,'no aplica'],[completion.por_completar,'por completar'],[overdue,'vencidos']]){const item=node('span');item.append(node('strong',null,Number(amount).toLocaleString('es-CL')),document.createTextNode(' '+label));breakdown.append(item);}
       if(hasResults)panel.append(breakdown);
       if(hasResults){
         const progress=node('progress','tube-completion-track');progress.max=100;progress.value=Number(completion.porcentaje_exacto);

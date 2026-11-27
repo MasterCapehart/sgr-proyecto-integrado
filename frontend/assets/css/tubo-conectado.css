@@ -1,0 +1,8 @@
+.tube-connection-panel [hidden],.tube-neighbor-panel[hidden],.tube-neighbor-panel [hidden]{display:none!important}
+.tube-search-results{display:grid;gap:8px;margin:8px 0}
+.tube-search-results button{text-align:left;white-space:normal;justify-content:flex-start}
+.tube-connection-panel label,.tube-neighbor-panel label{display:block;font-weight:600;margin-bottom:8px}
+.tube-connection-panel p,.tube-neighbor-panel p{margin:8px 0}
+.tube-neighbor-panel{padding:16px;border:1px solid #dce3eb;border-radius:10px;background:#f8fafc}
+.operation-form .tube-connection-panel{margin:0;padding:16px}
+.operation-form .tube-connection-panel select,.operation-form .tube-connection-panel input,.operation-form .tube-neighbor-panel input{width:100%;box-sizing:border-box}

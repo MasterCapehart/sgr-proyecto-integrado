@@ -1,13 +1,13 @@
 import uuid
 from django.test import TestCase
 from . import test_neighbors as neighbor_helpers
-from .models import Rol
+from .models import Rol,Vecino
 
 class CommunityTests(TestCase):
  setUp=neighbor_helpers.NeighborTests.setUp
  def send(self,url,data,method='post'):return getattr(self.client,method)(url,data,content_type='application/json')
  def neighbor(self):
-  r=self.send('/api/vecinos/',dict(nombre='Vecino comunitario ficticio',telefono='912345678',sector='Sector QA',clave_idempotencia=uuid.uuid4().hex));self.assertEqual(r.status_code,201,r.content);return r.json()['data']
+  r=self.send('/api/vecinos/',dict(nombre='Vecino comunitario ficticio',rut=('12345678-5','1234567-4','11111111-1')[Vecino.objects.count()],telefono='912345678',sector='Sector QA',clave_idempotencia=uuid.uuid4().hex));self.assertEqual(r.status_code,201,r.content);return r.json()['data']
  def org(self,name='Junta ficticia'):
   r=self.send('/api/organizaciones/',dict(nombre=name,tipo='Junta de vecinos',territorio='Sector QA',clave_idempotencia=uuid.uuid4().hex));self.assertEqual(r.status_code,201,r.content);return r.json()['data']
  def test_organizacion_socios_desconocidos_y_cero(self):

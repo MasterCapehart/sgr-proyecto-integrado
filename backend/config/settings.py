@@ -147,7 +147,7 @@ SESSION_COOKIE_NAME = os.getenv("SESSION_COOKIE_NAME", "sgr_session")
 CSRF_COOKIE_NAME = os.getenv("CSRF_COOKIE_NAME", "sgr_csrf")
 MEDIA_ROOT = BASE_DIR.parent / "media"
 STATIC_ROOT = BASE_DIR.parent / "staticfiles"
-ALLOWED_HOSTS = [host.strip() for host in os.getenv("ALLOWED_HOSTS", "127.0.0.1,localhost").split(",") if host.strip()]
+ALLOWED_HOSTS = [host.strip() for host in os.getenv("ALLOWED_HOSTS", "127.0.0.1,localhost,testserver").split(",") if host.strip()]
 
 # El modo local se conserva hasta configurar explícitamente SMTP en el .env privado.
 from .email_settings import email_configuration

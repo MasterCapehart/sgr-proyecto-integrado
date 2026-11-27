@@ -24,7 +24,7 @@ from . import domain_api as domain
 urlpatterns += [path('operacion/opciones/',domain.options)]
 for resource in domain.MODELS:
  urlpatterns += [path('operacion/'+resource+'/',domain.records,{'resource':resource}),path('operacion/'+resource+'/export/',domain.records,{'resource':resource,'action':'export'}),path('operacion/'+resource+'/<int:pk>/',domain.records,{'resource':resource}),path('operacion/'+resource+'/<int:pk>/mensajes/',domain.messages,{'resource':resource})]
-urlpatterns += [path('operacion/evidencias/<int:pk>/archivo/',domain.download),path('operacion/evidencias/<int:pk>/revisar/',domain.review)]
+urlpatterns += [path('operacion/evidencias/<int:pk>/archivo/',domain.download),path('operacion/evidencias/<int:pk>/revisar/',domain.review),path('operacion/actividades/<int:pk>/revisar/',domain.review_activity),path('operacion/actividades/<int:pk>/anular/',domain.annul_activity)]
 
 from . import excel_api
 urlpatterns += [path('casos-sociales/',excel_api.cases),path('casos-sociales/<str:code>/',excel_api.cases),path('operacion/actividades/<int:pk>/derivacion/',excel_api.derivation)]
@@ -85,3 +85,13 @@ urlpatterns += [path('cumplimiento/colectivo/',collective.overview)]
 
 from . import weight_review
 urlpatterns += [path('configuraciones-metas/revision-ponderaciones/',weight_review.overview)]
+
+urlpatterns += [path('seguimiento/registros/',capture_followup.source_options)]
+
+from . import territories
+urlpatterns += [path('territorios/',territories.records),path('territorios/<int:pk>/',territories.records),path('territorios/<int:pk>/estado/',territories.records,{'action':'estado'})]
+
+from django.urls import include
+urlpatterns += [path("asignaciones-metas/",include("core.goal_urls"))]
+
+urlpatterns += [path('',include('core.letter_urls'))]

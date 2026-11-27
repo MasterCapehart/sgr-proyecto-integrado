@@ -7,22 +7,28 @@ from pathlib import Path
 from django.core.exceptions import ValidationError, PermissionDenied
 from django.core.paginator import Paginator
 from django.db import transaction, IntegrityError
-from django.db.models import Q
+from django.db.models import Q, Case, When, Value, IntegerField
 from django.http import FileResponse, HttpResponse
 from django.utils import timezone
 from django.views.decorators.http import require_http_methods
 from . import local_api as api
-from .models import Actividad, Evidencia, Compromiso, RevisionEvidencia, SeguimientoCompromiso, Conversacion, Mensaje, Usuario, ItemMeta
+from .models import Actividad, Evidencia, Compromiso, RevisionEvidencia, RevisionActividad, SeguimientoCompromiso, Conversacion, Mensaje, Usuario, ItemMeta
 
 MODELS={'actividades':Actividad,'evidencias':Evidencia,'compromisos':Compromiso}
 FIELDS={
- 'actividades':['fecha','solicitud','accion','contacto','telefono','sector','item','compromiso','unidad','plantilla','profesional','junta_vecinos','rut_contacto','beneficiario_usuario'],
- 'compromisos':['fecha_solicitud','descripcion','solicitante','sector','responsable','fecha_comprometida','area_apoyo','origen','estado','unidad','codigo_verificacion_foto'],
+ 'actividades':['asignacion_meta','hito','territorio_catalogo','fecha','solicitud','accion','contacto','telefono','sector','item','compromiso','unidad','plantilla','profesional','junta_vecinos','rut_contacto','beneficiario_usuario'],
+ 'compromisos':['resultado','territorio_catalogo','vecino','fecha_solicitud','descripcion','solicitante','sector','responsable','fecha_comprometida','area_apoyo','origen','estado','unidad','codigo_verificacion_foto'],
 }
 
 def scoped(request,resource):
-    qs=MODELS[resource].objects.filter(delegacion=api.active_delegation(request)).order_by('fecha_comprometida','id') if resource=='compromisos' else MODELS[resource].objects.filter(delegacion=api.active_delegation(request)).order_by('-id')
-    if not api.allowed(request.user,resource,'ver_equipo') and not (resource=='evidencias' and api.allowed(request.user,'evidencias','revisar')):
+    qs=MODELS[resource].objects.filter(delegacion=api.active_delegation(request))
+    if resource=='compromisos':
+        qs=qs.annotate(prioridad_tubo=Case(
+            When(estado__in=['Realizado','Cerrado','No aplica'],then=Value(2)),
+            When(fecha_comprometida__lt=timezone.localdate(),then=Value(0)),
+            default=Value(1),output_field=IntegerField())).order_by('prioridad_tubo','fecha_comprometida','id')
+    else:qs=qs.order_by('-id')
+    if resource!='compromisos' and not api.allowed(request.user,resource,'ver_equipo') and not (resource=='evidencias' and api.allowed(request.user,'evidencias','revisar')):
         if resource=='compromisos': qs=qs.filter(Q(autor=request.user)|Q(responsable=request.user))
         elif resource=='evidencias': qs=qs.filter(actividad__autor=request.user)
         else: qs=qs.filter(autor=request.user)
@@ -40,6 +46,8 @@ def representation(obj):
         r['derivaciones']=[{'fecha':x.fecha.isoformat(),'autor':x.autor.get_full_name() or x.autor.username,'destino':x.destino,'motivo':x.motivo,'estado':x.estado} for x in obj.derivaciones.select_related('autor')]
         r['evidencias_actuales']=[{'id':e.pk,'archivo':e.nombre_archivo,'estado':e.estado,'url':f'/api/operacion/evidencias/{e.pk}/archivo/'} for e in obj.evidencias.filter(siguiente_version__isnull=True)]
         r['imagen_verificacion']='Sí' if r['evidencias_actuales'] else 'No'
+        r['revisiones']=[{'id':x.pk,'fecha':x.fecha.isoformat(),'autor':x.autor.get_full_name() or x.autor.username,'decision':x.decision,'pondera':x.pondera,'observacion':x.observacion,'version_actividad':x.version_actividad} for x in obj.revisiones.select_related('autor').order_by('-pk')]
+        r['ultima_revision']=r['revisiones'][0] if r['revisiones'] else None
     elif isinstance(obj,Compromiso):
         r.update(api.serialize(obj,FIELDS['compromisos']));r.update(folio=obj.folio,responsable_nombre=obj.responsable.get_full_name() or obj.responsable.username,vencido=obj.fecha_comprometida<timezone.localdate() and obj.estado!='Realizado')
         from .operating_policy import current
@@ -54,7 +62,16 @@ def representation(obj):
         r['seguimientos']=[{'fecha':x.fecha.isoformat(),'autor':x.autor.username,'estado_anterior':x.estado_anterior,'estado_nuevo':x.estado_nuevo,'observacion':x.observacion,'fecha_anterior':str(x.fecha_anterior),'fecha_nueva':str(x.fecha_nueva),'responsable_anterior':x.responsable_anterior.username,'responsable_nuevo':x.responsable_nuevo.username} for x in obj.seguimientos.select_related('autor','responsable_anterior','responsable_nuevo')]
     else:
         r.update(actividad=obj.actividad_id,codigo_actividad=obj.actividad.codigo,descripcion=obj.descripcion,nombre_archivo=obj.nombre_archivo,tamano=obj.tamano,sha256=obj.sha256,reemplaza=obj.reemplaza_id,vigente=not hasattr(obj,'siguiente_version'),archivo_url=f'/api/operacion/evidencias/{obj.pk}/archivo/')
+        a=obj.actividad
+        r['actividad_autor']=a.autor_id
+        r['actividad_solicitud']=a.solicitud
+        r['actividad_contexto']=dict(id=a.pk,codigo=a.codigo,fecha=str(a.fecha),solicitud=a.solicitud,accion=a.accion,sector=a.sector,estado=a.estado)
+        states=list(a.evidencias.filter(siguiente_version__isnull=True).exclude(estado='Anulada').values_list('estado',flat=True))
+        r['revision_resumen']=dict(total=len(states),aprobadas=states.count('Aprobada'),pendientes=states.count('Pendiente'),correcciones=states.count('Corrección'),rechazadas=states.count('Rechazada'))
         r['revisiones']=[{'fecha':x.fecha.isoformat(),'autor':x.autor.username,'decision':x.decision,'observacion':x.observacion,'version_evidencia':x.version_evidencia} for x in obj.revisiones.select_related('autor')]
+    if isinstance(obj,(Actividad,Compromiso)):
+        from .tracking import representation as tracking_representation
+        r=tracking_representation(obj,r)
     return json.loads(json.dumps(r,cls=DjangoJSONEncoder))
 
 def validate_version(obj,data):
@@ -67,7 +84,27 @@ def apply_fields(request,resource,obj,data):
     for field in FIELDS[resource]:
         if field not in data:continue
         value=data[field]
-        if field in ['item','compromiso','responsable','profesional','beneficiario_usuario']:
+        if field=='asignacion_meta':
+            continue
+        elif field=='hito':
+            from .models import Hito
+            if value in ('',None):obj.hito=None;continue
+            if isinstance(value,bool) or not str(value).isdigit():raise ValidationError('Selecciona un hito válido.')
+            h=Hito.objects.filter(pk=value,delegacion=obj.delegacion,activo=True).first()
+            if h is None:raise ValidationError('Hito no disponible en tu delegación.')
+            if not (request.user.is_superuser or (request.user.rol_id and request.user.rol.nombre.strip().lower() in ['administrador','delegado']) or h.responsables.filter(pk=request.user.pk).exists()):raise PermissionDenied('No eres responsable de este hito.')
+            obj.hito=h
+        elif field=='territorio_catalogo':
+            from .territories import bind
+            bind(obj,value)
+        elif field=='vecino':
+            from .models import Vecino
+            if value in ('',None):obj.vecino=None;continue
+            if isinstance(value,bool) or not str(value).isdigit():raise ValidationError('Selecciona un vecino válido.')
+            related=Vecino.objects.filter(pk=value,delegacion=obj.delegacion).first()
+            if related is None or (not related.activo and obj.vecino_id!=related.pk):raise ValidationError('El vecino no está disponible en esta delegación.')
+            obj.vecino=related
+        elif field in ['item','compromiso','responsable','profesional','beneficiario_usuario']:
             if field in ['compromiso','profesional','beneficiario_usuario'] and value in ('',None):setattr(obj,field,None);continue
             if isinstance(value,bool) or not str(value).isdigit():raise ValidationError('Referencia inválida.')
             if resource=='compromisos' and field=='responsable':
@@ -77,7 +114,21 @@ def apply_fields(request,resource,obj,data):
             if field=='item':
                 from .excel_support import items_for
                 related=items_for(request.user).filter(pk=value).first()
-            elif field=='compromiso': related=scoped(request,'compromisos').filter(pk=value).first()
+                assignment_id=data.get('asignacion_meta',getattr(obj,'asignacion_meta_id',None))
+                if related is None and resource=='actividades' and type(assignment_id) is int:
+                    # La asignación explícita puede ampliar el catálogo del cargo;
+                    # bind_activity comprueba propietario, período, fecha y delegación.
+                    from .goal_models import AsignacionMeta
+                    assignment=AsignacionMeta.objects.select_related('item').filter(pk=assignment_id,funcionario_id=obj.autor_id,delegacion_id=obj.delegacion_id,item_id=value,estado=True,item__estado=True).first()
+                    if assignment:
+                        snap=assignment.snapshot or {}
+                        if not snap.get('es_propuesta') and snap.get('plan_aprobado',True) and not (snap.get('procedencia')=='propuesta_migrada' and not snap.get('plan_aprobado')):
+                            related=assignment.item
+            elif field=='compromiso':
+                related=scoped(request,'compromisos').select_for_update().filter(pk=value).first()
+                if related and obj.compromiso_id!=related.pk:
+                    from .tracking import validate_link
+                    validate_link(request,obj,related)
             else: related=Usuario.objects.filter(pk=value,is_active=True).filter(Q(delegacion=obj.delegacion)|Q(delegaciones=obj.delegacion)).distinct().first()
             if related is None:raise ValidationError(f'{field}: registro inactivo o fuera de la delegación.')
             setattr(obj,field,related)
@@ -95,10 +146,12 @@ def apply_fields(request,resource,obj,data):
             elif value not in PROFILES or (not request.user.is_superuser and value!=(selected or 'GENERAL')):raise ValidationError('Planilla no autorizada para tu función.')
             obj.plantilla=value
         else:
+            if field=='resultado' and value in ('',None):obj.resultado='';continue
             if (field in ['codigo_verificacion_foto','junta_vecinos','area_apoyo'] or (resource=='actividades' and field in ['contacto','telefono']) or (resource=='compromisos' and field=='solicitante')) and value in ['',None]:setattr(obj,field,'');continue
             if field=='fecha_solicitud' and value in ('',None):obj.fecha_solicitud=None;continue
             if not isinstance(value,str) or not value.strip():raise ValidationError(f'{field}: campo obligatorio de texto.')
             setattr(obj,field,value.strip())
+    if resource=='compromisos' and obj.vecino_id and ('vecino' in data or not obj.pk):obj.solicitante=obj.vecino.nombre
     if resource=='actividades':
         import re
         if obj.telefono and not re.fullmatch(r'\+?[0-9 ()-]{8,20}',obj.telefono):raise ValidationError('Teléfono inválido.')
@@ -111,6 +164,9 @@ def apply_fields(request,resource,obj,data):
         try: requested=date.fromisoformat(str(obj.fecha_solicitud));promised=date.fromisoformat(str(obj.fecha_comprometida))
         except ValueError:raise ValidationError('Fecha de solicitud o compromiso inválida.')
         if requested>promised:raise ValidationError('La fecha de compromiso no puede preceder a la solicitud.')
+    if resource=='actividades' and ('asignacion_meta' in data or obj.asignacion_meta_id):
+        from .goal_api import bind_activity
+        bind_activity(obj,data.get('asignacion_meta',obj.asignacion_meta_id))
     obj.full_clean()
 
 def gate(request,resource,action):
@@ -142,9 +198,13 @@ def records(request,resource,pk=None,action=None):
                 return api.ok(representation(obj)) if obj else api.error('Registro no encontrado.',404)
             search=request.GET.get('search','').strip()
             if search:
-                query=Q(descripcion__icontains=search) if resource!='actividades' else Q(solicitud__icontains=search)|Q(accion__icontains=search)
-                code='codigo' if resource=='actividades' else 'folio' if resource=='compromisos' else 'nombre_archivo'
-                qs=qs.filter(query|Q(**{code+'__icontains':search}))
+                if resource=='actividades':
+                    query=Q(solicitud__icontains=search)|Q(accion__icontains=search)|Q(codigo__icontains=search)|Q(contacto__icontains=search)|Q(rut_contacto__icontains=search)|Q(vecino__rut__icontains=search)|Q(vecino__nombres__icontains=search)|Q(vecino__apellidos__icontains=search)
+                elif resource=='compromisos':
+                    query=Q(descripcion__icontains=search)|Q(folio__icontains=search)|Q(solicitante__icontains=search)|Q(codigo_verificacion_foto__icontains=search)|Q(vecino__rut__icontains=search)|Q(vecino__nombres__icontains=search)|Q(vecino__apellidos__icontains=search)
+                else:
+                    query=Q(descripcion__icontains=search)|Q(nombre_archivo__icontains=search)
+                qs=qs.filter(query)
             from .excel_support import COLUMN_FILTERS
             for key,value in request.GET.items():
                 if key.startswith('col_') and value:
@@ -159,8 +219,8 @@ def records(request,resource,pk=None,action=None):
             if resource=='actividades' and request.GET.get('plantilla'):qs=qs.filter(plantilla=request.GET['plantilla'])
             if request.GET.get('estado'):qs=qs.filter(estado=request.GET['estado'])
             if request.GET.get('sector') and resource!='evidencias':qs=qs.filter(sector__icontains=request.GET['sector'])
-            if resource=='compromisos' and request.GET.get('plazo')=='vencido':qs=qs.filter(fecha_comprometida__lt=timezone.localdate()).exclude(estado='Realizado')
-            if resource=='compromisos' and request.GET.get('plazo')=='hoy':qs=qs.filter(fecha_comprometida=timezone.localdate()).exclude(estado='Realizado')
+            if resource=='compromisos' and request.GET.get('plazo')=='vencido':qs=qs.filter(fecha_comprometida__lt=timezone.localdate()).exclude(estado__in=['Realizado','Cerrado','No aplica'])
+            if resource=='compromisos' and request.GET.get('plazo')=='hoy':qs=qs.filter(fecha_comprometida=timezone.localdate()).exclude(estado__in=['Realizado','Cerrado','No aplica'])
             for key in ['autor','item','actividad','responsable','cargo']:
                 if request.GET.get(key) and key in [f.name for f in MODELS[resource]._meta.fields]:qs=qs.filter(**{key:request.GET[key]})
             datefield='fecha' if resource=='actividades' else 'fecha_comprometida' if resource=='compromisos' else 'creado__date'
@@ -201,6 +261,7 @@ def records(request,resource,pk=None,action=None):
             return upload(request)
         data=api.body(request)
         raw_data=dict(data)
+        source_id=data.pop('actividad_origen',None) if resource=='compromisos' and request.method=='POST' else None
         from .capture_followup import fingerprint
         capture_key=data.pop('clave_idempotencia',None) if resource=='actividades' and request.method=='POST' else None
         if capture_key is not None and (not isinstance(capture_key,str) or not capture_key.strip() or len(capture_key)>64):raise ValidationError('Clave de idempotencia inválida.')
@@ -212,6 +273,15 @@ def records(request,resource,pk=None,action=None):
             owner=qs.filter(pk=pk).values_list('autor_id',flat=True).first() if pk else request.user.pk
             if owner:ensure_author(owner)
         with transaction.atomic():
+            source=None
+            if source_id is not None:
+                if isinstance(source_id,bool) or not str(source_id).isdigit():raise ValidationError('Selecciona un registro de origen válido.')
+                if not api.allowed(request.user,'actividades','ver'):return api.error('Sin permiso para consultar el registro de origen.',403)
+                source=scoped(request,'actividades').select_for_update().filter(pk=source_id).first()
+                if source is None:return api.error('Registro de origen no encontrado.',404)
+                if source.autor_id!=request.user.pk and not api.allowed(request.user,'actividades','editar_equipo'):return api.error('Sin permiso para vincular este registro.',403)
+                if source.compromiso_id or (source.atencion_id and source.atencion.compromiso_id):return api.error('Este registro ya tiene un compromiso en el tubo. Abre su seguimiento.',409)
+                data.update(descripcion=source.solicitud,solicitante=source.contacto,sector=source.sector,fecha_solicitud=str(source.fecha),vecino=source.vecino_id)
             if resource=='actividades' and owner:lock_author(owner)
             if capture_key:
                 prior=Actividad.objects.select_for_update().filter(clave_idempotencia=capture_key).first()
@@ -224,8 +294,21 @@ def records(request,resource,pk=None,action=None):
                     lock_commitment_hito(request,pk)
                 obj=qs.select_for_update().filter(pk=pk).first()
                 if not obj:return api.error('Registro no encontrado.',404)
-                if obj.autor_id!=request.user.pk and not (resource=='compromisos' and obj.responsable_id==request.user.pk) and not api.allowed(request.user,resource,'editar_equipo'):return api.error('No puedes editar registros de otro responsable.',403)
-                if resource=='actividades' and obj.estado not in ['Borrador','Corrección','Rechazada']:return api.error('Solo se editan actividades en borrador o devueltas.')
+                if resource=='compromisos':
+                    if obj.responsable_id!=request.user.pk and not (request.user.is_superuser or (request.user.rol_id and request.user.rol.nombre.strip().casefold() in ['administrador','delegado'] and api.allowed(request.user,resource,'editar_equipo'))):return api.error('Solo el responsable o la gestión autorizada del equipo puede editar este seguimiento.',403)
+                    from .tracking import validate_shared_edit
+                    validate_shared_edit(obj,data)
+                elif obj.autor_id!=request.user.pk and not api.allowed(request.user,resource,'editar_equipo'):return api.error('No puedes editar registros de otro responsable.',403)
+                if resource=='actividades':
+                    closed=check_closed_quarter(obj.fecha)
+                    if closed:
+                        return api.error(f'El trimestre {closed.nombre} está cerrado. Se requiere una reapertura autorizada para editar actividades.',400)
+                    if obj.estado in ['Validada','Aprobada y pondera','Aprobada y no pondera']:
+                        return api.error('Solo se editan actividades en borrador o devueltas. Las actividades aprobadas están bloqueadas y no admiten modificaciones.',400)
+                    if obj.estado=='Anulada':
+                        return api.error('Solo se editan actividades en borrador o devueltas. Las actividades anuladas están bloqueadas y no admiten modificaciones.',400)
+                    if obj.estado not in ['Borrador','Pendiente','Solicitud de antecedentes','Corrección','Rechazada']:
+                        return api.error('Solo se editan actividades en borrador o devueltas.',400)
                 conflict=validate_version(obj,data)
                 if conflict:return conflict
                 before=representation(obj)
@@ -259,8 +342,20 @@ def records(request,resource,pk=None,action=None):
             if resource=='compromisos':
                 from .closure_workflow import validate_transition
                 validate_transition(request,obj,before,data)
+            if resource=='actividades' and before:
+                if before.get('estado') in ['Solicitud de antecedentes','Corrección','Rechazada']:
+                    obj.estado='Pendiente'
             if before:obj.version+=1
             obj.save()
+            from .tracking import sync_source,ensure_commitment
+            if resource=='actividades':sync_source(obj)
+            elif resource=='compromisos':ensure_commitment(obj,source)
+            if source is not None:
+                source.compromiso=obj;source.version+=1;source.save(update_fields=['compromiso','version'])
+                if source.atencion_id:
+                    type(source.atencion).objects.filter(pk=source.atencion_id).update(compromiso=obj)
+                obj.codigo_verificacion_foto=source.codigo;obj.save(update_fields=['codigo_verificacion_foto'])
+                api.record_event(request,'actividades',source.pk,'editar',None,representation(source))
             if resource=='actividades' and obj.atencion_id:
                 type(obj.atencion).objects.filter(pk=obj.atencion_id).update(elegibilidad_snapshot=obj.elegibilidad_snapshot)
             if not before:
@@ -295,7 +390,8 @@ def upload(request):
     data=request.POST;file=request.FILES.get('archivo');activity=scoped(request,'actividades').filter(pk=data.get('actividad') if str(data.get('actividad','')).isdigit() else 0).first()
     if not activity:return api.error('Actividad no encontrada.',404)
     if not api.allowed(request.user,'actividades','editar') or (activity.autor_id!=request.user.pk and not api.allowed(request.user,'actividades','editar_equipo')):return api.error('No puedes adjuntar a esta actividad.',403)
-    if activity.estado=='Validada':return api.error('La actividad está validada; conserva el respaldo.')
+    if activity.estado in ['Validada','Aprobada y pondera','Aprobada y no pondera']:return api.error('La actividad está validada / aprobada; no admite nuevos respaldos.',400)
+    if activity.estado=='Anulada':return api.error('La actividad está anulada; no admite respaldos.',400)
     if not file or file.size>10*1024*1024 or file.size==0:return api.error('Adjunta un archivo de hasta 10 MB.')
     signature=file.read(12);file.seek(0);ext=Path(file.name).suffix.lower()
     mime='application/pdf' if ext=='.pdf' and signature.startswith(b'%PDF-') else 'image/png' if ext=='.png' and signature.startswith(b'\x89PNG\r\n\x1a\n') else 'image/jpeg' if ext in ['.jpg','.jpeg'] and signature.startswith(b'\xff\xd8\xff') else None
@@ -306,7 +402,8 @@ def upload(request):
     try:
         with transaction.atomic():
             activity=Actividad.objects.select_for_update().get(pk=activity.pk)
-            if activity.estado=='Validada':raise ValidationError('La actividad ya está validada.')
+            if activity.estado in ['Validada','Aprobada y pondera','Aprobada y no pondera']:raise ValidationError('La actividad ya está aprobada.')
+            if activity.estado=='Anulada':raise ValidationError('La actividad está anulada.')
             previous=None
             if data.get('reemplaza'):
                 previous=Evidencia.objects.select_for_update().filter(pk=data['reemplaza'],actividad=activity).first()
@@ -335,6 +432,11 @@ def download(request,pk):
         return api.error(failure[1], failure[0])
     response['X-Content-Type-Options']='nosniff';response['Cache-Control']='private, no-store';return response
 
+def check_closed_quarter(day):
+    if not day:return None
+    from .models import PeriodoGestion
+    return PeriodoGestion.objects.filter(fecha_inicio__lte=day,fecha_fin__gte=day,cerrado=True).first()
+
 @require_http_methods(['POST'])
 def review(request,pk):
     denied=gate(request,'evidencias','revisar')
@@ -343,10 +445,20 @@ def review(request,pk):
         data=api.body(request)
         with transaction.atomic():
             candidate=scoped(request,'evidencias').filter(pk=pk).values('actividad_id').first()
-            if not candidate:return api.error('Evidencia no encontrada.',404)
+            if not candidate:
+                if Evidencia.objects.filter(pk=pk).exists():return api.error('No puedes revisar evidencias de otra delegación.',403)
+                return api.error('Evidencia no encontrada.',404)
             from .performance import lock_periods
             lock_periods(candidate['actividad_id'])
             activity=Actividad.objects.select_for_update().get(pk=candidate['actividad_id'])
+            if not request.user.is_superuser:
+                authorized_delegs=api.delegations(request.user).values_list('pk',flat=True)
+                active_d=api.active_delegation(request)
+                if activity.delegacion_id not in authorized_delegs or (active_d and activity.delegacion_id!=active_d.pk):
+                    return api.error('No puedes revisar evidencias de otra delegación.',403)
+            closed=check_closed_quarter(activity.fecha)
+            if closed:
+                return api.error(f'El trimestre {closed.nombre} está cerrado. Se requiere una reapertura autorizada para revisar evidencias.',400)
             obj=scoped(request,'evidencias').select_for_update().filter(pk=pk).first()
             if not obj:return api.error('Evidencia no encontrada.',404)
             if request.user.pk in [obj.autor_id,obj.actividad.autor_id]:return api.error('El autor no puede revisar su propia evidencia.')
@@ -361,10 +473,91 @@ def review(request,pk):
             activity=Actividad.objects.select_for_update().get(pk=obj.actividad_id)
             current=activity.evidencias.filter(siguiente_version__isnull=True)
             states=set(current.exclude(estado='Anulada').values_list('estado',flat=True));activity.estado='Validada' if states=={'Aprobada'} else 'Corrección' if 'Corrección' in states else 'Rechazada' if 'Rechazada' in states else 'Pendiente';activity.version+=1;activity.save()
+            obj.actividad=activity
             api.record_event(request,'evidencias',obj.pk,'revisar',before,representation(obj))
             api.record_event(request,'actividades',activity.pk,'validar',None,representation(activity))
         return api.ok(representation(obj))
     except (ValidationError,ValueError,TypeError):return api.error('Datos de revisión inválidos.')
+
+@require_http_methods(['POST'])
+def review_activity(request,pk):
+    denied=gate(request,'actividades','revisar') if api.allowed(request.user,'actividades','revisar') else gate(request,'evidencias','revisar')
+    if denied and not (request.user.is_superuser or api.allowed(request.user,'actividades','revisar') or api.allowed(request.user,'evidencias','revisar')):
+        return api.error('No tienes permiso para revisar actividades.',403)
+    try:
+        data=api.body(request)
+        with transaction.atomic():
+            from .performance import lock_periods
+            lock_periods(pk)
+            activity=Actividad.objects.select_for_update().filter(pk=pk).first()
+            if not activity:return api.error('Actividad no encontrada.',404)
+            if not request.user.is_superuser:
+                authorized_delegs=api.delegations(request.user).values_list('pk',flat=True)
+                active_d=api.active_delegation(request)
+                if activity.delegacion_id not in authorized_delegs or (active_d and activity.delegacion_id!=active_d.pk):
+                    return api.error('No puedes revisar actividades de otra delegación.',403)
+            closed=check_closed_quarter(activity.fecha)
+            if closed:
+                return api.error(f'El trimestre {closed.nombre} está cerrado. Se requiere una reapertura autorizada para revisar actividades.',400)
+            if request.user.pk==activity.autor_id:return api.error('El autor no puede revisar su propia actividad.',400)
+            conflict=validate_version(activity,data)
+            if conflict:return conflict
+            allowed_decisions=['Aprobada y pondera','Aprobada y no pondera','Solicitud de antecedentes','Rechazada','Anulada']
+            decision=data.get('decision')
+            if decision not in allowed_decisions:return api.error('Decisión inválida.',400)
+            observation=data.get('observacion')
+            if not isinstance(observation,str) or not observation.strip() or len(observation)>2000:
+                return api.error('Indica una observación de hasta 2000 caracteres.',400)
+            before=representation(activity)
+            pondera=(decision=='Aprobada y pondera')
+            activity.estado=decision
+            activity.version+=1
+            activity.save()
+            RevisionActividad.objects.create(
+                actividad=activity,autor=request.user,decision=decision,
+                pondera=pondera,observacion=observation.strip(),version_actividad=activity.version
+            )
+            api.record_event(request,'actividades',activity.pk,'revisar',before,representation(activity))
+        return api.ok(representation(activity))
+    except (ValidationError,ValueError,TypeError):
+        return api.error('Datos de revisión inválidos.')
+
+@require_http_methods(['POST'])
+def annul_activity(request,pk):
+    if not (request.user.is_superuser or api.allowed(request.user,'actividades','revisar') or api.allowed(request.user,'actividades','editar_equipo') or api.allowed(request.user,'evidencias','revisar')):
+        return api.error('No tienes permiso para anular actividades.',403)
+    try:
+        data=api.body(request)
+        motivo=data.get('motivo') or data.get('observacion')
+        if not isinstance(motivo,str) or not motivo.strip() or len(motivo)>2000:
+            return api.error('Indica un motivo de anulación de hasta 2000 caracteres.',400)
+        with transaction.atomic():
+            from .performance import lock_periods
+            lock_periods(pk)
+            activity=Actividad.objects.select_for_update().filter(pk=pk).first()
+            if not activity:return api.error('Actividad no encontrada.',404)
+            if not request.user.is_superuser:
+                authorized_delegs=api.delegations(request.user).values_list('pk',flat=True)
+                active_d=api.active_delegation(request)
+                if activity.delegacion_id not in authorized_delegs or (active_d and activity.delegacion_id!=active_d.pk):
+                    return api.error('No puedes anular actividades de otra delegación.',403)
+            closed=check_closed_quarter(activity.fecha)
+            if closed:
+                return api.error(f'El trimestre {closed.nombre} está cerrado. Se requiere una reapertura autorizada para anular actividades.',400)
+            conflict=validate_version(activity,data)
+            if conflict:return conflict
+            before=representation(activity)
+            activity.estado='Anulada'
+            activity.version+=1
+            activity.save()
+            RevisionActividad.objects.create(
+                actividad=activity,autor=request.user,decision='Anulada',
+                pondera=False,observacion=motivo.strip(),version_actividad=activity.version
+            )
+            api.record_event(request,'actividades',activity.pk,'anular',before,representation(activity))
+        return api.ok(representation(activity))
+    except (ValidationError,ValueError,TypeError):
+        return api.error('Datos de anulación inválidos.')
 
 @require_http_methods(['GET','POST'])
 def messages(request,resource,pk):

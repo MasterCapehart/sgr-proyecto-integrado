@@ -8,3 +8,10 @@ DOMAIN_PERMISSIONS += [f'{r}.{a}' for r in ['vecinos','organizaciones','pertenen
 DOMAIN_PERMISSIONS += ['hitos.'+a for a in ['ver','ver_equipo','crear','editar','asignar','avanzar']]
 DOMAIN_PERMISSIONS += ['clasificacion-actividades.'+a for a in ['ver','configurar']]
 DOMAIN_PERMISSIONS += ['ausencias.ver','ausencias.ver_equipo','ausencias.gestionar']
+
+DOMAIN_PERMISSIONS += ['territorios.'+a for a in ['ver','crear','editar','desactivar']]
+
+DOMAIN_PERMISSIONS += ['asignaciones-metas.'+a for a in ['ver','crear','editar','ver_equipo']]
+DOMAIN_PERMISSIONS += ['cartas.'+a for a in ['ver','crear','editar','editar_equipo','asignar','reabrir']]
+
+DOMAIN_PERMISSIONS += ['cartas.gestionar','cartas.reasignar']

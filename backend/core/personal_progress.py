@@ -29,18 +29,35 @@ def overview(request):
     if delegation is None:
         return api.error('Selecciona una delegación autorizada.', 403)
     today = timezone.localdate()
-    period = request.GET.get('mes', today.strftime('%Y-%m'))
-    if not re.fullmatch(r'\d{4}-\d{2}', period):
-        return api.error('Selecciona un mes válido con formato AAAA-MM.')
-    try:
-        year, month = map(int, period.split('-'))
-        start = date(year, month, 1)
-        if not 2000 <= year <= 2100 or start > today:
-            raise ValueError
-        days = calendar.monthrange(year, month)[1]
-        end = start + timedelta(days=days)
-    except ValueError:
-        return api.error('Selecciona un mes válido que no sea futuro.')
+    trimestre_id = request.GET.get('trimestre') or request.GET.get('periodo')
+    period_param = request.GET.get('mes')
+    from .models import PeriodoGestion
+    active_period = None
+    if trimestre_id:
+        if str(trimestre_id).isdigit():
+            active_period = PeriodoGestion.objects.filter(pk=int(trimestre_id)).first()
+        else:
+            active_period = PeriodoGestion.objects.filter(Q(codigo=trimestre_id)|Q(nombre=trimestre_id)).first()
+
+    if active_period:
+        start = active_period.fecha_inicio
+        end = active_period.fecha_fin + timedelta(days=1)
+        days = (active_period.fecha_fin - active_period.fecha_inicio).days + 1
+        period_label = active_period.nombre
+    else:
+        period = period_param or today.strftime('%Y-%m')
+        if not re.fullmatch(r'\d{4}-\d{2}', period):
+            return api.error('Selecciona un mes válido con formato AAAA-MM.')
+        try:
+            year, month = map(int, period.split('-'))
+            start = date(year, month, 1)
+            if not 2000 <= year <= 2100 or start > today:
+                raise ValueError
+            days = calendar.monthrange(year, month)[1]
+            end = start + timedelta(days=days)
+            period_label = period
+        except ValueError:
+            return api.error('Selecciona un mes válido que no sea futuro.')
 
     def allowed(resource, action='ver'):
         return api.allowed(user, resource, action)
@@ -53,13 +70,22 @@ def overview(request):
     def monthly(qs, field='creado'):
         return qs.filter(**{field+'__gte': bounds(start), field+'__lt': bounds(end)})
 
-    month_data = dict(attentions=None, activities=None, commitments=None, evidence=None)
+    d_start = start.strftime('%Y-%m-%d')
+    d_end = (end - timedelta(days=1)).strftime('%Y-%m-%d')
+    p_code = active_period.codigo if active_period else ''
+    p_param = f'&periodo={p_code}' if p_code else ''
+    month_data = dict(
+        attentions=None, attentions_url=f'pages/ingreso-atencion.html?desde={d_start}&hasta={d_end}&delegacion={delegation.pk}',
+        activities=None, activities_url=f'pages/desempeno.html?desde={d_start}&hasta={d_end}&delegacion={delegation.pk}{p_param}',
+        commitments=None, commitments_url=f'pages/tubo-trabajo.html?desde={d_start}&hasta={d_end}&delegacion={delegation.pk}',
+        evidence=None, evidence_url=f'pages/evidencias.html?desde={d_start}&hasta={d_end}&delegacion={delegation.pk}{p_param}'
+    )
     if attentions is not None:
         month_data['attentions'] = monthly(attentions, 'fecha_registro').count()
     if activities is not None:
         month_data['activities'] = monthly(activities).count()
     if commitments is not None:
-        v = monthly(commitments).aggregate(total=Count('pk'), closed=Count('pk', filter=Q(estado='Realizado')))
+        v = monthly(commitments).aggregate(total=Count('pk'), closed=Count('pk', filter=Q(estado__in=['Realizado','Cerrado'])))
         month_data['commitments'] = dict(v, percent=round(v['closed'] * 100 / v['total']) if v['total'] else None)
     if evidence is not None:
         month_data['evidence'] = monthly(evidence).aggregate(
@@ -78,7 +104,7 @@ def overview(request):
     pending = dict(commitments=None, overdue=None, correction=None, review=None, drafts=None, waiting=None, activity_correction=None)
     tasks = []
     if commitments is not None:
-        opened = commitments.exclude(estado='Realizado')
+        opened = commitments.exclude(estado__in=['Cerrado','No aplica'])
         pending['commitments'] = opened.count()
         pending['overdue'] = opened.filter(fecha_comprometida__lt=today).count()
         for obj in opened.order_by('fecha_comprometida', 'pk')[:5]:
@@ -97,7 +123,7 @@ def overview(request):
         pending['drafts'] = drafts.count()
         for obj in drafts.only('id', 'solicitud')[:3]:
             tasks.append(task('draft', obj, obj.solicitud, f'pages/desempeno.html?registro={obj.pk}', 'normal'))
-        corrections = activities.filter(estado__in=['Corrección', 'Rechazada'])
+        corrections = activities.filter(estado__in=['Corrección', 'Rechazada', 'Solicitud de antecedentes'])
         if corrective is not None:
             corrections = corrections.exclude(pk__in=corrective.values('actividad_id'))
         pending['activity_correction'] = corrections.count()
@@ -110,9 +136,11 @@ def overview(request):
             tasks.append(task('review', obj, obj.nombre_archivo, f'pages/validacion.html?registro={obj.pk}', 'action'))
     ranking = {'overdue': 0, 'action': 1, 'soon': 2, 'normal': 3}
     tasks.sort(key=lambda t: (ranking[t['priority']], t['due'] or '', t['id']))
-    response = api.ok(dict(period=period, generated_at=timezone.now().isoformat(),
+    response = api.ok(dict(period=period_label,
+                           periodos=list(PeriodoGestion.objects.filter(estado=True).order_by('-fecha_inicio').values('id', 'nombre', 'cerrado')),
+                           generated_at=timezone.now().isoformat(),
                            delegation=delegation.nombre, month=month_data, weeks=weeks,
                            pending=pending, tasks=tasks[:12],
-                           scope='Solo tus registros en la delegación activa. Pendientes de todo el historial; avance del mes seleccionado.'))
+                           scope='Solo tus registros en la delegación activa. Pendientes de todo el historial; avance del período seleccionado.'))
     response['Cache-Control'] = 'private, no-store'
     return response

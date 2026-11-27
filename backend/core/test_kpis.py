@@ -26,9 +26,9 @@ class IndicadoresOperativos(TestCase):
   self.u.is_superuser=False;self.u.rol=role;self.u.save();data=self.client.get('/api/indicadores/').json()['data'];self.assertEqual(set(self.values(data)),{'actividades'})
  def test_home_sin_sesion_rechaza(self):
   self.client.logout();self.assertEqual(self.client.get('/api/indicadores/').status_code,401)
- def test_compromiso_realizado_no_cuenta_como_vencido(self):
+ def test_compromiso_cerrado_no_cuenta_como_vencido(self):
   day=timezone.localdate()-timedelta(days=2)
-  self.commitment(fecha_comprometida=day,estado='Realizado');self.commitment(fecha_comprometida=day,estado='Ingresado');self.commitment(fecha_comprometida=timezone.localdate(),estado='Ingresado')
+  self.commitment(fecha_comprometida=day,estado='Cerrado');self.commitment(fecha_comprometida=day,estado='Ingresado');self.commitment(fecha_comprometida=timezone.localdate(),estado='Ingresado')
   kpis=self.client.get('/api/operacion/compromisos/').json()['kpis'];self.assertEqual(self.values(kpis)['vencidos'],1);self.assertEqual(self.values(kpis)['realizados'],1)
  def test_scope_propio_no_cuenta_actividades_de_otro(self):
   self.activity();role=Rol.objects.create(nombre='Personal KPI',permisos=['actividades.ver']);other=Usuario.objects.create_user('otro_kpi',rol=role,delegacion=self.d);self.client.force_login(other)
@@ -50,4 +50,4 @@ class IndicadoresOperativos(TestCase):
   role=Rol.objects.create(nombre='Responsable KPI',permisos=['compromisos.ver']);other=Usuario.objects.create_user('asignado_kpi',rol=role,delegacion=self.d)
   c=self.commitment(fecha_comprometida=timezone.localdate()-timedelta(days=1));c.responsable=other;c.save()
   self.commitment(fecha_comprometida=timezone.localdate()-timedelta(days=1));self.client.force_login(other)
-  values=self.values(self.client.get('/api/indicadores/').json()['data']);self.assertEqual(values,{'abiertos':1,'vencidos':1})
+  values=self.values(self.client.get('/api/indicadores/').json()['data']);self.assertEqual(values,{'abiertos':2,'vencidos':2})

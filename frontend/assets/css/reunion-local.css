@@ -1,0 +1,5 @@
+.excel-table tr.compromiso-vencido td{background:#fff1f2;border-bottom-color:#fecaca}
+.excel-table tr.compromiso-vencido td:first-child{border-left:3px solid #be123c}
+.evidence-section dl{margin:14px 0}.evidence-section dd{white-space:pre-wrap}
+#summary>.notice{background:#fff8e8;border-left:4px solid #b7791f;margin:20px 0 0}
+.community-membership{margin-top:16px}

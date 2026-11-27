@@ -10,7 +10,7 @@ from .models import Compromiso,Usuario,Atencion,Actividad
 
 
 def can_assign(user):
-    return bool(user.is_superuser or api.allowed(user,'compromisos','editar_equipo'))
+    return bool(user.is_superuser or (getattr(user,'rol',None) and user.rol.nombre.strip().casefold() in ('administrador','delegado') and api.allowed(user,'compromisos','editar_equipo')))
 
 def assignees(request):
     d=api.active_delegation(request)
@@ -35,11 +35,13 @@ def create(request,source,details,existing=None):
                 sector=details.get('sector') or ('' if attention else source.sector),
                 responsable=details.get('responsable',request.user.pk),fecha_comprometida=details.get('fecha_comprometida',''),
                 area_apoyo=details.get('area_apoyo',''),
-                origen=details.get('origen','Externo' if attention else 'Interno'),
+                origen='Interno' if getattr(source,'hito_id',None) else details.get('origen','Externo' if attention else 'Interno'),
                 fecha_solicitud=str(timezone.localdate() if attention else source.fecha),unidad=1)
     obj=Compromiso(autor=request.user,delegacion=api.active_delegation(request))
     from .domain_api import apply_fields
     apply_fields(request,'compromisos',obj,values)
+    obj.vecino_id=getattr(source,'vecino_id',None)
+    obj.territorio_catalogo_id=getattr(source,'territorio_catalogo_id',None)
     obj.save()
     from .auto_codes import operation_saved
     operation_saved(obj,'compromisos',request.user)
@@ -48,6 +50,9 @@ def create(request,source,details,existing=None):
 
 def finish(request,commitment,source):
     if commitment is None:return
+    from .tracking import sync_source
+    sync_source(source)
+    commitment.refresh_from_db()
     code=source.folio if isinstance(source,Atencion) else source.codigo
     commitment.codigo_verificacion_foto=code
     commitment.save(update_fields=['codigo_verificacion_foto'])
@@ -86,3 +91,16 @@ def origins(request,pk):
         qs=Atencion.objects.filter(compromiso=obj).filter(Q(delegacion=d)|Q(delegacion_responsable=d)).order_by('pk')
         for a in qs[:100]:rows.append(dict(tipo='atencion',id=a.pk,codigo=a.folio,descripcion=a.descripcion,url='/pages/atencion-detalle.html?id='+str(a.pk)))
     return api.ok(results=rows)
+
+
+@require_GET
+def source_options(request):
+    from .domain_api import gate,scoped
+    denied=gate(request,'compromisos','crear')
+    if denied:return denied
+    if not api.allowed(request.user,'actividades','ver'):return api.error('Sin permiso para consultar actividades.',403)
+    q=request.GET.get('q','').strip()
+    if len(q)<3:return api.ok(results=[])
+    qs=scoped(request,'actividades').filter(Q(solicitud__icontains=q)|Q(contacto__icontains=q)|Q(codigo__icontains=q))
+    if not api.allowed(request.user,'actividades','editar_equipo'):qs=qs.filter(autor=request.user)
+    return api.ok(results=[dict(id=a.pk,codigo=a.codigo,solicitud=a.solicitud,contacto=a.contacto,sector=a.sector,fecha=str(a.fecha),vecino=a.vecino_id,compromiso=a.compromiso_id) for a in qs[:20]])

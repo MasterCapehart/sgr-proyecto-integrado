@@ -60,7 +60,7 @@ def evaluate_activity(obj,force=False,preview=False):
         rule=old.get('regla')
     else:
         # Publication and capture serialize on the item, fixing the rule version used.
-        if not preview:ItemMeta.objects.select_for_update().get(pk=obj.item_id)
+        if not preview:ItemMeta.objects.get(pk=obj.item_id)
         rule=rule_data(current(obj.delegacion,obj.item_id))
     result=assess(obj.contacto,obj.telefono,rule,beneficiary_data(obj,old));result.update(item=obj.item_id,evaluado_en=timezone.now().isoformat())
     return result

@@ -58,7 +58,21 @@ def cases(request,code=None):
         row.update(case_summary(qs.filter(caso_social=row['caso_social']).order_by('numero_gestion','id')));results.append(row)
     return api.ok(results=results,count=pager.count,page=page,total_pages=pager.num_pages,columnas=SOCIAL_COLUMNS)
 
-SOCIAL_COLUMNS=[('caso_social','Código caso'),('fecha_ingreso','Fecha ingreso'),('tipo_nombre','Tipo atención'),('subatencion_nombre','Sub atención'),('solicitante','Usuario / vecino'),('rut','RUT'),('telefono','Teléfono'),('requiere_visita','Requiere visita'),('compromiso','Ingreso al tubo'),('primera','Primera gestión'),('programada','Fecha programada visita'),('observaciones','Observaciones'),('segunda','Segunda gestión'),('realizada','Fecha visita realizada'),('informe','Fecha entrega informe'),('tercera','Tercera gestión'),('beneficio','Fecha entrega beneficio')]
+def diff_days(d1, d2):
+    if not d1 or not d2:return None
+    try:
+        from datetime import date, datetime
+        if isinstance(d1, datetime): d1 = d1.date()
+        elif isinstance(d1, str): d1 = date.fromisoformat(str(d1)[:10])
+        if isinstance(d2, datetime): d2 = d2.date()
+        elif isinstance(d2, str): d2 = date.fromisoformat(str(d2)[:10])
+        days = (d2 - d1).days
+        if days < 0:
+            return None
+        return days
+    except Exception:return None
+
+SOCIAL_COLUMNS=[('caso_social','Código caso'),('fecha_ingreso','Fecha ingreso'),('tipo_nombre','Tipo atención'),('subatencion_nombre','Sub atención'),('solicitante','Usuario / vecino'),('rut','RUT'),('telefono','Teléfono'),('requiere_visita','Requiere visita'),('compromiso','Ingreso al tubo'),('primera','Primera gestión'),('programada','Fecha programada visita'),('observaciones','Observaciones'),('segunda','Segunda gestión'),('realizada','Fecha visita realizada'),('informe','Fecha entrega informe'),('tercera','Tercera gestión'),('beneficio','Fecha entrega beneficio'),('tiempo_ingreso_primera','Días ingreso-primera'),('tiempo_programacion_visita','Días prog-visita'),('tiempo_visita_informe','Días visita-informe'),('tiempo_atencion_beneficio','Días atenc-beneficio')]
 def case_summary(records):
     rows=list(records);first=rows[0]
     def latest(name):return next((getattr(r,name) for r in reversed(rows) if getattr(r,name) not in ['',None]),None)
@@ -67,6 +81,22 @@ def case_summary(records):
     result={'caso_social':first.caso_social,'fecha_ingreso':timezone.localtime(first.fecha_registro).date().isoformat(),'tipo_nombre':initial['tipo_nombre'],'subatencion_nombre':initial['subatencion_nombre'],'solicitante':first.solicitante,'rut':latest('rut_solicitante') or '', 'telefono':latest('telefono_solicitante') or '', 'requiere_visita':'No informado' if latest('requiere_visita') is None else 'Sí' if latest('requiere_visita') else 'No','compromiso':latest('compromiso_id') or '', 'programada':latest('fecha_visita_programada'),'realizada':latest('fecha_visita_realizada'),'informe':latest('fecha_entrega_informe'),'beneficio':latest('fecha_entrega_beneficio'),'observaciones':latest('gestion_realizada') or first.descripcion}
     for number,key in [(1,'primera'),(2,'segunda'),(3,'tercera')]:
         row=next((r for r in rows if r.numero_gestion==number),None);result[key]=(row.tipo_gestion or 'Registrada sin tipo especificado') if row else 'Sin registrar'
+    g1 = next((r for r in rows if r.numero_gestion==1), first)
+    g1_fecha = g1.fecha_visita_realizada or g1.fecha_visita or timezone.localtime(g1.fecha_registro).date()
+    t1 = diff_days(result['fecha_ingreso'], g1_fecha)
+    t2 = diff_days(result['programada'], result['realizada'] or latest('fecha_visita'))
+    t3 = diff_days(result['realizada'] or latest('fecha_visita'), result['informe'])
+    t4 = diff_days(result['fecha_ingreso'], result['beneficio'])
+    result['tiempo_ingreso_primera'] = t1 if t1 is not None else 'No calculable'
+    result['tiempo_programacion_visita'] = t2 if t2 is not None else 'No calculable'
+    result['tiempo_visita_informe'] = t3 if t3 is not None else 'No calculable'
+    result['tiempo_atencion_beneficio'] = t4 if t4 is not None else 'No calculable'
+    result['tiempos'] = {
+        'ingreso_primera': t1,
+        'programacion_visita': t2,
+        'visita_informe': t3,
+        'atencion_beneficio': t4,
+    }
     return result
 
 def social_export(request,qs):

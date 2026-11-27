@@ -13,10 +13,27 @@ def reasons(activity,evidence):
     elif snapshot.get('potencialmente_puntuable') is not True:
         result.extend(snapshot.get('motivos') or ['No cumple las reglas de candidatura capturadas.'])
     elif snapshot.get('clasificacion') in ['Coordinación','Otra gestión']:result.append('Clasificación excluida de cumplimiento.')
-    if activity.estado!='Validada':result.append('La actividad no está validada: '+activity.estado+'.')
+    if activity.estado=='Aprobada y no pondera':
+        result.append('Aprobada pero no pondera para la meta.')
+    elif activity.estado=='Validada':
+        result.append('Evidencia aprobada; la actividad requiere decisión vigente de "Aprobada y pondera" para sumar a la meta.')
+    elif activity.estado=='Solicitud de antecedentes':
+        result.append('La actividad tiene solicitud de antecedentes pendiente.')
+    elif activity.estado=='Corrección':
+        result.append('La actividad tiene observaciones pendientes de corrección.')
+    elif activity.estado=='Rechazada':
+        result.append('La actividad fue rechazada.')
+    elif activity.estado=='Anulada':
+        result.append('La actividad está anulada.')
+    elif activity.estado in ['Pendiente','Borrador']:
+        result.append('La actividad está pendiente de verificación.')
+    elif activity.estado!='Aprobada y pondera':
+        result.append('La actividad no está aprobada para ponderar: '+activity.estado+'.')
     current=[e for e in evidence if not hasattr(e,'siguiente_version') and e.estado!='Anulada']
-    if not current:result.append('No tiene respaldos vigentes aprobados.')
-    else:
+    requiere_evidencia = getattr(activity.item, 'requiere_evidencia', False)
+    if (requiere_evidencia or evidence) and not current:
+        result.append('No tiene respaldos vigentes aprobados.')
+    elif current:
         for e in current:
             revision=next(iter(e.revisiones.all()),None)
             if (e.estado!='Aprobada' or revision is None or revision.decision!='Aprobada' or revision.version_evidencia!=e.version
@@ -36,7 +53,10 @@ def enrich(result,cal,period,user):
     result.update(regla_cumplimiento=dict(version=1,tope_porcentaje='120',umbral_naranjo_relativo='60',orden='Fecha de realización, fecha de registro e identificador',aporte_por_actividad='1',limite_detalle=DETAIL_LIMIT),
         objetivo_al_dia=number(goal) if goal is not None else None,umbral_naranjo=number(goal*WARNING_FACTOR) if goal is not None else None)
     for row in result['metas']:
-        records=grouped.get(row['item'],[]);target=Decimal(row['meta_ajustada_exacta']) if row['meta_ajustada_exacta'] is not None else None
+        records=grouped.get(row['item'],[])
+        if row.get('asignacion_meta'):
+            records=[(a,excluded) for a,excluded in records if a.asignacion_meta_id==row['asignacion_meta']]
+        target=Decimal(row['meta_ajustada_exacta']) if row['meta_ajustada_exacta'] is not None else None
         ceiling=target*MAXIMUM/100 if target is not None and target>0 and available>0 else None
         recognized=Decimal(0);valid=0;details=[];partial=0;above=0
         for activity,excluded in records:

@@ -37,10 +37,16 @@
   ICONS['ausencias'] = ICONS['periodos'];
   ICONS['metas-ajustadas'] = ICONS['items-metas'];
   ICONS['colectivo'] = ICONS['items-metas'];
+  ICONS['territorios'] = ICONS['delegaciones'];
+  ICONS['cartas'] = ICONS['compromisos'];
+  ICONS['asignaciones-metas'] = ICONS['items-metas'];
   const links = [
+    ['asignaciones-metas','asignaciones-metas','Asignación de metas','asignaciones-metas.ver'],
+    ['cartas','cartas','Tubo de cartas','cartas.ver'],
+    ['territorios','territorios','Territorios','territorios.ver'],
     ['colectivo','colectivo','Indicadores colectivos','ausencias.ver_equipo'],
     ['ausencias','ausencias','Ausencias y calendario','ausencias.ver'],
-    ['metas-ajustadas','semaforo','Metas ajustadas','ausencias.ver'],
+    ['metas-ajustadas','semaforo','Semáforo','ausencias.ver'],
     ['clasificacion-actividades','clasificacion-actividades','Clasificación de actividades','clasificacion-actividades.ver'],
     ['hitos','hitos','Hitos y festividades','hitos.ver'],
     ['vecinos','vecinos','Vecinos','vecinos.ver'],
@@ -185,7 +191,7 @@
               }
               try {
                 await SGRApi.send('/api/contexto/cambiar-delegacion/', { delegacion_id: Number(select.value) });
-                SGRDrafts.cleanAll();
+                window.SGRDrafts?.cleanAll();
                 location.reload();
               } catch (e) {
                 select.value = previous;
@@ -225,12 +231,12 @@
               if (mainEl) new MutationObserver(syncCrumb).observe(mainEl, { childList: true, subtree: true });
             }
             const groups = [
-              ['Gestión diaria', ['actividades', 'atencion', 'casos-sociales', 'compromisos', 'reclamos']],
+              ['Gestión diaria', ['actividades', 'atencion', 'casos-sociales', 'compromisos', 'cartas', 'reclamos']],
               ['Planificación', ['hitos']],
               ['Comunidad', ['vecinos','organizaciones']],
               ['Seguimiento', ['ausencias','metas-ajustadas','colectivo','evidencias', 'validacion', 'alertas', 'reportes', 'auditoria']],
               ['Catálogos de consulta', readOnlyCatalogs],
-              ['Administración', ['clasificacion-actividades','delegaciones', 'usuarios', 'roles', 'cargos', 'items-metas', 'periodos', 'configuraciones-metas', 'tipos-atencion', 'subatenciones', 'gobierno'].filter(id => !readOnlyCatalogs.includes(id))]
+              ['Administración', ['asignaciones-metas','territorios','clasificacion-actividades','delegaciones', 'usuarios', 'roles', 'cargos', 'items-metas', 'periodos', 'configuraciones-metas', 'tipos-atencion', 'subatenciones', 'gobierno'].filter(id => !readOnlyCatalogs.includes(id))]
             ];
 
             for (const [label, ids] of groups) {
@@ -268,7 +274,7 @@
             })).isConfirmed) return;
             try {
               await SGRApi.send('/api/logout/', {});
-              SGRDrafts.cleanAll();
+              window.SGRDrafts?.cleanAll();
               sessionStorage.clear();
               location.href = basePath + 'pages/login.html';
             } catch (e) {

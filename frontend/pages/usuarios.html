@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Usuarios · SGR</title>
-  <link rel="stylesheet" href="../assets/css/styles.css">
-<link rel="stylesheet" href="../assets/css/mockups.css?v=contexto-2">
-<link rel="stylesheet" href="../assets/css/operacion.css?v=menu-planificacion-1">
+  <link rel="stylesheet" href="../assets/css/styles.css?v=incremento-20261114">
+<link rel="stylesheet" href="../assets/css/mockups.css?v=incremento-20261114">
+<link rel="stylesheet" href="../assets/css/operacion.css?v=incremento-20261114">
 </head>
 <body data-page="usuarios" data-base-path="../">
   <a class="skip-link" href="#main-content">Saltar al contenido</a>
@@ -109,6 +109,17 @@
                 <option value="Inactivo">Inactivo</option>
               </select>
             </div>
+            <div class="field full" id="grupo-activacion">
+              <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;font-weight:normal;">
+                <input type="checkbox" id="campo-activar-correo" name="activar_por_correo" checked style="margin-top:3px;">
+                <span><strong>Activar por correo electrónico:</strong> se enviará un enlace temporal para que el usuario defina su propia contraseña en su primer ingreso (sin clave obligatoria del administrador).</span>
+              </label>
+            </div>
+            <div class="field full" id="grupo-password" style="display:none;">
+              <label for="campo-password">Contraseña (opcional si activa por correo)</label>
+              <input type="password" id="campo-password" name="password" placeholder="Mínimo 8 caracteres">
+              <small id="ayuda-password" class="sub" style="margin-top:4px;display:block;">Si activa por correo, deje este campo vacío.</small>
+            </div>
           </div>
           <div class="modalfoot">
             <button type="button" class="button secondary" id="modal-cancel">Cancelar</button>
@@ -121,11 +132,11 @@
     </main>
   </div>
 
-  <script defer src="../assets/vendor/sweetalert2.min.js"></script>
-  <script defer src="../assets/js/api-local.js"></script>
-<script defer src="../assets/js/modules/borradores.js"></script>
-<script defer src="../assets/js/components/layout.js?v=colectivo-2"></script>
-  <script defer src="../assets/js/modules/mantenedor-comun.js?v=4"></script>
-  <script defer src="../assets/js/app.js"></script>
+  <script defer src="../assets/vendor/sweetalert2.min.js?v=incremento-20261114"></script>
+  <script defer src="../assets/js/api-local.js?v=incremento-20261114"></script>
+<script defer src="../assets/js/modules/borradores.js?v=incremento-20261114"></script>
+<script defer src="../assets/js/components/layout.js?v=menu-semaforo-20261116"></script>
+  <script defer src="../assets/js/modules/mantenedor-comun.js?v=incremento-20261114"></script>
+  <script defer src="../assets/js/app.js?v=incremento-20261114"></script>
 </body>
 </html>

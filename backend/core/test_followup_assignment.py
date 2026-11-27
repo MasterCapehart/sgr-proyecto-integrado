@@ -25,7 +25,7 @@ class FollowupAssignmentTests(TestCase):
  def test_no_reasigna_al_editar_y_no_cambia_version(self):
   r=self.send('/api/operacion/compromisos/',self.commitment(responsable=self.u.pk));self.assertEqual(r.status_code,201,r.content);row=r.json()['data'];r=self.send(f"/api/operacion/compromisos/{row['id']}/",dict(_version=row['version'],responsable=self.peer.pk,observacion='No puede reasignar'),'patch');self.assertEqual(r.status_code,403,r.content);obj=Compromiso.objects.get();self.assertEqual(obj.version,row['version']);self.assertEqual(obj.responsable_id,self.u.pk)
  def test_permiso_explicito_de_equipo_autoriza_asignacion(self):
-  self.role.nombre='Coordinador';self.role.permisos+=['compromisos.editar_equipo'];self.role.save();r=self.send('/api/operacion/compromisos/',self.commitment(responsable=self.peer.pk));self.assertEqual(r.status_code,201,r.content);self.assertEqual(r.json()['data']['responsable'],self.peer.pk)
+  self.role.nombre='Delegado';self.role.permisos+=['compromisos.editar_equipo'];self.role.save();r=self.send('/api/operacion/compromisos/',self.commitment(responsable=self.peer.pk));self.assertEqual(r.status_code,201,r.content);self.assertEqual(r.json()['data']['responsable'],self.peer.pk)
  def test_administrador_superusuario_conserva_asignacion(self):
   self.u.is_superuser=True;self.u.save();r=self.send('/api/captura/',self.payload(nuevo_compromiso={**self.follow(),'responsable':self.peer.pk}));self.assertEqual(r.status_code,201,r.content);self.assertEqual(Compromiso.objects.get().responsable_id,self.peer.pk)
  def test_opciones_no_confunden_asignables_y_profesionales(self):

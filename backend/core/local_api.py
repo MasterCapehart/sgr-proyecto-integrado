@@ -28,14 +28,14 @@ from .models import (Delegacion, Rol, Usuario, TipoAtencion, SubAtencion, ItemMe
 logger = logging.getLogger(__name__)
 
 RESOURCES = {
- 'periodos': (PeriodoGestion, ['codigo','nombre','fecha_inicio','fecha_fin','estado']),
- 'cargos': (Cargo, ['codigo','nombre','area','planilla','estado']),
- 'delegaciones': (Delegacion, ['codigo','nombre','direccion','comuna','estado']),
+ 'periodos': (PeriodoGestion, ['anio','numero','codigo','nombre','fecha_inicio','fecha_fin','estado']),
+ 'cargos': (Cargo, ['descripcion','codigo','nombre','area','planilla','estado']),
+ 'delegaciones': (Delegacion, ['delegado','codigo','nombre','direccion','comuna','estado']),
  'roles': (Rol, ['nombre','descripcion','alcance','permisos','estado']),
  'usuarios': (Usuario, ['username','first_name','last_name','email','rut','rol','cargo','delegacion','delegaciones','is_active']),
  'tipos-atencion': (TipoAtencion, ['codigo','nombre','descripcion','estado']),
  'subatenciones': (SubAtencion, ['codigo','nombre','descripcion','tipo_atencion','estado']),
- 'items-metas': (ItemMeta, ['codigo','nombre','descripcion','unidad_medida','cargos','estado']),
+ 'items-metas': (ItemMeta, ['tipo','requiere_evidencia','codigo','nombre','descripcion','unidad_medida','cargos','estado']),
  'configuraciones-metas': (ConfiguracionMeta, ['item','cargo','periodo','periodo_gestion','meta_esperada','ponderacion','estado']),
  'atenciones': (Atencion, ['folio','solicitante','tipo_atencion','sub_atencion','descripcion','delegacion','delegacion_responsable','usuario','fecha_registro','caso_social','numero_gestion','rut_solicitante','telefono_solicitante','requiere_visita','fecha_visita','fecha_entrega_informe','fecha_entrega_beneficio','gestion_realizada','fecha_visita_programada','fecha_visita_realizada','tipo_gestion','compromiso','estado']),
 }
@@ -89,6 +89,10 @@ def serialize(obj, fields):
         result['elegibilidad']=display(obj)
         linked=getattr(obj,'actividad_origen',None)
         result.update(actividad=linked.pk if linked else None,junta_vecinos=linked.junta_vecinos if linked else '')
+        if obj.registro_gestion_id:
+            registry=obj.registro_gestion
+            result.update(descripcion=registry.descripcion,solicitante=registry.solicitante,telefono_solicitante=registry.telefono,rut_solicitante=registry.rut,registro_gestion=registry.pk,version_gestion=registry.version)
+            if linked:result['gestion_realizada']=linked.accion
         snapshot=obj.catalogos_snapshot or {}
         result.update(usuario_nombre=obj.usuario.get_full_name() or obj.usuario.username,tipo_nombre=snapshot.get('tipo_atencion',{}).get('nombre',obj.tipo_atencion.nombre),subatencion_nombre=snapshot.get('sub_atencion',{}).get('nombre',obj.sub_atencion.nombre),catalogos_snapshot=snapshot or None,historia_catalogos='Captura posterior; etiqueta original no garantizada' if snapshot.get('observada') else 'Captura al registrar' if snapshot else 'Sin captura histórica; etiqueta actual')
     if isinstance(obj,Usuario): result['estado']=obj.is_active; result['nombre']=obj.get_full_name() or obj.username
@@ -218,6 +222,13 @@ def recovery(request, step='solicitar'):
             user.set_password(password); user.codigo_recuperacion=None; user.version+=1; user.save()
             EventoLocal.objects.create(usuario=user,recurso='usuarios',registro=user.pk,accion='cambiar_clave',antes={'credencial':'anterior','version':previous_version},despues={'credencial':'renovada','version':user.version},origen=request.META.get('REMOTE_ADDR'),delegacion=user.delegacion)
             RecuperacionAcceso.objects.filter(usuario=user,consumido=False).update(consumido=True)
+            try:
+                send_mail(
+                    'SGR: confirmación de actualización de contraseña',
+                    'Tu contraseña ha sido actualizada exitosamente en el Sistema de Gestión de Resultados (SGR).\nSi tú no realizaste este cambio, contacta de inmediato al administrador del sistema.',
+                    settings.DEFAULT_FROM_EMAIL,[user.email],fail_silently=True
+                )
+            except Exception:pass
             request.session.pop('recovery_id',None)
         return ok(message='Contraseña actualizada. Inicia sesión con tu nueva contraseña.')
     except ValidationError as ex: return error('Revisa los datos.',details={'campos':ex.messages})
@@ -233,6 +244,8 @@ def options(request):
             'items-metas':list(ItemMeta.objects.filter(estado=True).values('id','nombre','codigo'))}
     if allowed(request.user,'usuarios','crear') or allowed(request.user,'usuarios','editar'):
         result['roles']=list(Rol.objects.filter(estado=True).values('id','nombre'))
+    if allowed(request.user,'delegaciones','editar') or allowed(request.user,'delegaciones','crear'):
+        result['delegados']=[{'id':u.pk,'nombre':u.get_full_name() or u.username} for u in Usuario.objects.filter(is_active=True).filter(Q(delegacion__in=delegations(request.user))|Q(delegaciones__in=delegations(request.user))).distinct()]
     if allowed(request.user,'roles'): result['permisos']=PERMISSIONS
     return ok(result)
 
@@ -245,10 +258,10 @@ def validate_data(obj, data, resource, request, creating=False):
         from .period_support import prepare_meta
         prepare_meta(obj,incoming,creating)
     if resource=='usuarios' and 'estado' in incoming: incoming['is_active']=incoming.pop('estado')
-    valid_fields=set(fields)|({'password'} if resource=='usuarios' else set())
+    valid_fields=set(fields)|({'password','activar_por_correo'} if resource=='usuarios' else set())
     if set(incoming)-valid_fields: raise ValidationError('Hay campos desconocidos o no editables.')
     for key,value in incoming.items():
-        if key in ['password','delegaciones','cargos']: continue
+        if key in ['password','delegaciones','cargos','activar_por_correo']: continue
         f=obj._meta.get_field(key)
         if f.is_relation:
             if value in [None,'']: setattr(obj,key,None)
@@ -261,6 +274,22 @@ def validate_data(obj, data, resource, request, creating=False):
             if f.get_internal_type() in ['CharField','TextField','EmailField'] and value is not None and not isinstance(value,str): raise ValidationError({key:'Se requiere texto.'})
             if f.get_internal_type()=='BooleanField' and not isinstance(value,bool): raise ValidationError({key:'Debe ser verdadero o falso.'})
             setattr(obj,key,value.strip() if isinstance(value,str) else value)
+    if isinstance(obj,Delegacion) and obj.delegado_id:
+        if not obj.delegado.is_active or not (obj.delegado.delegacion_id==obj.pk or obj.pk and obj.delegado.delegaciones.filter(pk=obj.pk).exists()):raise ValidationError({'delegado':'Selecciona un delegado activo de esta delegación.'})
+    if isinstance(obj,PeriodoGestion):
+        # Legacy periods without quarter metadata remain readable; new quarter fields are strictly validated.
+        if obj.anio is not None or obj.numero is not None:
+            if isinstance(obj.anio,bool) or isinstance(obj.numero,bool):raise ValidationError('Año y trimestre deben ser enteros.')
+            try:obj.anio=int(obj.anio);obj.numero=int(obj.numero)
+            except (TypeError,ValueError):raise ValidationError('Indica año y número del trimestre.')
+            from datetime import date
+            import calendar
+            try:
+                start=date(obj.anio,(obj.numero-1)*3+1,1)
+                end=date(obj.anio,obj.numero*3,calendar.monthrange(obj.anio,obj.numero*3)[1])
+            except (ValueError,TypeError):raise ValidationError('Trimestre inválido: número de 1 a 4 y año válido.')
+            if str(obj.fecha_inicio)!=str(start) or str(obj.fecha_fin)!=str(end):raise ValidationError({'fecha_inicio':'Las fechas deben coincidir con el año y trimestre seleccionados.'})
+            if PeriodoGestion.objects.filter(anio=obj.anio,numero=obj.numero).exclude(pk=obj.pk).exists():raise ValidationError('Ya existe este año y trimestre.')
     missing={key:['Campo obligatorio.'] for key in ['codigo','nombre'] if hasattr(obj,key) and not getattr(obj,key)}
     if missing: raise ValidationError(missing)
     for key in ['codigo','nombre']:
@@ -289,9 +318,16 @@ def validate_data(obj, data, resource, request, creating=False):
         if not request.user.is_superuser and (obj.is_superuser or obj.is_staff or obj.rol.alcance=='global' or set(obj.rol.permisos)-set(request.user.rol.permisos)): raise ValidationError('No puedes administrar una cuenta con privilegios superiores.')
         if obj.pk==request.user.pk and not obj.is_active: raise ValidationError('No puedes desactivar tu propia cuenta.')
         password=incoming.get('password')
+        activar_por_correo=bool(incoming.get('activar_por_correo'))
         if password is not None and not isinstance(password,str):raise ValidationError({'password':'La contraseña debe ser texto.'})
-        if creating and not password: raise ValidationError({'password':'Contraseña obligatoria.'})
-        if password: validate_password(password,obj); obj.set_password(password)
+        if creating and not password:
+            if activar_por_correo:
+                obj.set_unusable_password()
+                obj._activar_por_correo=True
+            else:
+                raise ValidationError({'password':'Campo obligatorio.'})
+        elif password:
+            validate_password(password,obj); obj.set_password(password)
         obj._delegaciones=ds
     if isinstance(obj,ItemMeta) and 'cargos' in incoming:
         ids=incoming['cargos']
@@ -425,9 +461,28 @@ def crud(request, resource, pk=None, action=None):
             catalog_saved(obj,resource)
             if hasattr(obj,'_delegaciones'): obj.delegaciones.set(obj._delegaciones)
             if hasattr(obj,'_cargos'): obj.cargos.set(obj._cargos)
+            msg='Cambio guardado.'
+            if getattr(obj,'_activar_por_correo',False):
+                from .models import RecuperacionAcceso
+                import secrets, uuid
+                code=f'{secrets.randbelow(1000000):06d}'
+                identifier=uuid.uuid4()
+                rec=RecuperacionAcceso.objects.create(usuario=obj,identificador=identifier,codigo_hash=make_password(code),vence=timezone.now()+timedelta(days=2))
+                mail_ok=False
+                try:
+                    sent=send_mail(
+                        'SGR: activación de tu cuenta de usuario',
+                        f'Hola {obj.first_name},\n\nSe ha creado tu cuenta en el Sistema de Gestión de Resultados (SGR).\nTu usuario es: {obj.username}\nTu código de activación para tu primer ingreso es: {code}\n\nVence en 48 horas.\n\nMunicipalidad de La Serena · SGR',
+                        settings.DEFAULT_FROM_EMAIL,[obj.email],fail_silently=False
+                    )
+                    mail_ok=(sent==1)
+                except Exception as mail_err:
+                    logger.warning('No se pudo enviar correo de activación a %s: %s',obj.email,mail_err)
+                record_event(request,'usuarios',obj.pk,'activacion_emitida',None,{'email':obj.email,'correo_enviado':mail_ok})
+                msg='Usuario creado exitosamente. Se ha enviado el correo con su código de activación.' if mail_ok else 'Usuario creado. Se generó el token de activación (el servicio de correo no estuvo disponible; el usuario puede usar recuperación de clave).'
             catalog_history.record(request,resource,obj)
             record_event(request,resource,obj.pk,verb,previous,snapshot(obj,fields))
-            response=ok(serialize(obj,fields),message='Cambio guardado.')
+            response=ok(serialize(obj,fields),message=msg)
             if not pk: response.status_code=201
             return response
     except ValidationError as ex:
@@ -497,6 +552,11 @@ def create_attention(request,data):
     try:validate_social(obj,data)
     except ValidationError as ex:return error('; '.join(ex.messages))
     with transaction.atomic():
+        if obj.compromiso_id:
+            from .tracking import validate_link
+            from .models import Compromiso
+            obj.compromiso=Compromiso.objects.select_for_update().get(pk=obj.compromiso_id)
+            validate_link(request,obj,obj.compromiso)
         if data.get('nuevo_caso'):
             from .auto_codes import assign
             case=CasoSocial.objects.create(codigo='TMP-'+uuid.uuid4().hex,solicitante=' '.join(obj.solicitante.casefold().split()))
@@ -525,6 +585,8 @@ def create_attention(request,data):
         from .eligibility import legacy_attention
         obj.elegibilidad_snapshot=legacy_attention(obj)
         obj.full_clean();obj.save()
+        from .tracking import sync_source
+        sync_source(obj)
         from .auto_codes import assign
         assign(obj,'folio','AT',timezone.localdate())
         from .capture_followup import finish

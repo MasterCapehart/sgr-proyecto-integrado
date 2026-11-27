@@ -34,7 +34,7 @@ class CierreLocal(TestCase):
   r=self.client.get(f'/api/tipos-atencion/{self.tipo.pk}/historial/');self.assertEqual(r.status_code,200,r.content);self.assertEqual([x['version'] for x in r.json()['results']],[2,1])
  def test_cierre_conserva_atraso_y_bloquea_retroceso(self):
   c=self.commitment();url=f"/api/operacion/compromisos/{c['id']}/"
-  r=self.client.patch(url,{'_version':c['version'],'estado':'Realizado','observacion':'Solución entregada'},content_type='application/json');self.assertEqual(r.status_code,200,r.content);c=r.json()['data'];self.assertEqual(c['dias_atraso_cierre'],2)
+  r=self.client.patch(url,{'_version':c['version'],'estado':'Cerrado','resultado':'Cierre con resultado documentado','observacion':'Solución entregada'},content_type='application/json');self.assertEqual(r.status_code,200,r.content);c=r.json()['data'];self.assertEqual(c['dias_atraso_cierre'],2)
   r=self.client.patch(url,{'_version':c['version'],'estado':'Ingresado','observacion':'Retroceso'},content_type='application/json');self.assertEqual(r.status_code,400,r.content)
  def test_alerta_revisada_conserva_evento_y_ambito(self):
   c=self.commitment();r=self.client.get('/api/alertas/');self.assertEqual(r.status_code,200,r.content);a=next(x for x in r.json()['results'] if x['registro']==c['id'] and x['tipo']=='vencimiento')
@@ -60,7 +60,7 @@ class CierreLocal(TestCase):
   self.assertEqual(self.post(url,{'_version':e['version'],'motivo':'Repetición'}).status_code,409)
  def test_reapertura_preserva_cierre_tardio(self):
   c=self.commitment();url=f"/api/operacion/compromisos/{c['id']}/"
-  c=self.client.patch(url,{'_version':c['version'],'estado':'Realizado','observacion':'Cierre tardío'},content_type='application/json').json()['data']
+  c=self.client.patch(url,{'_version':c['version'],'estado':'Cerrado','resultado':'Cierre con resultado documentado','observacion':'Cierre tardío'},content_type='application/json').json()['data']
   self.assertEqual(self.post(f"/api/operacion/compromisos/{c['id']}/reabrir/",{'_version':c['version'],'motivo':'Requiere seguimiento adicional'}).status_code,200)
   from .models import CierreCompromiso
   old=CierreCompromiso.objects.get(compromiso_id=c['id']);self.assertEqual(old.dias_atraso,2);self.assertEqual(old.observacion,'Cierre tardío')
@@ -71,5 +71,5 @@ class CierreLocal(TestCase):
   p=self.client.get('/api/gobierno/').json()['data']['politica'];r=self.post('/api/gobierno/',{'_version':p['version'],'motivo':'Prueba','transiciones':p['transiciones'],'validar':True,'roles_versiones':{'inexistente':1}});self.assertEqual(r.status_code,409,r.content)
  def test_cierre_resuelve_alerta_sin_eliminar_revision(self):
   c=self.commitment();a=next(x for x in self.client.get('/api/alertas/').json()['results'] if x['registro']==c['id']);self.post(f"/api/alertas/{a['id']}/revisar/",{'_version':a['version']})
-  self.client.patch(f"/api/operacion/compromisos/{c['id']}/",{'_version':c['version'],'estado':'Realizado','observacion':'Entrega realizada'},content_type='application/json')
+  self.client.patch(f"/api/operacion/compromisos/{c['id']}/",{'_version':c['version'],'estado':'Cerrado','resultado':'Cierre con resultado documentado','observacion':'Entrega realizada'},content_type='application/json')
   a=next(x for x in self.client.get('/api/alertas/').json()['results'] if x['id']==a['id']);self.assertFalse(a['activa']);self.assertTrue(a['revisada']);self.assertIsNotNone(a['resuelta_en'])
