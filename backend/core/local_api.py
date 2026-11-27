@@ -258,10 +258,10 @@ def validate_data(obj, data, resource, request, creating=False):
         from .period_support import prepare_meta
         prepare_meta(obj,incoming,creating)
     if resource=='usuarios' and 'estado' in incoming: incoming['is_active']=incoming.pop('estado')
-    valid_fields=set(fields)|({'password'} if resource=='usuarios' else set())
+    valid_fields=set(fields)|({'password','activar_por_correo'} if resource=='usuarios' else set())
     if set(incoming)-valid_fields: raise ValidationError('Hay campos desconocidos o no editables.')
     for key,value in incoming.items():
-        if key in ['password','delegaciones','cargos']: continue
+        if key in ['password','delegaciones','cargos','activar_por_correo']: continue
         f=obj._meta.get_field(key)
         if f.is_relation:
             if value in [None,'']: setattr(obj,key,None)
@@ -461,23 +461,28 @@ def crud(request, resource, pk=None, action=None):
             catalog_saved(obj,resource)
             if hasattr(obj,'_delegaciones'): obj.delegaciones.set(obj._delegaciones)
             if hasattr(obj,'_cargos'): obj.cargos.set(obj._cargos)
+            msg='Cambio guardado.'
             if getattr(obj,'_activar_por_correo',False):
                 from .models import RecuperacionAcceso
                 import secrets, uuid
                 code=f'{secrets.randbelow(1000000):06d}'
                 identifier=uuid.uuid4()
                 rec=RecuperacionAcceso.objects.create(usuario=obj,identificador=identifier,codigo_hash=make_password(code),vence=timezone.now()+timedelta(days=2))
+                mail_ok=False
                 try:
-                    send_mail(
+                    sent=send_mail(
                         'SGR: activación de tu cuenta de usuario',
                         f'Hola {obj.first_name},\n\nSe ha creado tu cuenta en el Sistema de Gestión de Resultados (SGR).\nTu usuario es: {obj.username}\nTu código de activación para tu primer ingreso es: {code}\n\nVence en 48 horas.\n\nMunicipalidad de La Serena · SGR',
-                        settings.DEFAULT_FROM_EMAIL,[obj.email],fail_silently=True
+                        settings.DEFAULT_FROM_EMAIL,[obj.email],fail_silently=False
                     )
-                except Exception:pass
-                record_event(request,'usuarios',obj.pk,'activacion_emitida',None,{'email':obj.email})
+                    mail_ok=(sent==1)
+                except Exception as mail_err:
+                    logger.warning('No se pudo enviar correo de activación a %s: %s',obj.email,mail_err)
+                record_event(request,'usuarios',obj.pk,'activacion_emitida',None,{'email':obj.email,'correo_enviado':mail_ok})
+                msg='Usuario creado exitosamente. Se ha enviado el correo con su código de activación.' if mail_ok else 'Usuario creado. Se generó el token de activación (el servicio de correo no estuvo disponible; el usuario puede usar recuperación de clave).'
             catalog_history.record(request,resource,obj)
             record_event(request,resource,obj.pk,verb,previous,snapshot(obj,fields))
-            response=ok(serialize(obj,fields),message='Cambio guardado.')
+            response=ok(serialize(obj,fields),message=msg)
             if not pk: response.status_code=201
             return response
     except ValidationError as ex:

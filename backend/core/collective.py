@@ -29,21 +29,22 @@ def consolidate(summaries):
         individual=[]
         for row in summary.get('metas',[]):
             valid=row.get('cumplimiento_exacto') is not None and row.get('meta_ajustada_exacta') is not None
-            group=grouped.setdefault(row.get('item',row['id']),dict(id=row.get('item',row['id']),codigo=row.get('codigo',''),nombre=row.get('nombre','Ítem histórico'),unidad=row.get('unidad',''),meta=D(0),reconocido=D(0),validas=0,registradas=0,exceso=D(0),evaluados=0,sin_evaluacion=0,pesos=set(),objetivo_numerador=D(0),objetivos_completos=True))
+            item_key=row.get('item') or row.get('id')
+            group=grouped.setdefault(item_key,dict(id=item_key,codigo=row.get('codigo',''),nombre=row.get('nombre','Ítem histórico'),unidad=row.get('unidad',''),meta=D(0),reconocido=D(0),validas=0,registradas=0,exceso=D(0),evaluados=0,sin_evaluacion=0,pesos=set(),pesos_list=[],objetivo_numerador=D(0),objetivos_completos=True))
             if not valid:group['sin_evaluacion']+=1;continue
             target=D(row['meta_ajustada_exacta']);recognized=D(row['unidades_reconocidas_exactas']);weight=D(row['ponderacion'])
-            group['meta']+=target;group['reconocido']+=recognized;group['validas']+=row['validas'];group['registradas']+=row['total_registrado'];group['exceso']+=D(row['validas'])-recognized;group['evaluados']+=1;group['pesos'].add(weight)
+            group['meta']+=target;group['reconocido']+=recognized;group['validas']+=row['validas'];group['registradas']+=row['total_registrado'];group['exceso']+=D(row['validas'])-recognized;group['evaluados']+=1;group['pesos'].add(weight);group['pesos_list'].append(weight)
             objective=summary.get('objetivo_al_dia')
             if objective is None:group['objetivos_completos']=False
             else:group['objetivo_numerador']+=target*D(objective)
             individual.append(dict(cumplimiento_exacto=row['cumplimiento_exacto'],peso=str(weight) if 0<=weight<=100 else None,objetivo_exacto=objective))
         value,goal=metric(individual)
-        persons.append(dict(id=summary['funcionario'],nombre=summary['funcionario_nombre'],area=summary.get('area',''),cumplimiento=absences.number(value) if value is not None else None,semaforo=status(value,goal),items_evaluados=len(individual),items_sin_evaluacion=len(summary.get('metas',[]))-len(individual)))
+        persons.append(dict(id=summary['funcionario'],nombre=summary['funcionario_nombre'],area=summary.get('area',''),cumplimiento=absences.number(value) if value is not None else None,cumplimiento_exacto=str(value) if value is not None else None,semaforo=status(value,goal),items_evaluados=len(individual),items_sin_evaluacion=len(summary.get('metas',[]))-len(individual)))
     items=[]
     for g in grouped.values():
         value=g['reconocido']/g['meta']*100 if g['meta']>0 else None
         goal=g['objetivo_numerador']/g['meta'] if g['meta']>0 and g['objetivos_completos'] else None
-        weights=g.pop('pesos');weight=next(iter(weights)) if len(weights)==1 else None
+        weights=g.pop('pesos');g.pop('pesos_list',None);weight=next(iter(weights)) if len(weights)==1 else None
         if weight is not None and not 0<=weight<=100:weight=None
         g.pop('objetivo_numerador');g.pop('objetivos_completos')
         for k in ['meta','reconocido','exceso']:g[k]=absences.number(g[k]) if g['evaluados'] else None
@@ -77,6 +78,6 @@ def overview(request):
                 entry=territories_by_key.setdefault(key,dict(nombre=label,registradas=0));entry['registradas']+=row['total']
             territories=sorted(territories_by_key.values(),key=lambda r:(-r['registradas'],r['nombre'].casefold()))
         data=consolidate(summaries)
-        data.update(delegacion=delegation.nombre,periodo=period.nombre,cerrado=period.cerrado,areas=areas,area=area,territorios=territories,fuente='Resultados conservados al cierre; sin reconstruir equipo ni territorios históricos.' if period.cerrado else 'Equipo activo autorizado y calendarios vigentes.',regla='Por ítem: suma del aporte limitado de cada persona / suma de sus metas ajustadas exactas. Índice consolidado: media de cumplimientos por ítem ponderada por sus pesos compatibles, normalizados. No es el puntaje integral del sistema.',territorios_nota='Distribución operativa de registros, sin porcentaje de cumplimiento: no existen metas territoriales asignadas. En períodos cerrados no se reconstruyen territorios con datos actuales.')
+        data.update(delegacion=delegation.nombre,periodo=period.nombre,cerrado=period.cerrado,areas=areas,area=area,territorios=territories,fuente='Resultados conservados al cierre; sin reconstruir equipo ni territorios históricos.' if period.cerrado else 'Equipo activo autorizado y calendarios vigentes.',regla='Por ítem: suma del aporte reconocido (hasta 120 % con tope individual) / suma de metas ajustadas exactas. Ítems con ponderaciones individuales distintas consolidan el peso medio efectivo sin dejar resultados ambiguos. Índice consolidado: media de cumplimientos de las personas evaluadas, sin computar ausencias ni personas sin evaluación como cero falso. No es el puntaje integral del sistema.',territorios_nota='Distribución operativa de registros, sin porcentaje de cumplimiento: no existen metas territoriales asignadas. En períodos cerrados no se reconstruyen territorios con datos actuales.')
         return api.ok(data)
     except (ValidationError,ValueError,TypeError) as ex:return access.failure(ex)

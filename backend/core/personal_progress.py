@@ -29,18 +29,32 @@ def overview(request):
     if delegation is None:
         return api.error('Selecciona una delegación autorizada.', 403)
     today = timezone.localdate()
-    period = request.GET.get('mes', today.strftime('%Y-%m'))
-    if not re.fullmatch(r'\d{4}-\d{2}', period):
-        return api.error('Selecciona un mes válido con formato AAAA-MM.')
-    try:
-        year, month = map(int, period.split('-'))
-        start = date(year, month, 1)
-        if not 2000 <= year <= 2100 or start > today:
-            raise ValueError
-        days = calendar.monthrange(year, month)[1]
-        end = start + timedelta(days=days)
-    except ValueError:
-        return api.error('Selecciona un mes válido que no sea futuro.')
+    trimestre_id = request.GET.get('trimestre') or request.GET.get('periodo')
+    period_param = request.GET.get('mes')
+    from .models import PeriodoGestion
+    active_period = None
+    if trimestre_id and str(trimestre_id).isdigit():
+        active_period = PeriodoGestion.objects.filter(pk=int(trimestre_id)).first()
+
+    if active_period:
+        start = active_period.fecha_inicio
+        end = active_period.fecha_fin + timedelta(days=1)
+        days = (active_period.fecha_fin - active_period.fecha_inicio).days + 1
+        period_label = active_period.nombre
+    else:
+        period = period_param or today.strftime('%Y-%m')
+        if not re.fullmatch(r'\d{4}-\d{2}', period):
+            return api.error('Selecciona un mes válido con formato AAAA-MM.')
+        try:
+            year, month = map(int, period.split('-'))
+            start = date(year, month, 1)
+            if not 2000 <= year <= 2100 or start > today:
+                raise ValueError
+            days = calendar.monthrange(year, month)[1]
+            end = start + timedelta(days=days)
+            period_label = period
+        except ValueError:
+            return api.error('Selecciona un mes válido que no sea futuro.')
 
     def allowed(resource, action='ver'):
         return api.allowed(user, resource, action)
@@ -53,7 +67,12 @@ def overview(request):
     def monthly(qs, field='creado'):
         return qs.filter(**{field+'__gte': bounds(start), field+'__lt': bounds(end)})
 
-    month_data = dict(attentions=None, activities=None, commitments=None, evidence=None)
+    month_data = dict(
+        attentions=None, attentions_url='pages/ingreso-atencion.html',
+        activities=None, activities_url='pages/desempeno.html',
+        commitments=None, commitments_url='pages/tubo-trabajo.html',
+        evidence=None, evidence_url='pages/evidencias.html'
+    )
     if attentions is not None:
         month_data['attentions'] = monthly(attentions, 'fecha_registro').count()
     if activities is not None:
@@ -110,9 +129,11 @@ def overview(request):
             tasks.append(task('review', obj, obj.nombre_archivo, f'pages/validacion.html?registro={obj.pk}', 'action'))
     ranking = {'overdue': 0, 'action': 1, 'soon': 2, 'normal': 3}
     tasks.sort(key=lambda t: (ranking[t['priority']], t['due'] or '', t['id']))
-    response = api.ok(dict(period=period, generated_at=timezone.now().isoformat(),
+    response = api.ok(dict(period=period_label,
+                           periodos=list(PeriodoGestion.objects.filter(estado=True).order_by('-fecha_inicio').values('id', 'nombre', 'cerrado')),
+                           generated_at=timezone.now().isoformat(),
                            delegation=delegation.nombre, month=month_data, weeks=weeks,
                            pending=pending, tasks=tasks[:12],
-                           scope='Solo tus registros en la delegación activa. Pendientes de todo el historial; avance del mes seleccionado.'))
+                           scope='Solo tus registros en la delegación activa. Pendientes de todo el historial; avance del período seleccionado.'))
     response['Cache-Control'] = 'private, no-store'
     return response

@@ -13,8 +13,15 @@
     if (/^pages\/[a-z-]+\.html(?:\?[a-z]+=[0-9]+)?$/.test(url)) a.href = url;
     return a;
   };
-  function metric(title, value, help) {
-    const card = node('article', 'personal-metric');
+  function metric(title, value, help, url) {
+    const card = node(url ? 'a' : 'article', 'personal-metric');
+    if (url) {
+      card.href = url;
+      card.style.display = 'block';
+      card.style.textDecoration = 'none';
+      card.style.color = 'inherit';
+      card.title = 'Abrir registros: ' + title;
+    }
     card.append(node('h3', null, title), node('p', 'personal-number', value), node('p', 'progress-muted', help));
     return card;
   }
@@ -59,11 +66,11 @@
     const month = data.month;
     const grid = node('section', 'personal-metrics');
     grid.setAttribute('aria-label', 'Mi progreso del mes seleccionado');
-    if (month.attentions !== null) grid.append(metric('Mis atenciones', number(month.attentions), 'Registradas por ti durante el mes.'));
-    if (month.activities !== null) grid.append(metric('Mis actividades', number(month.activities), 'Creadas por ti durante el mes.'));
+    if (month.attentions !== null) grid.append(metric('Mis atenciones', number(month.attentions), 'Registradas por ti en el período. Haz clic para ver el listado.', month.attentions_url || 'pages/ingreso-atencion.html'));
+    if (month.activities !== null) grid.append(metric('Mis actividades', number(month.activities), 'Creadas por ti en el período. Haz clic para ver el listado.', month.activities_url || 'pages/desempeno.html'));
     if (month.commitments !== null) {
       const c = month.commitments;
-      const card = metric('Mis compromisos', `${number(c.closed)} de ${number(c.total)}`, 'Asignados a ti y creados en el mes; estado actual.');
+      const card = metric('Mis compromisos', `${number(c.closed)} de ${number(c.total)}`, 'Asignados a ti en el período; estado actual. Haz clic para abrir el tubo.', month.commitments_url || 'pages/tubo-trabajo.html');
       if (c.percent !== null) {
         const bar = node('div', 'personal-meter');
         bar.setAttribute('role', 'progressbar'); bar.setAttribute('aria-label', 'Porcentaje de compromisos realizados');

@@ -15,21 +15,23 @@ def reasons(activity,evidence):
     elif snapshot.get('clasificacion') in ['Coordinación','Otra gestión']:result.append('Clasificación excluida de cumplimiento.')
     if activity.estado=='Aprobada y no pondera':
         result.append('Aprobada pero no pondera para la meta.')
+    elif activity.estado=='Validada':
+        result.append('Evidencia aprobada; la actividad requiere decisión vigente de "Aprobada y pondera" para sumar a la meta.')
     elif activity.estado=='Solicitud de antecedentes':
         result.append('La actividad tiene solicitud de antecedentes pendiente.')
+    elif activity.estado=='Corrección':
+        result.append('La actividad tiene observaciones pendientes de corrección.')
     elif activity.estado=='Rechazada':
         result.append('La actividad fue rechazada.')
     elif activity.estado=='Anulada':
         result.append('La actividad está anulada.')
     elif activity.estado in ['Pendiente','Borrador']:
         result.append('La actividad está pendiente de verificación.')
-    elif activity.estado not in ['Validada','Aprobada y pondera']:
-        result.append('La actividad no está validada: '+activity.estado+'.')
+    elif activity.estado!='Aprobada y pondera':
+        result.append('La actividad no está aprobada para ponderar: '+activity.estado+'.')
     current=[e for e in evidence if not hasattr(e,'siguiente_version') and e.estado!='Anulada']
     requiere_evidencia = getattr(activity.item, 'requiere_evidencia', False)
-    if requiere_evidencia and not current:
-        result.append('No tiene respaldos vigentes aprobados.')
-    elif activity.estado=='Validada' and not current:
+    if (requiere_evidencia or evidence) and not current:
         result.append('No tiene respaldos vigentes aprobados.')
     elif current:
         for e in current:

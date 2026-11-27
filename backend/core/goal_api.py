@@ -22,7 +22,8 @@ def visible(request):
     return qs
 
 def representation(obj):
-    return dict(id=obj.pk,version=obj.version,funcionario=obj.funcionario_id,funcionario_nombre=obj.funcionario.get_full_name() or obj.funcionario.username,item=obj.item_id,item_nombre=obj.snapshot.get('item_nombre',obj.item.nombre),periodo=obj.periodo_id,periodo_nombre=obj.snapshot.get('periodo_nombre',obj.periodo.nombre),cantidad_objetivo=format(obj.cantidad_objetivo,'.2f'),ponderacion=format(obj.ponderacion,'.2f'),observacion=obj.observacion,estado=obj.estado,fecha_asignacion=obj.fecha_asignacion.isoformat(),cerrado=obj.periodo.cerrado,snapshot=obj.snapshot)
+    es_prop = bool(obj.snapshot.get('es_propuesta') or (obj.snapshot.get('procedencia') == 'propuesta_migrada' and not obj.snapshot.get('plan_aprobado')))
+    return dict(id=obj.pk,version=obj.version,funcionario=obj.funcionario_id,funcionario_nombre=obj.funcionario.get_full_name() or obj.funcionario.username,item=obj.item_id,item_nombre=obj.snapshot.get('item_nombre',obj.item.nombre),periodo=obj.periodo_id,periodo_nombre=obj.snapshot.get('periodo_nombre',obj.periodo.nombre),cantidad_objetivo=format(obj.cantidad_objetivo,'.2f'),ponderacion=format(obj.ponderacion,'.2f'),observacion=obj.observacion,estado=obj.estado,es_propuesta=es_prop,plan_aprobado=bool(obj.estado and not es_prop),fecha_asignacion=obj.fecha_asignacion.isoformat(),cerrado=obj.periodo.cerrado,snapshot=obj.snapshot)
 
 def quarter(period):
     if type(period.anio) is not int or not 1900<=period.anio<=9999 or period.numero not in [1,2,3,4]:raise ValidationError('El periodo debe indicar año y número de trimestre.')
@@ -85,7 +86,7 @@ def assignments(request,pk=None):
         return api.ok(results=[representation(x) for x in page],count=page.paginator.count,page=page.number,total_pages=page.paginator.num_pages,puede_crear=manager(request.user) and api.allowed(request.user,RESOURCE,'crear'),puede_editar=manager(request.user) and api.allowed(request.user,RESOURCE,'editar'),opciones=dict(funcionarios=[dict(id=u.pk,nombre=u.get_full_name() or u.username) for u in people],items=list(ItemMeta.objects.filter(estado=True).values('id','nombre','tipo','unidad_medida','requiere_evidencia')),periodos=available,periodos_filtro=period_filters))
     try:
         data=api.body(request)
-        if set(data)-{'funcionario','item','periodo','cantidad_objetivo','ponderacion','observacion','estado','_version'}:raise ValidationError('Hay campos no editables.')
+        if set(data)-{'funcionario','item','periodo','cantidad_objetivo','ponderacion','observacion','estado','_version','validar_plan','aprobar_plan','es_propuesta'}:raise ValidationError('Hay campos no editables.')
         with transaction.atomic():
             old=visible(request).filter(pk=pk).first() if pk else None
             if pk and not old:return api.error('Asignación no encontrada.',404)
@@ -120,8 +121,17 @@ def assignments(request,pk=None):
             if obj.estado:
                 total=AsignacionMeta.objects.filter(funcionario=user,periodo=period,estado=True).exclude(pk=obj.pk).aggregate(total=Sum('ponderacion'))['total'] or Decimal('0')
                 if total+obj.ponderacion>100:raise ValidationError('La suma de ponderaciones activas del funcionario y trimestre no puede superar 100 %.')
-            if not old:obj.snapshot=dict(item_nombre=item.nombre,tipo=item.tipo,unidad_medida=item.unidad_medida,requiere_evidencia=item.requiere_evidencia,periodo_nombre=period.nombre,anio=period.anio,numero=period.numero)
-            else:obj.version+=1
+                if data.get('validar_plan') or data.get('aprobar_plan'):
+                    if total+obj.ponderacion!=Decimal('100.00'):
+                        raise ValidationError(f'El plan individual debe sumar exactamente 100 % para ser aprobado. Suma actual: {total+obj.ponderacion} %.')
+            es_prop=bool(data.get('es_propuesta',False)) if not data.get('aprobar_plan') else False
+            if not old:
+                obj.snapshot=dict(item_nombre=item.nombre,tipo=item.tipo,unidad_medida=item.unidad_medida,requiere_evidencia=item.requiere_evidencia,periodo_nombre=period.nombre,anio=period.anio,numero=period.numero,es_propuesta=es_prop,plan_aprobado=not es_prop and obj.estado)
+            else:
+                if 'aprobar_plan' in data or 'es_propuesta' in data:
+                    obj.snapshot['es_propuesta']=es_prop
+                    obj.snapshot['plan_aprobado']=not es_prop and obj.estado
+                obj.version+=1
             obj.full_clean(validate_unique=False,validate_constraints=False);obj.save()
             after=representation(obj);api.record_event(request,RESOURCE,obj.pk,'editar' if old else 'crear',before,after)
             response=api.ok(after);response.status_code=200 if old else 201;return response

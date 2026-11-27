@@ -55,6 +55,8 @@ class IntegralWorkflowTests(TestCase):
   self.assertEqual(self.send(f"/api/operacion/evidencias/{e['id']}/revisar/",dict(_version=e['version'],decision='Aprobada',observacion='No autorrevisión aunque tenga permiso')).status_code,400)
   self.worker.rol.permisos.remove('evidencias.revisar');self.worker.rol.save()
   self.client.force_login(self.users['Verificador']);self.post(f"/api/operacion/evidencias/{e['id']}/revisar/",dict(_version=e['version'],decision='Aprobada',observacion='Ejecución verificada por otra persona'),200)
+  act_ver = Actividad.objects.get(pk=a['id']).version
+  self.client.force_login(self.users['Delegado']);self.post(f"/api/operacion/actividades/{a['id']}/revisar/",dict(_version=act_ver,decision='Aprobada y pondera',observacion='Aprobada para ponderar'),200)
   self.client.force_login(self.worker);self.assertEqual(self.summary()['metas'][0]['cumplimiento'],'10.00')
   self.assertEqual(self.client.get('/api/cumplimiento/colectivo/',{'periodo':self.p.pk}).status_code,403)
   self.client.force_login(self.users['Delegado'])

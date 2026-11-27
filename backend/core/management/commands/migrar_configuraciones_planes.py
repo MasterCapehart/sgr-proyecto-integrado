@@ -85,7 +85,7 @@ class Command(BaseCommand):
                         continue
 
                     report['asignaciones_propuestas'] += 1
-                    obs = 'Propuesta generada desde plantilla de cargo' if is_plan_sound else f'Propuesta de plantilla (Pendiente de revisión: suma de ponderaciones {total_weight}% != 100%)'
+                    obs = 'Plan migrado aprobado desde plantilla de cargo (100% verificado)' if is_plan_sound else f'Propuesta migrada pendiente de revisión (suma de ponderaciones {total_weight}% != 100%)'
                     
                     entry = {
                         'funcionario': user.username,
@@ -95,6 +95,7 @@ class Command(BaseCommand):
                         'cantidad_objetivo': str(cfg.meta_esperada),
                         'ponderacion': str(cfg.ponderacion),
                         'estado': is_plan_sound,
+                        'es_propuesta': not is_plan_sound,
                         'observacion': obs,
                         'origen_configuracion_id': cfg.pk
                     }
@@ -118,7 +119,9 @@ class Command(BaseCommand):
                                     'ponderacion_plantilla': str(cfg.ponderacion),
                                     'cargo_id': user.cargo_id,
                                     'cargo_nombre': user.cargo.nombre,
-                                    'procedencia': 'plantilla_cargo'
+                                    'procedencia': 'propuesta_migrada',
+                                    'es_propuesta': not is_plan_sound,
+                                    'plan_aprobado': is_plan_sound
                                 }
                             )
                             report['asignaciones_creadas'] += 1

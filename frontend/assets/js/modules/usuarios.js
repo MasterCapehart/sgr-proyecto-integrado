@@ -150,11 +150,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ---------- Modal ----------
     function configurarPassword(esNuevo) {
-        campoPassword.value = "";
-        campoPassword.required = esNuevo;
-        if (ayudaPassword) ayudaPassword.textContent = esNuevo
-            ? "Obligatoria. Mínimo 8 caracteres. El usuario podrá cambiarla con la recuperación de clave."
-            : "Déjela vacía para mantener la contraseña actual.";
+        const grupoActivacion = document.getElementById("grupo-activacion");
+        const grupoPassword = document.getElementById("grupo-password");
+        const checkActivar = document.getElementById("campo-activar-correo");
+
+        if (campoPassword) campoPassword.value = "";
+        if (grupoActivacion) grupoActivacion.style.display = esNuevo ? "block" : "none";
+        if (checkActivar) checkActivar.checked = esNuevo;
+
+        if (grupoPassword) {
+            grupoPassword.style.display = esNuevo ? "none" : "block";
+        }
+        if (campoPassword) {
+            campoPassword.required = false;
+        }
+        if (ayudaPassword) {
+            ayudaPassword.textContent = esNuevo
+                ? "Opcional. Si no ingresa contraseña, el usuario se activará por correo en su primer acceso."
+                : "Déjela vacía para mantener la contraseña actual.";
+        }
+
+        if (checkActivar) {
+            checkActivar.onchange = () => {
+                if (grupoPassword) {
+                    grupoPassword.style.display = checkActivar.checked ? "none" : "block";
+                }
+            };
+        }
     }
 
     function showEditar(item) {
@@ -192,18 +214,20 @@ document.addEventListener("DOMContentLoaded", () => {
         const nombreCompleto = document.getElementById("campo-nombre").value.trim();
         const email = document.getElementById("campo-correo").value.trim();
         const rut = document.getElementById("campo-rut").value.trim();
-        const password = campoPassword.value;
+        const checkActivar = document.getElementById("campo-activar-correo");
+        const activarPorCorreo = Boolean(checkActivar && checkActivar.checked);
+        const password = (campoPassword && campoPassword.value) ? campoPassword.value.trim() : "";
 
         if (!nombreCompleto || !email || !campoRol.value || !campoDelegacion.value) {
             Swal.fire({ icon: "warning", title: "Campos obligatorios", text: "Complete nombre, correo, rol y delegación.", confirmButtonColor: "#B01E22" });
             return;
         }
-        if (!currentUserId && password.length < 8) {
-            Swal.fire({ icon: "warning", title: "Contraseña", text: "La contraseña inicial debe tener al menos 8 caracteres.", confirmButtonColor: "#B01E22" });
+        if (!currentUserId && !activarPorCorreo && (!password || password.length < 8)) {
+            Swal.fire({ icon: "warning", title: "Contraseña requerida", text: "Ingresa una contraseña de al menos 8 caracteres o selecciona la activación por correo.", confirmButtonColor: "#B01E22" });
             return;
         }
-        if (currentUserId && password && password.length < 8) {
-            Swal.fire({ icon: "warning", title: "Contraseña", text: "La nueva contraseña debe tener al menos 8 caracteres.", confirmButtonColor: "#B01E22" });
+        if (password && password.length < 8) {
+            Swal.fire({ icon: "warning", title: "Contraseña", text: "La contraseña debe tener al menos 8 caracteres.", confirmButtonColor: "#B01E22" });
             return;
         }
 
@@ -223,7 +247,11 @@ document.addEventListener("DOMContentLoaded", () => {
             delegacion: campoDelegacion.value,
             estado: document.getElementById("campo-estado").value === "Activo"
         };
-        if (password) payload.password = password;
+        if (!currentUserId && activarPorCorreo && !password) {
+            payload.activar_por_correo = true;
+        } else if (password) {
+            payload.password = password;
+        }
 
         // El backend de Usuarios crea y edita con POST (edición: POST /usuarios/<id>/)
         const url = currentUserId ? `${API_URL}${currentUserId}/` : API_URL;

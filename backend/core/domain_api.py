@@ -297,6 +297,9 @@ def records(request,resource,pk=None,action=None):
                     validate_shared_edit(obj,data)
                 elif obj.autor_id!=request.user.pk and not api.allowed(request.user,resource,'editar_equipo'):return api.error('No puedes editar registros de otro responsable.',403)
                 if resource=='actividades':
+                    closed=check_closed_quarter(obj.fecha)
+                    if closed:
+                        return api.error(f'El trimestre {closed.nombre} está cerrado. Se requiere una reapertura autorizada para editar actividades.',400)
                     if obj.estado in ['Validada','Aprobada y pondera','Aprobada y no pondera']:
                         return api.error('Solo se editan actividades en borrador o devueltas. Las actividades aprobadas están bloqueadas y no admiten modificaciones.',400)
                     if obj.estado=='Anulada':
@@ -426,6 +429,11 @@ def download(request,pk):
         return api.error(failure[1], failure[0])
     response['X-Content-Type-Options']='nosniff';response['Cache-Control']='private, no-store';return response
 
+def check_closed_quarter(day):
+    if not day:return None
+    from .models import PeriodoGestion
+    return PeriodoGestion.objects.filter(fecha_inicio__lte=day,fecha_fin__gte=day,cerrado=True).first()
+
 @require_http_methods(['POST'])
 def review(request,pk):
     denied=gate(request,'evidencias','revisar')
@@ -434,10 +442,20 @@ def review(request,pk):
         data=api.body(request)
         with transaction.atomic():
             candidate=scoped(request,'evidencias').filter(pk=pk).values('actividad_id').first()
-            if not candidate:return api.error('Evidencia no encontrada.',404)
+            if not candidate:
+                if Evidencia.objects.filter(pk=pk).exists():return api.error('No puedes revisar evidencias de otra delegación.',403)
+                return api.error('Evidencia no encontrada.',404)
             from .performance import lock_periods
             lock_periods(candidate['actividad_id'])
             activity=Actividad.objects.select_for_update().get(pk=candidate['actividad_id'])
+            if not request.user.is_superuser:
+                authorized_delegs=api.delegations(request.user).values_list('pk',flat=True)
+                active_d=api.active_delegation(request)
+                if activity.delegacion_id not in authorized_delegs or (active_d and activity.delegacion_id!=active_d.pk):
+                    return api.error('No puedes revisar evidencias de otra delegación.',403)
+            closed=check_closed_quarter(activity.fecha)
+            if closed:
+                return api.error(f'El trimestre {closed.nombre} está cerrado. Se requiere una reapertura autorizada para revisar evidencias.',400)
             obj=scoped(request,'evidencias').select_for_update().filter(pk=pk).first()
             if not obj:return api.error('Evidencia no encontrada.',404)
             if request.user.pk in [obj.autor_id,obj.actividad.autor_id]:return api.error('El autor no puede revisar su propia evidencia.')
@@ -470,6 +488,14 @@ def review_activity(request,pk):
             lock_periods(pk)
             activity=Actividad.objects.select_for_update().filter(pk=pk).first()
             if not activity:return api.error('Actividad no encontrada.',404)
+            if not request.user.is_superuser:
+                authorized_delegs=api.delegations(request.user).values_list('pk',flat=True)
+                active_d=api.active_delegation(request)
+                if activity.delegacion_id not in authorized_delegs or (active_d and activity.delegacion_id!=active_d.pk):
+                    return api.error('No puedes revisar actividades de otra delegación.',403)
+            closed=check_closed_quarter(activity.fecha)
+            if closed:
+                return api.error(f'El trimestre {closed.nombre} está cerrado. Se requiere una reapertura autorizada para revisar actividades.',400)
             if request.user.pk==activity.autor_id:return api.error('El autor no puede revisar su propia actividad.',400)
             conflict=validate_version(activity,data)
             if conflict:return conflict
@@ -507,6 +533,14 @@ def annul_activity(request,pk):
             lock_periods(pk)
             activity=Actividad.objects.select_for_update().filter(pk=pk).first()
             if not activity:return api.error('Actividad no encontrada.',404)
+            if not request.user.is_superuser:
+                authorized_delegs=api.delegations(request.user).values_list('pk',flat=True)
+                active_d=api.active_delegation(request)
+                if activity.delegacion_id not in authorized_delegs or (active_d and activity.delegacion_id!=active_d.pk):
+                    return api.error('No puedes anular actividades de otra delegación.',403)
+            closed=check_closed_quarter(activity.fecha)
+            if closed:
+                return api.error(f'El trimestre {closed.nombre} está cerrado. Se requiere una reapertura autorizada para anular actividades.',400)
             conflict=validate_version(activity,data)
             if conflict:return conflict
             before=representation(activity)

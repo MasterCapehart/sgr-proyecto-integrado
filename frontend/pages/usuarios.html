@@ -109,6 +109,17 @@
                 <option value="Inactivo">Inactivo</option>
               </select>
             </div>
+            <div class="field full" id="grupo-activacion">
+              <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;font-weight:normal;">
+                <input type="checkbox" id="campo-activar-correo" name="activar_por_correo" checked style="margin-top:3px;">
+                <span><strong>Activar por correo electrónico:</strong> se enviará un enlace temporal para que el usuario defina su propia contraseña en su primer ingreso (sin clave obligatoria del administrador).</span>
+              </label>
+            </div>
+            <div class="field full" id="grupo-password" style="display:none;">
+              <label for="campo-password">Contraseña (opcional si activa por correo)</label>
+              <input type="password" id="campo-password" name="password" placeholder="Mínimo 8 caracteres">
+              <small id="ayuda-password" class="sub" style="margin-top:4px;display:block;">Si activa por correo, deje este campo vacío.</small>
+            </div>
           </div>
           <div class="modalfoot">
             <button type="button" class="button secondary" id="modal-cancel">Cancelar</button>
