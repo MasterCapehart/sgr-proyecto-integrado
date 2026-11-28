@@ -38,6 +38,8 @@ def overview(request):
             active_period = PeriodoGestion.objects.filter(pk=int(trimestre_id)).first()
         else:
             active_period = PeriodoGestion.objects.filter(Q(codigo=trimestre_id)|Q(nombre=trimestre_id)).first()
+        if not active_period:
+            return api.error('Trimestre o período no encontrado.', 404)
 
     if active_period:
         start = active_period.fecha_inicio
@@ -46,8 +48,8 @@ def overview(request):
         period_label = active_period.nombre
     else:
         period = period_param or today.strftime('%Y-%m')
-        if not re.fullmatch(r'\d{4}-\d{2}', period):
-            return api.error('Selecciona un mes válido con formato AAAA-MM.')
+        if not re.fullmatch(r'\d{4}-\d{2}', str(period)):
+            return api.error('Selecciona un mes válido con formato AAAA-MM.', 400)
         try:
             year, month = map(int, period.split('-'))
             start = date(year, month, 1)
@@ -57,7 +59,7 @@ def overview(request):
             end = start + timedelta(days=days)
             period_label = period
         except ValueError:
-            return api.error('Selecciona un mes válido que no sea futuro.')
+            return api.error('Selecciona un mes válido que no sea futuro.', 400)
 
     def allowed(resource, action='ver'):
         return api.allowed(user, resource, action)
@@ -76,16 +78,17 @@ def overview(request):
     p_param = f'&periodo={p_code}' if p_code else ''
     month_data = dict(
         attentions=None, attentions_url=f'pages/ingreso-atencion.html?desde={d_start}&hasta={d_end}&delegacion={delegation.pk}',
-        activities=None, activities_url=f'pages/desempeno.html?desde={d_start}&hasta={d_end}&delegacion={delegation.pk}{p_param}',
-        commitments=None, commitments_url=f'pages/tubo-trabajo.html?desde={d_start}&hasta={d_end}&delegacion={delegation.pk}',
-        evidence=None, evidence_url=f'pages/evidencias.html?desde={d_start}&hasta={d_end}&delegacion={delegation.pk}{p_param}'
+        activities=None, activities_url=f'pages/desempeno.html?desde={d_start}&hasta={d_end}&autor={user.pk}&delegacion={delegation.pk}{p_param}',
+        commitments=None, commitments_url=f'pages/tubo-trabajo.html?desde={d_start}&hasta={d_end}&responsable={user.pk}&delegacion={delegation.pk}',
+        evidence=None, evidence_url=f'pages/evidencias.html?desde={d_start}&hasta={d_end}&autor={user.pk}&delegacion={delegation.pk}{p_param}'
     )
     if attentions is not None:
         month_data['attentions'] = monthly(attentions, 'fecha_registro').count()
     if activities is not None:
-        month_data['activities'] = monthly(activities).count()
+        month_data['activities'] = activities.filter(fecha__gte=start, fecha__lte=end - timedelta(days=1)).count()
     if commitments is not None:
-        v = monthly(commitments).aggregate(total=Count('pk'), closed=Count('pk', filter=Q(estado__in=['Realizado','Cerrado'])))
+        c_qs = commitments.filter(fecha_comprometida__gte=start, fecha_comprometida__lte=end - timedelta(days=1))
+        v = c_qs.aggregate(total=Count('pk'), closed=Count('pk', filter=Q(estado__in=['Realizado','Cerrado'])))
         month_data['commitments'] = dict(v, percent=round(v['closed'] * 100 / v['total']) if v['total'] else None)
     if evidence is not None:
         month_data['evidence'] = monthly(evidence).aggregate(
@@ -98,13 +101,15 @@ def overview(request):
         a, b = start + timedelta(days=day-1), start + timedelta(days=min(day+6, days))
         def count(qs, field):
             return qs.filter(**{field+'__gte': bounds(a), field+'__lt': bounds(b)}).count() if qs is not None else None
+        def count_dates(qs, field):
+            return qs.filter(**{field+'__gte': a, field+'__lte': min(b, end - timedelta(days=1))}).count() if qs is not None else None
         weeks.append(dict(label=f'{day}–{min(day+6, days)}',
-                          attentions=count(attentions, 'fecha_registro'), activities=count(activities, 'creado')))
+                          attentions=count(attentions, 'fecha_registro'), activities=count_dates(activities, 'fecha')))
 
     pending = dict(commitments=None, overdue=None, correction=None, review=None, drafts=None, waiting=None, activity_correction=None)
     tasks = []
     if commitments is not None:
-        opened = commitments.exclude(estado__in=['Cerrado','No aplica'])
+        opened = commitments.exclude(estado__in=['Realizado', 'Cerrado', 'No aplica'])
         pending['commitments'] = opened.count()
         pending['overdue'] = opened.filter(fecha_comprometida__lt=today).count()
         for obj in opened.order_by('fecha_comprometida', 'pk')[:5]:

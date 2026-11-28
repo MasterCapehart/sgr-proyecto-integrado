@@ -115,8 +115,8 @@ class PersonalProgressTests(TestCase):
         self.assertEqual(data['pending']['correction'], 1)
 
     def test_mes_limites_semana_y_ceros(self):
-        a = self.activity()
         start = self.today.replace(day=1)
+        a = self.activity(fecha=start)
         Actividad.objects.filter(pk=a.pk).update(creado=timezone.make_aware(datetime.combine(start, time.min)))
         data = self.get_data()
         self.assertEqual(data['weeks'][0]['activities'], 1)

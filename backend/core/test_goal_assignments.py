@@ -69,7 +69,8 @@ class GoalAssignmentTests(TestCase):
   from .goal_api import bind_activity
   from django.core.exceptions import ValidationError
   from django.db import transaction
-  a=self.create()
+  d=self.payload();d['ponderacion']='100';d['aprobar_plan']=True
+  a=self.create(d)
   activity=Actividad(autor=self.u,item=self.i,delegacion=self.d,fecha='2026-02-15')
   with transaction.atomic():bind_activity(activity,a['id'])
   self.assertEqual(activity.asignacion_meta_id,a['id'])

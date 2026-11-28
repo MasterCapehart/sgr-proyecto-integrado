@@ -1,12 +1,15 @@
 import json
 import random
 import datetime
+from datetime import timedelta
+import hashlib
 import secrets
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 import openpyxl
-from .models import Usuario, TipoAtencion, Delegacion, Rol
+from .models import Usuario, TipoAtencion, Delegacion, Rol, AccesoFallido
 from django.db import models, transaction
+from django.db.models import Q
 from django.utils import timezone
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
@@ -33,6 +36,12 @@ def login_view(request):
             username = data.get('username')
             password = data.get('password')
             
+            identifier = str(username or '').strip()
+            account_hash = hashlib.sha256(identifier.casefold().encode()).hexdigest()
+            address_hash = hashlib.sha256(request.META.get('REMOTE_ADDR', 'local').encode()).hexdigest()
+            if AccesoFallido.objects.filter(creado__gt=timezone.now() - timedelta(minutes=5)).filter(Q(cuenta_hash=account_hash) | Q(direccion_hash=address_hash)).count() >= 5:
+                return JsonResponse({'error': 'Espera cinco minutos antes de volver a intentar.'}, status=429)
+            
             user = authenticate(request, username=username, password=password)
             
             if user is not None:
@@ -42,6 +51,7 @@ def login_view(request):
                 else:
                     return JsonResponse({'error': 'Cuenta inactiva'}, status=403)
             else:
+                AccesoFallido.objects.create(cuenta_hash=account_hash, direccion_hash=address_hash)
                 return JsonResponse({'error': 'Credenciales inválidas'}, status=401)
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Formato JSON inválido'}, status=400)

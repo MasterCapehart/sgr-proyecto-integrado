@@ -93,9 +93,8 @@ class LoginLogoutTests(SesionTestCase):
     def test_logout_con_get_es_405(self):
         self.assertEqual(Client().get("/api/logout/").status_code, 405)
 
-    @expectedFailure
     def test_login_se_bloquea_tras_intentos_fallidos(self):
-        """DEFECTO conocido: no hay limite de intentos de login."""
+        """T05: Bloqueo tras intentos fallidos de login."""
         c = Client()
         for _ in range(10):
             post_json(c, "/api/login/", {"username": "admin_acc", "password": "mala"})

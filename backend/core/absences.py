@@ -26,8 +26,9 @@ def meta_rows(user,period):
     return base.select_related('item','cargo').order_by('item__codigo')
 def calculate(cal,period,user,delegation=None):
     from .goal_models import AsignacionMeta
+    from .goal_api import is_evaluable_assignment
     delegation_id=cal.delegacion_id if cal else delegation.pk if delegation else None
-    individual=list(AsignacionMeta.objects.filter(funcionario=user,periodo=period,delegacion_id=delegation_id,estado=True).select_related('item').order_by('item__codigo'))
+    individual=[a for a in AsignacionMeta.objects.filter(funcionario=user,periodo=period,delegacion_id=delegation_id,estado=True).select_related('item').order_by('item__codigo') if is_evaluable_assignment(a)]
     # A personal plan is evaluated as a whole; role defaults are a legacy fallback
     # only when no active assignment exists in this person/delegation/period.
     configured=list(meta_rows(user,period))

@@ -16,14 +16,33 @@ RESOURCE='asignaciones-metas'
 def manager(user):
     return user.is_superuser or bool(user.rol_id and user.rol.estado and user.rol.nombre.strip().casefold() in ['administrador','delegado'])
 
+def is_evaluable_assignment(obj_or_snap):
+    """Centraliza la regla de asignación evaluable para captura, cálculo, colectivo y cierre."""
+    if hasattr(obj_or_snap, 'snapshot'):
+        if not getattr(obj_or_snap, 'estado', True):
+            return False
+        snap = obj_or_snap.snapshot or {}
+    elif isinstance(obj_or_snap, dict):
+        snap = obj_or_snap
+    else:
+        return False
+    if snap.get('es_propuesta'):
+        return False
+    if not snap.get('plan_aprobado', True):
+        return False
+    if snap.get('procedencia') == 'propuesta_migrada' and not snap.get('plan_aprobado'):
+        return False
+    return True
+
 def visible(request):
     qs=AsignacionMeta.objects.filter(delegacion=api.active_delegation(request)).select_related('funcionario','item','periodo')
     if not api.allowed(request.user,RESOURCE,'ver_equipo'):qs=qs.filter(funcionario=request.user)
     return qs
 
 def representation(obj):
-    es_prop = bool(obj.snapshot.get('es_propuesta') or (obj.snapshot.get('procedencia') == 'propuesta_migrada' and not obj.snapshot.get('plan_aprobado')))
-    return dict(id=obj.pk,version=obj.version,funcionario=obj.funcionario_id,funcionario_nombre=obj.funcionario.get_full_name() or obj.funcionario.username,item=obj.item_id,item_nombre=obj.snapshot.get('item_nombre',obj.item.nombre),periodo=obj.periodo_id,periodo_nombre=obj.snapshot.get('periodo_nombre',obj.periodo.nombre),cantidad_objetivo=format(obj.cantidad_objetivo,'.2f'),ponderacion=format(obj.ponderacion,'.2f'),observacion=obj.observacion,estado=obj.estado,es_propuesta=es_prop,plan_aprobado=bool(obj.estado and not es_prop),fecha_asignacion=obj.fecha_asignacion.isoformat(),cerrado=obj.periodo.cerrado,snapshot=obj.snapshot)
+    snap = obj.snapshot or {}
+    es_prop = not is_evaluable_assignment(obj)
+    return dict(id=obj.pk,version=obj.version,funcionario=obj.funcionario_id,funcionario_nombre=obj.funcionario.get_full_name() or obj.funcionario.username,item=obj.item_id,item_nombre=snap.get('item_nombre',obj.item.nombre),periodo=obj.periodo_id,periodo_nombre=snap.get('periodo_nombre',obj.periodo.nombre),cantidad_objetivo=format(obj.cantidad_objetivo,'.2f'),ponderacion=format(obj.ponderacion,'.2f'),observacion=obj.observacion,estado=obj.estado,es_propuesta=es_prop,plan_aprobado=bool(obj.estado and not es_prop),fecha_asignacion=obj.fecha_asignacion.isoformat(),cerrado=obj.periodo.cerrado,snapshot=snap)
 
 def quarter(period):
     if type(period.anio) is not int or not 1900<=period.anio<=9999 or period.numero not in [1,2,3,4]:raise ValidationError('El periodo debe indicar año y número de trimestre.')
@@ -37,8 +56,7 @@ def capture_assignments(user,delegation,day):
     for assignment in rows:
         try:quarter(assignment.periodo)
         except ValidationError:continue
-        snap=assignment.snapshot or {}
-        if snap.get('es_propuesta') or not snap.get('plan_aprobado',True) or (snap.get('procedencia')=='propuesta_migrada' and not snap.get('plan_aprobado')):
+        if not is_evaluable_assignment(assignment):
             continue
         if day is None or assignment.periodo.fecha_inicio<=day<=assignment.periodo.fecha_fin:valid.append(assignment)
     return valid
@@ -123,19 +141,40 @@ def assignments(request,pk=None):
                 obj.observacion=data['observacion'].strip()
             if obj.estado:
                 total=AsignacionMeta.objects.filter(funcionario=user,periodo=period,estado=True).exclude(pk=obj.pk).aggregate(total=Sum('ponderacion'))['total'] or Decimal('0')
-                if total+obj.ponderacion>100:raise ValidationError('La suma de ponderaciones activas del funcionario y trimestre no puede superar 100 %.')
-                if data.get('validar_plan') or data.get('aprobar_plan'):
-                    if total+obj.ponderacion!=Decimal('100.00'):
-                        raise ValidationError(f'El plan individual debe sumar exactamente 100 % para ser aprobado. Suma actual: {total+obj.ponderacion} %.')
-            es_prop=bool(data.get('es_propuesta',False)) if not data.get('aprobar_plan') else False
-            if not old:
-                obj.snapshot=dict(item_nombre=item.nombre,tipo=item.tipo,unidad_medida=item.unidad_medida,requiere_evidencia=item.requiere_evidencia,periodo_nombre=period.nombre,anio=period.anio,numero=period.numero,es_propuesta=es_prop,plan_aprobado=not es_prop and obj.estado)
+                new_total=total+obj.ponderacion
+                if new_total>100:raise ValidationError('La suma de ponderaciones activas del funcionario y trimestre no puede superar 100 %.')
+                if data.get('aprobar_plan'):
+                    if new_total!=Decimal('100.00'):
+                        raise ValidationError(f'El plan individual debe sumar exactamente 100 % para ser aprobado. Suma actual: {new_total} %.')
+                    es_prop=False
+                    plan_aprobado=True
+                else:
+                    if old and old.snapshot.get('plan_aprobado') and new_total==Decimal('100.00') and not data.get('es_propuesta'):
+                        es_prop=False
+                        plan_aprobado=True
+                    else:
+                        es_prop=True
+                        plan_aprobado=False
             else:
-                if 'aprobar_plan' in data or 'es_propuesta' in data:
-                    obj.snapshot['es_propuesta']=es_prop
-                    obj.snapshot['plan_aprobado']=not es_prop and obj.estado
+                es_prop=True
+                plan_aprobado=False
+            if not old:
+                obj.snapshot=dict(item_nombre=item.nombre,tipo=item.tipo,unidad_medida=item.unidad_medida,requiere_evidencia=item.requiere_evidencia,periodo_nombre=period.nombre,anio=period.anio,numero=period.numero,es_propuesta=es_prop,plan_aprobado=plan_aprobado)
+            else:
+                obj.snapshot['es_propuesta']=es_prop
+                obj.snapshot['plan_aprobado']=plan_aprobado
                 obj.version+=1
             obj.full_clean(validate_unique=False,validate_constraints=False);obj.save()
+            if plan_aprobado:
+                for sib in AsignacionMeta.objects.filter(funcionario=user,periodo=period,estado=True).exclude(pk=obj.pk):
+                    sib.snapshot['plan_aprobado']=True
+                    sib.snapshot['es_propuesta']=False
+                    sib.save(update_fields=['snapshot'])
+            elif old and old.snapshot.get('plan_aprobado') and not plan_aprobado:
+                for sib in AsignacionMeta.objects.filter(funcionario=user,periodo=period,estado=True).exclude(pk=obj.pk):
+                    sib.snapshot['plan_aprobado']=False
+                    sib.snapshot['es_propuesta']=True
+                    sib.save(update_fields=['snapshot'])
             after=representation(obj);api.record_event(request,RESOURCE,obj.pk,'editar' if old else 'crear',before,after)
             response=api.ok(after);response.status_code=200 if old else 201;return response
     except ValidationError as exc:return api.error('; '.join(exc.messages))
@@ -156,8 +195,7 @@ def bind_activity(activity,assignment_id):
     period=PeriodoGestion.objects.select_for_update().get(pk=prior.periodo_id)
     Usuario.objects.select_for_update().get(pk=prior.funcionario_id)
     obj=AsignacionMeta.objects.select_for_update().get(pk=prior.pk)
-    snap=obj.snapshot or {}
-    if snap.get('es_propuesta') or not snap.get('plan_aprobado',True) or (snap.get('procedencia')=='propuesta_migrada' and not snap.get('plan_aprobado')):
+    if not is_evaluable_assignment(obj):
         raise ValidationError('La meta seleccionada es una propuesta no aprobada; no está disponible para registrar trabajo.')
     if period.cerrado or not period.estado or not obj.estado or obj.funcionario_id!=activity.autor_id or obj.item_id!=activity.item_id or obj.delegacion_id!=activity.delegacion_id or not period.fecha_inicio<=day<=period.fecha_fin:raise ValidationError('La asignación debe estar activa y corresponder al funcionario, meta, delegación y fecha del registro en un trimestre abierto.')
     quarter(period)

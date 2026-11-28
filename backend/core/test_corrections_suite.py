@@ -37,7 +37,7 @@ class CorrectionsSuiteTests(TestCase):
         )
         self.r_func = Rol.objects.create(
             nombre='Funcionario_QA_Suite', alcance='delegacion',
-            permisos=['actividades.crear', 'actividades.ver', 'actividades.editar', 'evidencias.crear', 'evidencias.ver', 'atenciones.crear', 'atenciones.ver']
+            permisos=['actividades.crear', 'actividades.ver', 'actividades.editar', 'evidencias.crear', 'evidencias.ver', 'atenciones.crear', 'atenciones.ver', 'compromisos.ver', 'compromisos.crear']
         )
 
         self.admin = Usuario.objects.create_superuser('admin.qa', email='admin@qa.test', password='Password123!', rol=self.r_admin, delegacion=self.d1)
@@ -292,4 +292,111 @@ class CorrectionsSuiteTests(TestCase):
         summary = excel_api.case_summary([at])
         # Debe medir contra la fecha realizada (3 días), NO contra la programada futura (24 días)
         self.assertEqual(summary['tiempo_ingreso_primera'], 3)
+
+    # C01: Propuesta activa de 40% no aparece en absences.calculate / semáforo / colectivo
+    def test_c01_propuesta_activa_excluida_de_absences_calculate(self):
+        from core import absences
+        from core.models import CalendarioFuncionario
+        cal = CalendarioFuncionario.objects.create(
+            autor=self.admin, funcionario=self.func_d1, delegacion=self.d1, periodo=self.periodo,
+            semana=['Completa']*5 + ['No laboral']*2, no_laborables=[]
+        )
+        asig_prop = AsignacionMeta.objects.create(
+            autor=self.admin, funcionario=self.func_d1, delegacion=self.d1, item=self.item, periodo=self.periodo,
+            cantidad_objetivo=50, ponderacion=40, estado=True,
+            snapshot={'es_propuesta': True, 'plan_aprobado': False}
+        )
+        calc = absences.calculate(cal, self.periodo, self.func_d1, self.d1)
+        # La asignación propuesta no debe figurar en las metas evaluables
+        item_ids = [m['item'] for m in calc['metas']]
+        self.assertNotIn(self.item.pk, item_ids)
+
+    # C02: Guardar plan incompleto deja plan_aprobado=False; aprobar_plan incompleto se rechaza; aprobar al 100% lo aprueba
+    def test_c02_aprobacion_plan_en_servidor(self):
+        self.client.force_login(self.admin)
+        # 1. Crear asignación de 40% sin aprobar_plan -> Se guarda como propuesta no aprobada
+        r1 = self.client.post('/api/asignaciones-metas/', {
+            'funcionario': self.func_d1.pk, 'item': self.item.pk, 'periodo': self.periodo.pk,
+            'cantidad_objetivo': '50', 'ponderacion': '40'
+        }, content_type='application/json')
+        self.assertEqual(r1.status_code, 201)
+        data1 = r1.json()['data']
+        self.assertTrue(data1['es_propuesta'])
+        self.assertFalse(data1['plan_aprobado'])
+
+        # 2. Intentar aprobar un plan incompleto (40%) -> Se rechaza con 400
+        r2 = self.client.patch(f'/api/asignaciones-metas/{data1["id"]}/', {
+            '_version': data1['version'], 'aprobar_plan': True
+        }, content_type='application/json')
+        self.assertEqual(r2.status_code, 400)
+        self.assertIn('100 %', str(r2.json()))
+
+        # 3. Completar al 100% y aprobar -> Se aprueba exitosamente
+        r3 = self.client.post('/api/asignaciones-metas/', {
+            'funcionario': self.func_d1.pk, 'item': self.item2.pk, 'periodo': self.periodo.pk,
+            'cantidad_objetivo': '30', 'ponderacion': '60', 'aprobar_plan': True
+        }, content_type='application/json')
+        self.assertEqual(r3.status_code, 201)
+        data3 = r3.json()['data']
+        self.assertFalse(data3['es_propuesta'])
+        self.assertTrue(data3['plan_aprobado'])
+
+        # Verificar que la primera asignación también quedó aprobada
+        asig1 = AsignacionMeta.objects.get(pk=data1['id'])
+        self.assertTrue(asig1.snapshot.get('plan_aprobado'))
+
+    # C03: Dashboard y detalle con el mismo conjunto (actividades por fecha, compromisos por fecha_comprometida)
+    def test_c03_dashboard_fechas_consistentes_con_listado(self):
+        self.client.force_login(self.func_d1)
+        from core.domain_models import Compromiso
+        # Actividad con fecha en enero pero creada hoy
+        act = Actividad.objects.create(
+            autor=self.func_d1, delegacion=self.d1, item=self.item2, fecha=date(2026, 1, 15),
+            solicitud='S1', accion='A1', contacto='C1', telefono='912345678', estado='Pendiente'
+        )
+        # Compromiso con fecha comprometida en enero pero creado hoy
+        comp = Compromiso.objects.create(
+            autor=self.func_d1, responsable=self.func_d1, delegacion=self.d1,
+            fecha_comprometida=date(2026, 1, 20), solicitante='Vecino 1',
+            descripcion='Desc 1', sector='Sector 1', area_apoyo='Area', origen='Interno', estado='Pendiente'
+        )
+        r = self.client.get('/api/mi-progreso/?trimestre=' + str(self.periodo.pk))
+        self.assertEqual(r.status_code, 200)
+        d = r.json()['data']['month']
+        self.assertEqual(d['activities'], 1)
+        self.assertEqual(d['commitments']['total'], 1)
+
+    # C04: Período inválido explícito
+    def test_c04_periodo_invalido_devuelve_error_explicito(self):
+        self.client.force_login(self.func_d1)
+        r_404 = self.client.get('/api/mi-progreso/?trimestre=999999')
+        self.assertEqual(r_404.status_code, 404)
+        self.assertIn('no encontrado', str(r_404.json()))
+
+        r_bad_month = self.client.get('/api/mi-progreso/?mes=invalido')
+        self.assertEqual(r_bad_month.status_code, 400)
+
+    # C05: Compromiso Realizado con fecha anterior a hoy no cuenta como overdue en Inicio
+    def test_c05_compromiso_realizado_no_cuenta_como_overdue(self):
+        self.client.force_login(self.func_d1)
+        from core.domain_models import Compromiso
+        # Compromiso 'Realizado' con fecha prometida en el pasado
+        Compromiso.objects.create(
+            autor=self.func_d1, responsable=self.func_d1, delegacion=self.d1,
+            fecha_comprometida=date(2026, 1, 10), solicitante='Vecino 2',
+            descripcion='Desc 2', sector='Sector 1', area_apoyo='Area', origen='Interno', estado='Realizado'
+        )
+        # Compromiso 'Pendiente' con fecha prometida en el pasado
+        Compromiso.objects.create(
+            autor=self.func_d1, responsable=self.func_d1, delegacion=self.d1,
+            fecha_comprometida=date(2026, 1, 12), solicitante='Vecino 3',
+            descripcion='Desc 3', sector='Sector 1', area_apoyo='Area', origen='Interno', estado='Pendiente'
+        )
+        r = self.client.get('/api/mi-progreso/?trimestre=' + str(self.periodo.pk))
+        self.assertEqual(r.status_code, 200)
+        pending = r.json()['data']['pending']
+        # Solo el pendiente vencido debe contar como overdue (1), no el realizado
+        self.assertEqual(pending['overdue'], 1)
+        self.assertEqual(pending['commitments'], 1)
+
 

@@ -119,11 +119,10 @@ def apply_fields(request,resource,obj,data):
                     # La asignación explícita puede ampliar el catálogo del cargo;
                     # bind_activity comprueba propietario, período, fecha y delegación.
                     from .goal_models import AsignacionMeta
+                    from .goal_api import is_evaluable_assignment
                     assignment=AsignacionMeta.objects.select_related('item').filter(pk=assignment_id,funcionario_id=obj.autor_id,delegacion_id=obj.delegacion_id,item_id=value,estado=True,item__estado=True).first()
-                    if assignment:
-                        snap=assignment.snapshot or {}
-                        if not snap.get('es_propuesta') and snap.get('plan_aprobado',True) and not (snap.get('procedencia')=='propuesta_migrada' and not snap.get('plan_aprobado')):
-                            related=assignment.item
+                    if assignment and is_evaluable_assignment(assignment):
+                        related=assignment.item
             elif field=='compromiso':
                 related=scoped(request,'compromisos').select_for_update().filter(pk=value).first()
                 if related and obj.compromiso_id!=related.pk:

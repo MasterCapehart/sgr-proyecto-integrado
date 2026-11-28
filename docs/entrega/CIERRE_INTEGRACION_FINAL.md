@@ -1,62 +1,113 @@
-# Acta de Integración y Cierre Final SGR
+# Acta Integral de Cierre, Verificación y Entrega del Sistema SGR
 
-**Fecha:** 26 de Noviembre de 2026  
-**Sistema:** Sistema de Gestión de Resultados (SGR) — Municipalidad de La Serena  
-**Estado de Verificación:** 726/726 pruebas automatizadas aprobadas (100% éxito)  
-**Ambiente Desplegado:** AWS EC2 (`54.236.112.203`) y Local MAMP (MySQL 8.4)  
-
----
-
-## 1. Conciliación de Correcciones Prioritarias
-
-| Prioridad | Requerimiento | Solución Implementada | Estado |
-|---|---|---|---|
-| **1. Permisos de revisión** | Impedir que un revisor apruebe o anule actividades o evidencias de otra delegación. | Se valida la delegación activa y las delegaciones autorizadas del usuario en `review`, `review_activity` y `annul_activity`. Si pertenece a otra delegación, se bloquea con `403 Forbidden`. | ✅ Resuelto |
-| **2. Trimestres cerrados** | Bloquear revisiones, ediciones y anulaciones mientras el trimestre esté cerrado. Exigir reapertura autorizada. | Se implementó `check_closed_quarter()`. Si la fecha de la actividad corresponde a un trimestre con `cerrado=True`, se rechaza con `400 Bad Request`. | ✅ Resuelto |
-| **3. Decisión de ponderación** | Aprobar los archivos no debe aprobar automáticamente la actividad para sumar a la meta. El cálculo debe exigir una decisión vigente de “Aprobada y pondera”. | La aprobación de evidencias (`Evidencia`) actualiza el estado del archivo pero no asigna ponderación a la actividad. En `performance.py`, la actividad solo aporta unidades reconocidas si cuenta con decisión expresa de `"Aprobada y pondera"`. | ✅ Resuelto |
-| **4. Activación de usuarios** | Conectar el formulario con la activación por correo, retirar la contraseña obligatoria del administrador y controlar los errores de envío. | Conectado en `local_api.py`, `usuarios.html`, `usuarios.js` y `mantenedor-comun.js`. Se añadió la casilla `activar_por_correo`, se removió la obligación de contraseña al crear y se generan códigos de activación de 48h con control de errores SMTP. | ✅ Resuelto |
-| **5. Dashboard trimestral** | Completar indicadores personales y de delegación, filtros comunes y acceso a los registros que explican cada cifra. | `personal_progress.py` y `personal-progress.js` soportan selección por trimestre (`?trimestre=`) y período mensual. Las tarjetas transfieren parámetros de filtrado (`desde`, `hasta`, `delegacion`, `periodo`) hacia los listados correspondientes. | ✅ Resuelto |
-| **6. Planes individuales** | Separar propuestas migradas de planes aprobados. Confirmar el porcentaje exigido y validar el plan antes de activarlo. | Se discriminan propuestas de planes formales (`es_propuesta` vs `plan_aprobado`). Se exige suma exacta de 100.00% de ponderaciones activas para aprobar el plan individual. | ✅ Resuelto |
-| **7. Cálculo colectivo** | Resolver y documentar cómo consolidar personas con ponderaciones diferentes, sin dejar resultados ambiguos. | En `collective.py`, cuando un ítem tiene ponderaciones diferentes entre funcionarios, se calcula la media de los cumplimientos de las personas evaluadas (evitando promedios falsos por ausencias) y se documenta la regla sin dejar resultados ambiguos. | ✅ Resuelto |
-| **8. Tiempos de gestión social** | Calcular ingreso–primera gestión usando la fecha correcta; impedir intervalos negativos y mostrar fechas faltantes como no calculables. | En `excel_api.py`, `diff_days` devuelve `None` ante intervalos invertidos. `tiempo_ingreso_primera` se calcula contra la fecha real ejecutada (`fecha_visita_realizada` o `fecha_registro`), sin usar la fecha programada futura. | ✅ Resuelto |
-| **9. Pruebas de concurrencia** | Resolver el bloqueo intermitente al registrar simultáneamente y repetir la regresión completa. | Se reemplazó el bloqueo exclusivo `select_for_update` en `ItemMeta` dentro de `evaluate_activity` por lectura consistente, eliminando la contención de filas entre usuarios simultáneos. | ✅ Resuelto |
+**Fecha de Cierre:** 28 de Noviembre de 2026  
+**Sistema:** Sistema de Gestión de Resultados (SGR) — Ilustre Municipalidad de La Serena  
+**Equipo Responsable:** Daniel Flores · Daniel Ángel · Matías  
+**Estado de Verificación:** 731/731 pruebas automatizadas aprobadas (100 % éxito, 0 fallos, 0 errores, 0 fallos esperados)  
+**Ambiente Desplegado:** AWS EC2 (`https://54.236.112.203/`) y Local MAMP (MySQL 8.4)  
+**Plan de Tareas:** 90 tareas conciliadas y cerradas (58 DF, 16 DA, 16 MT) en [Plan_Tareas_Equipo_SGR_Actualizado.xlsx](file:///Users/danielflores/Desktop/Proyecto%20Integrado/sgr-proyecto-integrado/docs/Plan_Tareas_Equipo_SGR_Actualizado.xlsx)  
 
 ---
 
-## 2. Conciliación de Observaciones de Cierre
+## 1. Correcciones Técnicas Prioritarias (C01 – C06)
 
-1. **Propuestas de metas bloqueadas en la captura de trabajo:**
-   - Se actualizó `capture_assignments`, `bind_activity` y la resolución de asignación en `domain_api.py` para excluir explícitamente cualquier asignación marcada como `es_propuesta=True` o `plan_aprobado=False`. Solo los planes formalmente aprobados al 100% están disponibles para registrar trabajo.
-2. **Activación por correo en pantalla publicada (`mantenedor-comun.js`):**
-   - Se integró en `mantenedor-comun.js` la casilla de activación por correo electrónico para el recurso `usuarios`. Al estar activada (por defecto al crear), el campo de contraseña se vuelve opcional y se oculta, enviando `activar_por_correo: true` al endpoint `/api/usuarios/`.
-3. **Dashboard trimestral y traslación de filtros:**
-   - La interfaz permite alternar entre trimestres de gestión y meses recientes.
-   - Se corrigió la expresión regular de enlaces en `personal-progress.js` para permitir parámetros complejos (`?desde=...&hasta=...&delegacion=...&periodo=...`), permitiendo que el usuario audite directamente los registros que componen cada métrica.
-4. **Cálculo colectivo sin "sin evaluación" artificial:**
-   - Ante ítems con ponderaciones divergentes, el motor colectivo calcula y reporta la media efectiva de los funcionarios evaluados, marcando `pesos_compatibles=False` como advertencia técnica pero entregando el porcentaje de cumplimiento real.
-5. **Tiempo de primera gestión fiel a la ejecución:**
-   - Se eliminó la prioridad sobre `fecha_visita_programada`. El intervalo mide la diferencia entre la fecha de ingreso y la fecha en que la primera gestión se materializó realmente (`fecha_visita_realizada` o `fecha_registro`).
+| Código | Defecto / Hallazgo | Corrección Implementada | Archivos Modificados | Estado |
+|---|---|---|---|:---:|
+| **C01** | Propuestas no aprobadas se incluían en `absences.calculate` y semáforo. | Se centralizó la regla `is_evaluable_assignment` en `goal_api.py` y se aplicó a `absences.calculate`, captura, vínculo de actividades, consolidación colectiva y cierre. Propuestas no aprobadas quedan excluidas del cómputo oficial. | [goal_api.py](file:///Users/danielflores/Desktop/Proyecto%20Integrado/sgr-proyecto-integrado/backend/core/goal_api.py), [absences.py](file:///Users/danielflores/Desktop/Proyecto%20Integrado/sgr-proyecto-integrado/backend/core/absences.py), [domain_api.py](file:///Users/danielflores/Desktop/Proyecto%20Integrado/sgr-proyecto-integrado/backend/core/domain_api.py) | ✅ Resuelto |
+| **C02** | Guardar asignación de 40 % sin banderas dejaba `plan_aprobado=True`. | Separación estricta de preparación y aprobación en el servidor. Guardar un plan incompleto (< 100 %) nunca lo aprueba; la aprobación exige suma exacta de 100.00 % con `aprobar_plan=True`. Modificaciones posteriores que alteren la suma invalidan la aprobación automáticamente. | [goal_api.py](file:///Users/danielflores/Desktop/Proyecto%20Integrado/sgr-proyecto-integrado/backend/core/goal_api.py), [asignaciones-metas.js](file:///Users/danielflores/Desktop/Proyecto%20Integrado/sgr-proyecto-integrado/frontend/assets/js/modules/asignaciones-metas.js) | ✅ Resuelto |
+| **C03** | Enlaces del dashboard con fechas no se inicializaban en `operacion.js`. Conteo de actividades e inicio diferían en campo de fecha. | `operacion.js` inicializa filtros `desde`, `hasta`, `estado`, `query` y filtros avanzados desde los parámetros de la URL. Inicio alinea el conteo de actividades por `fecha` de realización y compromisos por `fecha_comprometida`, garantizando equivalencia exacta entre tarjeta, listado y exportación XLSX. | [personal_progress.py](file:///Users/danielflores/Desktop/Proyecto%20Integrado/sgr-proyecto-integrado/backend/core/personal_progress.py), [operacion.js](file:///Users/danielflores/Desktop/Proyecto%20Integrado/sgr-proyecto-integrado/frontend/assets/js/modules/operacion.js), [ingreso-atencion.js](file:///Users/danielflores/Desktop/Proyecto%20Integrado/sgr-proyecto-integrado/frontend/assets/js/modules/ingreso-atencion.js) | ✅ Resuelto |
+| **C04** | Período o trimestre inexistente devolvía 200 y cifras del mes actual. | `personal_progress.py` rechaza explícitamente trimestres inexistentes con `404 Not Found` y meses mal formados o futuros con `400 Bad Request`, sin sustitución silenciosa. | [personal_progress.py](file:///Users/danielflores/Desktop/Proyecto%20Integrado/sgr-proyecto-integrado/backend/core/personal_progress.py) | ✅ Resuelto |
+| **C05** | Compromiso `Realizado` con plazo anterior a hoy aumentaba `pending.overdue` en Inicio. | Se unificó la definición de pendientes vencidos: compromisos en estado `Realizado`, `Cerrado` o `No aplica` no son trabajo pendiente ni vencido. Solo estados abiertos (`Ingresado`, `Pendiente`, `En proceso`) con fecha anterior a hoy computan como vencidos. | [personal_progress.py](file:///Users/danielflores/Desktop/Proyecto%20Integrado/sgr-proyecto-integrado/backend/core/personal_progress.py), [closure_api.py](file:///Users/danielflores/Desktop/Proyecto%20Integrado/sgr-proyecto-integrado/backend/core/closure_api.py) | ✅ Resuelto |
+| **C06** | Fallo esperado en bloqueo de login (`expectedFailure=1`). | Se incorporó control de intentos fallidos persistente con `AccesoFallido` y bloqueo temporal de 5 minutos tras 5 fallos en `views.login_view`, eliminando la marca `@expectedFailure`. La suite completa pasa al 100 % limpia. | [views.py](file:///Users/danielflores/Desktop/Proyecto%20Integrado/sgr-proyecto-integrado/backend/core/views.py), [tests_acceso_permisos.py](file:///Users/danielflores/Desktop/Proyecto%20Integrado/sgr-proyecto-integrado/backend/core/tests_acceso_permisos.py) | ✅ Resuelto |
 
 ---
 
-## 3. Matriz de Roles y Acceso en AWS
+## 2. Los 16 Acuerdos Técnicos Confirmados (D01 – D16)
 
-Las 6 cuentas institucionales fueron verificadas satisfactoriamente en producción (`https://54.236.112.203/`):
-
-| Rol | Cuenta | Acceso Comprobado | Ámbito de Operación |
-|---|---|---|---|
-| **Administrador** | `admin.aws` | ✅ 200 OK | Configuración global, catálogo, usuarios, auditoría |
-| **Coordinador** | `coordinador.aws` | ✅ 200 OK | Supervisión y seguimiento de compromisos del equipo |
-| **Delegado** | `delegado.aws` | ✅ 200 OK | Gestión territorial, asignación de metas, aprobación de planes |
-| **Funcionario** | `funcionario.aws` | ✅ 200 OK | Registro de actividades, tubo, evidencias y consultas propias |
-| **Verificador** | `verificador.aws` | ✅ 200 OK | Revisión técnica de evidencias y solicitud de correcciones |
-| **Consulta** | `consulta.aws` | ✅ 200 OK | Visualización de avances sin permisos de modificación |
+1. **D01 | Rangos del semáforo:** Verde $\ge 100\,\%$, Amarillo/Naranjo $70.00\,\%$ a $99.99\,\%$, Rojo $< 70.00\,\%$. Comparación al corte transcurrido y al cierre del trimestre.
+2. **D02 | Suma esperada de ponderaciones:** Suma exacta del $100.00\,\%$ exigida para la aprobación de planes individuales. Planes parciales permanecen como propuestas no evaluables.
+3. **D03 | Tratamiento de ausencias:** Ajuste proporcional aplicado exclusivamente sobre metas con marca `prorrateable=True`. Medias jornadas y feriados descontados sin doble imputación.
+4. **D04 | Vigencia de credenciales:** Tokens temporales de activación y recuperación válidos por 15 minutos, uso único, con invalidación de anteriores y bloqueo temporal tras 5 intentos fallidos consecutivos.
+5. **D05 | Reportes obligatorios:** Exportación en Excel (XLSX) con contexto institucional (fecha/hora, usuario, delegación, filtros) y estilo oficial (`#AD0000`).
+6. **D06 | Coordinaciones y decisión de ponderación:** Toda actividad requiere pronunciamiento explícito (`Aprobada y pondera`, `Aprobada y no pondera`, `Solicitud de antecedentes`, `Rechazada`, `Anulada`). La aprobación de archivo de evidencia no aprueba la actividad.
+7. **D07 | RUN de contacto ocasional:** Opcional en atenciones ciudadanas iniciales; obligatorio con validación de formato y dígito verificador cuando se informe; rechazo estricto de RUN falso o mal formado.
+8. **D08 | Tres días y cupo de siete:** Plazo de 3 días para edición de borradores y atención de observaciones; límite de 7 compromisos activos simultáneos por responsable para balance de carga.
+9. **D09 | Compromiso futuro directo:** Admisión de compromisos directamente en el tubo con fecha prometida futura y responsable asignado, sin requerir fabricación de trabajo previo.
+10. **D10 | Realizado, Cerrado y No aplica:** Estados del tubo diferenciados: `Realizado` acredita ejecución física en terreno sin contar como vencido; `Cerrado` registra cierre administrativo formal; `No aplica` documenta descarte fundado.
+11. **D11 | Fórmula colectiva:** Ante ponderaciones individuales dispares, la consolidación colectiva calcula la media aritmética de cumplimientos de funcionarios evaluables (`eval_persons`), reportando `pesos_compatibles=False` sin dejar resultado nulo.
+12. **D12 | Intervalos sociales:** Cuatro tiempos evaluados contra fecha real ejecutada (`fecha_visita_realizada` o `fecha_registro`); fechas ausentes o intervalos inconsistentes se informan como "No calculable".
+13. **D13 | Alcance de funciones especializadas:** Compras, inventario, transporte y transparencia se gestionan mediante registros de actividad y documentos adjuntos dentro del SGR sin subsistemas externos no especificados.
+14. **D14 | Casos de cálculo y evidencia:** Tope máximo individual de $120\,\%$ por meta; sin compensación entre metas distintas; redondeo a 2 decimales; estados explicativos para períodos sin calendario.
+15. **D15 | Roles combinados y cargos:** Seis roles funcionales de acceso al sistema (Administrador, Coordinador, Delegado, Funcionario, Verificador, Consulta) desacoplados de los 7 cargos laborales del descriptor.
+16. **D16 | Puntaje integral y felicitaciones:** Felicitaciones y reclamos se auditan en módulo de alertas y calidad sin alterar la fórmula de evaluación de desempeño.
 
 ---
 
-## 4. Certificación de Regresión
+## 3. Pruebas Integrales de Recorrido (E01 – E12)
 
-* **Suite de Pruebas:** Django Test Runner con backend MySQL (MAMP).
-* **Pruebas ejecutadas:** 726 tests.
-* **Fallos / Errores:** 0 fallos inesperados, 0 errores.
-* **Resultado:** `OK (expected failures=1)` (falla esperada documentada y controlada en suite heredada).
+| Caso | Recorrido Operativo | Tareas Cubiertas | Resultado |
+|:---:|---|---|:---:|
+| **E01** | Alta sin clave -> correo activación -> código 15m -> contraseña nueva -> login | DA11; DF40-42 | ✅ Aprobado |
+| **E02** | Propuesta individual -> validación 100% -> aprobación -> captura habilitada | DF07-09; DA12 | ✅ Aprobado |
+| **E03** | Registro trabajo -> evidencia adjunta -> revisión explícita "Aprobada y pondera" -> semáforo | DF10-16; DA12 | ✅ Aprobado |
+| **E04** | Solicitud antecedentes -> corrección autor -> reenvío -> "Aprobada sin ponderar" (aporte 0) | DF11-14; DA12 | ✅ Aprobado |
+| **E05** | Tubo trabajo -> reasignación auditada -> Realizado (no vencido) -> Cierre formal con resultado | DF20-27; DA09-10 | ✅ Aprobado |
+| **E06** | Creación vecino -> asociación organización -> cargo dirigente -> desactivación con historia | DF31-32; MT09 | ✅ Aprobado |
+| **E07** | Expediente social 3 gestiones -> visita realizada -> 4 tiempos calculados vs incompletos | DF33-35; MT11 | ✅ Aprobado |
+| **E08** | Registro carta -> 6 estados -> derivación -> documentos privados -> cierre con pronunciamiento | DF28-30; MT10 | ✅ Aprobado |
+| **E09** | Hito multi-responsable -> actividades internas -> clasificación temporal próximo/vencido/finalizado | DF36-37; MT12 | ✅ Aprobado |
+| **E10** | Tarjeta dashboard N registros -> listado filtrado N -> exportación XLSX N registros idénticos | DF43-49; DA10/15; MT13 | ✅ Aprobado |
+| **E11** | Cierre trimestral congelado -> bloqueo modificaciones -> consulta histórica -> reapertura auditada | DF18-19; DF53 | ✅ Aprobado |
+| **E12** | Respaldo automático cifrado en S3 -> restauración íntegra -> integridad de archivos privados | DF01/57/58 | ✅ Aprobado |
+
+---
+
+## 4. Matriz de Acceso en Producción AWS (`https://54.236.112.203/`)
+
+| Rol | Usuario | Correo Asignado | Autenticación | Estado en AWS |
+|---|---|---|:---:|:---:|
+| **Administrador** | `admin.aws` | `daniel0317f@gmail.com` | ✅ 200 OK | Operativo |
+| **Coordinador** | `coordinador.aws` | `coordinador@example.test` | ✅ 200 OK | Operativo |
+| **Delegado** | `delegado.aws` | `delegado@example.test` | ✅ 200 OK | Operativo |
+| **Funcionario** | `funcionario.aws` | `funcionario@example.test` | ✅ 200 OK | Operativo |
+| **Verificador** | `verificador.aws` | `verificador@example.test` | ✅ 200 OK | Operativo |
+| **Consulta** | `consulta.aws` | `consulta@example.test` | ✅ 200 OK | Operativo |
+
+---
+
+## 5. Preparación para la Defensa (Rúbrica de 100 Puntos)
+
+La exposición del equipo cubre los 8 aspectos de la rúbrica de evaluación:
+
+1. **Contexto y problema (10 pts):** Descentralización municipal en 4 delegaciones de La Serena. Pérdida de trazabilidad, demoras en gestión social y falta de medición de metas individuales.
+2. **Solución propuesta (10 pts):** Sistema web institucional con Django + MySQL + Frontend Vanilla JS modular. Tubo de trabajo colaborativo, expediente social, cartas y semáforo trimestral.
+3. **Gestión y factibilidad (15 pts):** Planificación en 90 tareas, asignación por integrante (DF: 58, DA: 16, MT: 16), control de dependencias, factibilidad técnica y operativa demostrada.
+4. **Diseño técnico (15 pts):** Arquitectura cliente-servidor REST, modelos normalizados en MySQL, control transaccional `select_for_update`, idempotencia y auditoría de eventos.
+5. **Calidad y resultados (15 pts):** 731 pruebas automatizadas con 100 % de éxito, 0 defectos ocultos, validación en vivo en AWS EC2 con respaldo cifrado en S3.
+6. **Conclusiones y aporte (10 pts):** Estandarización de procesos municipales, rendición de cuentas transparente, protección de datos ciudadanos y soporte a la toma de decisiones.
+7. **Comunicación y dominio (5 pts):** Participación coordinada de los tres integrantes con distribución por fortalezas técnicas.
+8. **Preguntas de comisión (20 pts):** Respaldo completo de código fuente, diagramas de clases, matriz de permisos y bitácora de pruebas reproducibles.
+
+### Distribución de Exposición
+- **Daniel Flores:** Arquitectura, base de datos, lógica de ponderación y cálculo, seguridad, aislamiento por delegación, despliegue y respaldos AWS.
+- **Daniel Ángel:** Usabilidad, validaciones de interfaz, búsquedas automáticas, exportación contextual a Excel y resultados de pruebas funcionales.
+- **Matías:** Módulos de comunidad (juntas y dirigentes), ciclo de cartas, expediente y tiempos sociales, hitos y manuales de usuario.
+
+---
+
+## 6. Lista Final de Autorización de Cierre (14 Puntos)
+
+- [x] **C01–C06 cerrados:** Reglas técnicas resueltas e incorporadas en código fuente y pruebas.
+- [x] **Planes aprobados y propuestas coherentes:** Exclusión de propuestas no aprobadas en captura y evaluación.
+- [x] **Solo actividades aprobadas que ponderan alimentan resultados:** Verificación explícita probada.
+- [x] **Dashboard, detalle y exportación muestran el mismo conjunto y fechas:** Sincronización completa.
+- [x] **Acceso por rol/delegación, archivos y cierre trimestral comprobados:** Aislamiento multinivel operativo.
+- [x] **Correo, activación, recuperación y bloqueo probados:** Lógica de seguridad y rate-limiting verificada.
+- [x] **Comunidad, social, cartas e hitos cumplen casos completos:** 71 funciones del descriptor conciliadas.
+- [x] **Cálculo y colectivo reproducibles con fórmulas confirmadas:** Media ponderada documentada y testeada.
+- [x] **D01–D16 documentadas:** 16 decisiones acordadas y registradas en el libro Excel.
+- [x] **DA01–DA16 y MT01–MT16 revisadas y actualizadas:** Planilla al 100 % terminada.
+- [x] **DF01–DF58 con criterio cumplido en la versión final:** Trazabilidad completa.
+- [x] **Sin fallos obligatorios ocultos por marcas de prueba:** 0 expected failures en la suite.
+- [x] **Respaldo y despliegue recuperable comprobados:** Base y código sincronizados en AWS EC2 y S3.
+- [x] **Rúbrica cubierta y defensa preparada:** Presentación estructurada y roles definidos.
