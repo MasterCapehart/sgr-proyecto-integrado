@@ -21,7 +21,7 @@ def metric(rows):
 
 def status(value,goal):
     if value is None or goal is None:return 'Sin evaluación'
-    return 'Verde' if value>=goal else 'Naranjo' if value>=goal*D('.6') else 'Rojo'
+    return 'Verde' if value>=goal else 'Naranjo' if value>=goal*D('.7') else 'Rojo'
 
 def consolidate(summaries):
     grouped={};persons=[]

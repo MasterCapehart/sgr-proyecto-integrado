@@ -61,7 +61,7 @@ class CalculosFuentesTests(TestCase):
     self.assertEqual(result['objetivo_al_dia'],expected)
   # Antes del inicio el sistema mantiene estado neutral, en lugar del 0 % del lote.
  def test_cal_e_limites_con_precision_antes_de_redondear(self):
-  for value,color in [('29.99','Rojo'),('30','Naranjo'),('49.99','Naranjo'),('50','Verde'),('29.999','Rojo')]:
+  for value,color in [('34.99','Rojo'),('35','Naranjo'),('49.99','Naranjo'),('50','Verde'),('34.999','Rojo')]:
    with self.subTest(value=value):self.assertEqual(status(Decimal(value),Decimal('50')),color)
  def test_pauta_parcial_indice_normalizado_no_es_total_integral(self):
   self.activity();summary=self.summary();row=summary['metas'][0]

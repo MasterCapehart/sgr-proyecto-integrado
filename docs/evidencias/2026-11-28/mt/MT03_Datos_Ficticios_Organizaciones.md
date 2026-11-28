@@ -19,9 +19,9 @@ Suministrar datos ficticios realistas de organizaciones comunitarias y dirigente
 
 | Organización | Dirigente | RUN Ficticio | Cargo | Vigencia Desde | Vigencia Hasta |
 |---|---|---|---|:---:|:---:|
-| JJVV San Joaquín Alto | Carlos Mondaca Pinto | 11.234.567-8 | Presidente | 01/01/2025 | 31/12/2026 |
-| JJVV San Joaquín Alto | Rosa Elgueta Castro | 14.876.543-2 | Secretaria | 01/01/2025 | 31/12/2026 |
-| JJVV La Antena Centro | Manuel Araya Rojas | 10.456.789-K | Presidente | 15/03/2025 | 15/03/2027 |
-| JJVV La Antena Centro | Gloria Cortés Tapia | 12.987.654-3 | Tesorera | 15/03/2025 | 15/03/2027 |
-| JJVV Las Compañías Norte | Patricio Zepeda Barraza | 13.567.890-1 | Presidente | 01/06/2025 | 01/06/2027 |
-| Agrupación Cultural Renacer | Andrea Valenzuela Soto | 16.234.987-5 | Presidenta | 01/08/2025 | 01/08/2027 |
+| JJVV San Joaquín Alto | Carlos Mondaca Pinto | 11.234.567-1 | Presidente | 01/01/2025 | 31/12/2026 |
+| JJVV San Joaquín Alto | Rosa Elgueta Castro | 14.876.543-K | Secretaria | 01/01/2025 | 31/12/2026 |
+| JJVV La Antena Centro | Manuel Araya Rojas | 10.456.789-4 | Presidente | 15/03/2025 | 15/03/2027 |
+| JJVV La Antena Centro | Gloria Cortés Tapia | 12.987.654-9 | Tesorera | 15/03/2025 | 15/03/2027 |
+| JJVV Las Compañías Norte | Patricio Zepeda Barraza | 13.567.890-2 | Presidente | 01/06/2025 | 01/06/2027 |
+| Agrupación Cultural Renacer | Andrea Valenzuela Soto | 16.234.987-2 | Presidenta | 01/08/2025 | 01/08/2027 |

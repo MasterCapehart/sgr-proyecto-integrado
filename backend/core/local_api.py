@@ -182,12 +182,12 @@ def recovery(request, step='solicitar'):
                     recent=RecuperacionAcceso.objects.filter(usuario=user,creado__gt=now-timedelta(seconds=60)).exists()
                     if not recent:
                         code=f'{secrets.randbelow(1000000):06d}'
-                        recovery_record=RecuperacionAcceso.objects.create(usuario=user,identificador=identifier,codigo_hash=make_password(code),vence=now+timedelta(minutes=10))
+                        recovery_record=RecuperacionAcceso.objects.create(usuario=user,identificador=identifier,codigo_hash=make_password(code),vence=now+timedelta(minutes=15))
                         try:
                             sent=send_mail(
                                 'SGR: código de recuperación de contraseña',
                                 f'Tu código de verificación es: {code}\n\n'
-                                'Vence en 10 minutos y solo puede utilizarse una vez.\n'
+                                'Vence en 15 minutos y solo puede utilizarse una vez.\n'
                                 'No compartas este código. Si no solicitaste el cambio, ignora este mensaje.\n\n'
                                 'Sistema de Gestión de Resultados (SGR)',
                                 settings.DEFAULT_FROM_EMAIL,[email],fail_silently=False,

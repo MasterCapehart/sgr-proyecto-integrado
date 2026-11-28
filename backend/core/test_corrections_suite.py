@@ -412,7 +412,23 @@ class CorrectionsSuiteTests(TestCase):
     # Verificación de rango de semáforo oficial al 70%
     def test_semaforo_umbral_70_porciento(self):
         from core.performance import WARNING_FACTOR, enrich
+        from core.collective import status as collective_status
         self.assertEqual(WARNING_FACTOR, Decimal('.70'))
+        # Colectivo al 70%: 69.99% es Rojo, 70.00% es Naranjo
+        self.assertEqual(collective_status(Decimal('69.99'), Decimal('100')), 'Rojo')
+        self.assertEqual(collective_status(Decimal('70.00'), Decimal('100')), 'Naranjo')
+        self.assertEqual(collective_status(Decimal('100.00'), Decimal('100')), 'Verde')
+
+    # Verificación de vigencia de 15 minutos en recuperación de clave web
+    def test_recuperacion_web_vence_15_minutos(self):
+        from core.models import RecuperacionAcceso
+        from django.utils import timezone
+        r = self.client.post('/api/recuperacion/', {'email': self.func_d1.email}, content_type='application/json')
+        self.assertEqual(r.status_code, 200)
+        rec = RecuperacionAcceso.objects.filter(usuario=self.func_d1).order_by('-pk').first()
+        self.assertIsNotNone(rec)
+        duracion_minutos = (rec.vence - rec.creado).total_seconds() / 60
+        self.assertAlmostEqual(duracion_minutos, 15.0, places=0)
 
 
 

@@ -16,7 +16,18 @@ FULL='Cupo diario completo: máximo 7 actividades potencialmente puntuables por 
 def ensure_author(identifier):
     # Commit first creation before business locks; duplicate inserts otherwise deadlock
     # when concurrent transactions upgrade their unique-key locks.
-    ControlCupoFuncionario.objects.get_or_create(usuario_id=identifier)
+    if ControlCupoFuncionario.objects.filter(usuario_id=identifier).exists():
+        return
+    import time
+    from django.db import IntegrityError, OperationalError
+    for attempt in range(5):
+        try:
+            ControlCupoFuncionario.objects.get_or_create(usuario_id=identifier)
+            return
+        except (IntegrityError, OperationalError):
+            time.sleep(0.02 * (attempt + 1))
+            if ControlCupoFuncionario.objects.filter(usuario_id=identifier).exists():
+                return
 
 def lock_author(identifier):
     # A dedicated row avoids locking the account referenced by unrelated audit inserts.
