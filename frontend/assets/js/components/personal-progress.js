@@ -83,6 +83,40 @@
     if (month.evidence !== null) grid.append(metric('Mis evidencias por revisar', number(month.evidence.waiting), 'Enviadas en el mes; esperan revisión de otra persona.'));
     body.append(grid);
 
+    // Indicadores mínimos de dashboard personal (RC13)
+    const extraGrid = node('section', 'personal-metrics');
+    extraGrid.setAttribute('aria-label', 'Indicadores mínimos de desempeño');
+    if (data.promedio_diario !== undefined) {
+      extraGrid.append(metric('Promedio diario de actividades', number(data.promedio_diario), 'Actividades registradas en el período divididas por los días transcurridos.'));
+    }
+    if (data.ultimo_registro) {
+      extraGrid.append(metric('Último registro', data.ultimo_registro.fecha, data.ultimo_registro.solicitud || 'Actividad registrada', 'pages/desempeno.html?registro=' + data.ultimo_registro.id));
+    }
+    if (data.reclamos_felicitaciones) {
+      extraGrid.append(metric('Reclamos y felicitaciones', `${number(data.reclamos_felicitaciones.felicitaciones)} fel. / ${number(data.reclamos_felicitaciones.reclamos)} rec.`, 'En la delegación activa durante el período.', 'pages/reclamos.html'));
+    }
+    body.append(extraGrid);
+
+    if (data.hitos_proximos && data.hitos_proximos.length) {
+      const hitosSec = node('section', 'progress-panel');
+      const hHeading = node('div', 'progress-panel-heading');
+      hHeading.append(node('h2', null, 'Próximos hitos de la delegación'));
+      const hList = node('ul', 'personal-task-list');
+      for (const h of data.hitos_proximos) {
+        const li = node('li', 'personal-task');
+        const content = node('div', 'personal-task-content');
+        content.append(node('span', 'progress-task-kind', h.estado || 'Planificado'), node('p', 'progress-task-title', h.nombre));
+        if (h.fecha_inicio) {
+          const time = node('time', null, 'Fecha inicio: ' + h.fecha_inicio);
+          content.append(time);
+        }
+        li.append(content);
+        hList.append(li);
+      }
+      hitosSec.append(hHeading, hList);
+      body.append(hitosSec);
+    }
+
     const charts = node('div', 'personal-charts');
     if (month.attentions !== null || month.activities !== null) {
       const chart = node('section', 'progress-panel');

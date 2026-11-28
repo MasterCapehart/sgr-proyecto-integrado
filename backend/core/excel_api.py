@@ -90,9 +90,31 @@ def case_summary(records):
     beneficio = latest('fecha_entrega_beneficio')
     informe = latest('fecha_entrega_informe')
     realizada = latest('fecha_visita_realizada')
-    estado_general = 'Cerrado' if beneficio else 'En seguimiento' if (informe or realizada) else 'En atención inicial' if rows else 'Pendiente'
-    fecha_cierre = beneficio or (informe if estado_general == 'Cerrado' else None)
-    resultado = 'Beneficio entregado' if beneficio else 'Informe emitido' if informe else 'Visita realizada' if realizada else 'En evaluación social'
+    cierre_keywords = ['cierre', 'concluido', 'finalizado', 'terminado', 'no procede', 'rechazado', 'desistido', 'sin beneficio']
+    is_closed_by_gestion = any(any(kw in (r.tipo_gestion or '').lower() or kw in (r.gestion_realizada or '').lower() for kw in cierre_keywords) for r in rows)
+
+    if beneficio:
+        estado_general = 'Cerrado'
+        resultado = 'Beneficio entregado'
+        fecha_cierre = beneficio
+    elif is_closed_by_gestion:
+        estado_general = 'Cerrado'
+        closing_r = next((r for r in reversed(rows) if any(kw in (r.tipo_gestion or '').lower() or kw in (r.gestion_realizada or '').lower() for kw in cierre_keywords)), rows[-1])
+        resultado = closing_r.tipo_gestion if (closing_r.tipo_gestion and any(kw in closing_r.tipo_gestion.lower() for kw in cierre_keywords)) else (closing_r.gestion_realizada or 'Caso social cerrado')
+        closing_date = closing_r.fecha_entrega_informe or closing_r.fecha_visita_realizada or timezone.localtime(closing_r.fecha_registro).date()
+        fecha_cierre = closing_date.isoformat() if hasattr(closing_date, 'isoformat') else str(closing_date)
+    elif informe or realizada:
+        estado_general = 'En seguimiento'
+        resultado = 'Informe emitido' if informe else 'Visita realizada'
+        fecha_cierre = None
+    elif rows:
+        estado_general = 'En atención inicial'
+        resultado = 'En evaluación social'
+        fecha_cierre = None
+    else:
+        estado_general = 'Pendiente'
+        resultado = 'Sin iniciar'
+        fecha_cierre = None
     derivs = []
     for r in rows:
         for d in getattr(r, 'derivaciones_auditadas', []).all():

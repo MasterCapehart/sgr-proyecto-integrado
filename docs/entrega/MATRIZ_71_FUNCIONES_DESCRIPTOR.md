@@ -1,172 +1,175 @@
-# Matriz de Vinculación y Trazabilidad: 71 Funciones del Descriptor de Cargos SGR
+# Matriz Oficial de Trazabilidad: 71 Funciones del Descriptor de Cargos SGR
 
-**Documento Oficial de Integración y Acreditación Funcional**  
+**Documento Oficial de Integración y Acreditación Documental**  
 **Fecha:** 28 de noviembre de 2026  
-**Fuentes Contrastadas:**
-- `Requerimientos_Complementarios_SGR.pdf` (Versión 1.2, 28/10/2026)
-- `Copia de DESCRIPTOR DE FUNCIONES.docx.pdf` (Versión Año 2026, Dirección de Administración Municipal, Ilustre Municipalidad de La Serena)
+**Fuente Directa:** `Copia de DESCRIPTOR DE FUNCIONES.docx.pdf` (Versión Año 2026, Dirección de Administración Municipal, Ilustre Municipalidad de La Serena)  
+**Especificación:** `Requerimientos_Complementarios_SGR.pdf` (Versión 1.2, 28/10/2026)  
 
 ---
 
-## 1. Principio Rector de Implementación
+## 1. Alcance y Principio Rector de Implementación
 
 Tal como establece la especificación complementaria y el informe de auditoría:
-> *"El descriptor de cargos define las responsabilidades laborales de los funcionarios en la primera línea municipal; **no implica construir 71 subsistemas o módulos independientes**, sino vincular cada una de las 71 funciones con su registro transaccional, documento respaldatorio, flujo en el Tubo de trabajo o seguimiento correspondiente dentro del SGR."*
+> *"El descriptor de cargos define las responsabilidades laborales de los funcionarios en la primera línea municipal de las delegaciones. **No implica construir 71 subsistemas o módulos independientes**, sino vincular cada una de las 71 funciones originales con su registro transaccional, documento respaldatorio, flujo en el Tubo de trabajo o seguimiento correspondiente dentro del SGR."*
 
-El SGR centraliza la operación en los siguientes componentes modulares:
-1. **Actividades y Metas Individuales:** Registro con fecha real, meta asignada, cálculo de cumplimiento y ponderación (hasta 120%).
-2. **Trazabilidad y Verificación:** Separación de roles (funcionario registra, revisor valida y decide si "Aprobada y pondera").
-3. **Tubo de Trabajo y Compromisos:** Gestión de plazos, responsable, sector/territorio, origen y estados (`Pendiente`, `En proceso`, `Realizado`, `Cerrado`, `No aplica`).
-4. **Gestión Social y Expedientes:** Casos sociales estructurados en hasta 3 gestiones, medición de 4 tiempos de atención y registro de beneficios/visitas.
-5. **Hitos y Actividades Programadas:** Planificación recurrente o territorial, responsables asignados, tareas internas y seguimiento.
-6. **Mesa de Ayuda, Vecinos y Organizaciones:** Directorio territorial, juntas de vecinos, clubes y canales de atención ciudadana.
-7. **Reclamos y Felicitaciones:** Registro formal institucional con folio, clasificación y auditoría.
-
----
-
-## 2. Matriz Detallada de las 71 Funciones
-
-### I. Cargo: Delegado Municipal (11 Funciones)
-
-| N° | Función en Descriptor Oficial | Módulo SGR Vinculado | Tipo de Registro / Flujo | Evidencia / Documento de Respaldo |
-|:--:|---|---|---|---|
-| **01** | Informar a la autoridad comunal sobre situaciones en el territorio para adoptar medidas preventivas. | Tubo de Gestión / Compromisos | Compromiso de origen interno / Alerta temprana | Informe de situación territorial / Minuta de gabinete |
-| **02** | Ser representante de la máxima autoridad comunal en el territorio. | Dashboard y Semáforo Delegacional | Supervisión integral del equipo y semáforo colectivo | Vista ejecutiva del delegado / Reportes consolidados |
-| **03** | Responsable del funcionamiento territorial y administrativo de la Delegación. | Cierre Trimestral y Auditoría | Apertura, cierre y control de periodos de gestión | Acta de cierre trimestral / Registro de congelamiento |
-| **04** | Visitar periódicamente Juntas de Vecinos y Organizaciones Comunitarias. | Actividades Operativas / Hitos | Actividad de tipo "Terreno / Reunión" con meta asignada | Lista de asistencia firmada / Fotografía georreferenciada |
-| **05** | Proponer y dar soluciones a necesidades de los usuarios del sector. | Tubo de Trabajo / Derivaciones | Compromisos ciudadanos con asignación de responsable | Ficha de compromiso resuelto / Notificación |
-| **06** | Supervisar el cumplimiento de planes y políticas de desarrollo comunal. | Semáforo y Desempeño Colectivo | Monitoreo de cumplimiento ponderado de metas del equipo | Reporte trimestral de avance de metas |
-| **07** | Mantener comunicación con direcciones municipales y organizaciones. | Derivaciones Interdelegacionales | Derivación auditada de atenciones y actividades | Registro de auditoría de derivación |
-| **08** | Difusión de programas y actividades municipales. | Hitos y Eventos Programados | Tareas del hito de difusión comunitaria | Registro de convocatoria / Afiche / Constancia |
-| **09** | Delegar trabajos solicitados por la comunidad a su equipo de trabajo. | Tubo de Gestión / Reasignación | Asignación y reasignación de responsable en compromisos | Trazabilidad del compromiso (historial de reasignación) |
-| **10** | Generar mesas de trabajo con estamentos públicos y privados. | Registro de Hitos Territoriales | Hito de articulación intersectorial con responsables | Acta de mesa de trabajo / Registro de acuerdos |
-| **11** | Otras funciones que le encomiende el Alcalde o Administrador Municipal. | Actividades Generales / Tubo | Solicitudes internas extraordinarias de gabinete | Oficio o memorándum de instrucción interna |
-
----
-
-### II. Cargo: Gestor Social (12 Funciones)
-
-#### A. Atención de Casos Individuales
-| N° | Función en Descriptor Oficial | Módulo SGR Vinculado | Tipo de Registro / Flujo | Evidencia / Documento de Respaldo |
-|:--:|---|---|---|---|
-| **12** | Recepción y evaluación de casos (Atención de Casos 1). | Gestión Social (Atención Ciudadana) | Primera gestión del caso social (T1) | Formulario de atención social / Ficha inicial |
-| **13** | Diagnóstico y planificación (Atención de Casos 2). | Expediente Social / Tubo | Registro de necesidad y programación de visita | Ficha CAS / Registro Social de Hogares |
-| **14** | Intervención y seguimiento (Atención de Casos 3). | Gestión Social / Segunda Gestión | Visita domiciliaria efectiva realizada (T2) | Informe de visita en terreno / Verificador fotográfico |
-| **15** | Derivación y articulación (Atención de Casos 4). | Derivación de Casos y Compromisos | Derivación a DIDECO, salud u otros servicios | Comprobante de derivación interinstitucional |
-| **16** | Visitas en terreno (Atención de Casos 5). | Actividades en Terreno / Gestión Social | Registro de fecha de visita domiciliaria realizada | Informe social / Firma de visita |
-
-#### B. Acciones Comunitarias y Gestión
-| N° | Función en Descriptor Oficial | Módulo SGR Vinculado | Tipo de Registro / Flujo | Evidencia / Documento de Respaldo |
-|:--:|---|---|---|---|
-| **17** | Diagnóstico comunitario (Acciones Comunitarias 1). | Hitos Territoriales / Actividades | Levantamiento de problemáticas sectoriales | Documento de diagnóstico barrial |
-| **18** | Planificación y ejecución de programas (Acciones Comunitarias 2). | Hitos Programados Recurrentes | Actividades asociadas a hitos sociales planificados | Programa de intervención / Plan de trabajo |
-| **19** | Organización y participación comunitaria (Acciones Comunitarias 3). | Organizaciones Comunitarias | Vinculación y asesoría a comités y agrupaciones | Acta de asamblea / Lista de participantes |
-| **20** | Articular con organizaciones de apoyo social (Acciones Comunitarias 4). | Tubo de Gestión / Red de Apoyo | Red de derivación a fundaciones y programas sociales | Convenio o constancia de entrega de derivación |
-| **21** | Coordinación con otros servicios municipales. | Derivaciones / Mensajería de Caso | Coordinación directa desde el expediente del caso | Registro de mensaje / Nota de derivación |
-| **22** | Gestión de recursos y beneficios. | Tercera Gestión Social (T3-T4) | Entrega de beneficio o subsidio social municipal | Recibo de ayuda social / Decreto de pago |
-| **23** | Elaborar informes y estadísticas sociales. | Reportes de Gestión Social | Exportación y consolidación de tiempos sociales | Reporte XLSX de tiempos y estados de expedientes |
-
----
-
-### III. Cargo: Apoyo Administrativo (10 Funciones)
-
-| N° | Función en Descriptor Oficial | Módulo SGR Vinculado | Tipo de Registro / Flujo | Evidencia / Documento de Respaldo |
-|:--:|---|---|---|---|
-| **24** | Llevar la agenda del Delegado y coordinar audiencias. | Compromisos / Hitos de Agenda | Compromiso de atención de audiencia / Solicitud interna | Citación de audiencia / Minuta de reunión |
-| **25** | Atención presencial, telefónica y orientación a usuarios. | Atención Ciudadana | Registro de atención de mesón y derivación inmediata | Comprobante de ticket / Registro en sistema |
-| **26** | Recepción, registro y despacho de correspondencia / cartas. | Tubo de Cartas Ciudadanas | Ingreso de carta, asignación de folio y plazos | Copia de carta ingresada con timbre de recepción |
-| **27** | Confección de oficios, memorándums e informes administrativos. | Repositorio de Evidencias / Actividades | Actividad administrativa con respaldo documental | Copia digital de oficio ordinario o memorándum |
-| **28** | Archivo y custodia de documentación oficial de la Delegación. | Gestión Documental de Evidencias | Almacenamiento seguro de evidencias y actas | Archivo con hash SHA-256 inmutable en S3/RDS |
-| **29** | Tramitación y seguimiento de solicitudes vecinales vía Tubo. | Tubo de Trabajo (Filtros y Búsqueda) | Monitoreo de estados y alertas de vencimiento | Detalle del compromiso en el Tubo |
-| **30** | Registro de ingresos y gastos de caja chica / materiales. | Actividad Administrativa / Compras | Registro de rendición de fondos en actividades | Boleta o factura adjunta a la actividad |
-| **31** | Coordinación de traslados y logística del equipo. | Hitos Operativos / Apoyo | Tarea de apoyo logístico asignada en hito | Hoja de ruta / Orden de movilización |
-| **32** | Control y suministro de útiles y materiales de oficina. | Mantenedor Interno de Insumos | Solicitud interna de reposición administrativa | Guía de recepción de bodega |
-| **33** | Apoyo en eventos institucionales y operativos en terreno. | Hitos Territoriales Comunitarios | Tarea de soporte operativo en terreno | Registro fotográfico / Lista de apoyo |
-
----
-
-### IV. Cargo: Organizaciones Comunitarias (9 Funciones)
-
-| N° | Función en Descriptor Oficial | Módulo SGR Vinculado | Tipo de Registro / Flujo | Evidencia / Documento de Respaldo |
-|:--:|---|---|---|---|
-| **34** | Actualización permanente del registro de organizaciones comunitarias. | Catálogo de Organizaciones | Mantenedor de Organizaciones (PJ, directiva, vigencia) | Certificado de vigencia de directiva (Ley 19.418) |
-| **35** | Asesoría en procesos eleccionarios y renovación de directivas. | Actividades con Organizaciones | Actividad con meta "Asesoría a Organizaciones" | Acta de comisión electoral / Certificado de escrutinio |
-| **36** | Apoyo en postulación a fondos concursables (FONDEVE, FFOIP, etc.). | Actividades de Asesoría de Proyectos | Registro de asesoría técnica a dirigentes | Ficha de postulación o constancia de envío |
-| **37** | Levantamiento de necesidades en cada territorio junto a dirigentes. | Actividades en Terreno / Compromisos | Visita en terreno y generación de compromiso de mejora | Acta de recorrido barrial / Ficha de necesidad |
-| **38** | Generar convocatorias a actividades municipales en los sectores. | Hitos Territoriales / Convocatoria | Asignación de tareas de convocatoria y difusión | Registro de asistencia / Citación formal |
-| **39** | Articulador entre organizaciones comunitarias y áreas municipales. | Tubo de Trabajo / Derivaciones | Derivación de requerimientos a alumbrado, aseo, etc. | Registro de derivación en Tubo |
-| **40** | Fomentar la constitución de nuevas organizaciones y comités. | Actividades de Constitución | Registro de asamblea constitutiva y ministros de fe | Acta de asamblea constitutiva de organización |
-| **41** | Mediación y apoyo en resolución de conflictos comunitarios. | Actividades de Mediación Vecinal | Registro de mediación o reunión de avenimiento | Acta de acuerdo firmada por los involucrados |
-| **42** | Seguimiento a compromisos adquiridos en asambleas vecinales. | Tubo de Trabajo / Seguimiento | Compromiso con fecha comprometida y sector barrial | Estado actualizado del compromiso en Tubo |
-
----
-
-### V. Cargo: Encargado de Compras y Proyectos (8 Funciones)
-
-| N° | Función en Descriptor Oficial | Módulo SGR Vinculado | Tipo de Registro / Flujo | Evidencia / Documento de Respaldo |
-|:--:|---|---|---|---|
-| **43** | Elaborar solicitudes de compra y términos de referencia (TDR). | Actividades de Gestión de Compras | Actividad con meta asignada de adquisiciones | Ficha de requerimiento de compra / TDR adjunto |
-| **44** | Tramitación en portal Mercado Público y coordinación con SECPLAN. | Seguimiento de Procesos de Compra | Actividad de gestión con ID de licitación o compra ágil | Comprobante de orden de compra o licitación |
-| **45** | Proponer y gestionar proyectos de mejoramiento urbano participativo. | Hitos de Infraestructura / Proyectos | Hito de proyecto de mejoramiento barrial | Ficha de proyecto / Plano o presupuesto participativo |
-| **46** | Propuesta de designación de Comisión Evaluadora o Evaluador (letra e). | Flujo de Gestión de Contratos | Solicitud u oficio ordinario de propuesta evaluadora | Oficio ordinario con propuesta de comisión |
-| **47** | Control de recepción conforme de bienes y servicios adquiridos. | Actividades de Verificación de Compra | Registro de recepción técnica con acta de entrega | Acta de recepción conforme / Factura visada |
-| **48** | Elaboración y seguimiento de órdenes de compra para la Delegación. | Registro Operativo de Adquisiciones | Actividad administrativa con número de OC | Orden de compra aceptada en Mercado Público |
-| **49** | Apoyo técnico en formulación de proyectos para dirigentes vecinales. | Actividades de Apoyo a Proyectos | Actividad de asesoría técnica de formulación | Perfil de proyecto elaborado |
-| **50** | Seguimiento al presupuesto asignado a la Delegación. | Reportes de Control Presupuestario | Consulta de reportes y cruce de adquisiciones | Planilla de ejecución presupuestaria delegacional |
-
----
-
-### VI. Cargo: Gestión y Planificación (12 Funciones)
-
-| N° | Función en Descriptor Oficial | Módulo SGR Vinculado | Tipo de Registro / Flujo | Evidencia / Documento de Respaldo |
-|:--:|---|---|---|---|
-| **51** | Derivar y apoyar a cada área en realización de informes de jefatura. | Tubo de Trabajo / Gestión Interna | Asignación y revisión interna de tareas del equipo | Informe de gestión semanal / mensual |
-| **52** | Apoyo al levantamiento y actualización del diagnóstico territorial. | Diagnóstico Estratégico / Hitos | Hito de diagnóstico comunal con fuentes de datos | Matriz de diagnóstico comunal actualizada |
-| **53** | Mantener el buen funcionamiento de procesos y coordinación interna. | Calendarios y Jornadas Laborales | Control de disponibilidad de jornadas y ausencias | Calendario de trabajo confirmado y sin colisiones |
-| **54** | Generar información al Delegado sobre el trabajo en la matriz SGR. | Dashboard y Semáforo de Desempeño | Monitoreo de cumplimiento individual y colectivo | Reporte exportado de cumplimiento de metas |
-| **55** | Informar oportunamente al Delegado sobre materias de interés territorial. | Alertas del Sistema / Mensajes | Notificaciones y alertas operativas de vencimientos | Panel de alertas operativas activas |
-| **56** | Coordinación con departamentos internos y equipo de delegaciones. | Derivación y Colaboración | Mensajería y trazabilidad en registros compartidos | Registro de derivaciones e intervenciones conjuntas |
-| **57** | Tomar acciones rápidas de solución a problemas desde Gabinete. | Tubo de Trabajo (Prioridad Gabinete) | Compromiso prioritario con origen "Gabinete" | Acta de resolución de caso urgente |
-| **58** | Participar como representante de la Delegación a solicitud del Delegado. | Actividades de Representación | Actividad operativa con meta de coordinación institucional | Minuta de la reunión o acta de representación |
-| **59** | Coordinación con direcciones municipales para consecución de objetivos. | Tubo de Trabajo / Seguimiento | Derivación y seguimiento de compromisos intersectoriales | Historial de cambio de estado de compromisos |
-| **60** | Responsable del buen funcionamiento del llenado de la matriz SGR. | Asignaciones de Metas y Planes | Configuración y validación de metas (100% acordado) | Plan aprobado y validado en el sistema |
-| **61** | Encargado de gestionar la reunión semanal de la Delegación. | Hitos Recurrentes / Reunión Semanal | Hito periódico "Reunión de Coordinación Semanal" | Acta de reunión semanal con tareas derivadas |
-| **62** | Temas varios en procesos administrativos de la Delegación. | Registro de Actividades Generales | Actividades complementarias bajo catálogo autorizado | Respaldo según requerimiento del ítem |
-
----
-
-### VII. Cargo: Coordinador de Servicios Comunitarios (9 Funciones)
-
-| N° | Función en Descriptor Oficial | Módulo SGR Vinculado | Tipo de Registro / Flujo | Evidencia / Documento de Respaldo |
-|:--:|---|---|---|---|
-| **63** | Enlace permanente con JJVV y clubes para operativos de limpieza / BNUP. | Hitos de Limpieza / BNUP | Planificación y ejecución de operativos de aseo | Calendario de operativos / Acta de solicitud |
-| **64** | Atención presencial y en terreno para análisis técnico de obras. | Actividades Técnicas en Terreno | Actividad con meta "Inspección técnica de caminos/obras" | Informe técnico de terreno con fotografías |
-| **65** | Coordinar ejecución y seguimiento de operativos de desmalezado y recuperación. | Hitos de Servicios a la Comunidad | Hito de recuperación de espacios públicos | Registro de antes y después georreferenciado |
-| **66** | Liderar acciones de educación ambiental (reciclaje, compostaje). | Hitos de Capacitación Comunitaria | Talleres comunitarios ambientales | Lista de asistencia y material educativo entregado |
-| **67** | Responsable operativo y administrativo de cuadrillas de empleabilidad y polifuncionales. | Asignación de Cuadrillas en Hitos | Registro de tareas asignadas a cuadrillas municipales | Planilla de asistencia de cuadrillas / Hoja de ruta |
-| **68** | Coordinar con Aseo, Ornato, Operaciones y Maquinarias municipal. | Tubo de Trabajo / Coordinación | Solicitud y seguimiento de maquinaria pesada | Orden de trabajo o solicitud interna de maquinaria |
-| **69** | Recibir, canalizar y realizar seguimiento de denuncias ciudadanas de BNUP. | Tubo de Compromisos / Denuncias | Compromiso originado por denuncia ciudadana | Registro de fiscalización o retiro de escombros |
-| **70** | Elaborar informes periódicos de gestión de cuadrillas y empleabilidad. | Reportes de Operaciones en Terreno | Exportación de actividades y horas de servicio | Informe mensual consolidado de operativos |
-| **71** | Temas varios en procesos administrativos del área de servicios. | Actividades Operativas Generales | Actividades de soporte logístico y mantenimiento | Comprobante o bitácora de servicio ejecutado |
-
----
-
-## 3. Resumen de Cobertura Integral
+### Distribución Oficial por Cargo (71 Funciones Exactas)
 
 ```
-┌────────────────────────────────────────┬──────────────┬────────────────────────────┐
-│ Cargo                                  │ N° Funciones │ Componentes Clave en SGR   │
-├────────────────────────────────────────┼──────────────┼────────────────────────────┤
-│ 1. Delegado Municipal                  │      11      │ Tubo, Semáforo, Cierre     │
-│ 2. Gestor Social                       │      12      │ Gestión Social (T1 a T4)   │
-│ 3. Apoyo Administrativo                │      10      │ Cartas, Atención, Mesón    │
-│ 4. Organizaciones Comunitarias         │       9      │ Organizaciones, JJVV, PJ   │
-│ 5. Encargado de Compras y Proyectos    │       8      │ Compras, TDR, Adquisición  │
-│ 6. Gestión y Planificación             │      12      │ Metas, SGR, Reunión Semanal│
-│ 7. Coordinador de Servicios            │       9      │ Operativos, Cuadrillas     │
-├────────────────────────────────────────┼──────────────┼────────────────────────────┤
-│ TOTAL                                  │      71      │ 100% Vinculadas y Probadas │
-└────────────────────────────────────────┴──────────────┴────────────────────────────┘
+┌──────────────────────────────────────────────┬──────────────┬───────────────┐
+│ Cargo Oficial según Descriptor               │ N° Funciones │ Páginas PDF   │
+├──────────────────────────────────────────────┼──────────────┼───────────────┤
+│ 1. Delegado Municipal                        │      11      │ Página 3      │
+│ 2. Gestor Social                             │      15      │ Página 4      │
+│ 3. Apoyo Administrativo                      │      11      │ Páginas 4 y 5 │
+│ 4. Organizaciones Comunitarias               │       8      │ Páginas 5 y 6 │
+│ 5. Gestor de Compras y Proyectos             │       5      │ Páginas 6 y 7 │
+│ 6. Gestión y Planificación                   │      12      │ Páginas 7 y 8 │
+│ 7. Coordinador de Servicios Comunitarios     │       9      │ Página 8      │
+├──────────────────────────────────────────────┼──────────────┼───────────────┤
+│ TOTAL                                        │      71      │ 100 % Exacto  │
+└──────────────────────────────────────────────┴──────────────┴───────────────┘
 ```
 
-Todas las 71 funciones cuentan con un mecanismo concreto y trazable dentro del sistema sin exigir 71 desarrollos disconexos, preservando la arquitectura integral solicitada por el cuerpo docente e institucional.
+---
+
+## 2. Detalle y Mapeo Fiel de las 71 Funciones Originales
+
+### I. Cargo: Delegado Municipal (11 Funciones — Página 3)
+
+| N° | Función Original Literal del Descriptor | Módulo SGR Vinculado | Tipo de Registro / Flujo | Evidencia / Respaldo Documental |
+|:--:|---|---|---|---|
+| **01** | 1. Informar a la autoridad comunal, sobre situaciones que pudieran ocurrir en su territorio, con el objeto de adoptar las medidas preventivas correspondientes. | Tubo de Gestión / Compromisos | Compromiso de origen interno / Alerta preventiva | Minuta de situación territorial o reporte preventivo |
+| **02** | 2. Ser representante de la Máxima autoridad comunal en su territorio, empoderandose de su cargo para enfrentar y solucionar las necesidades permanentes de los usuarios. | Tablero de Control / Dashboard | Vista ejecutiva de la delegación y semáforo colectivo | Reporte consolidado de gestión delegacional |
+| **03** | 3. Responsable del buen funcionamiento del territorio desde la parte interna administrativa al cumplimiento de las gestiones encomendadas a la Delegación. | Cierre Trimestral y Auditoría | Control de apertura, congelamiento y cierre de periodos | Acta oficial de cierre de periodo de gestión |
+| **04** | 4. Visitar periódicamente Juntas de vecinos y Organizaciones comunitarias con el objetivo de estar presente, generando acompañamiento y apoyo. | Registro de Actividades / Terreno | Actividad presencial con meta de vinculación vecinal | Lista de asistencia firmada / Fotografía en terreno |
+| **05** | 5. Proponer y dar soluciones a las necesidades y problemas de los usuarios del sector, con el objeto de potenciar y mejorar la gestión de los servicios municipales. | Tubo de Trabajo / Compromisos | Compromiso ciudadano con asignación de plazo y responsable | Ficha de resolución de compromiso en Tubo |
+| **06** | 6. Poner en práctica y supervisar el cumplimiento de planes y políticas de Desarrollo, que beneficien a la comunidad, de acuerdo a lo dispuesto por la máxima autoridad comunal. | Semáforo y Desempeño Colectivo | Monitoreo del cumplimiento ponderado de metas del equipo | Planilla oficial de cumplimiento de metas (XLSX) |
+| **07** | 7. Mantener buena relación y comunicación con las distintas direcciones y/o departamentos del municipio, así como con las organizaciones públicas y sociales, con el objetivo de apoyar el buen funcionamiento de su equipo de trabajo en las soluciones de las tareas encomendadas. | Derivaciones Interdelegacionales | Derivación auditada de atenciones y casos | Registro inmutable de auditoría de derivación |
+| **08** | 8. Hacer difusión de los programas y actividades implementados por la Municipalidad. | Hitos y Eventos Programados | Tarea interna asociada a hito de difusión comunitaria | Registro de convocatoria / Afiche / Constancia |
+| **09** | 9. Delegar trabajos solicitados por la comunidad a su equipo de trabajo orientando y guiando el buen desempeño de las acciones. | Tubo de Gestión / Asignación | Asignación y reasignación de responsable en compromisos | Trazabilidad del compromiso (historial de reasignación) |
+| **10** | 10. Generar mesas de trabajo con distintos estamentos públicos y privados siendo el puente para los usuarios que necesitan atención. | Registro de Hitos Territoriales | Hito de articulación intersectorial con responsables | Acta de mesa de trabajo / Minuta de acuerdos |
+| **11** | 11. Ejecutar otras funciones que la ley señale, que le encomiende el alcalde o el Administrador Municipal en el ámbito de sus competencias. | Actividades Operativas / Tubo | Solicitud interna extraordinaria de gabinete | Oficio o memorándum de instrucción municipal |
+
+---
+
+### II. Cargo: Gestor Social (15 Funciones — Página 4)
+
+#### A. I. Atención de Casos (5 Funciones)
+| N° | Función Original Literal del Descriptor | Módulo SGR Vinculado | Tipo de Registro / Flujo | Evidencia / Respaldo Documental |
+|:--:|---|---|---|---|
+| **12** | 1. Recepción y evaluación de casos | Gestión Social / Atención | Primera gestión del caso social (T1) | Formulario de atención social / Ficha inicial |
+| **13** | 2. Diagnóstico y planificación | Expediente Social / Tubo | Programación de visita y evaluación socioeconómica | Ficha RSH / Diagnóstico sociofamiliar |
+| **14** | 3. Intervención y seguimiento | Segunda Gestión Social (T2) | Visita domiciliaria y seguimiento en terreno | Informe de visita domiciliaria en terreno |
+| **15** | 4. Derivación y articulación | Derivación de Casos | Derivación a DIDECO, salud o red social externa | Registro auditado de derivación social |
+| **16** | 5. Visitas en terreno. | Actividades en Terreno | Registro de fecha de visita realizada efectiva | Informe social firmado / Verificador fotográfico |
+
+#### B. II. Acciones Comunitarias (4 Funciones)
+| N° | Función Original Literal del Descriptor | Módulo SGR Vinculado | Tipo de Registro / Flujo | Evidencia / Respaldo Documental |
+|:--:|---|---|---|---|
+| **17** | 1. Diagnóstico comunitario | Hitos / Actividades Territoriales | Levantamiento de necesidades comunitarias de sector | Documento de diagnóstico barrial participativo |
+| **18** | 2. Planificación y ejecución de programas | Hitos Programados Recurrentes | Ejecución de iniciativas de apoyo social planificadas | Programa de intervención comunitaria |
+| **19** | 3. Organización y participación comunitaria | Organizaciones Comunitarias | Asesoría y acompañamiento a comités solidarios | Acta de asamblea / Registro de asistentes |
+| **20** | 4. Articular con organizaciones de apoyo social | Red de Colaboración Social | Vinculación con fundaciones y voluntariados | Ficha de coordinación interinstitucional |
+
+#### C. III. Acciones de Coordinación y Gestión (3 Funciones)
+| N° | Función Original Literal del Descriptor | Módulo SGR Vinculado | Tipo de Registro / Flujo | Evidencia / Respaldo Documental |
+|:--:|---|---|---|---|
+| **21** | 1. Coordinación con otros servicios: Coordinar con otros servicios y programas municipales para asegurar la atención integral de los ciudadanos. | Derivaciones / Mensajería | Coordinación intersectorial desde el expediente del caso | Registro de derivación / Comunicación interna |
+| **22** | 2. Gestión de recursos: Gestionar recursos para la atención de casos y la ejecución de programas comunitarios. | Tercera Gestión Social (T3-T4) | Entrega de ayuda social, subsidio o cierre sin beneficio | Comprobante de entrega / Decreto de beneficio |
+| **23** | 3. Informes y estadísticas: Elaborar informes y estadísticas sobre la atención de casos y las acciones comunitarias realizadas. | Reportes de Gestión Social | Consolidado de expedientes y cálculo de tiempos (T1 a T4) | Reporte exportado XLSX de gestión social |
+
+#### D. IV. Acciones de Auto-mejora de Desempeño (3 Funciones)
+| N° | Función Original Literal del Descriptor | Módulo SGR Vinculado | Tipo de Registro / Flujo | Evidencia / Respaldo Documental |
+|:--:|---|---|---|---|
+| **24** | 1. Participación en reuniones y comités | Hitos Internos de Coordinación | Registro de asistencia a comités técnicos sociales | Acta de comité técnico / Lista de presencia |
+| **25** | 2. Capacitación y actualización | Registro de Perfeccionamiento | Actividad interna de formación en políticas sociales | Certificado de capacitación o asistencia a taller |
+| **26** | 3. Apoyo a la gestión municipal | Tareas de Colaboración Interna | Apoyo operativo a la delegación en contingencias | Registro de actividad operativa de apoyo |
+
+---
+
+### III. Cargo: Apoyo Administrativo (11 Funciones — Páginas 4 y 5)
+
+| N° | Función Original Literal del Descriptor | Módulo SGR Vinculado | Tipo de Registro / Flujo | Evidencia / Respaldo Documental |
+|:--:|---|---|---|---|
+| **27** | 1. Llevar la agenda del delegado para así poder coordinar los diferentes eventos y reuniones en los que él debe participar ordenando y centralizando la información. | Compromisos / Agenda | Compromiso de agenda / Programación de audiencias | Citación formal de reunión / Minuta de audiencia |
+| **28** | 2. Coordinador del transporte de la delegación. | Hitos / Coordinación Logística | Programación de movilización y comisiones de servicio | Hoja de ruta / Solicitud interna de vehículo |
+| **29** | 3. Encargado (a) de los auxiliares, mantención y aseo. | Coordinación Operativa Interna | Seguimiento de mantención del recinto delegacional | Bitácora de mantenimiento y aseo |
+| **30** | 4. Dar atención al público y derivar a las áreas correspondientes dentro de la delegación. | Atención Ciudadana / Mesón | Registro de atención presencial de orientación | Comprobante de ticket o atención en mesón |
+| **31** | 5. Generar un Registro de Atenciones. (registro en planilla SGR), para posteriormente llamar preventivamente al usuario. | Registro en Planilla SGR | Captura de atención con contacto telefónico preventivo | Registro de atención ciudadana con teléfono |
+| **32** | 6. Generar inventario trimestral de la delegación. | Repositorio de Evidencias | Registro documental del inventario físico trimestral | Planilla de inventario firmada por la delegación |
+| **33** | 7. Realizar la entrega de materiales a los funcionarios. | Control Interno de Materiales | Registro de entrega de útiles y recursos de oficina | Guía interna de entrega de materiales |
+| **34** | 8. Retroalimentar para la gestión de delegado las solicitudes ingresadas por la comunidad. (Correos al Alias, solicitudes por carta, en oficina y/o oficina de partes, etc.) | Tubo de Cartas y Solicitudes | Registro y seguimiento de cartas ciudadanas con folio | Copia de carta timbrada con derivación |
+| **35** | 9. Informes mensuales del personal administrativo. (se excluye empleabilidad) permisos, solicitudes y armado de carpetas para pago, envío de documentos digitales para transparencia. | Módulo de Ausencias / Reportes | Carga de licencias, permisos y carpetas de respaldo | Certificado de ausencias / Planilla de personal |
+| **36** | 10. Encargada de envío de Agenda a Comunicaciones. | Hitos de Difusión Municipal | Envío de planificación de hitos a comunicaciones | Correo de envío / Registro de minuta comunicacional |
+| **37** | 11. Temas varios en procesos administrativos para cumplir los objetivos planteados por la Delegación. | Actividades Generales | Actividad administrativa bajo ítem del catálogo | Documento respaldatorio de gestión administrativa |
+
+---
+
+### IV. Cargo: Organizaciones Comunitarias (8 Funciones — Páginas 5 y 6)
+
+| N° | Función Original Literal del Descriptor | Módulo SGR Vinculado | Tipo de Registro / Flujo | Evidencia / Respaldo Documental |
+|:--:|---|---|---|---|
+| **38** | 1. Potenciar integralmente el desarrollo de los territorios costeros en beneficio de la Comunidad. | Hitos Territoriales Barriales | Planificación de desarrollo en sectores asignados | Ficha de levantamiento territorial |
+| **39** | 2. Creación de organizaciones nuevas, y mantener vigencia o cierre de OOCC Inactivas. | Directorio de Organizaciones | Mantenedor de Organizaciones (PJ, directiva, vigencia Ley 19.418) | Certificado de vigencia de personalidad jurídica |
+| **40** | 3. Asesorar y capacitar en distintas temáticas y procedimientos de las OOCC en general | Actividades de Asesoría | Actividad con meta "Capacitación a dirigentes" | Lista de asistencia a taller / Material entregado |
+| **41** | 4. Levantamiento de necesidades en cada territorio (visitas) en conjunto con los dirigentes de cada organización. | Actividades en Terreno | Visitas de diagnóstico con dirigentes vecinales | Acta de visita barrial con dirigentes firmada |
+| **42** | 5. Encargado (a) de generar las convocatorias a las distintas actividades Municipales que se realicen. | Hitos / Convocatorias | Tareas de difusión y citación a actividades comunales | Registro de citación / Firma de recepción |
+| **43** | 6. Articulador entre las Organizaciones Comunitarias y distintas áreas municipales para el cumplimiento de los requerimientos y compromisos adquiridos con los usuarios. | Tubo de Compromisos | Derivación y seguimiento de compromisos vecinales | Historial de avance del compromiso en Tubo |
+| **44** | 7. Generar actividades y talleres a las organizaciones, manteniendo la motivación y aumentando la educación en temas municipales. | Hitos de Capacitación Comunitaria | Talleres comunitarios periódicos planificados | Lista de participantes / Registro fotográfico |
+| **45** | 8. Temas varios en procesos administrativos para cumplir los objetivos planteados por la Delegación. | Actividades de Apoyo Comunitario | Actividades de soporte organizativo | Respaldo documental de gestión con dirigentes |
+
+---
+
+### V. Cargo: Gestor de Compras y Proyectos (5 Funciones — Páginas 6 y 7)
+
+| N° | Función Original Literal del Descriptor | Módulo SGR Vinculado | Tipo de Registro / Flujo | Evidencia / Respaldo Documental |
+|:--:|---|---|---|---|
+| **46** | a) Recopilar y confeccionar la Planificación Operativo Anual de su Dirección, considerando los requerimientos de todas las unidades de ella. | Planificación Operativa Anual | Registro documental del Plan Operativo Anual (POA) | Documento formal de Planificación Operativa Anual |
+| **47** | b) Realizar control de gestión al cumplimiento del Plan Anual de Compras de su dirección, evaluando permanentemente las necesidades de éstas con el Director respectivo. Las necesidades deben estar en directa relación con los requerimientos para un correcto funcionamiento y operación de la Dirección a su cargo. | Control del Plan de Compras | Monitoreo trimestral del plan anual de compras | Informe trimestral de ejecución de compras |
+| **48** | c) Revisar pliego de condiciones, marco de referencia y especificaciones técnicas, cuando corresponda, dando su visto bueno para posteriormente remitir a la Unidad Revisora junto con la solicitud y los documentos asociados. | Revisión Técnica de Adquisiciones | Actividad con meta de revisión de términos de referencia (TDR) | TDR o pliego de condiciones visado |
+| **49** | d) Elaborar las solicitudes o el oficio interno ordinario de contrataciones de bienes y/o servicios de su dirección con la debida anticipación, de acuerdo a la planificación existente y a los requerimientos emanados de las distintas unidades. | Requerimientos de Compra | Actividad administrativa con registro de oficio de contratación | Oficio interno ordinario de compra elaborado |
+| **50** | e) Incorporar en las solicitudes o el oficio interno ordinario la propuesta de designación de la Comisión Evaluadora o Evaluador, del Inspector Técnico de Contrato titular y subrogante, según corresponda. | Formalización de Comisiones | Propuesta formalizada en oficio de adquisición | Oficio ordinario con propuesta de comisión e ITC |
+
+---
+
+### VI. Cargo: Gestión y Planificación (12 Funciones — Páginas 7 y 8)
+
+| N° | Función Original Literal del Descriptor | Módulo SGR Vinculado | Tipo de Registro / Flujo | Evidencia / Respaldo Documental |
+|:--:|---|---|---|---|
+| **51** | 1. Encargado derivar y apoyar a cada área, en la realización y entrega de los informes solicitados por la Jefatura. | Gestión Interna de Informes | Seguimiento de entrega de informes sectoriales | Informe de gestión consolidado de jefatura |
+| **52** | 2. Apoya con registros al levantamiento y/o actualización del diagnóstico de las necesidades de la comunidad de su sector, así como listados de información estratégica para la toma de decisiones. | Diagnóstico Estratégico | Actualización de indicadores y necesidades barriales | Matriz de diagnóstico estratégico sectorial |
+| **53** | 3. Encargado de mantener el buen funcionamiento de los procesos de la delegación, participando en acciones de coordinación interna del personal derivando tareas del día a día y apoyando el cumplimiento de estas. | Coordinación Interna de Procesos | Tareas internas y disponibilidad del equipo (calendarios) | Calendario operativo confirmado sin colisiones |
+| **54** | 4. Encargado de generar información al delegado referente al trabajo de la matriz SGR indicando las fortalezas y debilidades de cada colaborador y anticiparse a los resultados de la Delegación. | Dashboard y Semáforo de Desempeño | Reportes de cumplimiento individual y colectivo | Reporte exportado de cumplimiento de metas |
+| **55** | 5. Informar oportunamente al delegado Municipal, sobre materias de interés del sector. | Alertas del Sistema / Minutas | Notificación de alertas operativas y vencimientos | Panel de alertas operativas activas |
+| **56** | 6. Coordinación con departamentos internos y/o equipo de coordinación de las Delegaciones municipales, cuando la jefatura requiera. | Coordinación Interdepartamental | Derivaciones y seguimiento de acciones colaborativas | Registro de derivaciones e intervenciones conjuntas |
+| **57** | 7. Encargado de tomar acciones rápidas de solución a problemas derivados desde Gabinete. | Tubo de Trabajo (Prioridad Gabinete) | Compromiso prioritario de origen "Gabinete" | Ficha de resolución de caso urgente en Tubo |
+| **58** | 8. Participar como representante de la delegación cuando el delegado lo solicite. | Actividades de Representación | Actividad operativa bajo meta de representación | Minuta o acta de reunión en representación |
+| **59** | 9. Coordinación con los diferentes departamentos municipales para la consecución de los objetivos. | Tubo de Gestión / Articulación | Compromisos y acuerdos con direcciones municipales | Historial de cambio de estado de compromisos |
+| **60** | 10. Responsable del buen funcionamiento del llenado de la matriz SGR. | Asignación y Aprobación de Metas | Validación del 100.00 % de ponderación y aprobación de planes | Plan de metas aprobado formalmente |
+| **61** | 11. Encargado de gestionar la reunión semanal. | Hitos Periódicos de Coordinación | Hito recurrente "Reunión de Coordinación Semanal" | Acta de reunión semanal con tareas derivadas |
+| **62** | 12. Temas varios en procesos administrativos para cumplir los objetivos planteados por la Delegación. | Actividades Operativas Complementarias | Actividades bajo catálogo autorizado | Respaldo según requerimiento del ítem |
+
+---
+
+### VII. Cargo: Coordinador de Servicios Comunitarios (9 Funciones — Página 8)
+
+| N° | Función Original Literal del Descriptor | Módulo SGR Vinculado | Tipo de Registro / Flujo | Evidencia / Respaldo Documental |
+|:--:|---|---|---|---|
+| **63** | 1. Servir de enlace permanente entre la Municipalidad y las Juntas de Vecinos, organizaciones funcionales, clubes deportivos y agrupaciones ambientales para la realización de operativos de limpieza y reparaciones de BNUP. | Hitos de Limpieza / BNUP | Planificación y ejecución de operativos de aseo y BNUP | Calendario de operativos / Solicitud vecinal |
+| **64** | 2. Atención del usuario presencial y en terreno cuando se requiera de un análisis técnico para desarrollar o ejecutar obras de mejoramiento. (caminos, desmalezamiento, etc.) | Actividades Técnicas en Terreno | Actividad con meta de inspección técnica en terreno | Informe técnico de inspección con fotografías |
+| **65** | 3. Coordinar la ejecución y seguimiento de operativos de limpieza y desmalezado, mejoramiento de barrios y recuperación de espacios. | Hitos de Recuperación Barrial | Hito de recuperación de espacios públicos | Registro fotográfico antes/después georreferenciado |
+| **66** | 4. Liderar y coordinar acciones de educación ambiental (talleres de reciclaje, compostaje, aseo y ornato), operativos de limpieza y programas de reciclaje. | Hitos de Educación Ambiental | Talleres y programas de educación comunitaria | Lista de asistencia a taller y material educativo |
+| **67** | 5. Responsable del buen funcionamiento operativo y administrativo de las cuadrillas del programa de empleabilidad y cuadrilla de emergencia (polifuncionales) | Gestión de Cuadrillas en Hitos | Registro de tareas asignadas a cuadrillas municipales | Planilla de control de cuadrillas / Hoja de ruta |
+| **68** | 6. Coordinar acciones con distintas direcciones municipales (Aseo y Ornato, Operaciones, maquinarias) para garantizar servicios eficientes para la comunidad. | Tubo de Trabajo / Maquinaria | Solicitud y seguimiento de maquinaria pesada | Orden de trabajo de maquinaria municipal |
+| **69** | 7. Recibir, canalizar y realizar el seguimiento de denuncias ciudadanas relacionadas con el uso indebido de los espacios públicos. | Tubo de Compromisos / Denuncias | Compromiso derivado de fiscalización de BNUP | Ficha de denuncia resuelta en Tubo |
+| **70** | 8. Elaborar informes de gestión periódicas del programa de empleabilidad y cuadrilla polifuncionales. | Reportes Operativos de Cuadrillas | Consolidado de horas, sectores y labores ejecutadas | Informe mensual de cuadrillas de empleabilidad |
+| **71** | 9. Temas varios en procesos administrativos para el buen desempeño de la delegación en el área de servicios a la comunidad. | Actividades Operativas de Servicios | Actividades complementarias de servicios | Bitácora de trabajo de servicios a la comunidad |
+
+---
+
+## 3. Certificación de Concordancia y Cobertura
+
+1. **Total de funciones contrastadas:** 71 funciones oficiales.
+2. **Distribución por cargo:** 11 / 15 / 11 / 8 / 5 / 12 / 9 (100 % idéntica al documento fuente).
+3. **Fidelidad textual:** Se conservó literalmente el texto y numeración de cada función según la página del PDF original.
+4. **Respaldo en el sistema:** Cada función cuenta con su contraparte operativa en el SGR (módulo, tipo de registro y evidencia respaldatoria requerida), sin crear módulos innecesarios y resguardando la arquitectura institucional.

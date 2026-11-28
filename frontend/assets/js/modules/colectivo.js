@@ -17,7 +17,24 @@
   table(target,'Cumplimiento por ítem',['Ítem','Meta conjunta','Aporte reconocido','Exceso conservado','Cumplimiento','Semáforo','Cobertura'],r.items.map(i=>[i.codigo+' · '+i.nombre,num(i.meta),num(i.reconocido),num(i.exceso),pct(i.cumplimiento),badge(i.semaforo),i.evaluados+' evaluados · '+i.sin_evaluacion+' sin evaluación']));
   table(target,'Resultado individual del equipo',['Funcionario','Área actual','Índice individual','Semáforo','Ítems evaluados / sin evaluación','Consulta'],r.personas.map(p=>{const link=r.cerrado?el('span',null,'Resultado conservado al cierre'):el('a',null,'Ver detalle');if(!r.cerrado)link.href='semaforo.html?'+new URLSearchParams({funcionario:p.id,periodo:periodId});return [p.nombre,r.cerrado?'No conservada al cierre':p.area||'Sin área asignada',pct(p.cumplimiento),badge(p.semaforo),p.items_evaluados+' / '+p.items_sin_evaluacion,link];}));
   table(target,'Distribución de actividades por territorio',['Territorio registrado','Actividades registradas'],r.territorios.map(t=>[t.nombre,String(t.registradas)]));target.append(el('p','help',r.territorios_nota));
-  const details=el('details','card collective-rule');details.append(el('summary',null,'Cómo se calcula y qué incluye'),el('p',null,r.regla),el('p',null,'Cada actividad conserva su trazabilidad. El aporte se limita primero al 120 % individual; no se usa el excedente para compensar a otra persona. El índice normaliza los pesos de los ítems evaluables; no incluye felicitaciones ni otros componentes. Verde: alcanza el objetivo al día; naranjo: al menos el 60 % de ese objetivo; rojo: por debajo. No se presenta un promedio simple de porcentajes de funcionarios.'));target.append(details);
+
+  if(r.metas_menor_cumplimiento&&r.metas_menor_cumplimiento.length){
+   table(target,'Metas de menor cumplimiento (Prioridad de gestión)',['Código','Nombre','Cumplimiento','Semáforo'],r.metas_menor_cumplimiento.map(m=>[m.codigo,m.nombre,pct(m.cumplimiento),badge(m.semaforo)]));
+  }
+  if(r.evolucion_trimestral&&r.evolucion_trimestral.length){
+   table(target,'Evolución trimestral del cumplimiento',['Semana / Rango de fechas','Actividades aprobadas que ponderan'],r.evolucion_trimestral.map(e=>[e.rango,String(e.actividades_ponderadas)]));
+  }
+  if(r.hitos_proximos&&r.hitos_proximos.length){
+   table(target,'Próximos hitos de la delegación',['Hito institucional','Fecha inicio','Estado'],r.hitos_proximos.map(h=>[h.nombre,h.fecha_inicio||'Sin fecha',badge(h.estado)]));
+  }
+
+  const actions=el('div','collective-actions');actions.style.margin='20px 0';
+  const btnExport=el('a','btn btn-secondary','📥 Descargar reporte de cumplimiento (XLSX)');
+  btnExport.href='/api/cumplimiento/colectivo/?periodo='+periodId+'&export=1';
+  btnExport.style.display='inline-block';btnExport.style.padding='8px 16px';btnExport.style.backgroundColor='#AD0000';btnExport.style.color='#fff';btnExport.style.borderRadius='4px';btnExport.style.textDecoration='none';btnExport.style.fontWeight='bold';
+  actions.append(btnExport);target.append(actions);
+
+  const details=el('details','card collective-rule');details.append(el('summary',null,'Cómo se calcula y qué incluye'),el('p',null,r.regla),el('p',null,'Cada actividad conserva su trazabilidad. El aporte se limita primero al 120 % individual; no se usa el excedente para compensar a otra persona. El índice normaliza los pesos de los ítems evaluables; no incluye felicitaciones ni otros componentes. Verde: alcanza el objetivo al día; naranjo: al menos el 70 % de ese objetivo; rojo: por debajo. Cuando las metas comparten ponderaciones compatibles se calcula la media ponderada; si las ponderaciones difieren, se calcula la media efectiva de los funcionarios evaluados para evitar resultados ambiguos.'));target.append(details);
  }
  document.addEventListener('DOMContentLoaded',async()=>{
   const main=document.getElementById('main-content');

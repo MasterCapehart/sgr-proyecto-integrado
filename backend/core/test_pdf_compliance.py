@@ -74,3 +74,43 @@ class PdfComplianceAudit(CorrectionsSuiteTests):
         self.assertEqual(caso['tiempos']['programacion_visita'], 2)
         self.assertEqual(caso['tiempos']['visita_informe'], 3)
         self.assertIsNotNone(caso['tiempos']['atencion_beneficio'])
+
+    def test_evolution_excludes_evidence_only_validated_activity(self):
+        Actividad.objects.create(autor=self.func_d1,delegacion=self.d1,item=self.item2,fecha=date(2026,2,10),solicitud='Prueba',accion='Gestión',sector='Centro',estado='Validada')
+        self.client.force_login(self.admin)
+        r=self.client.get(f'/api/cumplimiento/colectivo/?periodo={self.periodo.pk}')
+        self.assertEqual(r.status_code,200,r.content)
+        total=sum(x['actividades_ponderadas'] for x in r.json()['data']['evolucion_trimestral'])
+        self.assertEqual(total,0,'PDF §13: la evolución ponderada incluye Validada sin decisión explícita de ponderación')
+
+    def test_compliance_export_includes_generation_timestamp(self):
+        from openpyxl import load_workbook
+        from io import BytesIO
+        self.client.force_login(self.admin)
+        r=self.client.get(f'/api/cumplimiento/colectivo/?periodo={self.periodo.pk}&export=1')
+        self.assertEqual(r.status_code,200,r.content)
+        w=load_workbook(BytesIO(r.content),data_only=True)
+        values=[str(v).casefold() for row in w.active.iter_rows(values_only=True) for v in row if v is not None]
+        self.assertTrue(any('generado' in v or 'generación' in v or 'generacion' in v for v in values),'PDF §16: XLSX no informa fecha y hora de generación')
+
+    def test_expediente_social_cierre_sin_beneficio(self):
+        from .models import Atencion, TipoAtencion, SubAtencion
+        tipo = TipoAtencion.objects.create(codigo='SOC2', nombre='Asistencia Social 2')
+        sub = SubAtencion.objects.create(codigo='SUB2', nombre='Orientación', tipo_atencion=tipo)
+        atencion = Atencion.objects.create(
+            folio='CASO-SOC-02-G1', solicitante='Maria Soto', rut_solicitante='15.678.901-2',
+            tipo_atencion=tipo, sub_atencion=sub, descripcion='Orientación inicial',
+            delegacion=self.d1, usuario=self.func_d1, caso_social='CASO-SOC-02', numero_gestion=1,
+            tipo_gestion='Cierre de caso: orientación completada sin beneficio',
+            gestion_realizada='Usuario derivado a red de salud. Caso social cerrado sin entrega de beneficio.',
+            fecha_visita_realizada=date(2026, 1, 15)
+        )
+        self.client.force_login(self.func_d1)
+        r = self.client.get('/api/casos-sociales/')
+        self.assertEqual(r.status_code, 200)
+        body = r.json()
+        results = body.get('results') if 'results' in body else body.get('data', {}).get('results', [])
+        caso = next(x for x in results if x['caso_social'] == 'CASO-SOC-02')
+        self.assertEqual(caso['estado_general'], 'Cerrado')
+        self.assertIn('Cierre', caso['resultado'])
+        self.assertEqual(caso['fecha_cierre'], '2026-01-15')

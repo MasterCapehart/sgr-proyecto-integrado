@@ -97,7 +97,7 @@ def overview(request):
         cur=period.fecha_inicio
         while cur<=period.fecha_fin:
             n_cur=min(cur+timedelta(days=6),period.fecha_fin)
-            cnt=Actividad.objects.filter(delegacion=delegation,fecha__gte=cur,fecha__lte=n_cur,estado__in=['Validada','Aprobada y pondera']).count()
+            cnt=Actividad.objects.filter(delegacion=delegation,fecha__gte=cur,fecha__lte=n_cur,estado='Aprobada y pondera').count()
             evolucion.append({'rango':f'{cur.isoformat()} a {n_cur.isoformat()}','actividades_ponderadas':cnt})
             cur=n_cur+timedelta(days=1)
 
@@ -113,9 +113,13 @@ def overview(request):
             from io import BytesIO
             from django.http import HttpResponse
             from openpyxl import Workbook
+            from django.utils import timezone
             wb=Workbook();ws=wb.active;ws.title='Cumplimiento Colectivo'
-            ws.append(['Reporte Oficial de Cumplimiento de Metas']);ws.append(['Delegación',delegation.nombre,'Trimestre',period.nombre])
-            ws.append(['Cumplimiento Equipo',f"{data.get('cumplimiento') or 'Sin evaluación'} %",'Semáforo',data.get('semaforo')])
+            ws.append(['Reporte Oficial de Cumplimiento de Metas'])
+            ws.append(['Delegación',delegation.nombre,'Trimestre',period.nombre])
+            ws.append(['Fecha y hora de generación', timezone.localtime(timezone.now()).strftime('%Y-%m-%d %H:%M:%S')])
+            ws.append(['Usuario solicitante', request.user.get_full_name() or request.user.username])
+            ws.append(['Cumplimiento del Equipo',f"{data.get('cumplimiento') or 'Sin evaluación'} %",'Semáforo',data.get('semaforo')])
             ws.append([])
             ws.append(['Funcionario','Área','Cumplimiento %','Semáforo','Metas evaluadas'])
             for p in data.get('personas',[]):
