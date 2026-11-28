@@ -141,11 +141,35 @@ def overview(request):
             tasks.append(task('review', obj, obj.nombre_archivo, f'pages/validacion.html?registro={obj.pk}', 'action'))
     ranking = {'overdue': 0, 'action': 1, 'soon': 2, 'normal': 3}
     tasks.sort(key=lambda t: (ranking[t['priority']], t['due'] or '', t['id']))
+
+    # Indicadores mínimos de dashboard personal (RC13)
+    last_act = activities.order_by('-fecha', '-id').first() if activities is not None else None
+    ultimo_registro = dict(id=last_act.pk, fecha=last_act.fecha.isoformat(), solicitud=last_act.solicitud) if last_act else None
+    act_count = month_data.get('activities') or 0
+    promedio_diario = round(act_count / days, 2) if days else 0
+
+    from .matrix_models import Reclamo
+    from .milestone_models import Hito
+    rec_qs = Reclamo.objects.filter(delegacion=delegation, fecha__gte=start, fecha__lte=end - timedelta(days=1))
+    if not api.allowed(user, 'reclamos', 'ver_equipo'):
+        rec_qs = rec_qs.filter(Q(autor=user)|Q(profesional=user))
+    reclamos_count = rec_qs.filter(clase='Reclamo').count()
+    felicitaciones_count = rec_qs.filter(clase='Felicitación').count()
+
+    hitos_qs = Hito.objects.filter(delegacion=delegation, activo=True).exclude(estado__in=['Finalizado', 'Cancelado'])
+    if not api.allowed(user, 'hitos', 'ver_equipo'):
+        hitos_qs = hitos_qs.filter(responsables=user)
+    hitos_proximos = [{'id': h.pk, 'nombre': h.nombre, 'fecha_inicio': h.fecha_inicio.isoformat() if h.fecha_inicio else None, 'estado': h.estado} for h in hitos_qs.order_by('fecha_inicio', 'id')[:5]]
+
     response = api.ok(dict(period=period_label,
                            periodos=list(PeriodoGestion.objects.filter(estado=True).order_by('-fecha_inicio').values('id', 'nombre', 'cerrado')),
                            generated_at=timezone.now().isoformat(),
                            delegation=delegation.nombre, month=month_data, weeks=weeks,
                            pending=pending, tasks=tasks[:12],
+                           ultimo_registro=ultimo_registro,
+                           promedio_diario=promedio_diario,
+                           reclamos_felicitaciones=dict(reclamos=reclamos_count, felicitaciones=felicitaciones_count),
+                           hitos_proximos=hitos_proximos,
                            scope='Solo tus registros en la delegación activa. Pendientes de todo el historial; avance del período seleccionado.'))
     response['Cache-Control'] = 'private, no-store'
     return response

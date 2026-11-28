@@ -20,6 +20,12 @@ def derivation(request,pk):
             obj=domain.scoped(request,'actividades').select_for_update().filter(pk=pk).first()
             if not obj:return api.error('Actividad no encontrada.',404)
             if obj.autor_id!=request.user.pk and not api.allowed(request.user,'actividades','editar_equipo'):return api.error('No puedes derivar una actividad ajena.',403)
+            closed=domain.check_closed_quarter(obj.fecha)
+            if closed:return api.error(f'El trimestre {closed.nombre} está cerrado. Se requiere una reapertura autorizada para derivar actividades.',400)
+            if obj.estado in ['Validada','Aprobada y pondera','Aprobada y no pondera']:
+                return api.error('Las actividades aprobadas están protegidas y no admiten modificaciones ni derivación.',400)
+            if obj.estado=='Anulada':
+                return api.error('Las actividades anuladas están protegidas y no admiten derivación.',400)
             conflict=domain.validate_version(obj,data)
             if conflict:return conflict
             for key,limit in [('destino',200),('motivo',2000)]:
@@ -72,30 +78,44 @@ def diff_days(d1, d2):
         return days
     except Exception:return None
 
-SOCIAL_COLUMNS=[('caso_social','Código caso'),('fecha_ingreso','Fecha ingreso'),('tipo_nombre','Tipo atención'),('subatencion_nombre','Sub atención'),('solicitante','Usuario / vecino'),('rut','RUT'),('telefono','Teléfono'),('requiere_visita','Requiere visita'),('compromiso','Ingreso al tubo'),('primera','Primera gestión'),('programada','Fecha programada visita'),('observaciones','Observaciones'),('segunda','Segunda gestión'),('realizada','Fecha visita realizada'),('informe','Fecha entrega informe'),('tercera','Tercera gestión'),('beneficio','Fecha entrega beneficio'),('tiempo_ingreso_primera','Días ingreso-primera'),('tiempo_programacion_visita','Días prog-visita'),('tiempo_visita_informe','Días visita-informe'),('tiempo_atencion_beneficio','Días atenc-beneficio')]
+SOCIAL_COLUMNS=[('caso_social','Código caso'),('fecha_ingreso','Fecha ingreso'),('tipo_nombre','Tipo atención'),('subatencion_nombre','Sub atención'),('solicitante','Usuario / vecino'),('rut','RUT'),('telefono','Teléfono'),('requiere_visita','Requiere visita'),('compromiso','Ingreso al tubo'),('primera','Primera gestión'),('programada','Fecha programada visita'),('observaciones','Observaciones'),('segunda','Segunda gestión'),('realizada','Fecha visita realizada'),('informe','Fecha entrega informe'),('tercera','Tercera gestión'),('beneficio','Fecha entrega beneficio'),('tiempo_ingreso_primera','Días ingreso-primera'),('tiempo_programacion_visita','Días prog-visita'),('tiempo_visita_informe','Días visita-informe'),('tiempo_atencion_beneficio','Días atenc-beneficio'),('fecha_atencion','Fecha atención'),('estado_general','Estado general'),('fecha_cierre','Fecha cierre'),('resultado','Resultado del caso')]
 def case_summary(records):
     rows=list(records);first=rows[0]
     def latest(name):return next((getattr(r,name) for r in reversed(rows) if getattr(r,name) not in ['',None]),None)
     from .local_api import serialize,RESOURCES
     initial=serialize(first,RESOURCES['atenciones'][1])
-    result={'caso_social':first.caso_social,'fecha_ingreso':timezone.localtime(first.fecha_registro).date().isoformat(),'tipo_nombre':initial['tipo_nombre'],'subatencion_nombre':initial['subatencion_nombre'],'solicitante':first.solicitante,'rut':latest('rut_solicitante') or '', 'telefono':latest('telefono_solicitante') or '', 'requiere_visita':'No informado' if latest('requiere_visita') is None else 'Sí' if latest('requiere_visita') else 'No','compromiso':latest('compromiso_id') or '', 'programada':latest('fecha_visita_programada'),'realizada':latest('fecha_visita_realizada'),'informe':latest('fecha_entrega_informe'),'beneficio':latest('fecha_entrega_beneficio'),'observaciones':latest('gestion_realizada') or first.descripcion}
-    for number,key in [(1,'primera'),(2,'segunda'),(3,'tercera')]:
-        row=next((r for r in rows if r.numero_gestion==number),None);result[key]=(row.tipo_gestion or 'Registrada sin tipo especificado') if row else 'Sin registrar'
     g1 = next((r for r in rows if r.numero_gestion==1), first)
     g1_fecha = g1.fecha_visita_realizada or g1.fecha_visita or timezone.localtime(g1.fecha_registro).date()
+    fecha_atencion_str = g1_fecha.isoformat() if hasattr(g1_fecha, 'isoformat') else str(g1_fecha)
+    beneficio = latest('fecha_entrega_beneficio')
+    informe = latest('fecha_entrega_informe')
+    realizada = latest('fecha_visita_realizada')
+    estado_general = 'Cerrado' if beneficio else 'En seguimiento' if (informe or realizada) else 'En atención inicial' if rows else 'Pendiente'
+    fecha_cierre = beneficio or (informe if estado_general == 'Cerrado' else None)
+    resultado = 'Beneficio entregado' if beneficio else 'Informe emitido' if informe else 'Visita realizada' if realizada else 'En evaluación social'
+    derivs = []
+    for r in rows:
+        for d in getattr(r, 'derivaciones_auditadas', []).all():
+            dest = getattr(d, 'delegacion_destino', None)
+            if dest: derivs.append(dest.nombre)
+    result={'caso_social':first.caso_social,'fecha_ingreso':timezone.localtime(first.fecha_registro).date().isoformat(),'fecha_atencion':fecha_atencion_str,'estado_general':estado_general,'fecha_cierre':fecha_cierre,'resultado':resultado,'derivaciones':derivs,'tipo_nombre':initial['tipo_nombre'],'subatencion_nombre':initial['subatencion_nombre'],'solicitante':first.solicitante,'rut':latest('rut_solicitante') or '', 'telefono':latest('telefono_solicitante') or '', 'requiere_visita':'No informado' if latest('requiere_visita') is None else 'Sí' if latest('requiere_visita') else 'No','compromiso':latest('compromiso_id') or '', 'programada':latest('fecha_visita_programada'),'realizada':realizada,'informe':informe,'beneficio':beneficio,'observaciones':latest('gestion_realizada') or first.descripcion}
+    for number,key in [(1,'primera'),(2,'segunda'),(3,'tercera')]:
+        row=next((r for r in rows if r.numero_gestion==number),None);result[key]=(row.tipo_gestion or 'Registrada sin tipo especificado') if row else 'Sin registrar'
     t1 = diff_days(result['fecha_ingreso'], g1_fecha)
     t2 = diff_days(result['programada'], result['realizada'] or latest('fecha_visita'))
     t3 = diff_days(result['realizada'] or latest('fecha_visita'), result['informe'])
-    t4 = diff_days(result['fecha_ingreso'], result['beneficio'])
+    t4_ingreso = diff_days(result['fecha_ingreso'], result['beneficio'])
+    t4_atencion = diff_days(result['fecha_atencion'], result['beneficio'])
     result['tiempo_ingreso_primera'] = t1 if t1 is not None else 'No calculable'
     result['tiempo_programacion_visita'] = t2 if t2 is not None else 'No calculable'
     result['tiempo_visita_informe'] = t3 if t3 is not None else 'No calculable'
-    result['tiempo_atencion_beneficio'] = t4 if t4 is not None else 'No calculable'
+    result['tiempo_atencion_beneficio'] = t4_atencion if t4_atencion is not None else (t4_ingreso if t4_ingreso is not None else 'No calculable')
     result['tiempos'] = {
         'ingreso_primera': t1,
         'programacion_visita': t2,
         'visita_informe': t3,
-        'atencion_beneficio': t4,
+        'atencion_beneficio': t4_atencion,
+        'ingreso_beneficio': t4_ingreso,
     }
     return result
 

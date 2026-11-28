@@ -66,7 +66,7 @@ def overview(request):
     if denied:return denied
     if not access.manager(request.user) or not api.allowed(request.user,'ausencias','ver_equipo'):return api.error('Solo administrador y delegado con permiso de equipo pueden consultar el tablero colectivo.',403)
     try:
-        if set(request.GET)-{'periodo','area'}:raise ValidationError('Filtros no permitidos. Se utiliza únicamente la delegación activa autorizada.')
+        if set(request.GET)-{'periodo','area','export'}:raise ValidationError('Filtros no permitidos. Se utiliza únicamente la delegación activa autorizada.')
         period=access.period(request.GET.get('periodo'));delegation=api.active_delegation(request);area=request.GET.get('area','').strip()
         if len(area)>100:raise ValidationError('Área inválida.')
         people=access.people(request).select_related('cargo')
@@ -84,6 +84,50 @@ def overview(request):
                 entry=territories_by_key.setdefault(key,dict(nombre=label,registradas=0));entry['registradas']+=row['total']
             territories=sorted(territories_by_key.values(),key=lambda r:(-r['registradas'],r['nombre'].casefold()))
         data=consolidate(summaries)
-        data.update(delegacion=delegation.nombre,periodo=period.nombre,cerrado=period.cerrado,areas=areas,area=area,territorios=territories,fuente='Resultados conservados al cierre; sin reconstruir equipo ni territorios históricos.' if period.cerrado else 'Equipo activo autorizado y calendarios vigentes.',regla='Por ítem: suma del aporte reconocido (hasta 120 % con tope individual) / suma de metas ajustadas exactas. Ítems con ponderaciones individuales distintas consolidan el peso medio efectivo sin dejar resultados ambiguos. Índice consolidado: media de cumplimientos de las personas evaluadas, sin computar ausencias ni personas sin evaluación como cero falso. No es el puntaje integral del sistema.',territorios_nota='Distribución operativa de registros, sin porcentaje de cumplimiento: no existen metas territoriales asignadas. En períodos cerrados no se reconstruyen territorios con datos actuales.')
+
+        # Indicadores mínimos de tablero delegacional (RC13)
+        valid_items=[i for i in data.get('items',[]) if i.get('cumplimiento') is not None]
+        metas_menor=sorted(valid_items,key=lambda x:D(str(x['cumplimiento_exacto'])))[:5]
+        from .milestone_models import Hito
+        hitos_qs=list(Hito.objects.filter(delegacion=delegation,activo=True).exclude(estado__in=['Finalizado','Cancelado']).order_by('fecha_inicio','id').values('id','nombre','fecha_inicio','estado')[:5])
+        for h in hitos_qs:
+            if h['fecha_inicio']: h['fecha_inicio']=h['fecha_inicio'].isoformat()
+        evolucion=[]
+        from datetime import timedelta
+        cur=period.fecha_inicio
+        while cur<=period.fecha_fin:
+            n_cur=min(cur+timedelta(days=6),period.fecha_fin)
+            cnt=Actividad.objects.filter(delegacion=delegation,fecha__gte=cur,fecha__lte=n_cur,estado__in=['Validada','Aprobada y pondera']).count()
+            evolucion.append({'rango':f'{cur.isoformat()} a {n_cur.isoformat()}','actividades_ponderadas':cnt})
+            cur=n_cur+timedelta(days=1)
+
+        data.update(
+            delegacion=delegation.nombre,periodo=period.nombre,cerrado=period.cerrado,areas=areas,area=area,territorios=territories,
+            metas_menor_cumplimiento=metas_menor,hitos_proximos=hitos_qs,evolucion_trimestral=evolucion,
+            fuente='Resultados conservados al cierre; sin reconstruir equipo ni territorios históricos.' if period.cerrado else 'Equipo activo autorizado y calendarios vigentes.',
+            regla='Por ítem: suma del aporte reconocido (hasta 120 % con tope individual) / suma de metas ajustadas exactas. Ítems con ponderaciones individuales distintas consolidan el peso medio efectivo sin dejar resultados ambiguos. Índice consolidado: media de cumplimientos de las personas evaluadas, sin computar ausencias ni personas sin evaluación como cero falso. No es el puntaje integral del sistema.',
+            territorios_nota='Distribución operativa de registros, sin porcentaje de cumplimiento: no existen metas territoriales asignadas. En períodos cerrados no se reconstruyen territorios con datos actuales.'
+        )
+
+        if request.GET.get('export')=='1':
+            from io import BytesIO
+            from django.http import HttpResponse
+            from openpyxl import Workbook
+            wb=Workbook();ws=wb.active;ws.title='Cumplimiento Colectivo'
+            ws.append(['Reporte Oficial de Cumplimiento de Metas']);ws.append(['Delegación',delegation.nombre,'Trimestre',period.nombre])
+            ws.append(['Cumplimiento Equipo',f"{data.get('cumplimiento') or 'Sin evaluación'} %",'Semáforo',data.get('semaforo')])
+            ws.append([])
+            ws.append(['Funcionario','Área','Cumplimiento %','Semáforo','Metas evaluadas'])
+            for p in data.get('personas',[]):
+                ws.append([p['nombre'],p.get('area') or '',p.get('cumplimiento'),p.get('semaforo'),p['items_evaluados']])
+            ws.append([])
+            ws.append(['Código Meta','Nombre Meta','Unidad','Meta Ajustada','Reconocido','Cumplimiento %','Semáforo'])
+            for it in data.get('items',[]):
+                ws.append([it['codigo'],it['nombre'],it['unidad'],it.get('meta'),it.get('reconocido'),it.get('cumplimiento'),it.get('semaforo')])
+            out=BytesIO();wb.save(out)
+            res=HttpResponse(out.getvalue(),content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+            res['Content-Disposition']=f'attachment; filename="cumplimiento-{delegation.codigo}-{period.nombre}.xlsx"'
+            return res
+
         return api.ok(data)
     except (ValidationError,ValueError,TypeError) as ex:return access.failure(ex)

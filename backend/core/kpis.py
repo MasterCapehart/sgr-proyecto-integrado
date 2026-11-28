@@ -16,7 +16,7 @@ def resource_kpis(qs,resource):
         v=qs.aggregate(total=count(),pendientes=count(Q(estado='Pendiente')),validadas=count(Q(estado__in=['Validada','Aprobada y pondera','Aprobada y no pondera'])),devueltas=count(Q(estado__in=['Corrección','Rechazada','Solicitud de antecedentes'])))
         cards=[card('total','Actividades registradas',v['total']),card('pendientes','Pendientes de validación',v['pendientes'],'warning'),card('validadas','Actividades validadas',v['validadas'],'success'),card('devueltas','Devueltas para revisión',v['devueltas'],'warning')]
     elif resource=='compromisos':
-        v=qs.aggregate(total=count(),en_curso=count(Q(estado__in=['Pendiente','En proceso'])),realizados=count(Q(estado__in=['Realizado','Cerrado'])),no_aplica=count(Q(estado='No aplica')),cerrados=count(Q(estado='Cerrado')),vencidos=count(Q(fecha_comprometida__lt=timezone.localdate())&~Q(estado__in=['Cerrado','No aplica'])))
+        v=qs.aggregate(total=count(),en_curso=count(Q(estado__in=['Pendiente','En proceso'])),realizados=count(Q(estado__in=['Realizado','Cerrado'])),no_aplica=count(Q(estado='No aplica')),cerrados=count(Q(estado='Cerrado')),vencidos=count(Q(fecha_comprometida__lt=timezone.localdate())&~Q(estado__in=['Realizado','Cerrado','No aplica'])))
         cards=[card('total','Compromisos registrados',v['total']),card('en_curso','Pendientes / en proceso',v['en_curso'],'info'),card('realizados','Compromisos realizados',v['realizados'],'success'),card('vencidos','Compromisos vencidos',v['vencidos'],'danger',help='Plazo anterior a hoy y sin cierre formal.')]
     elif resource=='evidencias':
         v=qs.aggregate(total=count(),pendientes=count(Q(estado='Pendiente')),aprobadas=count(Q(estado='Aprobada')),devueltas=count(Q(estado__in=['Corrección','Rechazada'])),anuladas=count(Q(estado='Anulada')))
@@ -51,6 +51,6 @@ def overview(request):
     if api.allowed(request.user,'actividades','ver'):
         cards.append(card('actividades','Actividades registradas',domain.scoped(request,'actividades').count(),help='Según tu permiso de consulta.'))
     if api.allowed(request.user,'compromisos','ver'):
-        v=domain.scoped(request,'compromisos').aggregate(abiertos=Count('pk',filter=~Q(estado__in=['Cerrado','No aplica'])),vencidos=Count('pk',filter=Q(fecha_comprometida__lt=timezone.localdate())&~Q(estado__in=['Cerrado','No aplica'])))
+        v=domain.scoped(request,'compromisos').aggregate(abiertos=Count('pk',filter=~Q(estado__in=['Realizado','Cerrado','No aplica'])),vencidos=Count('pk',filter=Q(fecha_comprometida__lt=timezone.localdate())&~Q(estado__in=['Realizado','Cerrado','No aplica'])))
         cards.extend([card('abiertos','Compromisos abiertos',v['abiertos'],'info'),card('vencidos','Compromisos vencidos',v['vencidos'],'danger',help='Plazo anterior a hoy y sin cierre formal.')])
     return api.ok(dict(cards=cards,generated_at=timezone.now().isoformat(),scope='Delegación activa · historial disponible según tus permisos.'))

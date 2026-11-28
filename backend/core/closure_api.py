@@ -67,7 +67,7 @@ def sync_alerts(request):
         if not api.allowed(request.user,resource,'ver'):visible[resource]=[];continue
         qs=domain.scoped(request,resource);visible[resource]=list(qs.values_list('pk',flat=True))
         if resource=='compromisos':
-            for c in qs.filter(fecha_comprometida__lt=timezone.localdate()).exclude(estado__in=['Cerrado','No aplica']):
+            for c in qs.filter(fecha_comprometida__lt=timezone.localdate()).exclude(estado__in=['Realizado','Cerrado','No aplica']):
                 key=f'compromiso:{c.pk}:{c.fecha_comprometida}:{c.cierres.count()}'
                 obj,_=AlertaLocal.objects.get_or_create(clave=key,defaults={'delegacion':c.delegacion,'responsable':c.responsable,'recurso':resource,'registro':c.pk,'tipo':'vencimiento','motivo':f'Compromiso sin cierre; fecha comprometida {c.fecha_comprometida}.','fecha_referencia':c.fecha_comprometida})
                 active_keys.append(key)
