@@ -341,9 +341,19 @@ class CorrectionsSuiteTests(TestCase):
         self.assertFalse(data3['es_propuesta'])
         self.assertTrue(data3['plan_aprobado'])
 
-        # Verificar que la primera asignación también quedó aprobada
+        # Verificar que la primera asignación también quedó aprobada y con versión incrementada
         asig1 = AsignacionMeta.objects.get(pk=data1['id'])
         self.assertTrue(asig1.snapshot.get('plan_aprobado'))
+        self.assertEqual(asig1.version, data1['version'] + 1)
+
+        # 4. Modificar la asignación 2 para romper el 100% -> Debe invalidar aprobación de la hermana e incrementar su versión
+        r4 = self.client.patch(f'/api/asignaciones-metas/{data3["id"]}/', {
+            '_version': data3['version'], 'ponderacion': '50'
+        }, content_type='application/json')
+        self.assertEqual(r4.status_code, 200)
+        asig1.refresh_from_db()
+        self.assertFalse(asig1.snapshot.get('plan_aprobado'))
+        self.assertEqual(asig1.version, data1['version'] + 2)
 
     # C03: Dashboard y detalle con el mismo conjunto (actividades por fecha, compromisos por fecha_comprometida)
     def test_c03_dashboard_fechas_consistentes_con_listado(self):
@@ -398,5 +408,11 @@ class CorrectionsSuiteTests(TestCase):
         # Solo el pendiente vencido debe contar como overdue (1), no el realizado
         self.assertEqual(pending['overdue'], 1)
         self.assertEqual(pending['commitments'], 1)
+
+    # Verificación de rango de semáforo oficial al 70%
+    def test_semaforo_umbral_70_porciento(self):
+        from core.performance import WARNING_FACTOR, enrich
+        self.assertEqual(WARNING_FACTOR, Decimal('.70'))
+
 
 

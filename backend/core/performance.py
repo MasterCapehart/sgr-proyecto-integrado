@@ -3,7 +3,7 @@ from decimal import Decimal
 from django.db.models import Prefetch
 from .models import Actividad,Evidencia,RevisionEvidencia
 MAXIMUM=Decimal('120')
-WARNING_FACTOR=Decimal('.60')
+WARNING_FACTOR=Decimal('.70')
 DETAIL_LIMIT=50
 
 def reasons(activity,evidence):
@@ -50,7 +50,7 @@ def enrich(result,cal,period,user):
     available=Decimal(result['dias_disponibles']) if result['dias_disponibles'] is not None else Decimal(0)
     elapsed=Decimal(result.get('dias_disponibles_transcurridos') or 0)
     goal=min(Decimal(1),elapsed/available)*100 if available>0 and elapsed>0 else None
-    result.update(regla_cumplimiento=dict(version=1,tope_porcentaje='120',umbral_naranjo_relativo='60',orden='Fecha de realización, fecha de registro e identificador',aporte_por_actividad='1',limite_detalle=DETAIL_LIMIT),
+    result.update(regla_cumplimiento=dict(version=1,tope_porcentaje='120',umbral_naranjo_relativo='70',orden='Fecha de realización, fecha de registro e identificador',aporte_por_actividad='1',limite_detalle=DETAIL_LIMIT),
         objetivo_al_dia=number(goal) if goal is not None else None,umbral_naranjo=number(goal*WARNING_FACTOR) if goal is not None else None)
     for row in result['metas']:
         records=grouped.get(row['item'],[])

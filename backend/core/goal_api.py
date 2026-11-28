@@ -169,12 +169,14 @@ def assignments(request,pk=None):
                 for sib in AsignacionMeta.objects.filter(funcionario=user,periodo=period,estado=True).exclude(pk=obj.pk):
                     sib.snapshot['plan_aprobado']=True
                     sib.snapshot['es_propuesta']=False
-                    sib.save(update_fields=['snapshot'])
+                    sib.version+=1
+                    sib.save(update_fields=['snapshot','version'])
             elif old and old.snapshot.get('plan_aprobado') and not plan_aprobado:
                 for sib in AsignacionMeta.objects.filter(funcionario=user,periodo=period,estado=True).exclude(pk=obj.pk):
                     sib.snapshot['plan_aprobado']=False
                     sib.snapshot['es_propuesta']=True
-                    sib.save(update_fields=['snapshot'])
+                    sib.version+=1
+                    sib.save(update_fields=['snapshot','version'])
             after=representation(obj);api.record_event(request,RESOURCE,obj.pk,'editar' if old else 'crear',before,after)
             response=api.ok(after);response.status_code=200 if old else 201;return response
     except ValidationError as exc:return api.error('; '.join(exc.messages))

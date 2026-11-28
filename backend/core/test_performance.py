@@ -44,12 +44,13 @@ class PerformanceTests(TestCase):
   self.activity();self.p.cerrado=True;self.p.parametros_cierre={'ajustes_ausencia':[{'delegacion':self.d.pk,'funcionario':self.worker.pk,'metas':[{'id':self.m.pk,'cumplimiento':None}]}]};self.p.save();self.assertIsNone(self.row()['cumplimiento'])
 
 
- def test_semaforo_objetivo_diario_y_umbral60(self):
+ def test_semaforo_objetivo_diario_y_umbral70(self):
   from unittest.mock import patch
   for _ in range(3):self.activity()
   with patch('django.utils.timezone.localdate',return_value=date(2026,2,13)):
-   r=self.row();self.assertEqual(self.summary()['objetivo_al_dia'],'50.00');self.assertEqual(r['semaforo'],'Naranjo')
-   self.activity();self.activity();self.assertEqual(self.row()['semaforo'],'Verde')
+   r=self.row();self.assertEqual(self.summary()['objetivo_al_dia'],'50.00');self.assertEqual(r['semaforo'],'Rojo')
+   self.activity();self.assertEqual(self.row()['semaforo'],'Naranjo')
+   self.activity();self.assertEqual(self.row()['semaforo'],'Verde')
   with patch('django.utils.timezone.localdate',return_value=date(2026,1,31)):self.assertEqual(self.row()['semaforo'],'Sin jornada transcurrida')
  def test_sin_calendario_cuenta_registros_pero_no_inventa_cumplimiento(self):
   from .models import CalendarioFuncionario

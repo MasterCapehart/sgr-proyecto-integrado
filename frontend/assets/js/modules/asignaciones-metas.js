@@ -17,16 +17,39 @@
   for(const [k,label] of [['cantidad_objetivo','Cantidad objetivo'],['ponderacion','Ponderación (%)']]){const n=field(content,label+' *',k,'number',a?.[k]??'');n.required=true;n.min=k==='cantidad_objetivo'?'0.01':'0';n.max=k==='ponderacion'?'100':'9999999999.99';n.step='0.01';controls[k]=n;}
   controls.observacion=field(content,'Observación · opcional','observacion','textarea',a?.observacion??'');controls.observacion.maxLength=2000;
   const active=field(content,'Estado','estado','select');active.add(new Option('Activa','true'));active.add(new Option('Inactiva','false'));active.value=String(a?.estado??true);controls.estado=active;
+  const planCheckWrap=el('label','');planCheckWrap.className='field checkbox sgr-full';
+  const planCheck=el('input');planCheck.type='checkbox';planCheck.name='aprobar_plan';planCheck.checked=!!(a?.plan_aprobado);
+  const planCheckSpan=el('span',' Aprobar plan individual oficial (exige que las metas activas del funcionario sumen exactamente 100 %)');
+  planCheckWrap.append(planCheck,planCheckSpan);content.append(planCheckWrap);
   const help=el('p','Las ponderaciones activas por funcionario y trimestre pueden sumar hasta 100 %. La cantidad objetivo corresponde a esta asignación individual.');help.className='sgr-help sgr-full';content.append(help);
   const msg=el('p');msg.setAttribute('role','alert');msg.className='sgr-full';content.append(msg);const save=el('button','Guardar');save.className='button primary';save.type='submit';const footer=el('div');footer.className='sgr-footer';footer.append(button('Cancelar',()=>d.close()),save);f.append(footer);
-  f.onsubmit=async e=>{e.preventDefault();if(save.disabled||!f.reportValidity())return;save.disabled=true;try{const data=Object.fromEntries(Object.entries(controls).map(([k,n])=>[k,['funcionario','item','periodo'].includes(k)?Number(n.value):k==='estado'?n.value==='true':n.value]));if(a)data._version=a.version;await api.send('/api/asignaciones-metas/'+(a?a.id+'/':''),data,a?'PATCH':'POST');d.close();await load();}catch(e){msg.textContent=e.message;}finally{save.disabled=false;}};
+  f.onsubmit=async e=>{e.preventDefault();if(save.disabled||!f.reportValidity())return;save.disabled=true;try{const data=Object.fromEntries(Object.entries(controls).map(([k,n])=>[k,['funcionario','item','periodo'].includes(k)?Number(n.value):k==='estado'?n.value==='true':n.value]));if(planCheck.checked)data.aprobar_plan=true;if(a)data._version=a.version;await api.send('/api/asignaciones-metas/'+(a?a.id+'/':''),data,a?'PATCH':'POST');d.close();await load();}catch(e){msg.textContent=e.message;}finally{save.disabled=false;}};
   d.onclose=()=>d.remove();document.body.append(d);d.showModal();
  }
  async function load(){const main=document.querySelector('#main-content');try{
   state=await api.request('/api/asignaciones-metas/?'+new URLSearchParams({page,periodo:filter}));main.replaceChildren(el('p','SGR / Planificación'),el('h1','Asignaciones individuales de metas'),el('p','Define cantidades y ponderaciones para cada funcionario y trimestre. Los trimestres cerrados conservan su historial.'));
   const toolbar=el('div');toolbar.className='toolbar';main.append(toolbar);if(state.puede_crear)toolbar.append(button('+ Asignar meta',()=>editor()));const select=field(toolbar,'Filtrar trimestre','filtro','select');select.add(new Option('Todos',''));for(const p of (state.opciones.periodos_filtro||state.opciones.periodos))select.add(new Option(p.nombre,p.id));select.value=filter;select.onchange=()=>{filter=select.value;page=1;load();};
   const table=el('table'),head=el('tr');for(const s of ['Funcionario','Meta','Trimestre','Objetivo','Ponderación','Estado','Acciones'])head.append(el('th',s));const thead=el('thead');thead.append(head);table.append(thead);const body=el('tbody');
-  for(const a of state.results){const row=el('tr');for(const v of [a.funcionario_nombre,a.item_nombre,a.periodo_nombre,a.cantidad_objetivo,a.ponderacion+' %',a.cerrado?'Trimestre cerrado':a.estado?'Activa':'Inactiva'])row.append(el('td',v));const cell=el('td');if(state.puede_editar&&!a.cerrado)cell.append(button('Editar / desactivar',()=>editor(a)));row.append(cell);body.append(row);}table.append(body);const wrap=el('div');wrap.className='tablewrap';wrap.append(table);main.append(wrap);if(!state.results.length)main.append(el('p','No hay asignaciones para este filtro.'));
+  for(const a of state.results){
+   const estadoTexto=a.cerrado?'Trimestre cerrado':!a.estado?'Inactiva':a.plan_aprobado?'Aprobada (Plan 100%)':(a.es_propuesta?'Propuesta (Sin aprobar)':'Activa');
+   const row=el('tr');for(const v of [a.funcionario_nombre,a.item_nombre,a.periodo_nombre,a.cantidad_objetivo,a.ponderacion+' %',estadoTexto])row.append(el('td',v));
+   const cell=el('td');if(state.puede_editar&&!a.cerrado){
+    cell.append(button('Editar / desactivar',()=>editor(a)));
+    if(a.estado&&!a.plan_aprobado){
+     const btnAprobar=button('Aprobar plan (100 %)',async()=>{
+      if(!confirm(`¿Aprobar formalmente el plan individual de ${a.funcionario_nombre} en ${a.periodo_nombre}? Exige que la suma de ponderaciones sea exactamente 100 %.`))return;
+      try{
+       await api.send('/api/asignaciones-metas/'+a.id+'/',{_version:a.version,aprobar_plan:true},'PATCH');
+       await load();
+      }catch(err){alert(err.message||'No se pudo aprobar el plan.');}
+     });
+     btnAprobar.className='button primary';
+     btnAprobar.style.marginLeft='6px';
+     cell.append(btnAprobar);
+    }
+   }
+   row.append(cell);body.append(row);
+  }table.append(body);const wrap=el('div');wrap.className='tablewrap';wrap.append(table);main.append(wrap);if(!state.results.length)main.append(el('p','No hay asignaciones para este filtro.'));
   const status=el('p',`${state.count} asignaciones · Página ${state.page} de ${state.total_pages}`);status.setAttribute('role','status');main.append(status);const prev=button('Anterior',()=>{page--;load();}),next=button('Siguiente',()=>{page++;load();});prev.disabled=page<=1;next.disabled=page>=state.total_pages;main.append(prev,next);
  }catch(e){main.replaceChildren(el('p',e.message));}}
  document.addEventListener('DOMContentLoaded',async()=>{try{await window.SGRSession;await load();}catch(e){document.querySelector('#main-content').textContent=e.message;}});
